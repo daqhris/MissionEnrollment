@@ -1,7 +1,8 @@
-import axios from "axios";
+import { Alchemy, Network } from "alchemy-sdk";
+import NodeCache from "node-cache";
 
-const POAP_API_KEY = process.env.POAP_API_KEY;
-const POAP_API_BASE_URL = "https://api.poap.tech";
+const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
+const POAP_CONTRACT_ADDRESS = "0x22C1f6050E56d2876009903609a2cC3fEf83B415";
 
 // ETHGlobal Brussels 2024 POAP event IDs
 const ETHGLOBAL_BRUSSELS_2024_EVENT_IDS = ["176334", "176328", "176329", "176330", "176331", "176332"];
@@ -16,36 +17,13 @@ const POAP_IMAGE_URLS = {
   "176332": "https://assets.poap.xyz/9b7601c6-9667-46b9-b5e2-6494726a7793.png"
 };
 
-/**
- * Verify if a user owns a POAP from a specific event
- * @param {string} address - The user's Ethereum address
- * @param {string} eventId - The POAP event ID
- * @returns {Promise<boolean>} - True if the user owns a POAP from the event, false otherwise
- */
-async function verifyPOAPOwnership(address, eventId) {
-  try {
-    const response = await axios.get(`${POAP_API_BASE_URL}/actions/scan/${address}/${eventId}`, {
-      headers: {
-        "X-API-Key": POAP_API_KEY,
-      },
-    });
+const config = {
+  apiKey: ALCHEMY_API_KEY,
+  network: Network.ETH_MAINNET,
+};
+const alchemy = new Alchemy(config);
 
-    if (response.data && (Array.isArray(response.data) ? response.data.length > 0 : Object.keys(response.data).length > 0)) {
-      console.log(`POAP found for event ${eventId}. Image URL: ${POAP_IMAGE_URLS[eventId]}`);
-      return true;
-    }
-
-    return false;
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      return false;
-    } else if (error.response && error.response.status === 401) {
-      throw new Error("Invalid API key");
-    }
-    console.error(`Error verifying POAP ownership for address ${address} and event ${eventId}:`, error.message);
-    return false;
-  }
-}
+const cache = new NodeCache({ stdTTL: 300 }); // Cache for 5 minutes
 
 /**
  * Verify if a user owns any of the ETHGlobal Brussels 2024 POAPs
@@ -53,25 +31,43 @@ async function verifyPOAPOwnership(address, eventId) {
  * @returns {Promise<{owned: boolean, imageUrl: string | null}>} - Object indicating ownership and image URL if owned
  */
 async function verifyETHGlobalBrusselsPOAPOwnership(address) {
-  for (const eventId of ETHGLOBAL_BRUSSELS_2024_EVENT_IDS) {
-    const imageUrl = POAP_IMAGE_URLS[eventId];
-    if (imageUrl) {
-      try {
-        const response = await fetch(imageUrl, { method: 'HEAD' });
-        if (response.ok) {
-          console.log(`POAP found for event ${eventId}. Image URL: ${imageUrl}`);
-          return { owned: true, imageUrl };
-        }
-      } catch (error) {
-        console.error(`Error verifying POAP for event ${eventId}:`, error.message);
-      }
-    }
+  const cacheKey = `poap_${address}`;
+  const cachedResult = cache.get(cacheKey);
+
+  if (cachedResult) {
+    console.log(`Using cached result for address ${address}`);
+    return cachedResult;
   }
-  console.log(`No ETHGlobal Brussels 2024 POAPs found for address ${address}`);
-  return { owned: false, imageUrl: null };
+
+  try {
+    const nfts = await alchemy.nft.getNftsForOwner(address, {
+      contractAddresses: [POAP_CONTRACT_ADDRESS],
+    });
+
+    const ethGlobalPOAPs = nfts.ownedNfts.filter(nft =>
+      ETHGLOBAL_BRUSSELS_2024_EVENT_IDS.includes(nft.tokenId)
+    );
+
+    if (ethGlobalPOAPs.length > 0) {
+      const result = {
+        owned: true,
+        imageUrl: POAP_IMAGE_URLS[ethGlobalPOAPs[0].tokenId]
+      };
+      console.log(`POAP found for address ${address}. Image URL: ${result.imageUrl}`);
+      cache.set(cacheKey, result);
+      return result;
+    }
+
+    const result = { owned: false, imageUrl: null };
+    cache.set(cacheKey, result);
+    console.log(`No ETHGlobal Brussels 2024 POAPs found for address ${address}`);
+    return result;
+  } catch (error) {
+    console.error(`Error verifying POAP ownership for address ${address}:`, error.message);
+    return { owned: false, imageUrl: null };
+  }
 }
 
 module.exports = {
-  verifyPOAPOwnership,
   verifyETHGlobalBrusselsPOAPOwnership,
 };
