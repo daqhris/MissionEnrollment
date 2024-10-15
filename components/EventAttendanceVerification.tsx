@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import Image from "next/image";
 import eventIdsData from "../event_ids.json";
 import { useEnsAddress } from "wagmi";
-import { poapContract, safePoapContractCall, ethers } from "../config";
+import { safePoapContractCall, POAP_ABI } from "../config";
 
 const { eventIds } = eventIdsData;
 
@@ -75,14 +75,9 @@ const fetchPOAPs = useCallback(
     setMissingPoaps([]);
 
     try {
-      console.log(`Initializing POAP contract for address: ${addressToFetch}`);
-      if (!poapContract) {
-        throw new Error("POAP contract is not initialized");
-      }
-
       console.log(`Fetching POAP balance for address: ${addressToFetch}`);
-      const balance = await safePoapContractCall<bigint>('balanceOf', addressToFetch);
-      if (!balance || balance <= 0n) {
+      const balance = await safePoapContractCall<bigint>(POAP_ABI[0], [addressToFetch]);
+      if (!balance || balance === 0n) {
         throw new Error("Failed to fetch POAP balance or invalid balance type");
       }
       console.log(`POAP balance for ${addressToFetch}: ${balance.toString()}`);
@@ -93,15 +88,15 @@ const fetchPOAPs = useCallback(
       for (let i = 0; i < Number(balance); i++) {
         try {
           console.log(`Fetching token ID for ${addressToFetch} at index ${i}`);
-          const tokenId = await safePoapContractCall<ethers.BigNumberish>('tokenOfOwnerByIndex', addressToFetch, i);
-          if (!tokenId || ethers.getBigInt(tokenId) <= 0n) {
+          const tokenId = await safePoapContractCall<bigint>(POAP_ABI[1], [addressToFetch, BigInt(i)]);
+          if (!tokenId || tokenId === 0n) {
             console.error(`Failed to fetch token ID or invalid token ID type for ${addressToFetch} at index ${i}`);
             continue;
           }
-          console.log(`Token ID for ${addressToFetch} at index ${i}: ${ethers.getBigInt(tokenId).toString()}`);
+          console.log(`Token ID for ${addressToFetch} at index ${i}: ${tokenId.toString()}`);
 
           console.log(`Fetching token URI for token ID ${tokenId}`);
-          const tokenURI = await safePoapContractCall<string>('tokenURI', tokenId);
+          const tokenURI = await safePoapContractCall<string>(POAP_ABI[2], [tokenId]);
           if (!tokenURI) {
             console.error(`Failed to fetch token URI for token ID ${tokenId}`);
             continue;
@@ -149,7 +144,6 @@ const fetchPOAPs = useCallback(
           }
         } catch (error) {
           console.error(`Error processing POAP data for token ${i}:`, error);
-          // Continue to the next token if there's an error with the current one
           continue;
         }
       }

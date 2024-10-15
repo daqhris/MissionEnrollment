@@ -1,5 +1,5 @@
 import { EAS, Offchain, SchemaEncoder, OffchainAttestationVersion } from "@ethereum-attestation-service/eas-sdk";
-import type { OffchainAttestationParams, OffchainConfig } from "@ethereum-attestation-service/eas-sdk";
+import type { OffchainAttestationParams } from "@ethereum-attestation-service/eas-sdk";
 import { ethers } from "ethers";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -36,11 +36,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const encodedData = schemaEncoder.encodeData([{ name: "missionProposal", value: missionProposal, type: "string" }]);
 
     const network = await provider.getNetwork();
-    const offchainConfig: OffchainConfig = {
+    const offchainConfig = {
       address: EASContractAddress,
       version: "1.0.0",
       chainId: BigInt(network.chainId)
-    };
+    } as const;
     const offchain = new Offchain(offchainConfig, OffchainAttestationVersion.Version1, eas);
 
     const offchainAttestationParams: OffchainAttestationParams = {
