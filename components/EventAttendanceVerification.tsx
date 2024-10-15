@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from "react";
-import Image from "next/image";
-import eventIdsData from "../event_ids.json";
-import { useEnsAddress } from "wagmi";
-import { safePoapContractCall, POAP_ABI } from "../config";
+import React, { useState, useCallback } from 'react';
+import { Address } from 'viem';
+import { useAccount, usePublicClient, useEnsAddress } from 'wagmi';
+import { poapABI } from '../poapABI';
+import ErrorBoundary from './ErrorBoundary';
 
-const { eventIds } = eventIdsData;
+const DEBUG_MODE = false; // Disable debug mode
 
 interface POAPEvent {
   event: {
@@ -17,339 +17,219 @@ interface POAPEvent {
 }
 
 interface EventAttendanceVerificationProps {
-  onVerified: () => void;
-  setPoaps: (poaps: POAPEvent[]) => void;
   userAddress: string;
+  onVerified: () => void;
 }
 
+const ETH_GLOBAL_BRUSSELS_2024_EVENT_ID = "141";
+const SPECIFIC_POAP_ID = "7169394";
+const POAP_CONTRACT_ADDRESS = '0x22C1f6050E56d2876009903609a2cC3fEf83B415';
+
 const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = ({
-  onVerified,
-  setPoaps,
   userAddress,
-}): JSX.Element => {
-  const [isVerifying, setIsVerifying] = useState<boolean>(false);
+  onVerified
+}) => {
+  const [isVerifying, setIsVerifying] = useState(false);
   const [proofResult, setProofResult] = useState<string | null>(null);
-  const [localPoaps, setLocalPoaps] = useState<POAPEvent[]>([]);
-  const [missingPoaps, setMissingPoaps] = useState<string[]>([]);
-  const [imageLoadErrors, setImageLoadErrors] = useState<Record<string, boolean>>({});
   const [manualAddress, setManualAddress] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+
+  const { address } = useAccount();
+  const publicClient = usePublicClient();
 
   const {
     data: resolvedAddress,
     isLoading: isResolvingENS,
     isError: ensResolutionError,
   } = useEnsAddress({
-    name: manualAddress,
-    chainId: 1, // Mainnet
+    name: manualAddress || userAddress,
   });
 
-// Specific event ID for ETHGlobal Brussels 2024
-const ETH_GLOBAL_BRUSSELS_2024_EVENT_ID = "141"; // Actual event ID for ETHGlobal Brussels 2024
+  const isEthGlobalBrusselsPOAP = useCallback((poap: POAPEvent): boolean => {
+    if (DEBUG_MODE) console.log(`Checking POAP: ${JSON.stringify(poap)}`);
+    if (poap.token_id === SPECIFIC_POAP_ID) return true;
+    // Primary check: Match the specific event ID
+    if (poap.event.id === ETH_GLOBAL_BRUSSELS_2024_EVENT_ID) {
+      return true;
+    }
 
-const isEthGlobalBrusselsPOAP = (poap: POAPEvent): boolean => {
-  // Primary check: Match the specific event ID
-  if (poap.event.id === ETH_GLOBAL_BRUSSELS_2024_EVENT_ID) {
-    return true;
-  }
+    // Secondary check: Use event details for verification
+    const eventDate = new Date(poap.event.start_date);
+    const eventName = poap.event.name.toLowerCase();
 
-  // Secondary check: Use event details for verification
-  const eventDate = new Date(poap.event.start_date);
-  const eventName = poap.event.name.toLowerCase();
+    const isCorrectName = eventName.includes("ethglobal") &&
+                          eventName.includes("brussels") &&
+                          eventName.includes("2024");
+    const isCorrectYear = eventDate.getFullYear() === 2024;
+    const isWithinEventDates = eventDate >= new Date("2024-07-11") &&
+                               eventDate <= new Date("2024-07-14");
 
-  const isCorrectName = eventName.includes("ethglobal") &&
-                        eventName.includes("brussels") &&
-                        eventName.includes("2024");
-  const isCorrectYear = eventDate.getFullYear() === 2024;
-  const isWithinEventDates = eventDate >= new Date("2024-07-11") &&
-                             eventDate <= new Date("2024-07-14");
+    const result = isCorrectName && isCorrectYear && isWithinEventDates;
+    if (DEBUG_MODE) console.log(`POAP verification result: ${result}`);
+    return result;
+  }, []);
 
-  return isCorrectName && isCorrectYear && isWithinEventDates;
-};
+  const fetchPOAPsBatch = useCallback(async (addressToFetch: Address, startIndex: number, endIndex: number): Promise<POAPEvent[]> => {
+    if (DEBUG_MODE) console.log(`Fetching POAP batch for address ${addressToFetch}, indices ${startIndex}-${endIndex}`);
+    const poaps: POAPEvent[] = [];
 
-const fetchPOAPs = useCallback(
-  async (addressToFetch: string): Promise<void> => {
-    console.log(`Starting POAP fetch for address: ${addressToFetch}`);
-    setIsVerifying(true);
-    setProofResult(null);
-    setLocalPoaps([]);
-    setMissingPoaps([]);
-
-    try {
-      console.log(`Fetching POAP balance for address: ${addressToFetch}`);
-      const balance = await safePoapContractCall<bigint>(POAP_ABI[0], [addressToFetch]);
-      if (!balance || balance === 0n) {
-        throw new Error("Failed to fetch POAP balance or invalid balance type");
-      }
-      console.log(`POAP balance for ${addressToFetch}: ${balance.toString()}`);
-
-      const poaps: POAPEvent[] = [];
-
-      // Fetch POAP data for each token
-      for (let i = 0; i < Number(balance); i++) {
-        try {
-          console.log(`Fetching token ID for ${addressToFetch} at index ${i}`);
-          const tokenId = await safePoapContractCall<bigint>(POAP_ABI[1], [addressToFetch, BigInt(i)]);
-          if (!tokenId || tokenId === 0n) {
-            console.error(`Failed to fetch token ID or invalid token ID type for ${addressToFetch} at index ${i}`);
-            continue;
-          }
-          console.log(`Token ID for ${addressToFetch} at index ${i}: ${tokenId.toString()}`);
-
-          console.log(`Fetching token URI for token ID ${tokenId}`);
-          const tokenURI = await safePoapContractCall<string>(POAP_ABI[2], [tokenId]);
-          if (!tokenURI) {
-            console.error(`Failed to fetch token URI for token ID ${tokenId}`);
-            continue;
-          }
-          console.log(`Token URI for token ID ${tokenId}: ${tokenURI}`);
-
-          // Fetch metadata from IPFS
-          console.log(`Fetching metadata from ${tokenURI}`);
-          let response;
-          try {
-            response = await fetch(tokenURI);
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-          } catch (error) {
-            console.error(`Error fetching metadata for token ID ${tokenId}:`, error);
-            continue;
-          }
-
-          let metadata;
-          try {
-            metadata = await response.json();
-          } catch (error) {
-            console.error(`Error parsing metadata JSON for token ID ${tokenId}:`, error);
-            continue;
-          }
-          console.log(`Metadata for token ID ${tokenId}:`, metadata);
-
-          // Early filtering: Check if the POAP is from ETHGlobal Brussels 2024
-          const poapEvent = {
-            event: {
-              id: tokenId.toString(),
-              name: metadata.name || "Unknown Event",
-              image_url: metadata.image || "",
-              start_date: metadata.attributes?.find((attr: { trait_type: string; value: string }) => attr.trait_type === 'event_date')?.value || '',
-            },
-            token_id: tokenId.toString(),
-          };
-
-          if (isEthGlobalBrusselsPOAP(poapEvent)) {
-            console.log(`Found ETHGlobal Brussels 2024 POAP: ${poapEvent.event.name}`);
-            poaps.push(poapEvent);
-          } else {
-            console.log(`Skipping non-ETHGlobal Brussels 2024 POAP: ${poapEvent.event.name}`);
-          }
-        } catch (error) {
-          console.error(`Error processing POAP data for token ${i}:`, error);
+    for (let i = startIndex; i < endIndex; i++) {
+      try {
+        const tokenId = await publicClient.readContract({
+          address: POAP_CONTRACT_ADDRESS,
+          abi: poapABI,
+          functionName: 'tokenOfOwnerByIndex',
+          args: [addressToFetch, BigInt(i)]
+        });
+        if (DEBUG_MODE) console.log(`Token ID for index ${i}: ${tokenId}`);
+        if (typeof tokenId !== 'bigint') {
+          console.error(`Invalid token ID type for ${addressToFetch} at index ${i}`);
           continue;
         }
-      }
 
-      console.log(`Total ETHGlobal Brussels 2024 POAPs fetched for ${addressToFetch}:`, poaps.length);
-
-      console.log(`Setting local POAPs and updating state`);
-      setLocalPoaps(poaps);
-      setPoaps(poaps);
-
-      const foundEventIds = poaps.map(poap => poap.event.id);
-      const missingEventIds = eventIds.filter(id => !foundEventIds.includes(id));
-      console.log(`Missing event IDs:`, missingEventIds);
-      setMissingPoaps(missingEventIds);
-
-      if (poaps.length > 0) {
-        const requiredPoapCount = 1;
-        const ethGlobalBrusselsPOAPs = poaps.filter(poap => poap.event.id === ETH_GLOBAL_BRUSSELS_2024_EVENT_ID);
-
-        if (ethGlobalBrusselsPOAPs.length >= requiredPoapCount) {
-          console.log(`Proof successful for ${addressToFetch}`);
-          setProofResult(`Proof successful! ${addressToFetch} has ${ethGlobalBrusselsPOAPs.length} valid POAP(s) for ETHGlobal Brussels 2024.`);
-          onVerified();
-        } else if (poaps.length >= requiredPoapCount) {
-          console.log(`Partial proof for ${addressToFetch}`);
-          setProofResult(
-            `${addressToFetch} has ${poaps.length} POAP(s) that might be related to ETHGlobal Brussels 2024, but they may not be the specific required ones. Please check with the event organizers.`
-          );
-        } else {
-          console.log(`Insufficient POAPs found for ${addressToFetch}`);
-          setProofResult(`${addressToFetch} has some POAPs, but none are specifically for ETHGlobal Brussels 2024.`);
+        const tokenURI = await publicClient.readContract({
+          address: POAP_CONTRACT_ADDRESS,
+          abi: poapABI,
+          functionName: 'tokenURI',
+          args: [tokenId]
+        });
+        if (DEBUG_MODE) console.log(`Token URI for token ID ${tokenId}: ${tokenURI}`);
+        if (typeof tokenURI !== 'string') {
+          console.error(`Invalid token URI for token ID ${tokenId}`);
+          continue;
         }
-      } else {
-        console.log(`No valid POAPs found for ${addressToFetch}`);
-        setProofResult("No POAPs from ETHGlobal Brussels 2024 were found for this address.");
+
+        const response = await fetch(tokenURI);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const metadata = await response.json();
+        if (DEBUG_MODE) console.log(`Metadata for token ID ${tokenId}: ${JSON.stringify(metadata)}`);
+
+        const poapEvent: POAPEvent = {
+          event: {
+            id: tokenId.toString(),
+            name: metadata.name || "Unknown Event",
+            image_url: metadata.image || "",
+            start_date: metadata.attributes?.find((attr: { trait_type: string; value: string }) => attr.trait_type === 'event_date')?.value || '',
+          },
+          token_id: tokenId.toString(),
+        };
+
+        if (isEthGlobalBrusselsPOAP(poapEvent)) {
+          poaps.push(poapEvent);
+        }
+      } catch (error) {
+        console.error(`Error processing POAP data for token ${i}:`, error);
+        setError(`Error processing POAP data: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`);
       }
+    }
+
+    if (DEBUG_MODE) console.log(`Fetched ${poaps.length} POAPs for batch`);
+    return poaps;
+  }, [publicClient, isEthGlobalBrusselsPOAP]);
+
+  const fetchPOAPs = useCallback(async (addressToFetch: Address): Promise<void> => {
+    setIsVerifying(true);
+    setProofResult(null);
+    setError(null);
+
+    try {
+      const balance = await publicClient.readContract({
+        address: POAP_CONTRACT_ADDRESS,
+        abi: poapABI,
+        functionName: 'balanceOf',
+        args: [addressToFetch]
+      });
+
+      if (typeof balance !== 'bigint' || balance === 0n) {
+        setProofResult('No POAPs found for this address');
+        return;
+      }
+
+      const totalPoaps = Number(balance);
+      const batchSize = 10;
+      const batches = Math.ceil(totalPoaps / batchSize);
+
+      for (let i = 0; i < batches; i++) {
+        const start = i * batchSize;
+        const end = Math.min((i + 1) * batchSize, totalPoaps);
+        const batchPoaps = await fetchPOAPsBatch(addressToFetch, start, end);
+
+        const specificPOAP = batchPoaps.find(poap => poap.token_id === SPECIFIC_POAP_ID);
+        if (specificPOAP) {
+          setProofResult('Verified');
+          onVerified();
+          return;
+        }
+
+        if (batchPoaps.some(isEthGlobalBrusselsPOAP)) {
+          setProofResult('Verified');
+          onVerified();
+          return;
+        }
+
+        // Add a small delay between batches to prevent overwhelming the API
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+
+      setProofResult('Not verified');
     } catch (error) {
-      console.error("Error fetching POAP data:", error);
-      setProofResult(`An error occurred while fetching POAP data: ${(error as Error).message}`);
-      setLocalPoaps([]);
-      setMissingPoaps(eventIds);
+      console.error('Error fetching POAPs:', error);
+      setError(`Error fetching POAPs: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`);
     } finally {
-      console.log(`Finished POAP fetch for ${addressToFetch}`);
       setIsVerifying(false);
     }
-  },
-  [onVerified, setPoaps, ETH_GLOBAL_BRUSSELS_2024_EVENT_ID],
-);
+  }, [fetchPOAPsBatch, isEthGlobalBrusselsPOAP, onVerified, publicClient]);
 
-  const handleVerifyAttendance = (): void => {
+  const handleVerifyAttendance = useCallback((): void => {
     const validAddress = manualAddress || userAddress;
-    const isEthereumAddress = isValidEthereumAddress(validAddress);
-    const isENS = validAddress?.endsWith(".eth");
-
-    if (isEthereumAddress) {
-      fetchPOAPs(validAddress);
-    } else if (isENS) {
-      if (isResolvingENS) {
-        setProofResult("Resolving ENS name...");
-      } else if (ensResolutionError || !resolvedAddress) {
-        setProofResult("Unable to resolve ENS name. Please try again or use an Ethereum address.");
-      } else if (resolvedAddress) {
+    if (isValidEthereumAddress(validAddress)) {
+      setIsVerifying(true);
+      if (resolvedAddress) {
         fetchPOAPs(resolvedAddress);
+      } else if (!isResolvingENS && !ensResolutionError) {
+        fetchPOAPs(validAddress as `0x${string}`);
+      } else {
+        setProofResult("Error resolving ENS name");
+        setIsVerifying(false);
       }
-    } else if (validAddress) {
-      setProofResult("Please enter a valid Ethereum address or ENS name");
     } else {
-      setProofResult("Please enter an Ethereum address or ENS name");
+      setProofResult("Please enter a valid Ethereum address or ENS name");
     }
-  };
+  }, [manualAddress, userAddress, fetchPOAPs, isResolvingENS, ensResolutionError, resolvedAddress]);
 
   const isValidEthereumAddress = (address: string): boolean =>
     /^0x[a-fA-F0-9]{40}$/.test(address) || /^[a-zA-Z0-9-]+\.eth$/.test(address);
 
-
-
-  const handleImageError = (tokenId: string): void => {
-    setImageLoadErrors(prev => ({ ...prev, [tokenId]: true }));
-  };
-
   return (
-    <div className="p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-3xl font-bold mb-6 text-center">Event Attendance Proof</h2>
-      <p className="mb-6 text-center text-gray-600">Verify your attendance at ETHGlobal Brussels 2024:</p>
-      <div className="relative mb-6">
+    <ErrorBoundary>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <h1 className="text-3xl font-bold mb-4">Event Attendance Verification</h1>
         <input
           type="text"
-          placeholder="Enter Ethereum address or ENS name (optional)"
           value={manualAddress}
-          onChange={(e): void => setManualAddress(e.target.value)}
-          className={`w-full p-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
-            manualAddress && !isValidEthereumAddress(manualAddress) ? "border-red-500" : "border-gray-300"
-          }`}
-          title="Enter your Ethereum address or ENS name to verify attendance"
+          onChange={(e) => setManualAddress(e.target.value)}
+          placeholder="Enter Ethereum address or ENS name"
+          className="w-96 px-4 py-2 mb-4 border rounded"
         />
-        {manualAddress && !isValidEthereumAddress(manualAddress) && (
-          <p className="absolute -bottom-6 left-0 text-red-500 text-sm">
-            Please enter a valid Ethereum address or ENS name
-          </p>
-        )}
-      </div>
-      <button
-        onClick={handleVerifyAttendance}
-        disabled={isVerifying || (!manualAddress && !userAddress)}
-        className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 mb-6 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500"
-        title="Click to verify your attendance using POAPs"
-      >
-        {isVerifying ? "Verifying..." : "Verify Attendance"}
-      </button>
-      {proofResult && (
-        <p className="mt-4 text-center text-gray-700">{proofResult}</p>
-      )}
-      {isVerifying && (
-        <p className="text-blue-700 mb-6 text-center">
-          Verifying attendance for {manualAddress || userAddress}...
-        </p>
-      )}
-      {!isVerifying && !manualAddress && !userAddress && (
-        <p className="text-red-600 mb-6 text-center">
-          Please enter an Ethereum address or connect your wallet to verify attendance.
-        </p>
-      )}
-      {localPoaps && localPoaps.length > 0 && (
-        <div className="mt-6 bg-green-100 p-6 rounded-lg">
-          <h3 className="text-xl font-semibold text-green-900 mb-4">ETHGlobal Brussels 2024 POAPs Found</h3>
-          <p className="text-green-800 mb-6">
-            {localPoaps.length === 1
-              ? "You have the required POAP for ETHGlobal Brussels 2024."
-              : `You have ${localPoaps.length} POAPs from ETHGlobal Brussels 2024.`}
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {localPoaps.map(poap => (
-              <div
-                key={poap.token_id}
-                className="flex flex-col items-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
-              >
-                <Image
-                  src={
-                    imageLoadErrors[poap.token_id]
-                      ? "/placeholder-poap.png"
-                      : poap.event?.image_url || "/placeholder-poap.png"
-                  }
-                  alt={poap.event?.name || "POAP"}
-                  width={100}
-                  height={100}
-                  className="rounded-full mb-3"
-                  onError={(): void => handleImageError(poap.token_id)}
-                />
-                <p className="text-sm font-medium text-center mb-1">{poap.event?.name || "Unknown Event"}</p>
-                <p className="text-xs text-center text-gray-500 mb-2">
-                  {poap.event?.start_date ? new Date(poap.event.start_date).toLocaleDateString() : "Date unknown"}
-                </p>
-                <p className="text-xs text-center text-blue-600">Token ID: {poap.token_id}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-      {missingPoaps && missingPoaps.length > 0 && (
-        <div className="mt-6 bg-yellow-100 p-6 rounded-lg">
-          <h3 className="text-xl font-semibold text-yellow-900 mb-4">Missing POAPs</h3>
-          <p className="text-yellow-800">The following POAPs were not found for your address:</p>
-          <ul className="list-disc list-inside mt-2">
-            {missingPoaps.map(poap => (
-              <li key={poap} className="text-yellow-700">
-                {poap}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-      {proofResult && (
-        <div className={`mt-6 p-6 rounded-lg ${proofResult.includes("successful") ? "bg-green-100" : "bg-red-100"}`}>
-          <p className={`flex items-center ${proofResult.includes("successful") ? "text-green-800" : "text-red-700"}`}>
-            {proofResult.includes("successful") ? (
-              <svg
-                className="w-6 h-6 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            ) : (
-              <svg
-                className="w-6 h-6 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            )}
+        <button
+          onClick={handleVerifyAttendance}
+          disabled={isVerifying}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          {isVerifying ? 'Verifying...' : 'Verify Attendance'}
+        </button>
+        {proofResult && (
+          <p className={`mt-4 ${proofResult === 'Verified' ? 'text-green-600' : 'text-red-600'}`}>
             {proofResult}
           </p>
-        </div>
-      )}
-    </div>
+        )}
+        {error && <p className="mt-4 text-red-600">{error}</p>}
+      </div>
+    </ErrorBoundary>
   );
 };
 
-export default EventAttendanceVerification;
+export default React.memo(EventAttendanceVerification);

@@ -1,28 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { gnosisClient, POAP_ABI, POAP_CONTRACT_ADDRESS, safePoapContractCall } from "../../config";
+import { safePoapContractCall } from "../../config";
 import { Address } from "viem";
 
-// Simple in-memory rate limiting
-const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
-const MAX_REQUESTS = 100;
-const requestCounts = new Map<string, { count: number; timestamp: number }>();
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const requestData = requestCounts.get(ip);
-
-  if (!requestData || now - requestData.timestamp > RATE_LIMIT_WINDOW) {
-    requestCounts.set(ip, { count: 1, timestamp: now });
-    return false;
-  }
-
-  if (requestData.count >= MAX_REQUESTS) {
-    return true;
-  }
-
-  requestData.count++;
-  return false;
-}
+// Rate limiting has been removed as it's not being used in this file.
 
 interface PoapEvent {
   id: string;
@@ -53,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   console.log(`Fetching POAPs for address: ${address}`);
   try {
-    const balance = await safePoapContractCall<bigint>('balanceOf', [address as Address]);
+    const balance = await safePoapContractCall('balanceOf', [address as Address]);
 
     if (balance === null) {
       console.error("Failed to fetch POAP balance");
@@ -70,7 +50,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const poaps: Poap[] = [];
     for (let i = 0; i < Number(balance); i++) {
       console.log(`Fetching token ID for index ${i}`);
-      const tokenId = await safePoapContractCall<bigint>('tokenOfOwnerByIndex', [address as Address, BigInt(i)]);
+      const tokenId = await safePoapContractCall('tokenOfOwnerByIndex', [address as Address, BigInt(i)]);
 
       if (tokenId === null) {
         console.error(`Failed to fetch token ID at index ${i}`);
@@ -79,7 +59,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
       console.log(`Token ID at index ${i}: ${tokenId.toString()}`);
 
-      const tokenURI = await safePoapContractCall<string>('tokenURI', [tokenId]);
+      const tokenURI = await safePoapContractCall('tokenURI', [tokenId]);
 
       if (tokenURI === null) {
         console.error(`Failed to fetch token URI for ID ${tokenId}`);
@@ -100,10 +80,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
         if (startDateAttribute) {
           const dateValue = startDateAttribute.value;
-          const dateParsers = [
-            (d: string) => new Date(d),
-            (d: string) => new Date(d.split('-').reverse().join('-')), // DD-MM-YYYY to YYYY-MM-DD
-            (d: string) => {
+          const dateParsers: ((d: string) => Date)[] = [
+            (d: string): Date => new Date(d),
+            (d: string): Date => new Date(d.split('-').reverse().join('-')), // DD-MM-YYYY to YYYY-MM-DD
+            (d: string): Date => {
               const [day, month, year] = d.split('-');
               return new Date(`${year}-${month}-${day}`);
             }

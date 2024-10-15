@@ -6,7 +6,7 @@ import { displayTxResult } from "./utilsDisplay";
 import type { DisplayContent } from "./utilsDisplay";
 import type { Abi, AbiFunction } from "abitype";
 import type { Address } from "viem";
-import { useReadContract } from "wagmi";
+import { useContractRead } from "wagmi";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useAnimationConfig } from "~~/hooks/scaffold-eth";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
@@ -34,7 +34,7 @@ export const DisplayVariable = ({
     isFetching,
     refetch,
     error,
-  } = useReadContract({
+  } = useContractRead({
     address: contractAddress,
     functionName: abiFunction.name,
     abi: abi,

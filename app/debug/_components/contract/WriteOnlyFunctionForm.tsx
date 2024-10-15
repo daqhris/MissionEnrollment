@@ -1,96 +1,70 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import type { SetStateAction } from "react";
+import { useState, useEffect } from "react";
+import { getParsedError, notification } from "~~/utils/scaffold-eth";
 import ContractInput from "./ContractInput";
-import { InheritanceTooltip } from "./InheritanceTooltip";
 import type { Abi, AbiFunction } from "abitype";
-import type { Address, TransactionReceipt } from "viem";
-import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import {
-  TxReceipt,
-  getFunctionInputKey,
-  getInitialFormState,
-  getParsedContractFunctionArgs,
-  transformAbiFunction,
-} from "~~/app/debug/_components/contract";
+import type { Address } from "viem";
+import { useAccount, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { IntegerInput } from "~~/components/scaffold-eth";
-import { useTransactor } from "~~/hooks/scaffold-eth";
-import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
-
-type WriteOnlyFunctionFormProps = {
-  abi: Abi;
-  abiFunction: AbiFunction;
-  onChange: () => void;
-  contractAddress: Address;
-  inheritedFrom?: string | undefined;
-};
-
-type FormState = Record<string, string | bigint>;
 
 export const WriteOnlyFunctionForm = ({
-  abi,
   abiFunction,
-  onChange,
   contractAddress,
-  inheritedFrom,
-}: WriteOnlyFunctionFormProps): JSX.Element => {
-  const [form, setForm] = useState<FormState>(() => getInitialFormState(abiFunction));
-  const [txValue, setTxValue] = useState<string | bigint>("");
-  const { chain } = useAccount();
-  const writeTxn = useTransactor();
-  const { targetNetwork } = useTargetNetwork();
-  const writeDisabled = !chain || chain?.id !== targetNetwork.id;
+  onChange,
+  abi,
+}: {
+  abiFunction: AbiFunction;
+  contractAddress: Address;
+  onChange: (result: `0x${string}`) => void;
+  abi: Abi;
+}): JSX.Element => {
+  const { address } = useAccount();
+  const [form, setForm] = useState<Record<string, unknown>>({});
+  const [txValue, setTxValue] = useState<string>("");
 
-  const { data: result, isPending, writeContractAsync } = useWriteContract();
+  const { writeContract, data: hash } = useWriteContract();
+
+  const { isSuccess } = useWaitForTransactionReceipt({ hash });
 
   const handleWrite = async (): Promise<void> => {
-    if (writeContractAsync) {
+    if (writeContract) {
       try {
-        const makeWriteWithParams = (): ReturnType<typeof writeContractAsync> =>
-          writeContractAsync({
-            address: contractAddress,
-            functionName: abiFunction.name,
-            abi: abi,
-            args: getParsedContractFunctionArgs(form),
-            value: BigInt(txValue),
-          });
-        await writeTxn(makeWriteWithParams);
-        onChange();
+        const args = Object.values(form);
+        const result = await writeContract({
+          address: contractAddress,
+          abi,
+          functionName: abiFunction.name,
+          args,
+          value: txValue ? BigInt(txValue) : undefined,
+        });
+        if (typeof result === 'string') {
+          onChange(result);
+        }
       } catch (e) {
-        console.error("⚡️ ~ file: WriteOnlyFunctionForm.tsx:handleWrite ~ error", e);
+        const message = getParsedError(e);
+        notification.error(message);
       }
     }
   };
 
-  const [displayedTxResult, setDisplayedTxResult] = useState<TransactionReceipt | undefined>();
-  const { data: txResult } = useWaitForTransactionReceipt({
-    hash: result,
-  });
-  useEffect((): void => {
-    setDisplayedTxResult(txResult);
-  }, [txResult]);
+  useEffect(() => {
+    if (isSuccess && hash) {
+      notification.success("Transaction completed successfully!");
+    }
+  }, [isSuccess, hash]);
 
-  // TODO use `useMemo` to optimize also update in ReadOnlyFunctionForm
-  const transformedFunction = transformAbiFunction(abiFunction);
-  const inputs = transformedFunction.inputs.map((input, inputIndex) => {
-    const key = getFunctionInputKey(abiFunction.name, input, inputIndex);
+  const inputs = abiFunction.inputs.map((input, inputIndex) => {
+    const key = `${abiFunction.name}_${input.name}_${inputIndex}`;
     return (
       <ContractInput
         key={key}
-        setForm={(updatedForm: SetStateAction<Record<string, unknown>>): void => {
-          setForm((prevForm): FormState => {
-            const newForm = typeof updatedForm === 'function' ? updatedForm(prevForm) : updatedForm;
-            return { ...prevForm, ...newForm } as FormState;
-          });
-          setDisplayedTxResult(undefined);
-        }}
+        setForm={setForm}
         form={form}
         stateObjectKey={key}
         paramType={input}
       />
     );
   });
+
   const zeroInputs = inputs.length === 0 && abiFunction.stateMutability !== "payable";
 
   return (
@@ -98,56 +72,42 @@ export const WriteOnlyFunctionForm = ({
       <div className={`flex gap-3 ${zeroInputs ? "flex-row justify-between items-center" : "flex-col"}`}>
         <p className="font-medium my-0 break-words">
           {abiFunction.name}
-          {inheritedFrom && <InheritanceTooltip inheritedFrom={inheritedFrom} />}
         </p>
         {inputs}
         {abiFunction.stateMutability === "payable" ? (
           <div className="flex flex-col gap-1.5 w-full">
             <div className="flex items-center ml-2">
               <span className="text-xs font-medium mr-2 leading-none">payable value</span>
-              <span className="block text-xs font-extralight leading-none">wei</span>
+              <span className="text-xs font-extralight leading-none">wei</span>
             </div>
             <IntegerInput
               value={txValue}
               onChange={(updatedTxValue: string | bigint): void => {
-                setDisplayedTxResult(undefined);
-                setTxValue(updatedTxValue);
+                setTxValue(updatedTxValue.toString());
               }}
               placeholder="value (wei)"
             />
           </div>
         ) : null}
         <div className="flex justify-between gap-2">
-          {!zeroInputs && (
-            <div className="flex-grow basis-0">
-              {displayedTxResult ? <TxReceipt txResult={displayedTxResult} /> : null}
-            </div>
-          )}
           <div
             className={`flex ${
-              writeDisabled &&
+              !address &&
               "tooltip before:content-[attr(data-tip)] before:right-[-10px] before:left-auto before:transform-none"
             }`}
-            data-tip={`${writeDisabled ? "Wallet not connected or in the wrong network" : ""}`}
+            data-tip={`${!address ? "Wallet not connected" : ""}`}
           >
             <button
               className="btn btn-secondary btn-sm"
-              disabled={writeDisabled || isPending}
-              onClick={async (): Promise<void> => {
-                await handleWrite();
-              }}
+              disabled={!address || !writeContract}
+              onClick={handleWrite}
             >
-              {isPending && <span className="loading loading-spinner loading-xs"></span>}
+              {!writeContract && <span className="loading loading-spinner loading-xs"></span>}
               Send 💸
             </button>
           </div>
         </div>
       </div>
-      {zeroInputs && txResult ? (
-        <div className="flex-grow basis-0">
-          <TxReceipt txResult={txResult} />
-        </div>
-      ) : null}
     </div>
   );
 };

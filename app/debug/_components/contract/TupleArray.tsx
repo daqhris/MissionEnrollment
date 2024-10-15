@@ -4,6 +4,7 @@ import ContractInput from "./ContractInput";
 import { getFunctionInputKey, getInitalTupleArrayFormState } from "./utilsContract";
 import { replacer } from "~~/utils/scaffold-eth/common";
 import type { AbiParameterTuple } from "~~/utils/scaffold-eth/contract";
+import type { AbiParameter } from "abitype";
 
 type TupleArrayProps = {
   abiTupleParameter: AbiParameterTuple & { isVirtual?: true };
@@ -34,7 +35,7 @@ export const TupleArray: React.FC<TupleArrayProps> = ({ abiTupleParameter, setPa
 
     const createArgsArray = (groupedFields: Record<string, Record<string, unknown>>): Array<Record<string, unknown>> => {
       return Object.values(groupedFields).map(group =>
-        abiTupleParameter.components.reduce((argsStruct, component, index) => {
+        abiTupleParameter.components.reduce((argsStruct: Record<string, unknown>, component: AbiParameter, index: number) => {
           const key = component.name || `input_${index}_`;
           if (group[key] !== undefined) {
             argsStruct[key] = group[key];
@@ -70,7 +71,7 @@ export const TupleArray: React.FC<TupleArrayProps> = ({ abiTupleParameter, setPa
       // Add the new inputs to the form
       setForm(form => {
         const newForm = { ...form };
-        abiTupleParameter.components.forEach((component, componentIndex) => {
+        abiTupleParameter.components.forEach((component: AbiParameter, componentIndex: number) => {
           const key = getFunctionInputKey(
             `${newAdditionalInputs.length - 1}_${abiTupleParameter.name || "tuple"}`,
             component,
@@ -89,7 +90,7 @@ export const TupleArray: React.FC<TupleArrayProps> = ({ abiTupleParameter, setPa
     // Remove the last inputs from the form
     setForm(form => {
       const newForm = { ...form };
-      abiTupleParameter.components.forEach((component, componentIndex) => {
+      abiTupleParameter.components.forEach((component: AbiParameter, componentIndex: number) => {
         const key = getFunctionInputKey(
           `${additionalInputs.length - 1}_${abiTupleParameter.name || "tuple"}`,
           component,
@@ -116,7 +117,7 @@ export const TupleArray: React.FC<TupleArrayProps> = ({ abiTupleParameter, setPa
                 {depth > 1 ? `${additionalIndex}` : `tuple[${additionalIndex}]`}
               </span>
               <div className="space-y-4">
-                {additionalInput.map((param, index) => {
+                {additionalInput.map((param: AbiParameter, index: number) => {
                   const key = getFunctionInputKey(
                     `${additionalIndex}_${abiTupleParameter.name || "tuple"}`,
                     param,

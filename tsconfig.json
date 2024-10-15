@@ -49,7 +49,6 @@
     "noFallthroughCasesInSwitch": true,
     "exactOptionalPropertyTypes": true,
     "noImplicitOverride": true,
-    "verbatimModuleSyntax": true,
     "allowImportingTsExtensions": true
   },
   "include": [

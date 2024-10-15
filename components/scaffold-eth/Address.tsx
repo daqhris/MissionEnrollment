@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import CopyToClipboard from "react-copy-to-clipboard";
 import type { Address as AddressType } from "viem";
 import { getAddress, isAddress } from "viem";
 import { hardhat } from "viem/chains";

@@ -41,14 +41,13 @@ export const ContractWriteMethods = ({
 
   return (
     <>
-      {functionsToDisplay.map(({ fn, inheritedFrom }: FunctionDisplay, idx: number) => (
+      {functionsToDisplay.map(({ fn }: FunctionDisplay, idx: number) => (
         <WriteOnlyFunctionForm
           abi={deployedContractData.abi as Abi}
           key={`${fn.name}-${idx}`}
           abiFunction={fn}
           onChange={onChange}
           contractAddress={deployedContractData.address}
-          inheritedFrom={inheritedFrom}
         />
       ))}
     </>

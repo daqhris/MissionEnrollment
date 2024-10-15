@@ -105,7 +105,7 @@ const adjustInput = (input: AbiParameterTuple): AbiParameter => {
   } else if (input.components) {
     return {
       ...input,
-      components: input.components.map((value) => adjustInput(value as AbiParameterTuple)),
+      components: input.components.map((value: AbiParameter) => adjustInput(value as AbiParameterTuple)),
     };
   }
   return input;

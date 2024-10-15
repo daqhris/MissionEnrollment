@@ -4,6 +4,7 @@ import ContractInput from "./ContractInput";
 import { getFunctionInputKey, getInitalTupleFormState } from "./utilsContract";
 import { replacer } from "~~/utils/scaffold-eth/common";
 import type { AbiParameterTuple } from "~~/utils/scaffold-eth/contract";
+import type { AbiParameter } from "abitype";
 
 type TupleProps = {
   abiTupleParameter: AbiParameterTuple;
@@ -18,7 +19,7 @@ export const Tuple: React.FC<TupleProps> = ({ abiTupleParameter, setParentForm, 
   useEffect((): void => {
     const values = Object.values(form);
     const argsStruct: Record<string, unknown> = {};
-    abiTupleParameter.components.forEach((component, componentIndex) => {
+    abiTupleParameter.components.forEach((component: AbiParameter, componentIndex: number) => {
       argsStruct[component.name || `input_${componentIndex}_`] = values[componentIndex];
     });
 
@@ -34,7 +35,7 @@ export const Tuple: React.FC<TupleProps> = ({ abiTupleParameter, setParentForm, 
           <p className="m-0 p-0 text-[1rem]">{abiTupleParameter.internalType}</p>
         </div>
         <div className="ml-3 flex-col space-y-4 border-secondary/80 border-l-2 pl-4 collapse-content">
-          {abiTupleParameter?.components?.map((param, index) => {
+          {abiTupleParameter?.components?.map((param: AbiParameter, index: number) => {
             const key = getFunctionInputKey(abiTupleParameter.name || "tuple", param, index);
             return <ContractInput setForm={setForm} form={form} key={key} stateObjectKey={key} paramType={param} />;
           })}

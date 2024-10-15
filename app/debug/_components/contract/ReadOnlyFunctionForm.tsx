@@ -6,7 +6,7 @@ import ContractInput from "./ContractInput";
 import { InheritanceTooltip } from "./InheritanceTooltip";
 import type { Abi, AbiFunction, AbiParameter } from "abitype";
 import type { Address } from "viem";
-import { useReadContract } from "wagmi";
+import { useContractRead } from "wagmi";
 import {
   getFunctionInputKey,
   getInitialFormState,
@@ -44,16 +44,12 @@ export const ReadOnlyFunctionForm: React.FC<ReadOnlyFunctionFormProps> = ({
   const [result, setResult] = useState<unknown>();
   const { targetNetwork } = useTargetNetwork();
 
-  const { isFetching, refetch, error } = useReadContract({
+  const { data, isFetching, refetch, error } = useContractRead({
     address: contractAddress,
     functionName,
     abi,
     args: getParsedContractFunctionArgs(form),
     chainId: targetNetwork.id,
-    query: {
-      enabled: false,
-      retry: false,
-    },
   });
 
   useEffect((): void => {
@@ -83,7 +79,7 @@ export const ReadOnlyFunctionForm: React.FC<ReadOnlyFunctionFormProps> = ({
   });
 
   const handleRead = async (): Promise<void> => {
-    const { data } = await refetch();
+    await refetch();
     setResult(data);
   };
 
