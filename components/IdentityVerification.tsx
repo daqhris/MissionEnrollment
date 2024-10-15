@@ -5,6 +5,9 @@ import { getBaseName } from '@/utils/basename';
 import { getTargetNetworks, ChainWithAttributes } from '@/utils/scaffold-eth/networks';
 import { recoverMessageAddress } from 'viem';
 
+// Import chain IDs
+import { optimismSepolia, baseSepolia } from 'viem/chains';
+
 interface IdentityVerificationProps {
   onVerified: (address: string, name: string) => void;
 }
@@ -37,10 +40,13 @@ const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified 
     if (!network) return '';
 
     try {
-      if (network.id === 8453 || network.id === 84532) { // Base mainnet or Base Sepolia
+      if (network.id === baseSepolia.id) {
         return await getBaseName(address);
-      } else {
+      } else if (network.id === optimismSepolia.id) {
         return await getEnsName(address);
+      } else {
+        console.warn('Unsupported network for name resolution');
+        return '';
       }
     } catch (error) {
       console.error('Error retrieving name:', error);
