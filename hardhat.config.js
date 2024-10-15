@@ -8,6 +8,7 @@ require("hardhat-deploy");
 require("hardhat-gas-reporter");
 require("@nomicfoundation/hardhat-verify");
 require("@openzeppelin/hardhat-upgrades");
+require("@typechain/hardhat");
 
 // Add console log to check environment variable values
 console.log('ALCHEMY_API_KEY:', process.env.ALCHEMY_API_KEY);
@@ -112,5 +113,9 @@ module.exports = {
         }
       }
     ]
+  },
+  typechain: {
+    outDir: "typechain",
+    target: "ethers-v5",
   },
 };

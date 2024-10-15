@@ -2,12 +2,13 @@ import React from "react";
 import { useEnsName } from "wagmi";
 
 interface VerifiedENSNameDisplayProps {
-  address: `0x${string}`;
+  address: string;
   theme: string;
 }
 
 const VerifiedENSNameDisplay: React.FC<VerifiedENSNameDisplayProps> = ({ address, theme }) => {
-  const { data: ensName, isLoading, isError } = useEnsName({ address });
+  const formattedAddress = address.startsWith('0x') ? address as `0x${string}` : `0x${address}`;
+  const { data: ensName, isLoading, isError } = useEnsName({ address: formattedAddress });
 
   if (isLoading) {
     return <p className={`${theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>Loading ENS name...</p>;

@@ -1,0 +1,15 @@
+Files to update:
+1. components/EventAttendanceVerification.tsx
+2. config.ts
+3. hooks/scaffold-eth/useScaffoldWriteContract.ts
+4. src/utils/poapVerification.js
+5. app/debug/_components/contract/DisplayVariable.tsx
+6. app/debug/_components/contract/ReadOnlyFunctionForm.tsx
+7. app/debug/_components/contract/WriteOnlyFunctionForm.tsx
+
+Update plan:
+1. Review and update imports in each file
+2. Update function calls and type definitions to match new package versions
+3. Address ESLint errors in poapVerification.js
+4. Run ESLint on the entire project to catch any remaining issues
+5. Attempt a local build to verify changes

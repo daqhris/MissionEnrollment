@@ -1,15 +1,17 @@
 import React from 'react';
-import { WagmiConfig, createConfig, configureChains } from 'wagmi';
+import { WagmiConfig, createConfig } from 'wagmi';
 import { gnosis } from 'wagmi/chains';
-import { publicProvider } from 'viem/providers';
+import { createPublicClient, http } from 'viem';
 import EventAttendanceVerification from '../components/EventAttendanceVerification';
 
-const { chains, publicClient } = configureChains([gnosis], [publicProvider()]);
+const publicClient = createPublicClient({
+  chain: gnosis,
+  transport: http()
+});
 
 const config = createConfig({
   autoConnect: true,
   publicClient,
-  chains,
 });
 
 const TestPOAPVerification: React.FC = () => {

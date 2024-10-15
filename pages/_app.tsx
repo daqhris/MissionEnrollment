@@ -15,7 +15,7 @@ if (!projectId) {
   throw new Error("NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID is not defined");
 }
 
-const wagmiConfig = createConfig({
+export const wagmiConfig = createConfig({
   chains: [baseSepolia, optimismSepolia],
   transports: {
     [baseSepolia.id]: http(),

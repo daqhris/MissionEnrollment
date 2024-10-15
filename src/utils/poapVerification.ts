@@ -4,16 +4,15 @@ import NodeCache from 'node-cache';
 const POAP_API_KEY = process.env.POAP_API_KEY;
 
 // ETHGlobal Brussels 2024 POAP event IDs
-const ETHGLOBAL_BRUSSELS_2024_EVENT_IDS: string[] = ["176334", "176328", "176329", "176330", "176331", "176332"];
+const ETHGLOBAL_BRUSSELS_2024_EVENT_IDS: string[] = ["7169394", "7169572", "7169367", "7169352", "7169362"];
 
 // Mapping of POAP event IDs to their corresponding PNG image URLs
 const POAP_IMAGE_URLS: Record<string, string> = {
-  "176334": "https://assets.poap.xyz/ethglobal-brussels-2024-attendee-2024-logo-1708099190982.png",
-  "176328": "https://assets.poap.xyz/ethglobal-brussels-2024-finalist-2024-logo-1708099190982.png",
-  "176329": "https://assets.poap.xyz/ethglobal-brussels-2024-winner-2024-logo-1708099190982.png",
-  "176330": "https://assets.poap.xyz/ethglobal-brussels-2024-sponsor-2024-logo-1708099190982.png",
-  "176331": "https://assets.poap.xyz/ethglobal-brussels-2024-speaker-2024-logo-1708099190982.png",
-  "176332": "https://assets.poap.xyz/ethglobal-brussels-2024-mentor-2024-logo-1708099190982.png"
+  "7169394": "https://assets.poap.xyz/ethglobal-brussels-2024-hacker-2024-logo-1708099190982.png",
+  "7169572": "https://assets.poap.xyz/ethglobal-brussels-2024-partner-2024-logo-1708099190982.png",
+  "7169367": "https://assets.poap.xyz/ethglobal-brussels-2024-judge-2024-logo-1708099190982.png",
+  "7169352": "https://assets.poap.xyz/ethglobal-brussels-2024-mentor-2024-logo-1708099190982.png",
+  "7169362": "https://assets.poap.xyz/ethglobal-brussels-2024-speaker-2024-logo-1708099190982.png"
 };
 
 const cache = new NodeCache({ stdTTL: 300 }); // Cache for 5 minutes

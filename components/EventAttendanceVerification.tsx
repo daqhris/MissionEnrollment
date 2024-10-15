@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import { Address } from 'viem';
-import { useAccount, usePublicClient, useEnsAddress } from 'wagmi';
+import { Address, PublicClient } from 'viem';
+import { usePublicClient, useEnsAddress } from 'wagmi';
 import { poapABI } from '../poapABI';
 import ErrorBoundary from './ErrorBoundary';
 
@@ -22,7 +22,7 @@ interface EventAttendanceVerificationProps {
 }
 
 const ETH_GLOBAL_BRUSSELS_2024_EVENT_ID = "141";
-const SPECIFIC_POAP_ID = "7169394";
+const POAP_IDS = ["7169394", "7169572", "7169367", "7169352", "7169362"];
 const POAP_CONTRACT_ADDRESS = '0x22C1f6050E56d2876009903609a2cC3fEf83B415';
 
 const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = ({
@@ -34,7 +34,6 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
   const [manualAddress, setManualAddress] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
-  const { address } = useAccount();
   const publicClient = usePublicClient();
 
   const {
@@ -47,7 +46,8 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
 
   const isEthGlobalBrusselsPOAP = useCallback((poap: POAPEvent): boolean => {
     if (DEBUG_MODE) console.log(`Checking POAP: ${JSON.stringify(poap)}`);
-    if (poap.token_id === SPECIFIC_POAP_ID) return true;
+    if (POAP_IDS.includes(poap.token_id)) return true;
+
     // Primary check: Match the specific event ID
     if (poap.event.id === ETH_GLOBAL_BRUSSELS_2024_EVENT_ID) {
       return true;
@@ -69,13 +69,13 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
     return result;
   }, []);
 
-  const fetchPOAPsBatch = useCallback(async (addressToFetch: Address, startIndex: number, endIndex: number): Promise<POAPEvent[]> => {
+  const fetchPOAPsBatch = useCallback(async (addressToFetch: Address, startIndex: number, endIndex: number, client: PublicClient): Promise<POAPEvent[]> => {
     if (DEBUG_MODE) console.log(`Fetching POAP batch for address ${addressToFetch}, indices ${startIndex}-${endIndex}`);
     const poaps: POAPEvent[] = [];
 
     for (let i = startIndex; i < endIndex; i++) {
       try {
-        const tokenId = await publicClient.readContract({
+        const tokenId = await client.readContract({
           address: POAP_CONTRACT_ADDRESS,
           abi: poapABI,
           functionName: 'tokenOfOwnerByIndex',
@@ -87,7 +87,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
           continue;
         }
 
-        const tokenURI = await publicClient.readContract({
+        const tokenURI = await client.readContract({
           address: POAP_CONTRACT_ADDRESS,
           abi: poapABI,
           functionName: 'tokenURI',
@@ -128,9 +128,12 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
 
     if (DEBUG_MODE) console.log(`Fetched ${poaps.length} POAPs for batch`);
     return poaps;
-  }, [publicClient, isEthGlobalBrusselsPOAP]);
-
+  }, [isEthGlobalBrusselsPOAP]);
   const fetchPOAPs = useCallback(async (addressToFetch: Address): Promise<void> => {
+    if (!publicClient) {
+      throw new Error('Public client is not available');
+    }
+
     setIsVerifying(true);
     setProofResult(null);
     setError(null);
@@ -155,11 +158,11 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
       for (let i = 0; i < batches; i++) {
         const start = i * batchSize;
         const end = Math.min((i + 1) * batchSize, totalPoaps);
-        const batchPoaps = await fetchPOAPsBatch(addressToFetch, start, end);
+        const batchPoaps = await fetchPOAPsBatch(addressToFetch, start, end, publicClient);
 
-        const specificPOAP = batchPoaps.find(poap => poap.token_id === SPECIFIC_POAP_ID);
-        if (specificPOAP) {
-          setProofResult('Verified');
+        const verifiedPoaps = batchPoaps.filter(poap => POAP_IDS.includes(poap.token_id));
+        if (verifiedPoaps.length > 0) {
+          setProofResult(`Verified (${verifiedPoaps.length} POAPs found)`);
           onVerified();
           return;
         }

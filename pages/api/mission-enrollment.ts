@@ -1,5 +1,6 @@
-import { EAS, Offchain, SchemaEncoder, OffchainAttestationVersion } from "@ethereum-attestation-service/eas-sdk";
-import type { OffchainAttestationParams } from "@ethereum-attestation-service/eas-sdk";
+import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
+import { Offchain, OffchainAttestationVersion } from "@ethereum-attestation-service/eas-sdk/offchain";
+import type { OffchainAttestationParams } from "@ethereum-attestation-service/eas-sdk/offchain";
 import { ethers } from "ethers";
 import type { NextApiRequest, NextApiResponse } from "next";
 

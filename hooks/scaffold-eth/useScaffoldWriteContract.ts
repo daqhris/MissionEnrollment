@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { useTargetNetwork } from "./useTargetNetwork";
 import type { Abi, ExtractAbiFunctionNames } from "abitype";
-import { useContractWrite, useTransaction } from "wagmi";
-import { writeContract } from "@wagmi/core";
-import type { WriteContractParameters } from "@wagmi/core";
+import { useContractWrite, useWaitForTransaction } from "wagmi";
 import type { Hash, TransactionReceipt } from "viem";
 import { useDeployedContractInfo, useTransactor } from "~~/hooks/scaffold-eth";
 import { notification } from "~~/utils/scaffold-eth";
@@ -14,21 +12,22 @@ export const useScaffoldWriteContract = <
   TFunctionName extends ExtractAbiFunctionNames<Abi, "nonpayable" | "payable">
 >(
   contractName: TContractName,
-  writeContractConfig?: Omit<WriteContractParameters<Abi, TFunctionName>, 'abi' | 'address'>
+  writeContractConfig?: Omit<Parameters<typeof useContractWrite>[0], 'abi' | 'address'>
 ) => {
   const [isMining, setIsMining] = useState(false);
+  const [txHash, setTxHash] = useState<Hash | undefined>(undefined);
   const { targetNetwork } = useTargetNetwork();
   const { data: deployedContractData } = useDeployedContractInfo(contractName);
   const writeTx = useTransactor();
 
-  const { writeContract: writeContractAsync, data: writeData } = useContractWrite({
+  const { writeAsync: writeContractAsync } = useContractWrite({
     ...writeContractConfig,
     address: deployedContractData?.address,
     abi: deployedContractData?.abi as Abi,
-  });
+  } as Parameters<typeof useContractWrite>[0]);
 
-  const { isLoading: isWaiting } = useTransaction({
-    hash: writeData ? (writeData as { hash?: `0x${string}` }).hash : undefined,
+  const { isLoading: isWaiting } = useWaitForTransaction({
+    hash: txHash,
   });
 
   const sendContractWriteAsyncTx = async (
@@ -50,10 +49,10 @@ export const useScaffoldWriteContract = <
     setIsMining(true);
     try {
       const result = await writeContractAsync(args);
-      if (result) {
-        setIsMining(false);
-        options?.onSuccess?.(result as unknown as TransactionReceipt);
-      }
+      setTxHash(result.hash);
+      setIsMining(false);
+      const receipt = await result.wait();
+      options?.onSuccess?.(receipt);
     } catch (e: any) {
       const error = e as Error;
       console.error("⚡️ ~ file: useScaffoldWriteContract.ts ~ sendContractWriteAsyncTx ~ error", error);
@@ -86,10 +85,12 @@ export const useScaffoldWriteContract = <
     await writeTx(
       async () => {
         const result = await writeContractAsync(args);
-        return result.hash as Hash;
+        setTxHash(result.hash);
+        return result.hash;
       },
       {
-        onSuccess: (receipt: TransactionReceipt) => {
+        onSuccess: async (hash: Hash) => {
+          const receipt = await targetNetwork.provider.waitForTransaction(hash);
           setIsMining(false);
           options?.onSuccess?.(receipt);
         },

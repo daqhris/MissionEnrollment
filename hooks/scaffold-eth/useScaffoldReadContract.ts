@@ -38,9 +38,9 @@ export const useScaffoldReadContract = <
 } => {
   const { data: deployedContract } = useDeployedContractInfo(contractName);
   const { targetNetwork } = useTargetNetwork();
-  const { query: queryOptions, watch, ...readContractConfig } = readConfig;
+  const { query: queryOptions, ...readContractConfig } = readConfig;
   // set watch to true by default
-  const defaultWatch = watch ?? true;
+  const defaultWatch = true;
 
   const readContractHookRes = useContractRead({
     chainId: targetNetwork.id,

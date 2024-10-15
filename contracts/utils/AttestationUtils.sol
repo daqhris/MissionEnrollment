@@ -54,6 +54,11 @@ library AttestationUtils {
     return _registerSchema(eas, schema);
   }
 
+  function createMissionEnrollmentSchema(EAS memory eas) internal returns (bytes32) {
+    string memory schema = "address recipient,uint256 tokenId,uint256 timestamp,address attester";
+    return _registerSchema(eas, schema);
+  }
+
   function _registerSchema(EAS memory eas, string memory schema) private returns (bytes32) {
     return eas.schemaRegistry.register(schema, ISchemaResolver(address(0)), true);
   }

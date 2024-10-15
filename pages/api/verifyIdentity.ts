@@ -1,12 +1,13 @@
 import { verifyETHGlobalBrusselsPOAPOwnership } from "../../src/utils/poapVerification";
 import { ethers } from "ethers";
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
 
-  const { input } = req.body;
+  const { input } = req.body as { input: string };
 
   console.log("Received input:", input); // Log the input for debugging
 
@@ -15,7 +16,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    let address;
+    let address: string;
 
     if (typeof input === "string" && input.endsWith(".eth")) {
       // Resolve ENS name
@@ -37,13 +38,13 @@ export default async function handler(req, res) {
     // Verify POAP ownership
     const ownsPoap = await verifyETHGlobalBrusselsPOAPOwnership(address);
 
-    if (ownsPoap) {
-      return res.status(200).json({ verified: true, address });
+    if (ownsPoap.owned) {
+      return res.status(200).json({ verified: true, address, imageUrl: ownsPoap.imageUrl, tokenId: ownsPoap.tokenId });
     } else {
       return res.status(403).json({ error: "No ETHGlobal Brussels 2024 POAP found for this address" });
     }
   } catch (error) {
     console.error("Verification error:", error);
-    return res.status(500).json({ error: "Internal server error", details: error.message });
+    return res.status(500).json({ error: "Internal server error", details: (error as Error).message });
   }
 }
