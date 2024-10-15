@@ -13,7 +13,7 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -49,8 +49,8 @@
     "noFallthroughCasesInSwitch": true,
     "exactOptionalPropertyTypes": true,
     "noImplicitOverride": true,
-    "verbatimModuleSyntax": true,
-    "allowImportingTsExtensions": true
+    // "verbatimModuleSyntax": true,
+    // "allowImportingTsExtensions": true
   },
   "include": [
     "next-env.d.ts",

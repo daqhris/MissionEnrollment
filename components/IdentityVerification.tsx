@@ -1,81 +1,113 @@
-import React, { useEffect, useState } from "react";
-import type { ChangeEvent } from "react";
-import { isAddress, getAddress } from "viem";
+import React, { useState, useEffect, ChangeEvent } from 'react';
+import { ethers } from 'ethers';
+import { AlchemyProvider } from '@ethersproject/providers';
 
 interface IdentityVerificationProps {
-  onVerified: (address: string) => void;
+  onVerified: (username: string, address: string, resolvedName: string) => void;
 }
 
-const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified }): JSX.Element => {
-  const [inputAddress, setInputAddress] = useState<string>("");
+const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified }) => {
+  const [username, setUsername] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [network, setNetwork] = useState<string>('');
+  const [resolvedName, setResolvedName] = useState<string>('');
+  const [error, setError] = useState<string>('');
   const [isVerifying, setIsVerifying] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
 
-  useEffect((): void => {
-    if (inputAddress) {
-      setError("");
+  useEffect(() => {
+    detectNetwork();
+  }, []);
+
+  const detectNetwork = async () => {
+    if (typeof window.ethereum !== 'undefined') {
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const network = await provider.getNetwork();
+        if (network.name === 'optimism' || network.name === 'optimism-sepolia') {
+          setNetwork('optimism');
+        } else if (network.name === 'base' || network.name === 'base-sepolia') {
+          setNetwork('base');
+        } else {
+          setNetwork(network.name);
+        }
+      } catch (error) {
+        console.error('Error detecting network:', error);
+        setError('Failed to detect network');
+      }
+    } else {
+      setError('No Ethereum provider detected');
     }
-  }, [inputAddress]);
+  };
 
-  const handleVerify = async (): Promise<void> => {
+  const retrieveName = async (address: string): Promise<string> => {
+    if (network === 'base' || network === 'base-sepolia') {
+      return `Basename-${address.slice(0, 6)}...${address.slice(-4)}`;
+    } else {
+      try {
+        const alchemyApiKey = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY || '';
+        const provider = new AlchemyProvider('mainnet', alchemyApiKey);
+        const name = await provider.lookupAddress(address);
+        return name || address;
+      } catch (error) {
+        console.error('Error retrieving ENS name:', error);
+        return address;
+      }
+    }
+  };
+
+  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+  };
+
+  const handleAddressChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setAddress(e.target.value);
+  };
+
+  const handleVerify = async () => {
     setIsVerifying(true);
-    setError("");
+    setError('');
+    setResolvedName('');
 
     try {
-      let verifiedAddress = inputAddress.trim();
-
-      if (verifiedAddress.includes('.')) {
-        // Potential ENS name
-        throw new Error("ENS resolution is not implemented in this component");
-      } else {
-        // Check if it's a valid Ethereum address
-        if (!isAddress(verifiedAddress)) {
-          throw new Error("Invalid Ethereum address format");
-        }
-        // Normalize the address to checksum format
-        verifiedAddress = getAddress(verifiedAddress);
+      if (!username.trim()) {
+        throw new Error('Username is required');
+      }
+      if (!ethers.utils.isAddress(address)) {
+        throw new Error('Invalid Ethereum address');
       }
 
-      // Ensure the address is valid after all checks
-      if (!isAddress(verifiedAddress)) {
-        throw new Error("Invalid address after verification");
-      }
-
-      onVerified(verifiedAddress.toLowerCase());
-    } catch (err: unknown) {
-      console.error("Verification error:", err);
-      setError(err instanceof Error ? err.message : "Verification failed");
+      const name = await retrieveName(address);
+      setResolvedName(name);
+      onVerified(username, address, name);
+    } catch (error) {
+      console.error('Verification error:', error);
+      setError((error as Error).message || 'Verification failed');
     } finally {
       setIsVerifying(false);
     }
   };
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setInputAddress(e.target.value);
-  };
-
   return (
-    <div className="p-4 bg-white shadow rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Identity Verification</h2>
-      <p className="mb-4">Please enter your Ethereum address:</p>
-      <div className="relative">
-        <input
-          type="text"
-          value={inputAddress}
-          onChange={handleInputChange}
-          className="w-full max-w-md p-2 border rounded mb-4"
-          placeholder="0x..."
-          disabled={isVerifying}
-        />
-      </div>
-      <button
-        onClick={handleVerify}
-        disabled={isVerifying || !inputAddress.trim()}
-        className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 disabled:bg-gray-300 transition-colors duration-200"
-      >
-        {isVerifying ? "Verifying..." : "Verify"}
+    <div>
+      <h2>Identity Verification</h2>
+      <input
+        type="text"
+        value={username}
+        onChange={handleUsernameChange}
+        placeholder="Enter username"
+      />
+      <input
+        type="text"
+        value={address}
+        onChange={handleAddressChange}
+        placeholder="Enter Ethereum address"
+      />
+      <button onClick={handleVerify} disabled={isVerifying || !username || !address}>
+        {isVerifying ? 'Verifying...' : 'Verify'}
       </button>
-      {error && <p className="text-red-600 mt-2">{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {resolvedName && <p>Resolved Name: {resolvedName}</p>}
+      {network && <p>Connected Network: {network}</p>}
     </div>
   );
 };
