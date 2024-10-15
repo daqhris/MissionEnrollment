@@ -1,89 +1,81 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { ethers } from 'ethers';
-import { AlchemyProvider } from '@ethersproject/providers';
+import { useAccount, useChainId, usePublicClient, useSignMessage } from 'wagmi';
+import { getEnsName } from '@/utils/ens';
+import { getBaseName } from '@/utils/basename';
+import { getTargetNetworks, ChainWithAttributes } from '@/utils/scaffold-eth/networks';
+import { recoverMessageAddress } from 'viem';
 
 interface IdentityVerificationProps {
-  onVerified: (username: string, address: string, resolvedName: string) => void;
+  onVerified: (address: string, name: string) => void;
 }
 
-const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified }) => {
+const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified }): React.ReactElement => {
   const [username, setUsername] = useState<string>('');
   const [address, setAddress] = useState<string>('');
-  const [network, setNetwork] = useState<string>('');
   const [resolvedName, setResolvedName] = useState<string>('');
-  const [error, setError] = useState<string>('');
-  const [isVerifying, setIsVerifying] = useState<boolean>(false);
+  const [network, setNetwork] = useState<ChainWithAttributes | null>(null);
+  const { address: connectedAddress } = useAccount();
+  const chainId = useChainId();
+  const publicClient = usePublicClient();
+  const { signMessageAsync } = useSignMessage();
 
   useEffect(() => {
-    detectNetwork();
-  }, []);
-
-  const detectNetwork = async () => {
-    if (typeof window.ethereum !== 'undefined') {
-      try {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const network = await provider.getNetwork();
-        if (network.name === 'optimism' || network.name === 'optimism-sepolia') {
-          setNetwork('optimism');
-        } else if (network.name === 'base' || network.name === 'base-sepolia') {
-          setNetwork('base');
-        } else {
-          setNetwork(network.name);
-        }
-      } catch (error) {
-        console.error('Error detecting network:', error);
-        setError('Failed to detect network');
-      }
-    } else {
-      setError('No Ethereum provider detected');
+    if (connectedAddress) {
+      setAddress(connectedAddress);
     }
-  };
+  }, [connectedAddress]);
+
+  useEffect(() => {
+    if (chainId) {
+      const targetNetworks = getTargetNetworks();
+      const currentNetwork = targetNetworks.find(n => n.id === chainId);
+      setNetwork(currentNetwork || null);
+    }
+  }, [chainId]);
 
   const retrieveName = async (address: string): Promise<string> => {
-    if (network === 'base' || network === 'base-sepolia') {
-      return `Basename-${address.slice(0, 6)}...${address.slice(-4)}`;
-    } else {
-      try {
-        const alchemyApiKey = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY || '';
-        const provider = new AlchemyProvider('mainnet', alchemyApiKey);
-        const name = await provider.lookupAddress(address);
-        return name || address;
-      } catch (error) {
-        console.error('Error retrieving ENS name:', error);
-        return address;
+    if (!network) return '';
+
+    try {
+      if (network.id === 8453 || network.id === 84532) { // Base mainnet or Base Sepolia
+        return await getBaseName(address);
+      } else {
+        return await getEnsName(address);
       }
+    } catch (error) {
+      console.error('Error retrieving name:', error);
+      return '';
     }
   };
 
-  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    setUsername(event.target.value);
   };
 
-  const handleAddressChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setAddress(e.target.value);
-  };
-
-  const handleVerify = async () => {
-    setIsVerifying(true);
-    setError('');
-    setResolvedName('');
+  const handleVerify = async (): Promise<void> => {
+    if (!address) {
+      console.error('No address connected');
+      return;
+    }
 
     try {
-      if (!username.trim()) {
-        throw new Error('Username is required');
-      }
-      if (!ethers.utils.isAddress(address)) {
-        throw new Error('Invalid Ethereum address');
-      }
+      const message = `Verify username: ${username}`;
+      const signature = await signMessageAsync({ message });
 
-      const name = await retrieveName(address);
-      setResolvedName(name);
-      onVerified(username, address, name);
+      const recoveredAddress = await recoverMessageAddress({
+        message,
+        signature,
+      });
+
+      if (recoveredAddress.toLowerCase() === address.toLowerCase()) {
+        const name = await retrieveName(address);
+        setResolvedName(name);
+        onVerified(address, name || username);
+      } else {
+        console.error('Signature verification failed');
+      }
     } catch (error) {
-      console.error('Verification error:', error);
-      setError((error as Error).message || 'Verification failed');
-    } finally {
-      setIsVerifying(false);
+      console.error('Error during verification:', error);
     }
   };
 
@@ -93,21 +85,13 @@ const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified 
       <input
         type="text"
         value={username}
-        onChange={handleUsernameChange}
+        onChange={handleInputChange}
         placeholder="Enter username"
       />
-      <input
-        type="text"
-        value={address}
-        onChange={handleAddressChange}
-        placeholder="Enter Ethereum address"
-      />
-      <button onClick={handleVerify} disabled={isVerifying || !username || !address}>
-        {isVerifying ? 'Verifying...' : 'Verify'}
-      </button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <p>Connected Address: {address}</p>
+      <p>Network: {network ? network.name : 'Not connected'}</p>
+      <button onClick={handleVerify}>Verify Identity</button>
       {resolvedName && <p>Resolved Name: {resolvedName}</p>}
-      {network && <p>Connected Network: {network}</p>}
     </div>
   );
 };
