@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import Image from "next/image";
 import eventIdsData from "../event_ids.json";
 import { useEnsAddress } from "wagmi";
-import { poapContract, safePoapContractCall, ethers } from "../config";
+import { poapContract, safePoapContractCall } from "../config";
 
 const { eventIds } = eventIdsData;
 
@@ -93,12 +93,12 @@ const fetchPOAPs = useCallback(
       for (let i = 0; i < Number(balance); i++) {
         try {
           console.log(`Fetching token ID for ${addressToFetch} at index ${i}`);
-          const tokenId = await safePoapContractCall<ethers.BigNumberish>('tokenOfOwnerByIndex', addressToFetch, i);
-          if (!tokenId || ethers.getBigInt(tokenId) <= 0n) {
+          const tokenId = await safePoapContractCall<bigint>('tokenOfOwnerByIndex', addressToFetch, i);
+          if (!tokenId || tokenId <= 0n) {
             console.error(`Failed to fetch token ID or invalid token ID type for ${addressToFetch} at index ${i}`);
             continue;
           }
-          console.log(`Token ID for ${addressToFetch} at index ${i}: ${ethers.getBigInt(tokenId).toString()}`);
+          console.log(`Token ID for ${addressToFetch} at index ${i}: ${tokenId.toString()}`);
 
           console.log(`Fetching token URI for token ID ${tokenId}`);
           const tokenURI = await safePoapContractCall<string>('tokenURI', tokenId);

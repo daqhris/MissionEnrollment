@@ -15,7 +15,7 @@ export const POAP_ABI = [
 ] as const;
 
 // Create a provider for the Gnosis Chain
-export const gnosisProvider = new ethers.JsonRpcProvider(GNOSIS_RPC_URL);
+export const gnosisProvider = new ethers.providers.JsonRpcProvider(GNOSIS_RPC_URL);
 
 // Create a contract instance
 export const poapContract = new ethers.Contract(POAP_CONTRACT_ADDRESS, POAP_ABI, gnosisProvider);
@@ -27,7 +27,7 @@ export const safePoapContractCall = async <T>(
 ): Promise<T | null> => {
   try {
     if (poapContract && typeof poapContract[method] === 'function') {
-      return await poapContract[method](...args);
+      return await (poapContract[method] as (...args: any[]) => Promise<T>)(...args);
     }
     return null;
   } catch (error) {
