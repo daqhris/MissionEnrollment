@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { useAccount, useChainId, usePublicClient, useSignMessage } from 'wagmi';
+import { useAccount, useChainId, useSignMessage } from 'wagmi';
 import { getEnsName } from '@/utils/ens';
 import { getBaseName } from '@/utils/basename';
 import { getTargetNetworks, ChainWithAttributes } from '@/utils/scaffold-eth/networks';
@@ -16,10 +16,9 @@ const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified 
   const [username, setUsername] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [resolvedName, setResolvedName] = useState<string>('');
-  const [network, setNetwork] = useState<ChainWithAttributes | null>(null);
+  const [network, setNetwork] = useState<ChainWithAttributes | undefined>(undefined);
   const { address: connectedAddress } = useAccount();
   const chainId = useChainId();
-  const publicClient = usePublicClient();
   const { signMessageAsync } = useSignMessage();
 
   useEffect(() => {
@@ -31,8 +30,19 @@ const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified 
   useEffect(() => {
     if (chainId) {
       const targetNetworks = getTargetNetworks();
-      const currentNetwork = targetNetworks.find(n => n.id === chainId);
-      setNetwork(currentNetwork || null);
+      let currentNetwork = targetNetworks.find(n => n.id === chainId);
+
+      if (chainId === baseSepolia.id) {
+        currentNetwork = { ...currentNetwork, name: 'Base Sepolia' } as ChainWithAttributes;
+        console.log('Detected Base Sepolia testnet');
+      } else if (chainId === optimismSepolia.id) {
+        currentNetwork = { ...currentNetwork, name: 'Optimism Sepolia' } as ChainWithAttributes;
+        console.log('Detected Optimism Sepolia testnet');
+      }
+
+      setNetwork(currentNetwork);
+    } else {
+      setNetwork(undefined);
     }
   }, [chainId]);
 
