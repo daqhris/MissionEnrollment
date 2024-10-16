@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useTargetNetwork } from "./useTargetNetwork";
 import { useQueryClient } from "@tanstack/react-query";
-import type { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
+import type { QueryObserverResult, RefetchOptions, UseQueryResult } from "@tanstack/react-query";
 import type { ExtractAbiFunctionNames } from "abitype";
 import type { ReadContractErrorType } from "viem";
 import { useBlockNumber, useContractRead } from "wagmi";
-import type { UseReadContractParameters } from "wagmi";
+import type { UseContractReadConfig } from "wagmi";
 import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
 import type {
   AbiFunctionReturnType,
@@ -30,12 +30,7 @@ export const useScaffoldReadContract = <
   functionName,
   args,
   ...readConfig
-}: UseScaffoldReadConfig<TContractName, TFunctionName>): Omit<ReturnType<typeof useContractRead>, "data" | "refetch"> & {
-  data: AbiFunctionReturnType<ContractAbi<TContractName>, TFunctionName> | undefined;
-  refetch: (
-    options?: RefetchOptions | undefined,
-  ) => Promise<QueryObserverResult<AbiFunctionReturnType<ContractAbi<TContractName>, TFunctionName>, ReadContractErrorType>>;
-} => {
+}: UseScaffoldReadConfig<TContractName, TFunctionName>): UseQueryResult<AbiFunctionReturnType<ContractAbi<TContractName>, TFunctionName>, Error> => {
   const { data: deployedContract } = useDeployedContractInfo(contractName);
   const { targetNetwork } = useTargetNetwork();
   const { query: queryOptions, watch, ...readContractConfig } = readConfig;
@@ -51,20 +46,18 @@ export const useScaffoldReadContract = <
     ...readContractConfig,
     enabled: !Array.isArray(args) || !args.some(arg => arg === undefined),
     ...queryOptions,
-  });
+  } as UseContractReadConfig);
 
   const queryClient = useQueryClient();
   const { data: blockNumber } = useBlockNumber({
     watch: defaultWatch,
     chainId: targetNetwork.id,
-    query: {
-      enabled: defaultWatch,
-    },
+    enabled: defaultWatch,
   });
 
   useEffect(() => {
     if (defaultWatch) {
-      queryClient.invalidateQueries({ queryKey: readContractHookRes.queryKey });
+      queryClient.invalidateQueries({ queryKey: (readContractHookRes as any).queryKey });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blockNumber]);
@@ -72,8 +65,6 @@ export const useScaffoldReadContract = <
   return {
     ...readContractHookRes,
     data: readContractHookRes.data as AbiFunctionReturnType<ContractAbi<TContractName>, TFunctionName> | undefined,
-    refetch: readContractHookRes.refetch as (
-      options?: RefetchOptions | undefined,
-    ) => Promise<QueryObserverResult<AbiFunctionReturnType<ContractAbi<TContractName>, TFunctionName>, ReadContractErrorType>>,
-  };
+    refetch: readContractHookRes.refetch,
+  } as unknown as UseQueryResult<AbiFunctionReturnType<ContractAbi<TContractName>, TFunctionName>, Error>;
 };

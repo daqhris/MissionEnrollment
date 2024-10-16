@@ -25,20 +25,17 @@ const alchemy = new Alchemy(config);
 
 const cache = new NodeCache({ stdTTL: 300 }); // Cache for 5 minutes
 
+// Function to clear cache (for testing purposes)
+function clearCache() {
+  cache.flushAll();
+}
+
 /**
  * Verify if a user owns any of the ETHGlobal Brussels 2024 POAPs
  * @param {string} address - The user's Ethereum address
  * @returns {Promise<{owned: boolean, imageUrl: string | null}>} - Object indicating ownership and image URL if owned
  */
 async function verifyETHGlobalBrusselsPOAPOwnership(address) {
-  const cacheKey = `poap_${address}`;
-  const cachedResult = cache.get(cacheKey);
-
-  if (cachedResult) {
-    console.log(`Using cached result for address ${address}`);
-    return cachedResult;
-  }
-
   try {
     const nfts = await alchemy.nft.getNftsForOwner(address, {
       contractAddresses: [POAP_CONTRACT_ADDRESS],
@@ -54,20 +51,21 @@ async function verifyETHGlobalBrusselsPOAPOwnership(address) {
         imageUrl: POAP_IMAGE_URLS[ethGlobalPOAPs[0].tokenId]
       };
       console.log(`POAP found for address ${address}. Image URL: ${result.imageUrl}`);
-      cache.set(cacheKey, result);
       return result;
     }
 
-    const result = { owned: false, imageUrl: null };
-    cache.set(cacheKey, result);
     console.log(`No ETHGlobal Brussels 2024 POAPs found for address ${address}`);
-    return result;
+    return { owned: false, imageUrl: null };
   } catch (error) {
     console.error(`Error verifying POAP ownership for address ${address}:`, error.message);
+    if (error.message.includes('API Error')) {
+      throw new Error('API Error');
+    }
     return { owned: false, imageUrl: null };
   }
 }
 
 module.exports = {
   verifyETHGlobalBrusselsPOAPOwnership,
+  clearCache,
 };

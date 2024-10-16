@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { JsonRpcProvider, Contract } from 'ethers';
 
 export const BLOCKSCOUT_API_URL = 'https://gnosis.blockscout.com/api';
 export const POAP_CONTRACT_ADDRESS = '0x22C1f6050E56d2876009903609a2cC3fEf83B415';
@@ -15,10 +15,10 @@ export const POAP_ABI = [
 ] as const;
 
 // Create a provider for the Gnosis Chain
-export const gnosisProvider = new ethers.providers.JsonRpcProvider(GNOSIS_RPC_URL);
+export const gnosisProvider = new JsonRpcProvider(GNOSIS_RPC_URL);
 
 // Create a contract instance
-export const poapContract = new ethers.Contract(POAP_CONTRACT_ADDRESS, POAP_ABI, gnosisProvider);
+export const poapContract = new Contract(POAP_CONTRACT_ADDRESS, POAP_ABI, gnosisProvider);
 
 // Function to safely interact with the POAP contract
 export const safePoapContractCall = async <T>(
@@ -27,7 +27,7 @@ export const safePoapContractCall = async <T>(
 ): Promise<T | null> => {
   try {
     if (poapContract && typeof poapContract[method] === 'function') {
-      return await (poapContract[method] as (...args: any[]) => Promise<T>)(...args);
+      return await poapContract[method](...args) as T;
     }
     return null;
   } catch (error) {
@@ -36,5 +36,4 @@ export const safePoapContractCall = async <T>(
   }
 };
 
-// Export all constants and functions
-export { ethers };
+export { JsonRpcProvider, Contract };
