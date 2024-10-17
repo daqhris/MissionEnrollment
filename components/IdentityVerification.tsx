@@ -1,14 +1,13 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { useAccount, useSignMessage, useConnect } from 'wagmi';
+import { useAccount, useSignMessage, useConnect, useChainId } from 'wagmi';
 import { getEnsName } from '@/utils/ens';
 import { getBaseName } from '@/utils/basename';
 import { getTargetNetworks, ChainWithAttributes } from '@/utils/scaffold-eth/networks';
 import { recoverMessageAddress } from 'viem';
-import { useNetwork } from 'wagmi';
-import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
+import { coinbaseWallet } from 'wagmi/connectors';
 
 // Import chain IDs
-import { optimismSepolia, baseSepolia, Chain } from 'viem/chains';
+import { optimismSepolia, baseSepolia } from 'viem/chains';
 
 interface IdentityVerificationProps {
   onVerified: (address: string, name: string) => void;
@@ -20,7 +19,7 @@ const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified 
   const [resolvedName, setResolvedName] = useState<string>('');
   const [network, setNetwork] = useState<ChainWithAttributes | undefined>(undefined);
   const { address: connectedAddress } = useAccount();
-  const { chain } = useNetwork();
+  const chainId = useChainId();
   const { signMessageAsync } = useSignMessage();
   const { connect } = useConnect();
 
@@ -31,14 +30,14 @@ const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified 
   }, [connectedAddress]);
 
   useEffect((): void => {
-    if (chain) {
+    if (chainId) {
       const targetNetworks = getTargetNetworks();
-      let currentNetwork = targetNetworks.find(n => n.id === chain.id);
+      let currentNetwork = targetNetworks.find(n => n.id === chainId);
 
-      if (chain.id === baseSepolia.id) {
+      if (chainId === baseSepolia.id) {
         currentNetwork = { ...currentNetwork, name: 'Base Sepolia' } as ChainWithAttributes;
         console.log('Detected Base Sepolia testnet');
-      } else if (chain.id === optimismSepolia.id) {
+      } else if (chainId === optimismSepolia.id) {
         currentNetwork = { ...currentNetwork, name: 'Optimism Sepolia' } as ChainWithAttributes;
         console.log('Detected Optimism Sepolia testnet');
       }
@@ -47,7 +46,7 @@ const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified 
     } else {
       setNetwork(undefined);
     }
-  }, [chain]);
+  }, [chainId]);
 
   const retrieveName = async (address: string): Promise<string> => {
     if (!network) return '';
@@ -100,13 +99,9 @@ const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified 
 
   const connectCoinbaseWallet = async (): Promise<void> => {
     try {
-      const supportedChains: Chain[] = [baseSepolia, optimismSepolia];
       await connect({
-        connector: new CoinbaseWalletConnector({
-          chains: supportedChains,
-          options: {
-            appName: 'Mission Enrollment',
-          },
+        connector: coinbaseWallet({
+          appName: 'Mission Enrollment',
         }),
       });
     } catch (error) {

@@ -1,6 +1,6 @@
 import { EAS, Offchain, SchemaEncoder, OffchainAttestationVersion } from "@ethereum-attestation-service/eas-sdk";
 import type { OffchainAttestationParams, OffchainConfig } from "@ethereum-attestation-service/eas-sdk";
-import { ethers } from "ethers";
+import { ethers } from 'ethers';
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
     const missionEnrollmentSchemaUid = "0x40e5abe23a3378a9a43b7e874c5cb8dfd4d6b0823501d317acee41e08d3af4dd";
 
-    const provider = new ethers.JsonRpcProvider("https://rpc.sepolia.org");
+    const provider = new ethers.providers.JsonRpcProvider("https://rpc.sepolia.org");
 
     if (!process.env.PRIVATE_KEY) {
       throw new Error("PRIVATE_KEY environment variable is not set");
@@ -44,11 +44,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const offchain = new Offchain(offchainConfig, OffchainAttestationVersion.Version1, eas);
 
     const offchainAttestationParams: OffchainAttestationParams = {
-      recipient: ethers.ZeroAddress,
+      recipient: ethers.constants.AddressZero,
       expirationTime: BigInt(0),
       time: BigInt(Math.floor(Date.now() / 1000)),
       revocable: true,
-      refUID: ethers.ZeroHash,
+      refUID: ethers.constants.HashZero,
       data: encodedData,
       schema: missionEnrollmentSchemaUid,
     };

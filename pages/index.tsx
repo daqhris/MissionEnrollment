@@ -269,7 +269,7 @@ const Home: FC = (): JSX.Element => {
               >
                 Connected Wallet:
               </h3>
-              <VerifiedENSNameDisplay address={address} theme={theme || "light"} />
+              <VerifiedENSNameDisplay address={address as `0x${string}`} theme={theme || "light"} />
             </div>
           )}
         </div>

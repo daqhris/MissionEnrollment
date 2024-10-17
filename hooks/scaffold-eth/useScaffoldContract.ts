@@ -27,27 +27,15 @@ export const useScaffoldContract = <
   const { targetNetwork } = useTargetNetwork();
   const publicClient = usePublicClient({ chainId: targetNetwork.id });
 
-  let contract = undefined;
+  let contract: ReturnType<typeof getContract> | undefined = undefined;
   if (deployedContractData && publicClient) {
-    contract = getContract<
-      Transport,
-      Address,
-      Contract<TContractName>["abi"],
-      TWalletClient extends Exclude<GetWalletClientReturnType, null>
-        ? {
-            public: Client<Transport, Chain>;
-            wallet: TWalletClient;
-          }
-        : { public: Client<Transport, Chain> },
-      Chain,
-      Account
-    >({
+    contract = getContract({
       address: deployedContractData.address,
       abi: deployedContractData.abi as Contract<TContractName>["abi"],
       client: {
         public: publicClient,
-        wallet: walletClient ? walletClient : undefined,
-      } as any,
+        wallet: walletClient || undefined,
+      },
     });
   }
 

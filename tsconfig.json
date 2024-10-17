@@ -47,10 +47,8 @@
     "strictPropertyInitialization": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "exactOptionalPropertyTypes": true,
-    "noImplicitOverride": true,
-    // "verbatimModuleSyntax": true,
-    // "allowImportingTsExtensions": true
+    "exactOptionalPropertyTypes": false,
+    "noImplicitOverride": true
   },
   "include": [
     "next-env.d.ts",

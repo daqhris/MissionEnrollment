@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { BrowserProvider, FallbackProvider, JsonRpcProvider, JsonRpcSigner } from "ethers";
-import type { Eip1193Provider, Provider, Networkish } from "ethers";
+import { JsonRpcProvider, FallbackProvider, BrowserProvider, Signer } from 'ethers/lib.commonjs';
 import type { HttpTransport, PublicClient, WalletClient } from "viem";
 import { usePublicClient, useWalletClient } from "wagmi";
 
-export function publicClientToProvider(publicClient: PublicClient): Provider {
+export function publicClientToProvider(publicClient: PublicClient): JsonRpcProvider | FallbackProvider {
   const { chain, transport } = publicClient;
 
   if (!chain) {
@@ -17,16 +16,16 @@ export function publicClientToProvider(publicClient: PublicClient): Provider {
     ensAddress: chain.contracts?.ensRegistry?.address,
   };
   if (transport.type === "fallback") {
-    const providers = (transport.transports as ReturnType<HttpTransport>[]).map(
-      ({ value }) => new JsonRpcProvider(value?.url, network as Networkish),
+    const providerList = (transport.transports as ReturnType<HttpTransport>[]).map(
+      ({ value }) => new JsonRpcProvider(value?.url || "")
     );
-    if (providers.length === 1) return providers[0] as Provider;
-    return new FallbackProvider(providers);
+    if (providerList.length === 1) return providerList[0] as JsonRpcProvider;
+    return new FallbackProvider(providerList);
   }
-  return new JsonRpcProvider(transport.url, network as Networkish);
+  return new JsonRpcProvider(transport.url);
 }
 
-export async function walletClientToSigner(walletClient: WalletClient): Promise<JsonRpcSigner> {
+export async function walletClientToSigner(walletClient: WalletClient): Promise<Signer> {
   const { account, chain, transport } = walletClient;
 
   if (!chain) throw new Error("Chain not found");
@@ -37,13 +36,13 @@ export async function walletClientToSigner(walletClient: WalletClient): Promise<
     name: chain.name,
     ensAddress: chain.contracts?.ensRegistry?.address,
   };
-  const provider = new BrowserProvider(transport, network as Networkish);
-  return provider.getSigner(account.address);
+  const provider = new BrowserProvider(transport as any);
+  return provider.getSigner();
 }
 
-export function useSigner(): JsonRpcSigner | undefined {
+export function useSigner(): Signer | undefined {
   const { data: walletClient } = useWalletClient();
-  const [signer, setSigner] = useState<JsonRpcSigner | undefined>(undefined);
+  const [signer, setSigner] = useState<Signer | undefined>(undefined);
 
   const getSigner = useCallback(async () => {
     if (!walletClient) {
@@ -67,9 +66,9 @@ export function useSigner(): JsonRpcSigner | undefined {
   return signer;
 }
 
-export function useProvider(): Provider | undefined {
+export function useProvider(): JsonRpcProvider | FallbackProvider | undefined {
   const publicClient = usePublicClient();
-  const [provider, setProvider] = useState<Provider | undefined>(undefined);
+  const [provider, setProvider] = useState<JsonRpcProvider | FallbackProvider | undefined>(undefined);
 
   const getProvider = useCallback(() => {
     if (!publicClient) return;

@@ -22,7 +22,7 @@ import type {
   WriteContractParameters
 } from "viem";
 import { useContractRead } from "wagmi";
-import type { UseReadContractParameters, UseWatchContractEventParameters } from 'wagmi';
+import type { UseContractReadConfig, UseContractEventConfig } from 'wagmi';
 import deployedContractsData from "~~/contracts/deployedContracts";
 import externalContractsData from "~~/contracts/externalContracts";
 import scaffoldConfig from "~~/scaffold.config";
@@ -197,6 +197,7 @@ type WriteVariables = WriteContractParameters;
 export type TransactorFuncOptions = {
   onBlockConfirmation?: (txnReceipt: TransactionReceipt) => void;
   blockConfirmations?: number;
+  onSuccess?: (txnResponse: SendTransactionResult) => void;
 };
 
 export type ScaffoldWriteContractOptions = MutateOptions<

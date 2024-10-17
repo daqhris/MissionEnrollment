@@ -17,16 +17,12 @@ const wallets = [metaMaskWallet, walletConnectWallet, ledgerWallet, coinbaseWall
 /**
  * wagmi connectors for the wagmi context
  */
-export const wagmiConnectors = connectorsForWallets(
-  [
-    {
-      groupName: "Supported Wallets",
-      wallets,
-    },
-  ],
-
+export const wagmiConnectors = connectorsForWallets([
   {
-    appName: "scaffold-eth-2",
-    projectId: walletConnectProjectId || "YOUR_WALLET_CONNECT_PROJECT_ID",
+    groupName: "Supported Wallets",
+    wallets: wallets.map((wallet) => wallet({
+      chains: [...targetNetworks],
+      projectId: walletConnectProjectId || "YOUR_WALLET_CONNECT_PROJECT_ID",
+    })),
   },
-);
+]);
