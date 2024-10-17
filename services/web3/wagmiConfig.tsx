@@ -1,31 +1,18 @@
-import { wagmiConnectors } from "./wagmiConnectors";
-import { createClient, http } from "viem";
-import type { Chain } from "viem";
-import { hardhat, mainnet } from "viem/chains";
-import { createConfig } from "wagmi";
+import '@rainbow-me/rainbowkit/styles.css';
+import { getDefaultConfig } from '@rainbow-me/rainbowkit';
+import { http } from 'viem';
+import { baseSepolia, optimismSepolia } from 'viem/chains';
 import scaffoldConfig from "~~/scaffold.config";
-import { getAlchemyHttpUrl } from "~~/utils/scaffold-eth";
 
-const { targetNetworks } = scaffoldConfig;
+const { walletConnectProjectId, alchemyApiKey } = scaffoldConfig;
 
-// We always want to have mainnet enabled (ENS resolution, ETH price, etc). But only once.
-export const enabledChains = targetNetworks.find((network: Chain) => network.id === 1)
-  ? targetNetworks
-  : ([...targetNetworks, mainnet] as const);
-
-export const wagmiConfig = createConfig({
-  chains: enabledChains,
-  connectors: wagmiConnectors,
-  ssr: true,
-  client({ chain }) {
-    return createClient({
-      chain,
-      transport: http(getAlchemyHttpUrl(chain.id)),
-      ...(chain.id !== (hardhat as Chain).id
-        ? {
-            pollingInterval: scaffoldConfig.pollingInterval,
-          }
-        : {}),
-    });
+export const wagmiConfig = getDefaultConfig({
+  appName: 'MissionEnrollment',
+  projectId: walletConnectProjectId,
+  chains: [baseSepolia, optimismSepolia],
+  transports: {
+    [baseSepolia.id]: http(`https://base-sepolia.g.alchemy.com/v2/${alchemyApiKey}`),
+    [optimismSepolia.id]: http(`https://opt-sepolia.g.alchemy.com/v2/${alchemyApiKey}`),
   },
+  ssr: true,
 });

@@ -45,7 +45,6 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider
-          chains={wagmiConfig.chains}
           avatar={BlockieAvatar as AvatarComponent}
           theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
         >

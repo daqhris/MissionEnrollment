@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { useAccount, useWalletClient, useChainId } from 'wagmi';
 import { WalletClient, TypedDataDomain, SignableMessage } from 'viem';
-import { TransactionReceipt, TransactionRequest } from '@ethersproject/providers';
+import { TransactionRequest } from '@ethersproject/providers';
 import { OnchainAttestationProps, CustomSigner, EAS_CONTRACT_ADDRESS } from '../types';
 
 const OnchainAttestation: React.FC<OnchainAttestationProps> = ({ onAttestationComplete, poaps }) => {

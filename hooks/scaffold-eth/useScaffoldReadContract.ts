@@ -5,7 +5,6 @@ import type { QueryObserverResult, RefetchOptions, UseQueryResult } from "@tanst
 import type { ExtractAbiFunctionNames } from "abitype";
 import type { ReadContractErrorType } from "viem";
 import { useBlockNumber, useContractRead } from "wagmi";
-import type { UseContractReadConfig } from "wagmi";
 import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
 import type {
   AbiFunctionReturnType,
@@ -46,25 +45,23 @@ export const useScaffoldReadContract = <
     ...readContractConfig,
     enabled: !Array.isArray(args) || !args.some(arg => arg === undefined),
     ...queryOptions,
-  } as UseContractReadConfig);
+  });
 
   const queryClient = useQueryClient();
   const { data: blockNumber } = useBlockNumber({
     watch: defaultWatch,
     chainId: targetNetwork.id,
-    enabled: defaultWatch,
   });
 
   useEffect(() => {
     if (defaultWatch) {
-      queryClient.invalidateQueries({ queryKey: (readContractHookRes as any).queryKey });
+      queryClient.invalidateQueries({ queryKey: readContractHookRes.queryKey });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blockNumber]);
+  }, [blockNumber, defaultWatch, queryClient, readContractHookRes.queryKey]);
 
   return {
     ...readContractHookRes,
     data: readContractHookRes.data as AbiFunctionReturnType<ContractAbi<TContractName>, TFunctionName> | undefined,
-    refetch: readContractHookRes.refetch,
-  } as unknown as UseQueryResult<AbiFunctionReturnType<ContractAbi<TContractName>, TFunctionName>, Error>;
+    refetch: readContractHookRes.refetch as (options?: RefetchOptions | undefined) => Promise<QueryObserverResult<AbiFunctionReturnType<ContractAbi<TContractName>, TFunctionName>, Error>>,
+  } as UseQueryResult<AbiFunctionReturnType<ContractAbi<TContractName>, TFunctionName>, Error>;
 };

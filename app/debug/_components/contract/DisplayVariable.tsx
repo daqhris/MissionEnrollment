@@ -6,10 +6,9 @@ import { displayTxResult } from "./utilsDisplay";
 import type { DisplayContent } from "./utilsDisplay";
 import type { Abi, AbiFunction } from "abitype";
 import type { Address } from "viem";
-import { useReadContract } from "wagmi";
+import { useContractRead } from "wagmi";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useAnimationConfig } from "~~/hooks/scaffold-eth";
-import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { getParsedError, notification } from "~~/utils/scaffold-eth";
 
 type DisplayVariableProps = {
@@ -27,21 +26,19 @@ export const DisplayVariable = ({
   abi,
   inheritedFrom,
 }: DisplayVariableProps): JSX.Element => {
-  const { targetNetwork } = useTargetNetwork();
+  // Removed unused variable
 
-  const {
-    data: result,
-    isFetching,
-    refetch,
-    error,
-  } = useReadContract({
+  const result = useContractRead({
     address: contractAddress,
-    functionName: abiFunction.name,
     abi: abi,
-    chainId: targetNetwork.id,
+    functionName: abiFunction.name,
   });
 
-  const { showAnimation } = useAnimationConfig(result);
+  const { data, isLoading: isFetching, refetch } = result;
+
+  const error = result.error;
+
+  const { showAnimation } = useAnimationConfig(data);
 
   useEffect((): void => {
     refetch();
@@ -74,7 +71,7 @@ export const DisplayVariable = ({
               showAnimation ? "bg-warning rounded-sm animate-pulse-fast" : ""
             }`}
           >
-            {displayTxResult(result as DisplayContent | DisplayContent[])}
+            {displayTxResult(data as DisplayContent | DisplayContent[])}
           </div>
         </div>
       </div>

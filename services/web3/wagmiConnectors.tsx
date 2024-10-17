@@ -1,28 +1,36 @@
-import { connectorsForWallets } from "@rainbow-me/rainbowkit";
+import { connectorsForWallets } from '@rainbow-me/rainbowkit';
 import {
-  coinbaseWallet,
-  ledgerWallet,
-  metaMaskWallet,
+  injectedWallet,
   rainbowWallet,
-  safeWallet,
+  metaMaskWallet,
+  coinbaseWallet,
   walletConnectWallet,
-} from "@rainbow-me/rainbowkit/wallets";
-import * as chains from "viem/chains";
+} from '@rainbow-me/rainbowkit/wallets';
+import { baseSepolia, optimismSepolia } from 'viem/chains';
 import scaffoldConfig from "~~/scaffold.config";
 
-const { targetNetworks, walletConnectProjectId } = scaffoldConfig;
+const { walletConnectProjectId } = scaffoldConfig;
 
-const wallets = [metaMaskWallet, walletConnectWallet, ledgerWallet, coinbaseWallet, rainbowWallet, safeWallet];
-
-/**
- * wagmi connectors for the wagmi context
- */
-export const wagmiConnectors = connectorsForWallets([
+export const connectors = connectorsForWallets(
+  [
+    {
+      groupName: 'Recommended',
+      wallets: [
+        injectedWallet,
+        rainbowWallet,
+        metaMaskWallet,
+      ],
+    },
+    {
+      groupName: 'Other',
+      wallets: [
+        coinbaseWallet,
+        walletConnectWallet,
+      ],
+    },
+  ],
   {
-    groupName: "Supported Wallets",
-    wallets: wallets.map((wallet) => wallet({
-      chains: [...targetNetworks],
-      projectId: walletConnectProjectId || "YOUR_WALLET_CONNECT_PROJECT_ID",
-    })),
-  },
-]);
+    appName: 'MissionEnrollment',
+    projectId: walletConnectProjectId,
+  }
+);
