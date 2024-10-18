@@ -1,8 +1,7 @@
 import { useTargetNetwork } from "./useTargetNetwork";
-import { getContract } from "viem";
-import type { Account, Address, Chain, Client, Transport } from "viem";
-import { usePublicClient } from "wagmi";
-import type { GetWalletClientReturnType } from "wagmi/actions";
+import { getContract, PublicClient, WalletClient } from "viem";
+import type { Address, Chain } from "viem";
+import { usePublicClient, useWalletClient } from "wagmi";
 import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
 import type { Contract, ContractName } from "~~/utils/scaffold-eth/contract";
 
@@ -15,27 +14,23 @@ import type { Contract, ContractName } from "~~/utils/scaffold-eth/contract";
  */
 export const useScaffoldContract = <
   TContractName extends ContractName,
-  TWalletClient extends Exclude<GetWalletClientReturnType, null> | undefined,
 >({
   contractName,
-  walletClient,
 }: {
   contractName: TContractName;
-  walletClient?: TWalletClient | null;
 }) => {
   const { data: deployedContractData, isLoading: deployedContractLoading } = useDeployedContractInfo(contractName);
   const { targetNetwork } = useTargetNetwork();
-  const publicClient = usePublicClient({ chainId: targetNetwork.id });
+  const publicClient = usePublicClient({ chainId: targetNetwork.id }) as PublicClient;
+  const { data: walletClient } = useWalletClient({ chainId: targetNetwork.id });
 
   let contract: ReturnType<typeof getContract> | undefined = undefined;
   if (deployedContractData && publicClient) {
     contract = getContract({
-      address: deployedContractData.address,
+      address: deployedContractData.address as Address,
       abi: deployedContractData.abi as Contract<TContractName>["abi"],
-      client: {
-        public: publicClient,
-        wallet: walletClient || undefined,
-      },
+      publicClient,
+      walletClient: walletClient as WalletClient,
     });
   }
 

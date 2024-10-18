@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useTargetNetwork } from "./useTargetNetwork";
 import { useQueryClient } from "@tanstack/react-query";
-import type { QueryObserverResult, RefetchOptions, UseQueryResult } from "@tanstack/react-query";
+import type { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import type { ExtractAbiFunctionNames } from "abitype";
 import type { ReadContractErrorType } from "viem";
 import { useBlockNumber, useContractRead } from "wagmi";
@@ -13,14 +13,6 @@ import type {
   UseScaffoldReadConfig,
 } from "~~/utils/scaffold-eth/contract";
 
-/**
- * Wrapper around wagmi's useContractRead hook which automatically loads (by name) the contract ABI and address from
- * the contracts present in deployedContracts.ts & externalContracts.ts corresponding to targetNetworks configured in scaffold.config.ts
- * @param config - The config settings, including extra wagmi configuration
- * @param config.contractName - deployed contract name
- * @param config.functionName - name of the function to be called
- * @param config.args - args to be passed to the function call
- */
 export const useScaffoldReadContract = <
   TContractName extends ContractName,
   TFunctionName extends ExtractAbiFunctionNames<ContractAbi<TContractName>, "pure" | "view">,
@@ -29,10 +21,10 @@ export const useScaffoldReadContract = <
   functionName,
   args,
   ...readConfig
-}: UseScaffoldReadConfig<TContractName, TFunctionName>): UseQueryResult<AbiFunctionReturnType<ContractAbi<TContractName>, TFunctionName>, Error> => {
+}: UseScaffoldReadConfig<TContractName, TFunctionName>) => {
   const { data: deployedContract } = useDeployedContractInfo(contractName);
   const { targetNetwork } = useTargetNetwork();
-  const { query: queryOptions, watch, ...readContractConfig } = readConfig;
+  const { watch, ...readContractConfig } = readConfig;
   // set watch to true by default
   const defaultWatch = watch ?? true;
 
@@ -44,7 +36,6 @@ export const useScaffoldReadContract = <
     args: args as readonly unknown[],
     ...readContractConfig,
     enabled: !Array.isArray(args) || !args.some(arg => arg === undefined),
-    ...queryOptions,
   });
 
   const queryClient = useQueryClient();
@@ -55,13 +46,13 @@ export const useScaffoldReadContract = <
 
   useEffect(() => {
     if (defaultWatch) {
-      queryClient.invalidateQueries({ queryKey: readContractHookRes.queryKey });
+      queryClient.invalidateQueries();
     }
-  }, [blockNumber, defaultWatch, queryClient, readContractHookRes.queryKey]);
+  }, [blockNumber, defaultWatch, queryClient]);
 
   return {
     ...readContractHookRes,
     data: readContractHookRes.data as AbiFunctionReturnType<ContractAbi<TContractName>, TFunctionName> | undefined,
-    refetch: readContractHookRes.refetch as (options?: RefetchOptions | undefined) => Promise<QueryObserverResult<AbiFunctionReturnType<ContractAbi<TContractName>, TFunctionName>, Error>>,
-  } as UseQueryResult<AbiFunctionReturnType<ContractAbi<TContractName>, TFunctionName>, Error>;
+    refetch: readContractHookRes.refetch as unknown as (options?: RefetchOptions | undefined) => Promise<QueryObserverResult<AbiFunctionReturnType<ContractAbi<TContractName>, TFunctionName>, ReadContractErrorType>>,
+  };
 };

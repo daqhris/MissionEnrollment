@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useTargetNetwork } from "./useTargetNetwork";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import type { Abi, AbiEvent, ExtractAbiEventNames } from "abitype";
-import type { BlockNumber, GetLogsParameters, Log } from "viem";
+import type { BlockNumber, GetLogsParameters, Log, PublicClient } from "viem";
 import { useBlockNumber, usePublicClient } from "wagmi";
-import type { Config, UsePublicClientReturnType } from "wagmi";
+import type { Config } from "wagmi";
 import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
 import type {
   ContractAbi,
@@ -17,7 +17,7 @@ import type {
 
 const getEvents = async (
   getLogsParams: GetLogsParameters<AbiEvent | undefined, AbiEvent[] | undefined, boolean, BlockNumber, BlockNumber>,
-  publicClient?: UsePublicClientReturnType<Config, number>,
+  publicClient?: PublicClient,
   Options?: {
     blockData?: boolean;
     transactionData?: boolean;
@@ -149,7 +149,7 @@ export const useScaffoldEventHistory = <
       };
       const data = await getEvents(
         { address: deployedContractData?.address, event, fromBlock: pageParam, args: filters },
-        publicClient,
+        publicClient as PublicClient,
         options as { blockData?: boolean; transactionData?: boolean; receiptData?: boolean },
       );
 

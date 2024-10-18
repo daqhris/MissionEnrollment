@@ -44,17 +44,13 @@ export const Address = ({ address, disableAddressLink, format, size = "base" }: 
   const { data: fetchedEns } = useEnsName({
     address: checkSumAddress,
     chainId: 1,
-    query: {
-      enabled: isAddress(checkSumAddress ?? ""),
-    },
+    enabled: isAddress(checkSumAddress ?? ""),
   });
   const { data: fetchedEnsAvatar } = useEnsAvatar({
     name: fetchedEns ? normalize(fetchedEns) : undefined,
     chainId: 1,
-    query: {
-      enabled: Boolean(fetchedEns),
-      gcTime: 30_000,
-    },
+    enabled: Boolean(fetchedEns),
+    cacheTime: 30_000,
   });
 
   // We need to apply this pattern to avoid Hydration errors.

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { OnchainAttestationProps } from '../types';
 
-const OnchainAttestation: React.FC<OnchainAttestationProps> = ({ onAttestationComplete, poaps }) => {
+const OnchainAttestation: React.FC<OnchainAttestationProps> = ({ onAttestationComplete }) => {
   const [attestationStatus, setAttestationStatus] = useState<string | null>(null);
 
   const handleAttestation = async (): Promise<void> => {
