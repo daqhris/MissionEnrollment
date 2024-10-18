@@ -4,7 +4,7 @@ import React from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { Tuple } from "./Tuple";
 import { TupleArray } from "./TupleArray";
-import type { AbiParameter } from "viem";
+import type { AbiParameter } from "abitype";
 import {
   AddressInput,
   Bytes32Input,

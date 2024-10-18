@@ -6,7 +6,7 @@ interface IdentityVerificationProps {
   onVerified: (address: string, name: string) => void;
 }
 
-const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified }) => {
+const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified }): React.ReactElement => {
   console.log('IdentityVerification component rendered');
 
   const [username, setUsername] = useState<string>('');
@@ -25,7 +25,7 @@ const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified 
     }
   }, [isConnected, address]);
 
-  const handleConnect = async () => {
+  const handleConnect = async (): Promise<void> => {
     console.log('Attempting to connect wallet');
     try {
       await connect();
@@ -36,7 +36,7 @@ const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified 
     }
   };
 
-  const handleDisconnect = async () => {
+  const handleDisconnect = async (): Promise<void> => {
     console.log('Disconnecting wallet');
     try {
       await disconnect();
@@ -47,7 +47,7 @@ const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified 
     }
   };
 
-  const handleVerify = () => {
+  const handleVerify = (): void => {
     console.log('Verifying identity. Address:', address, 'Username:', username);
     if (isConnected && address) {
       onVerified(address, username);
