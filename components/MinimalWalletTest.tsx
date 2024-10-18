@@ -2,34 +2,26 @@ import React from 'react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { InjectedConnector } from '@wagmi/core/connectors/injected';
 
-const MinimalWalletConnect: React.FC = (): React.ReactElement => {
+const MinimalWalletTest: React.FC = () => {
   const { address, isConnected } = useAccount();
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   });
   const { disconnect } = useDisconnect();
 
-  const handleConnect = async (): Promise<void> => {
-    try {
-      await connect();
-    } catch (err) {
-      console.error('Failed to connect wallet:', err);
-    }
-  };
-
   return (
     <div>
-      <h2>Minimal Wallet Connect</h2>
+      <h1>Minimal Wallet Test</h1>
       {isConnected ? (
         <>
-          <p>Connected Account: {address}</p>
+          <p>Connected to {address}</p>
           <button onClick={() => disconnect()}>Disconnect</button>
         </>
       ) : (
-        <button onClick={handleConnect}>Connect Wallet</button>
+        <button onClick={() => connect()}>Connect Wallet</button>
       )}
     </div>
   );
 };
 
-export default MinimalWalletConnect;
+export default MinimalWalletTest;
