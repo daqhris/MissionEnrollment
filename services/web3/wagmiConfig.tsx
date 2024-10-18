@@ -2,8 +2,8 @@ import '@rainbow-me/rainbowkit/styles.css';
 import { connectorsForWallets } from '@rainbow-me/rainbowkit';
 import { metaMaskWallet, coinbaseWallet, walletConnectWallet } from '@rainbow-me/rainbowkit/wallets';
 import { configureChains, createConfig } from 'wagmi';
-import { publicProvider } from 'wagmi/providers/public';
-import { baseSepolia, optimismSepolia } from 'wagmi/chains';
+import { publicProvider } from '@wagmi/core/providers/public';
+import { baseSepolia, optimismSepolia } from '@wagmi/core/chains';
 import scaffoldConfig from "~~/scaffold.config";
 
 const { walletConnectProjectId, alchemyApiKey } = scaffoldConfig;

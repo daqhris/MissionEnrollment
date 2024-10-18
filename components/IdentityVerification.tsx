@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
-import { InjectedConnector } from 'wagmi/connectors/injected';
+import { InjectedConnector } from '@wagmi/core/connectors/injected';
 
 interface IdentityVerificationProps {
   onVerified: (address: string, name: string) => void;
