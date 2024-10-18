@@ -24,6 +24,6 @@ const scaffoldConfig = {
 
   // Alchemy API Key
   alchemyApiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY || "YOUR_ALCHEMY_API_KEY",
-} as const satisfies ScaffoldConfig;
+} as const;
 
 export default scaffoldConfig;

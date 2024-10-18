@@ -33,7 +33,7 @@ module.exports = {
     "^@/(.*)$": "<rootDir>/src/$1",
   },
   preset: "ts-jest",
-  transformIgnorePatterns: ["/node_modules/(?!(wagmi|@wagmi|@tanstack|viem|@viem))"],
+  transformIgnorePatterns: ["/node_modules/(?!(wagmi|@wagmi|@tanstack|viem|@viem|alchemy-sdk))"],
   extensionsToTreatAsEsm: [".ts", ".tsx"],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   moduleFileExtensions: ["js", "jsx", "ts", "tsx", "json", "node"],
@@ -45,6 +45,7 @@ module.exports = {
     'ts-jest': {
       tsconfig: 'tsconfig.jest.json',
       jsx: 'react-jsx',
+      useESM: true,
     },
   },
   testEnvironment: 'jsdom',

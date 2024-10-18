@@ -1,11 +1,11 @@
 import React from 'react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
-import { InjectedConnector } from '@wagmi/core/connectors/injected';
+import { InjectedConnector } from 'wagmi/connectors/injected';
 
 const MinimalWalletConnect: React.FC = (): React.ReactElement => {
   const { address, isConnected } = useAccount();
   const { connect } = useConnect({
-    connector: new InjectedConnector(),
+    connector: new InjectedConnector()
   });
   const { disconnect } = useDisconnect();
 

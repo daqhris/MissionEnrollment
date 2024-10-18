@@ -9,8 +9,8 @@ import type {
   ExtractAbiFunction,
   ExtractAbiFunctionNames
 } from "abitype";
-import type { Simplify } from "type-fest";
-import type { MergeDeepRecord } from "type-fest/source/merge-deep";
+import type { Simplify, MergeDeep } from "type-fest";
+type MergeDeepRecord<T, U, V> = MergeDeep<T, U>;
 import type {
   Address,
   Block,

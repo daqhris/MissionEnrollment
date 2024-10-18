@@ -140,7 +140,7 @@ export const useScaffoldEventHistory = <
         chainId: targetNetwork.id,
       },
     ],
-    queryFn: async ({ pageParam }) => {
+    queryFn: async ({ pageParam = fromBlock }) => {
       if (!isContractAddressAndClientReady) return undefined;
       const options = {
         blockData: blockData ? true : undefined,
@@ -156,9 +156,8 @@ export const useScaffoldEventHistory = <
       return data;
     },
     enabled: enabled && isContractAddressAndClientReady,
-    initialPageParam: fromBlock,
-    getNextPageParam: () => {
-      return blockNumber;
+    getNextPageParam: (lastPage, pages) => {
+      return lastPage && lastPage.length > 0 ? blockNumber : undefined;
     },
     select: data => {
       const events = data.pages.flat();

@@ -4,19 +4,34 @@ import "../styles/globals.css";
 import { WagmiConfig } from 'wagmi';
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { wagmiConfig, chains } from '../services/web3/wagmiConfig';
-import { ApolloProvider } from "@apollo/client";
-import { apolloClient } from "../services/apollo/apolloClient";
+import { ApolloProvider } from '@apollo/client';
+import { apolloClient } from '../services/apollo/apolloClient';
 
 function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
-  return (
-    <ApolloProvider client={apolloClient}>
+  console.log("Rendering MyApp component");
+
+  React.useEffect(() => {
+    console.log("MyApp component mounted");
+    return () => console.log("MyApp component unmounted");
+  }, []);
+
+  try {
+    console.log("Initializing WagmiConfig");
+    const wagmiConfigComponent = (
       <WagmiConfig config={wagmiConfig}>
         <RainbowKitProvider chains={chains}>
-          <Component {...pageProps} />
+          <ApolloProvider client={apolloClient}>
+            <Component {...pageProps} />
+          </ApolloProvider>
         </RainbowKitProvider>
       </WagmiConfig>
-    </ApolloProvider>
-  );
+    );
+    console.log("WagmiConfig initialized successfully");
+    return wagmiConfigComponent;
+  } catch (error) {
+    console.error("Error in MyApp component:", error);
+    return <div>An error occurred. Please check the console for more details.</div>;
+  }
 }
 
 export default MyApp;

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useConnect, useDisconnect, useAccount } from 'wagmi';
-import { InjectedConnector } from '@wagmi/core/connectors/injected';
+import { InjectedConnector } from 'wagmi/connectors/injected';
 
 const WalletConnectTest: React.FC = () => {
   const { address, isConnected } = useAccount();
   const { connect } = useConnect({
-    connector: new InjectedConnector(),
+    connector: new InjectedConnector()
   });
   const { disconnect } = useDisconnect();
   const [error, setError] = useState<string | null>(null);

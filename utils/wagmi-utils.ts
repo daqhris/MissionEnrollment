@@ -3,6 +3,9 @@ import { ethers } from 'ethers';
 import type { HttpTransport, PublicClient, WalletClient } from "viem";
 import { usePublicClient, useWalletClient } from "wagmi";
 
+// Add these type imports
+import type { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
+
 export function publicClientToProvider(publicClient: PublicClient): ethers.providers.JsonRpcProvider {
   const { chain, transport } = publicClient;
 
@@ -19,13 +22,13 @@ export function publicClientToProvider(publicClient: PublicClient): ethers.provi
     const providerList = (transport.transports as ReturnType<HttpTransport>[]).map(
       ({ value }) => new ethers.providers.JsonRpcProvider(value?.url || "")
     );
-    if (providerList.length === 1) return providerList[0];
+    if (providerList.length === 1) return providerList[0] as ethers.providers.JsonRpcProvider;
     return new ethers.providers.JsonRpcProvider(transport.url);
   }
   return new ethers.providers.JsonRpcProvider(transport.url);
 }
 
-export async function walletClientToSigner(walletClient: WalletClient): Promise<ethers.Signer> {
+export async function walletClientToSigner(walletClient: WalletClient): Promise<JsonRpcSigner> {
   const { account, chain, transport } = walletClient;
 
   if (!chain) throw new Error("Chain not found");
@@ -36,13 +39,13 @@ export async function walletClientToSigner(walletClient: WalletClient): Promise<
     name: chain.name,
     ensAddress: chain.contracts?.ensRegistry?.address,
   };
-  const provider = new ethers.providers.Web3Provider(transport as any);
+  const provider = new ethers.providers.Web3Provider(transport as any) as Web3Provider;
   return provider.getSigner(account.address);
 }
 
-export function useSigner(): ethers.Signer | undefined {
+export function useSigner(): JsonRpcSigner | undefined {
   const { data: walletClient } = useWalletClient();
-  const [signer, setSigner] = useState<ethers.Signer | undefined>(undefined);
+  const [signer, setSigner] = useState<JsonRpcSigner | undefined>(undefined);
 
   const getSigner = useCallback(async () => {
     if (!walletClient) {
@@ -51,7 +54,7 @@ export function useSigner(): ethers.Signer | undefined {
     }
 
     try {
-      const newSigner = await walletClientToSigner(walletClient);
+      const newSigner = await walletClientToSigner(walletClient as WalletClient);
       setSigner(newSigner);
     } catch (error) {
       console.error("Error getting signer:", error);
@@ -73,7 +76,7 @@ export function useProvider(): ethers.providers.JsonRpcProvider | undefined {
   const getProvider = useCallback(() => {
     if (!publicClient) return;
 
-    const tmpProvider = publicClientToProvider(publicClient);
+    const tmpProvider = publicClientToProvider(publicClient as PublicClient);
     setProvider(tmpProvider);
   }, [publicClient]);
 

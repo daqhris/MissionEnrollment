@@ -1,10 +1,10 @@
 import React from 'react';
 import { useConnect, useAccount, useDisconnect } from 'wagmi';
-import { InjectedConnector } from '@wagmi/core/connectors/injected';
+import { InjectedConnector } from 'wagmi/connectors/injected';
 
 const MinimalWagmiTest: React.FC = () => {
   const { connect } = useConnect({
-    connector: new InjectedConnector(),
+    connector: new InjectedConnector()
   });
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
