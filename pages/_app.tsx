@@ -17,6 +17,10 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
 
   try {
     console.log("Initializing WagmiConfig");
+    console.log("wagmiConfig:", JSON.stringify(wagmiConfig, null, 2));
+    console.log("chains:", JSON.stringify(chains, null, 2));
+    console.log("apolloClient:", apolloClient);
+
     const wagmiConfigComponent = (
       <WagmiConfig config={wagmiConfig}>
         <RainbowKitProvider chains={chains}>

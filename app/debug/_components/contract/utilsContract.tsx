@@ -1,4 +1,4 @@
-import type { AbiFunction, AbiParameter } from "viem";
+import type { AbiFunction, AbiParameter } from "abitype";
 import type { AbiParameterTuple } from "~~/utils/scaffold-eth/contract";
 
 /**

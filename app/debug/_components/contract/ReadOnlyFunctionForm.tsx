@@ -44,7 +44,7 @@ export const ReadOnlyFunctionForm: React.FC<ReadOnlyFunctionFormProps> = ({
   const [result, setResult] = useState<unknown>();
   const { targetNetwork } = useTargetNetwork();
 
-  const { data, isFetching, refetch, error } = useContractRead({
+  const { isFetching, refetch, error } = useContractRead({
     address: contractAddress,
     abi,
     functionName,

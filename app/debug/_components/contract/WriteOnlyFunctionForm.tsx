@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import type { SetStateAction } from "react";
 import ContractInput from "./ContractInput";
 import { InheritanceTooltip } from "./InheritanceTooltip";
-import type { Abi, AbiFunction } from "abitype";
+import type { Abi, AbiFunction, AbiParameter } from "abitype";
 import type { Address, TransactionReceipt } from "viem";
-import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import { useAccount, useWaitForTransaction, useContractWrite } from "wagmi";
 import {
   TxReceipt,
   getFunctionInputKey,
@@ -37,25 +37,28 @@ export const WriteOnlyFunctionForm = ({
 }: WriteOnlyFunctionFormProps): JSX.Element => {
   const [form, setForm] = useState<FormState>(() => getInitialFormState(abiFunction));
   const [txValue, setTxValue] = useState<string | bigint>("");
-  const { chain } = useAccount();
+  const { isConnected } = useAccount();
   const writeTxn = useTransactor();
-  const { targetNetwork } = useTargetNetwork();
-  const writeDisabled = !chain || chain?.id !== targetNetwork.id;
+  useTargetNetwork(); // Remove the destructuring to avoid unused variable
+  const writeDisabled = !isConnected;
 
-  const { data: result, isPending, writeContractAsync } = useWriteContract();
+  const { data: writeData, isLoading, writeAsync } = useContractWrite({
+    address: contractAddress,
+    abi: abi,
+    functionName: abiFunction.name,
+  });
 
   const handleWrite = async (): Promise<void> => {
-    if (writeContractAsync) {
+    if (writeAsync) {
       try {
-        const makeWriteWithParams = (): ReturnType<typeof writeContractAsync> =>
-          writeContractAsync({
-            address: contractAddress,
-            functionName: abiFunction.name,
-            abi: abi,
-            args: getParsedContractFunctionArgs(form),
-            value: BigInt(txValue),
-          });
-        await writeTxn(makeWriteWithParams);
+        const txConfig = {
+          args: getParsedContractFunctionArgs(form),
+          value: BigInt(txValue),
+        };
+        await writeTxn(async () => {
+          const writeResult = await writeAsync(txConfig);
+          return writeResult.hash;
+        });
         onChange();
       } catch (e) {
         console.error("⚡️ ~ file: WriteOnlyFunctionForm.tsx:handleWrite ~ error", e);
@@ -64,8 +67,8 @@ export const WriteOnlyFunctionForm = ({
   };
 
   const [displayedTxResult, setDisplayedTxResult] = useState<TransactionReceipt | undefined>();
-  const { data: txResult } = useWaitForTransactionReceipt({
-    hash: result,
+  const { data: txResult } = useWaitForTransaction({
+    hash: writeData?.hash,
   });
   useEffect((): void => {
     setDisplayedTxResult(txResult);
@@ -73,7 +76,7 @@ export const WriteOnlyFunctionForm = ({
 
   // TODO use `useMemo` to optimize also update in ReadOnlyFunctionForm
   const transformedFunction = transformAbiFunction(abiFunction);
-  const inputs = transformedFunction.inputs.map((input, inputIndex) => {
+  const inputs = transformedFunction.inputs.map((input: AbiParameter, inputIndex: number) => {
     const key = getFunctionInputKey(abiFunction.name, input, inputIndex);
     return (
       <ContractInput
@@ -132,12 +135,10 @@ export const WriteOnlyFunctionForm = ({
           >
             <button
               className="btn btn-secondary btn-sm"
-              disabled={writeDisabled || isPending}
-              onClick={async (): Promise<void> => {
-                await handleWrite();
-              }}
+              disabled={writeDisabled || isLoading}
+              onClick={handleWrite}
             >
-              {isPending && <span className="loading loading-spinner loading-xs"></span>}
+              {isLoading && <span className="loading loading-spinner loading-xs"></span>}
               Send 💸
             </button>
           </div>
