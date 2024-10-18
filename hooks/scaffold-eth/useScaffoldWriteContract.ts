@@ -1,5 +1,5 @@
 import { useCallback, useState, useEffect } from "react";
-import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { useContractWrite, useWaitForTransaction, UseContractWriteConfig } from "wagmi";
 import { parseEther, type TransactionReceipt } from "viem";
 import { useTargetNetwork } from "./useTargetNetwork";
 import { useDeployedContractInfo } from "./useDeployedContractInfo";
@@ -34,22 +34,28 @@ export const useScaffoldWriteContract = <
   const [isMining, setIsMining] = useState(false);
 
   const {
-    writeContract,
+    writeAsync: writeContract,
     data: writeData,
     error,
-    isPending,
+    isLoading: isPending,
     isError,
     isSuccess,
     status,
     reset,
-  } = useWriteContract();
+  } = useContractWrite({
+    ...(deployedContractData && {
+      address: deployedContractData.address,
+      abi: deployedContractData.abi,
+    }),
+    functionName,
+  } as UseContractWriteConfig);
 
   const {
     data: receipt,
     isLoading: isWaitLoading,
     isSuccess: isWaitSuccess,
-  } = useWaitForTransactionReceipt({
-    hash: writeData,
+  } = useWaitForTransaction({
+    hash: writeData?.hash,
     confirmations: blockConfirmations,
   });
 
@@ -61,24 +67,20 @@ export const useScaffoldWriteContract = <
       }
       try {
         setIsMining(true);
-        await writeContract({
-          address: deployedContractData.address,
-          abi: deployedContractData.abi,
-          functionName,
-          args,
-          value: value ? parseEther(value) : undefined,
+        const tx = await writeContract({
+          args: writeOptions?.args || args,
+          value: writeOptions?.value ? parseEther(writeOptions.value) : value ? parseEther(value) : undefined,
         });
-        // We don't return anything here as the transaction hash will be available in writeData
+        return tx;
       } catch (e) {
         console.error("Failed to write contract", e);
         setIsMining(false);
         throw e;
       }
     },
-    [writeContract, deployedContractData, functionName, args, value]
+    [writeContract, deployedContractData, args, value]
   );
 
-  // Use an effect to handle the confirmation when receipt is available
   useEffect(() => {
     if (receipt && onBlockConfirmation) {
       onBlockConfirmation(receipt as unknown as TransactionReceipt);

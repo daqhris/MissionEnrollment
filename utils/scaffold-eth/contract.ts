@@ -21,7 +21,7 @@ import type {
   TransactionReceipt,
   WriteContractParameters
 } from "viem";
-import { useContractRead } from "wagmi";
+import { useContractRead, useContractEvent } from "wagmi";
 import type { UseContractReadConfig, UseContractEventConfig } from 'wagmi';
 import deployedContractsData from "~~/contracts/deployedContracts";
 import externalContractsData from "~~/contracts/externalContracts";
@@ -174,11 +174,11 @@ export type UseScaffoldReadConfig<
   contractName: TContractName;
   watch?: boolean;
 } & IsContractDeclarationMissing<
-  Partial<UseReadContractParameters>,
+  Partial<UseContractReadConfig>,
   {
     functionName: TFunctionName;
   } & UseScaffoldArgsParam<TContractName, TFunctionName> &
-    Omit<UseReadContractParameters, "chainId" | "abi" | "address" | "functionName" | "args">
+    Omit<UseContractReadConfig, "chainId" | "abi" | "address" | "functionName" | "args">
 >;
 
 export type ScaffoldWriteContractVariables<
@@ -197,7 +197,7 @@ type WriteVariables = WriteContractParameters;
 export type TransactorFuncOptions = {
   onBlockConfirmation?: (txnReceipt: TransactionReceipt) => void;
   blockConfirmations?: number;
-  onSuccess?: (txnResponse: SendTransactionResult) => void;
+  onSuccess?: (txnResponse: WriteContractParameters) => void;
 };
 
 export type ScaffoldWriteContractOptions = MutateOptions<
@@ -219,7 +219,7 @@ export type UseScaffoldEventConfig<
   contractName: TContractName;
   eventName: TEventName;
 } & IsContractDeclarationMissing<
-  Omit<UseWatchContractEventParameters, "onLogs" | "address" | "abi" | "eventName"> & {
+  Omit<UseContractEventConfig, "listener" | "address" | "abi" | "eventName"> & {
     listener: (
       logs: Simplify<
         Omit<Log<bigint, number, boolean>, "args" | "eventName"> & {
@@ -229,18 +229,11 @@ export type UseScaffoldEventConfig<
       >[],
     ) => void;
   },
-  Omit<UseWatchContractEventParameters, "onLogs" | "address" | "abi" | "eventName"> & {
+  Omit<UseContractEventConfig, "listener" | "address" | "abi" | "eventName"> & {
     listener: (
       logs: Simplify<
-        Omit<Log<bigint, number, false, TEvent, false, [TEvent], TEventName>, "args"> & {
-          args: AbiParametersToPrimitiveTypes<TEvent["inputs"]> &
-            GetEventArgs<
-              ContractAbi<TContractName>,
-              TEventName,
-              {
-                IndexedOnly: false;
-              }
-            >;
+        Omit<Log<bigint, number, false, Abi, false, [Abi], TEventName>, "args"> & {
+          args: GetEventArgs<ContractAbi<TContractName>, TEventName>;
         }
       >[],
     ) => void;

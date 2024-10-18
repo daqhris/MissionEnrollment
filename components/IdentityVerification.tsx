@@ -1,130 +1,81 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
-import { useAccount, useSignMessage, useConnect, useChainId } from 'wagmi';
-import { getEnsName } from '@/utils/ens';
-import { getBaseName } from '@/utils/basename';
-import { getTargetNetworks, ChainWithAttributes } from '@/utils/scaffold-eth/networks';
-import { recoverMessageAddress } from 'viem';
-import { coinbaseWallet } from 'wagmi/connectors';
-
-// Import chain IDs
-import { optimismSepolia, baseSepolia } from 'viem/chains';
+import React, { useState, useEffect } from 'react';
+import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import { InjectedConnector } from 'wagmi/connectors/injected';
 
 interface IdentityVerificationProps {
   onVerified: (address: string, name: string) => void;
 }
 
-const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified }): JSX.Element => {
+const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVerified }) => {
+  console.log('IdentityVerification component rendered');
+
   const [username, setUsername] = useState<string>('');
-  const [address, setAddress] = useState<string>('');
-  const [resolvedName, setResolvedName] = useState<string>('');
-  const [network, setNetwork] = useState<ChainWithAttributes | undefined>(undefined);
-  const { address: connectedAddress } = useAccount();
-  const chainId = useChainId();
-  const { signMessageAsync } = useSignMessage();
-  const { connect } = useConnect();
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect((): void => {
-    if (connectedAddress) {
-      setAddress(connectedAddress);
+  const { address, isConnected } = useAccount();
+  const { connect } = useConnect({
+    connector: new InjectedConnector(),
+  });
+  const { disconnect } = useDisconnect();
+
+  useEffect(() => {
+    console.log('useEffect triggered. isConnected:', isConnected, 'address:', address);
+    if (isConnected && address) {
+      console.log('Wallet connected:', address);
     }
-  }, [connectedAddress]);
+  }, [isConnected, address]);
 
-  useEffect((): void => {
-    if (chainId) {
-      const targetNetworks = getTargetNetworks();
-      let currentNetwork = targetNetworks.find(n => n.id === chainId);
+  const handleConnect = async () => {
+    console.log('Attempting to connect wallet');
+    try {
+      await connect();
+      console.log('Wallet connected successfully');
+    } catch (error) {
+      console.error('Error connecting wallet:', error);
+      setError('Failed to connect wallet. Please try again.');
+    }
+  };
 
-      if (chainId === baseSepolia.id) {
-        currentNetwork = { ...currentNetwork, name: 'Base Sepolia' } as ChainWithAttributes;
-        console.log('Detected Base Sepolia testnet');
-      } else if (chainId === optimismSepolia.id) {
-        currentNetwork = { ...currentNetwork, name: 'Optimism Sepolia' } as ChainWithAttributes;
-        console.log('Detected Optimism Sepolia testnet');
-      }
+  const handleDisconnect = async () => {
+    console.log('Disconnecting wallet');
+    try {
+      await disconnect();
+      console.log('Wallet disconnected successfully');
+    } catch (error) {
+      console.error('Error disconnecting wallet:', error);
+      setError('Failed to disconnect wallet. Please try again.');
+    }
+  };
 
-      setNetwork(currentNetwork);
+  const handleVerify = () => {
+    console.log('Verifying identity. Address:', address, 'Username:', username);
+    if (isConnected && address) {
+      onVerified(address, username);
     } else {
-      setNetwork(undefined);
-    }
-  }, [chainId]);
-
-  const retrieveName = async (address: string): Promise<string> => {
-    if (!network) return '';
-
-    try {
-      if (network.id === baseSepolia.id) {
-        return await getBaseName(address);
-      } else if (network.id === optimismSepolia.id) {
-        return await getEnsName(address);
-      } else {
-        console.warn('Unsupported network for name resolution');
-        return '';
-      }
-    } catch (error) {
-      console.error('Error retrieving name:', error);
-      return '';
-    }
-  };
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setUsername(event.target.value);
-  };
-
-  const handleVerify = async (): Promise<void> => {
-    if (!address) {
-      console.error('No address connected');
-      return;
-    }
-
-    try {
-      const message = `Verify username: ${username}`;
-      const signature = await signMessageAsync({ message });
-
-      const recoveredAddress = await recoverMessageAddress({
-        message,
-        signature,
-      });
-
-      if (recoveredAddress.toLowerCase() === address.toLowerCase()) {
-        const name = await retrieveName(address);
-        setResolvedName(name);
-        onVerified(address, name || username);
-      } else {
-        console.error('Signature verification failed');
-      }
-    } catch (error) {
-      console.error('Error during verification:', error);
-    }
-  };
-
-  const connectCoinbaseWallet = async (): Promise<void> => {
-    try {
-      await connect({
-        connector: coinbaseWallet({
-          appName: 'Mission Enrollment',
-        }),
-      });
-    } catch (error) {
-      console.error('Error connecting to Coinbase Wallet:', error);
+      setError('Please connect your wallet first.');
     }
   };
 
   return (
     <div>
       <h2>Identity Verification</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <input
         type="text"
         value={username}
-        onChange={handleInputChange}
+        onChange={(e) => setUsername(e.target.value)}
         placeholder="Enter username"
+        disabled={!isConnected}
       />
-      <p>Connected Address: {address}</p>
-      <p>Network: {network ? network.name : 'Not connected'}</p>
-      {!address && (
-        <button onClick={connectCoinbaseWallet}>Connect Coinbase Wallet</button>
+      <p>Connected Address: {address || 'Not connected'}</p>
+      {!isConnected ? (
+        <button onClick={handleConnect}>Connect Wallet</button>
+      ) : (
+        <>
+          <button onClick={handleVerify}>Verify Identity</button>
+          <button onClick={handleDisconnect}>Disconnect</button>
+        </>
       )}
-      <button onClick={handleVerify} disabled={!address}>Verify Identity</button>
-      {resolvedName && <p>Resolved Name: {resolvedName}</p>}
     </div>
   );
 };

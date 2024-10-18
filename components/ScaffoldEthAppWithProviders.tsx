@@ -13,7 +13,8 @@ import type { AvatarComponent } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useTheme } from "next-themes";
 import { Toaster } from "react-hot-toast";
-import { WagmiProvider } from "wagmi";
+import { WagmiConfig } from "wagmi";
+import { baseSepolia, optimismSepolia } from 'wagmi/chains';
 
 const queryClient = new QueryClient();
 
@@ -42,9 +43,10 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
   }, []);
 
   return (
-    <WagmiProvider config={wagmiConfig}>
+    <WagmiConfig config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider
+          chains={[baseSepolia, optimismSepolia]}
           avatar={BlockieAvatar as AvatarComponent}
           theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
         >
@@ -52,6 +54,6 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
           <ScaffoldEthApp>{children}</ScaffoldEthApp>
         </RainbowKitProvider>
       </QueryClientProvider>
-    </WagmiProvider>
+    </WagmiConfig>
   );
 };

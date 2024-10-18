@@ -1,70 +1,62 @@
-import { EAS, Offchain, SchemaEncoder, OffchainAttestationVersion } from "@ethereum-attestation-service/eas-sdk";
-import type { OffchainAttestationParams, OffchainConfig } from "@ethereum-attestation-service/eas-sdk";
+import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { ethers } from 'ethers';
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
-  if (req.method !== "POST") {
-    res.status(405).json({ error: "Method Not Allowed" });
-    return;
-  }
+const provider = new ethers.providers.JsonRpcProvider("https://rpc.sepolia.org");
+const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
 
-  try {
-    const { missionProposal } = req.body;
+const schemaUID = "0x5e9a817ef4627ae0c58e7704be84fa5a1f6d1c22f6d03ee89d3e0cf51ef53e6e";
 
-    if (typeof missionProposal !== "string" || missionProposal.trim() === "") {
-      res.status(400).json({ error: "Invalid mission proposal" });
-      return;
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method === 'POST') {
+    try {
+      const { address, poaps } = req.body;
+
+      if (!address || !poaps || !Array.isArray(poaps)) {
+        return res.status(400).json({ error: 'Invalid input' });
+      }
+
+      if (!process.env.PRIVATE_KEY) {
+        throw new Error("PRIVATE_KEY environment variable is not set");
+      }
+
+      const wallet = new ethers.Wallet(process.env.PRIVATE_KEY as string);
+      const signer = wallet.connect(provider);
+
+      const eas = new EAS(EASContractAddress);
+      eas.connect(signer);
+
+      const schemaEncoder = new SchemaEncoder("address[] addresses,uint256[] tokenIds,string[] eventNames");
+      const encodedData = schemaEncoder.encodeData([
+        { name: "addresses", value: poaps.map(() => address), type: "address[]" },
+        { name: "tokenIds", value: poaps.map(poap => poap.token_id), type: "uint256[]" },
+        { name: "eventNames", value: poaps.map(poap => poap.event.name), type: "string[]" },
+      ]);
+
+      const tx = await eas.attest({
+        schema: schemaUID,
+        data: {
+          recipient: ethers.constants.AddressZero,
+          expirationTime: ethers.BigNumber.from(0),
+          revocable: true,
+          data: encodedData,
+        },
+      });
+
+      const newAttestationUID = await tx.wait();
+
+      console.log("New attestation UID:", newAttestationUID);
+
+      res.status(200).json({ success: true, attestationUID: newAttestationUID });
+    } catch (error) {
+      console.error('Error in mission-enrollment:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
-
-    const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
-    const missionEnrollmentSchemaUid = "0x40e5abe23a3378a9a43b7e874c5cb8dfd4d6b0823501d317acee41e08d3af4dd";
-
-    const provider = new ethers.providers.JsonRpcProvider("https://rpc.sepolia.org");
-
-    if (!process.env.PRIVATE_KEY) {
-      throw new Error("PRIVATE_KEY environment variable is not set");
-    }
-
-    const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
-
-    const eas = new EAS(EASContractAddress);
-    await eas.connect(wallet);
-
-    const schemaEncoder = new SchemaEncoder("string missionProposal");
-
-    const encodedData = schemaEncoder.encodeData([{ name: "missionProposal", value: missionProposal, type: "string" }]);
-
-    const network = await provider.getNetwork();
-    const offchainConfig: OffchainConfig = {
-      address: EASContractAddress,
-      version: "1.0.0",
-      chainId: BigInt(network.chainId)
-    };
-    const offchain = new Offchain(offchainConfig, OffchainAttestationVersion.Version1, eas);
-
-    const offchainAttestationParams: OffchainAttestationParams = {
-      recipient: ethers.constants.AddressZero,
-      expirationTime: BigInt(0),
-      time: BigInt(Math.floor(Date.now() / 1000)),
-      revocable: true,
-      refUID: ethers.constants.HashZero,
-      data: encodedData,
-      schema: missionEnrollmentSchemaUid,
-    };
-
-    const offchainAttestation = await offchain.signOffchainAttestation(
-      offchainAttestationParams,
-      wallet
-    );
-
-    res.status(200).json({ result: offchainAttestation });
-  } catch (error) {
-    console.error("Error:", error);
-    if (error instanceof Error) {
-      res.status(500).json({ error: `Error creating mission enrollment attestation: ${error.message}` });
-    } else {
-      res.status(500).json({ error: "An unknown error occurred while creating mission enrollment attestation" });
-    }
+  } else {
+    res.setHeader('Allow', ['POST']);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }

@@ -1,5 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { gnosisProvider, safePoapContractCall } from "../../config";
+import { JsonRpcProvider } from "@ethersproject/providers";
+
+// Define a custom type that extends JsonRpcProvider with the resolveName method
+type ExtendedJsonRpcProvider = JsonRpcProvider & {
+  resolveName(name: string): Promise<string | null>;
+};
+
+// Cast gnosisProvider to the extended type
+const extendedProvider = gnosisProvider as ExtendedJsonRpcProvider;
 
 // Simple in-memory rate limiting
 const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
@@ -62,15 +71,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   try {
     if (address.endsWith(".eth")) {
       console.log(`Attempting to resolve ENS name: ${address}`);
-      const resolvedResult = await gnosisProvider.resolveName(address);
-      console.log(`Provider resolution result: ${resolvedResult}`);
+      try {
+        const resolvedResult = await extendedProvider.resolveName(address);
+        console.log(`Provider resolution result: ${resolvedResult}`);
 
-      if (resolvedResult) {
-        resolvedAddress = resolvedResult;
-        console.log(`Successfully resolved ENS name ${address} to: ${resolvedAddress}`);
-      } else {
-        console.log(`Failed to resolve ENS name ${address}`);
-        throw new Error("ENS name could not be resolved");
+        if (resolvedResult) {
+          resolvedAddress = resolvedResult;
+          console.log(`Successfully resolved ENS name ${address} to: ${resolvedAddress}`);
+        } else {
+          console.log(`Failed to resolve ENS name ${address}`);
+          throw new Error("ENS name could not be resolved");
+        }
+      } catch (error) {
+        console.error(`Error resolving ENS name: ${error}`);
+        throw new Error("Failed to resolve ENS name");
       }
     } else {
       resolvedAddress = address;
