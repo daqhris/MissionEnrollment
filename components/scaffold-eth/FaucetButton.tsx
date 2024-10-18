@@ -24,7 +24,7 @@ export const FaucetButton = (): JSX.Element | null => {
   const { address } = useAccount();
   const { chain: ConnectedChain } = useNetwork();
 
-  const { data: balance } = useWatchBalance({ address });
+  const { data: balance } = useWatchBalance(address);
 
   const [loading, setLoading] = useState(false);
 

@@ -83,10 +83,10 @@ export const useBurnerWallet = (): BurnerAccount => {
       const randomAccount = privateKeyToAccount(randomPrivateKey);
 
       const client = createWalletClient({
-        chain: publicClient.chain,
+        chain: publicClient.chain as Chain,
         account: randomAccount,
         transport: http(),
-      });
+      }) as WalletClient<HttpTransport, Chain, PrivateKeyAccount>;
 
       setWalletClient(client);
       setGeneratedPrivateKey(randomPrivateKey);
@@ -115,10 +115,10 @@ export const useBurnerWallet = (): BurnerAccount => {
         const randomAccount = privateKeyToAccount(burnerSk);
 
         wallet = createWalletClient({
-          chain: publicClient.chain,
+          chain: publicClient.chain as Chain,
           account: randomAccount,
           transport: http(),
-        });
+        }) as WalletClient<HttpTransport, Chain, PrivateKeyAccount>;
 
         setGeneratedPrivateKey(burnerSk);
         setAccount(randomAccount);

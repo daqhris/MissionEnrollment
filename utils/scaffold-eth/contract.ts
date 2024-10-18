@@ -232,7 +232,7 @@ export type UseScaffoldEventConfig<
   Omit<UseContractEventConfig, "listener" | "address" | "abi" | "eventName"> & {
     listener: (
       logs: Simplify<
-        Omit<Log<bigint, number, false, Abi, false, [Abi], TEventName>, "args"> & {
+        Omit<Log<bigint, number, false>, "args"> & {
           args: GetEventArgs<ContractAbi<TContractName>, TEventName>;
         }
       >[],
