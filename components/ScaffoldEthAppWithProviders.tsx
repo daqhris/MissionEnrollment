@@ -2,21 +2,31 @@
 
 import { useEffect, useState } from "react";
 import { useInitializeNativeCurrencyPrice } from "../hooks/scaffold-eth";
-import { wagmiConfig } from "../services/web3/wagmiConfig";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { BlockieAvatar } from "./scaffold-eth";
 import { ProgressBar } from "./scaffold-eth/ProgressBar";
-import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
+import { getDefaultConfig, RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import type { AvatarComponent } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useTheme } from "next-themes";
 import { Toaster } from "react-hot-toast";
-import { WagmiConfig } from "wagmi";
+import { WagmiProvider } from "wagmi";
 import { sepolia, optimism } from 'wagmi/chains';
+import { http } from 'wagmi';
 
 const queryClient = new QueryClient();
+
+const config = getDefaultConfig({
+  appName: 'MissionEnrollment',
+  projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'YOUR_PROJECT_ID',
+  chains: [sepolia, optimism],
+  transports: {
+    [sepolia.id]: http(),
+    [optimism.id]: http(),
+  },
+});
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }): JSX.Element => {
   useInitializeNativeCurrencyPrice();
@@ -43,17 +53,16 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
   }, []);
 
   return (
-    <WagmiConfig config={wagmiConfig}>
+    <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider
-          chains={[sepolia, optimism]}
-          avatar={BlockieAvatar as AvatarComponent}
           theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
+          avatar={BlockieAvatar as AvatarComponent}
         >
           <ProgressBar />
           <ScaffoldEthApp>{children}</ScaffoldEthApp>
         </RainbowKitProvider>
       </QueryClientProvider>
-    </WagmiConfig>
+    </WagmiProvider>
   );
 };
