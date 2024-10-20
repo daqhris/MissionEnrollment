@@ -1,41 +1,62 @@
 import React from "react";
 import type { AppProps } from "next/app";
 import "../styles/globals.css";
-import { WagmiConfig } from 'wagmi';
-import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
-import { wagmiConfig, chains } from '../services/web3/wagmiConfig';
+import { WagmiProvider, createConfig, http } from 'wagmi';
+import { mainnet, sepolia } from 'wagmi/chains';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ApolloProvider } from '@apollo/client';
 import { apolloClient } from '../services/apollo/apolloClient';
 
-function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
-  console.log("Rendering MyApp component");
+const config = createConfig({
+  chains: [mainnet, sepolia],
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
+  },
+});
 
+const queryClient = new QueryClient();
+
+class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean}> {
+  constructor(props: {children: React.ReactNode}) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true };
+  }
+
+  override componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error("Error caught by ErrorBoundary:", error, errorInfo);
+  }
+
+  override render() {
+    if (this.state.hasError) {
+      return <h1>Something went wrong. Check the console for more details.</h1>;
+    }
+
+    return this.props.children;
+  }
+}
+
+function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
   React.useEffect(() => {
     console.log("MyApp component mounted");
     return () => console.log("MyApp component unmounted");
   }, []);
 
-  try {
-    console.log("Initializing WagmiConfig");
-    console.log("wagmiConfig:", JSON.stringify(wagmiConfig, null, 2));
-    console.log("chains:", JSON.stringify(chains, null, 2));
-    console.log("apolloClient:", apolloClient);
-
-    const wagmiConfigComponent = (
-      <WagmiConfig config={wagmiConfig}>
-        <RainbowKitProvider chains={chains}>
-          <ApolloProvider client={apolloClient}>
+  return (
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <ApolloProvider client={apolloClient}>
+          <ErrorBoundary>
             <Component {...pageProps} />
-          </ApolloProvider>
-        </RainbowKitProvider>
-      </WagmiConfig>
-    );
-    console.log("WagmiConfig initialized successfully");
-    return wagmiConfigComponent;
-  } catch (error) {
-    console.error("Error in MyApp component:", error);
-    return <div>An error occurred. Please check the console for more details.</div>;
-  }
+          </ErrorBoundary>
+        </ApolloProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
 }
 
 export default MyApp;
