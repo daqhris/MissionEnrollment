@@ -1,13 +1,7 @@
-import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import { ethers } from 'ethers';
 import type { NextApiRequest, NextApiResponse } from "next";
 
-// Declare provider but mark it as unused to avoid linting error
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const provider = new ethers.providers.JsonRpcProvider("https://rpc.sepolia.org");
-const EASContractAddress = "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"; // Sepolia v0.26
-
-const schemaUID = "0x5e9a817ef4627ae0c58e7704be84fa5a1f6d1c22f6d03ee89d3e0cf51ef53e6e";
+// EAS-related imports and functionality have been removed
+// TODO: Implement alternative solution or remove this functionality
 
 export default async function handler(
   req: NextApiRequest,
@@ -25,13 +19,9 @@ export default async function handler(
         throw new Error("PRIVATE_KEY environment variable is not set");
       }
 
-      // Temporarily comment out problematic parts
-      // const wallet = new ethers.Wallet(process.env.PRIVATE_KEY as string);
-      // const signer = wallet.connect(provider);
-
-      const eas = new EAS(EASContractAddress);
-      // eas.connect(signer);
-
+      // TODO: Implement alternative solution for attestation
+      // The following code has been commented out as it relies on the removed EAS SDK
+      /*
       const schemaEncoder = new SchemaEncoder("address[] addresses,uint256[] tokenIds,string[] eventNames");
       const encodedData = schemaEncoder.encodeData([
         { name: "addresses", value: poaps.map(() => address), type: "address[]" },
@@ -42,8 +32,8 @@ export default async function handler(
       const tx = await eas.attest({
         schema: schemaUID,
         data: {
-          recipient: "0x0000000000000000000000000000000000000000", // Temporarily using a string instead of ethers.constants.AddressZero
-          expirationTime: BigInt(0), // Using BigInt(0) instead of 0 to match the expected bigint type
+          recipient: "0x0000000000000000000000000000000000000000",
+          expirationTime: BigInt(0),
           revocable: true,
           data: encodedData,
         },
@@ -54,6 +44,10 @@ export default async function handler(
       console.log("New attestation UID:", newAttestationUID);
 
       res.status(200).json({ success: true, attestationUID: newAttestationUID });
+      */
+
+      // Temporary response until alternative solution is implemented
+      res.status(200).json({ success: true, message: "Attestation functionality is currently unavailable" });
     } catch (error) {
       console.error('Error in mission-enrollment:', error);
       res.status(500).json({ error: 'Internal Server Error' });
