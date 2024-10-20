@@ -1,14 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { gnosisProvider, safePoapContractCall } from "../../config";
-import { JsonRpcProvider } from "@ethersproject/providers";
+import { provider, safePoapContractCall } from "../../config";
+import { JsonRpcProvider } from "ethers";
 
 // Define a custom type that extends JsonRpcProvider with the resolveName method
 type ExtendedJsonRpcProvider = JsonRpcProvider & {
   resolveName(name: string): Promise<string | null>;
 };
 
-// Cast gnosisProvider to the extended type
-const extendedProvider = gnosisProvider as ExtendedJsonRpcProvider;
+// Cast provider to the extended type
+const extendedProvider = provider as ExtendedJsonRpcProvider;
 
 // Simple in-memory rate limiting
 const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
@@ -106,16 +106,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   console.log(`Attempting to fetch POAPs for address: ${normalizedAddress}`);
 
   try {
-    const balance = await safePoapContractCall<bigint>("balanceOf", normalizedAddress);
+    const balance = await safePoapContractCall<bigint>("function balanceOf(address owner) view returns (uint256)", [normalizedAddress]);
     if (!balance) {
       return res.status(404).json({ error: "No POAPs found for this address" });
     }
 
     const poaps: Poap[] = [];
     for (let i = 0; i < balance; i++) {
-      const tokenId = await safePoapContractCall<bigint>("tokenOfOwnerByIndex", normalizedAddress, i);
+      const tokenId = await safePoapContractCall<bigint>("function tokenOfOwnerByIndex(address owner, uint256 index) view returns (uint256)", [normalizedAddress, BigInt(i)]);
       if (tokenId) {
-        const tokenURI = await safePoapContractCall<string>("tokenURI", tokenId);
+        const tokenURI = await safePoapContractCall<string>("function tokenURI(uint256 tokenId) view returns (string)", [tokenId]);
         if (tokenURI) {
           const response = await fetch(tokenURI);
           const metadata = await response.json();
