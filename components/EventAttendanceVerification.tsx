@@ -81,7 +81,7 @@ const fetchPOAPs = useCallback(
       }
 
       console.log(`Fetching POAP balance for address: ${addressToFetch}`);
-      const balance = await safePoapContractCall<bigint>('balanceOf', addressToFetch);
+      const balance = await safePoapContractCall<bigint>('function balanceOf(address owner) view returns (uint256)', [addressToFetch]);
       if (!balance || balance <= 0n) {
         throw new Error("Failed to fetch POAP balance or invalid balance type");
       }
@@ -93,7 +93,7 @@ const fetchPOAPs = useCallback(
       for (let i = 0; i < Number(balance); i++) {
         try {
           console.log(`Fetching token ID for ${addressToFetch} at index ${i}`);
-          const tokenId = await safePoapContractCall<bigint>('tokenOfOwnerByIndex', addressToFetch, i);
+          const tokenId = await safePoapContractCall<bigint>('function tokenOfOwnerByIndex(address owner, uint256 index) view returns (uint256)', [addressToFetch, BigInt(i)]);
           if (!tokenId || tokenId <= 0n) {
             console.error(`Failed to fetch token ID or invalid token ID type for ${addressToFetch} at index ${i}`);
             continue;
@@ -101,13 +101,12 @@ const fetchPOAPs = useCallback(
           console.log(`Token ID for ${addressToFetch} at index ${i}: ${tokenId.toString()}`);
 
           console.log(`Fetching token URI for token ID ${tokenId}`);
-          const tokenURI = await safePoapContractCall<string>('tokenURI', tokenId);
+          const tokenURI = await safePoapContractCall<string>('function tokenURI(uint256 tokenId) view returns (string)', [tokenId]);
           if (!tokenURI) {
             console.error(`Failed to fetch token URI for token ID ${tokenId}`);
             continue;
           }
           console.log(`Token URI for token ID ${tokenId}: ${tokenURI}`);
-
           // Fetch metadata from IPFS
           console.log(`Fetching metadata from ${tokenURI}`);
           let response;
