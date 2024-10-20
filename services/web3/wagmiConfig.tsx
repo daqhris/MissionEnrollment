@@ -1,7 +1,8 @@
 import '@rainbow-me/rainbowkit/styles.css';
 import { getDefaultWallets } from '@rainbow-me/rainbowkit';
-import { createConfig, http } from 'wagmi';
+import { createConfig } from 'wagmi';
 import { sepolia, optimism } from 'viem/chains';
+import { http } from 'viem';
 import scaffoldConfig from "~~/scaffold.config";
 
 const { walletConnectProjectId } = scaffoldConfig;
