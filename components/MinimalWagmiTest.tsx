@@ -1,13 +1,27 @@
 import React from 'react';
 import { useConnect, useAccount, useDisconnect } from 'wagmi';
-import { InjectedConnector } from 'wagmi/connectors/injected';
+import { injected } from 'wagmi/connectors';
 
 const MinimalWagmiTest: React.FC = () => {
-  const { connect } = useConnect({
-    connector: new InjectedConnector()
-  });
+  const { connectAsync } = useConnect();
   const { address, isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
+  const { disconnectAsync } = useDisconnect();
+
+  const handleConnect = async () => {
+    try {
+      await connectAsync({ connector: injected() });
+    } catch (error) {
+      console.error('Failed to connect:', error);
+    }
+  };
+
+  const handleDisconnect = async () => {
+    try {
+      await disconnectAsync();
+    } catch (error) {
+      console.error('Failed to disconnect:', error);
+    }
+  };
 
   return (
     <div>
@@ -15,10 +29,10 @@ const MinimalWagmiTest: React.FC = () => {
       {isConnected ? (
         <>
           <p>Connected to {address}</p>
-          <button onClick={() => disconnect()}>Disconnect</button>
+          <button onClick={handleDisconnect}>Disconnect</button>
         </>
       ) : (
-        <button onClick={() => connect()}>Connect Wallet</button>
+        <button onClick={handleConnect}>Connect Wallet</button>
       )}
     </div>
   );
