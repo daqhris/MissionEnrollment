@@ -1,5 +1,4 @@
-import { TransactionReceipt } from '@ethersproject/providers';
-import { TransactionRequest } from '@ethersproject/abstract-provider';
+import { TransactionReceipt, TransactionRequest } from 'ethers';
 import { TypedDataDomain } from "viem";
 
 export interface OnchainAttestationProps {

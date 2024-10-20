@@ -1,15 +1,9 @@
+import { JsonRpcProvider, Contract } from 'ethers';
+
 declare module 'ethers' {
   export namespace ethers {
-    export namespace providers {
-      export class Web3Provider {
-        constructor(provider: any);
-        getNetwork(): Promise<{ name: string }>;
-      }
-      export class JsonRpcProvider {
-        constructor(url: string);
-        lookupAddress(address: string): Promise<string | null>;
-      }
-    }
+    export class JsonRpcProvider extends JsonRpcProvider {}
+    export class Contract extends Contract {}
     export namespace utils {
       export function isAddress(address: string): boolean;
       export function id(text: string): string;

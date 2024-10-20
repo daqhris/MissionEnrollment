@@ -13,6 +13,7 @@
     "@apollo/client": "^3.11.8",
     "@ensdomains/ensjs": "^3.7.0",
     "@ethereum-attestation-service/eas-sdk": "^2.7.0",
+    "@ethersproject/providers": "^5.7.2",
     "@heroicons/react": "^2.1.5",
     "@noble/secp256k1": "^2.1.0",
     "@rainbow-me/rainbowkit": "^2.0.8",

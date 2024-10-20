@@ -1,7 +1,6 @@
-import { Alchemy, Network } from "alchemy-sdk";
+import { JsonRpcProvider, Contract } from 'ethers';
 import NodeCache from "node-cache";
 
-const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
 const POAP_CONTRACT_ADDRESS = "0x22C1f6050E56d2876009903609a2cC3fEf83B415";
 
 // ETHGlobal Brussels 2024 POAP event IDs
@@ -17,11 +16,7 @@ const POAP_IMAGE_URLS = {
   "176332": "https://assets.poap.xyz/9b7601c6-9667-46b9-b5e2-6494726a7793.png"
 };
 
-const config = {
-  apiKey: ALCHEMY_API_KEY,
-  network: Network.ETH_MAINNET,
-};
-const alchemy = new Alchemy(config);
+const provider = new JsonRpcProvider(process.env.MAINNET_RPC_URL);
 
 const cache = new NodeCache({ stdTTL: 300 }); // Cache for 5 minutes
 
@@ -37,21 +32,20 @@ function clearCache() {
  */
 async function verifyETHGlobalBrusselsPOAPOwnership(address) {
   try {
-    const nfts = await alchemy.nft.getNftsForOwner(address, {
-      contractAddresses: [POAP_CONTRACT_ADDRESS],
-    });
+    const poapContract = new Contract(POAP_CONTRACT_ADDRESS, ['function balanceOf(address owner) view returns (uint256)', 'function tokenOfOwnerByIndex(address owner, uint256 index) view returns (uint256)'], provider);
 
-    const ethGlobalPOAPs = nfts.ownedNfts.filter(nft =>
-      ETHGLOBAL_BRUSSELS_2024_EVENT_IDS.includes(nft.tokenId)
-    );
+    const balance = await poapContract.balanceOf(address);
 
-    if (ethGlobalPOAPs.length > 0) {
-      const result = {
-        owned: true,
-        imageUrl: POAP_IMAGE_URLS[ethGlobalPOAPs[0].tokenId]
-      };
-      console.log(`POAP found for address ${address}. Image URL: ${result.imageUrl}`);
-      return result;
+    for (let i = 0; i < balance; i++) {
+      const tokenId = await poapContract.tokenOfOwnerByIndex(address, i);
+      if (ETHGLOBAL_BRUSSELS_2024_EVENT_IDS.includes(tokenId.toString())) {
+        const result = {
+          owned: true,
+          imageUrl: POAP_IMAGE_URLS[tokenId.toString()]
+        };
+        console.log(`POAP found for address ${address}. Image URL: ${result.imageUrl}`);
+        return result;
+      }
     }
 
     console.log(`No ETHGlobal Brussels 2024 POAPs found for address ${address}`);
