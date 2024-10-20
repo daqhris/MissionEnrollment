@@ -5,8 +5,8 @@ import type { SetStateAction } from "react";
 import ContractInput from "./ContractInput";
 import { InheritanceTooltip } from "./InheritanceTooltip";
 import type { Abi, AbiFunction, AbiParameter } from "abitype";
-import type { Address, TransactionReceipt } from "viem";
-import { useAccount, useWaitForTransactionReceipt, useWriteContract, useWatchContractEvent } from "wagmi";
+import type { Address, Hash } from "viem";
+import { useAccount, useTransaction, useWriteContract, useWatchContractEvent } from "wagmi";
 import {
   TxReceipt,
   getFunctionInputKey,
@@ -38,14 +38,13 @@ export const WriteOnlyFunctionForm = ({
   const [form, setForm] = useState<FormState>(() => getInitialFormState(abiFunction));
   const [txValue, setTxValue] = useState<string | bigint>("");
   const { isConnected } = useAccount();
-  const writeTxn = useTransactor();
   useTargetNetwork();
   const writeDisabled = !isConnected;
 
-  const { writeContractAsync, data: writeData, isPending, isError } = useWriteContract();
+  const { writeContract, data: hash, isPending, isError } = useWriteContract();
 
   const handleWrite = async (): Promise<void> => {
-    if (writeContractAsync) {
+    if (writeContract) {
       try {
         const txConfig = {
           address: contractAddress,
@@ -54,10 +53,8 @@ export const WriteOnlyFunctionForm = ({
           args: getParsedContractFunctionArgs(form),
           value: BigInt(txValue),
         };
-        await writeTxn(async () => {
-          const result = await writeContractAsync(txConfig);
-          return result;
-        });
+        await writeContract(txConfig);
+        console.log('Transaction hash:', hash);
         onChange();
       } catch (e) {
         console.error("⚡️ ~ file: WriteOnlyFunctionForm.tsx:handleWrite ~ error", e);
@@ -65,15 +62,15 @@ export const WriteOnlyFunctionForm = ({
     }
   };
 
-  const [displayedTxResult, setDisplayedTxResult] = useState<TransactionReceipt | undefined>();
-  const { data: txResult } = useWaitForTransactionReceipt({
-    hash: writeData,
+  const { data: txData, isLoading: isTxLoading, isError: isTxError } = useTransaction({
+    hash,
   });
+
   useEffect((): void => {
-    if (txResult) {
-      setDisplayedTxResult(txResult);
+    if (txData) {
+      console.log('Transaction data:', txData);
     }
-  }, [txResult]);
+  }, [txData]);
 
   // TODO use `useMemo` to optimize also update in ReadOnlyFunctionForm
   const transformedFunction = transformAbiFunction(abiFunction);
@@ -87,7 +84,6 @@ export const WriteOnlyFunctionForm = ({
             const newForm = typeof updatedForm === 'function' ? updatedForm(prevForm) : updatedForm;
             return { ...prevForm, ...newForm } as FormState;
           });
-          setDisplayedTxResult(undefined);
         }}
         form={form}
         stateObjectKey={key}
@@ -114,7 +110,6 @@ export const WriteOnlyFunctionForm = ({
             <IntegerInput
               value={txValue}
               onChange={(updatedTxValue: string | bigint): void => {
-                setDisplayedTxResult(undefined);
                 setTxValue(updatedTxValue);
               }}
               placeholder="value (wei)"
@@ -124,7 +119,7 @@ export const WriteOnlyFunctionForm = ({
         <div className="flex justify-between gap-2">
           {!zeroInputs && (
             <div className="flex-grow basis-0">
-              {displayedTxResult ? <TxReceipt txResult={displayedTxResult} /> : null}
+              {txData && <TxReceipt txResult={txData} />}
             </div>
           )}
           <div
@@ -145,11 +140,11 @@ export const WriteOnlyFunctionForm = ({
           </div>
         </div>
       </div>
-      {zeroInputs && txResult ? (
+      {zeroInputs && txData && (
         <div className="flex-grow basis-0">
-          <TxReceipt txResult={txResult} />
+          <TxReceipt txResult={txData} />
         </div>
-      ) : null}
+      )}
     </div>
   );
 };

@@ -34,8 +34,6 @@ export const AddressInput: React.FC<AddressInputProps> = ({ value, name, placeho
   } = useEnsAddress({
     name: settledValue,
     chainId: 1,
-    enabled: isDebouncedValueLive && isENS(debouncedValue),
-    cacheTime: 30_000,
   });
 
   const [enteredEnsName, setEnteredEnsName] = useState<string | undefined>();
@@ -47,15 +45,11 @@ export const AddressInput: React.FC<AddressInputProps> = ({ value, name, placeho
   } = useEnsName({
     address: settledValue && isAddress(settledValue) ? (settledValue as Address) : undefined,
     chainId: 1,
-    enabled: Boolean(settledValue) && isAddress(settledValue as string),
-    cacheTime: 30_000,
   });
 
   const { data: ensAvatar, isLoading: isEnsAvatarLoading } = useEnsAvatar({
     name: ensName ? normalize(ensName) : undefined,
     chainId: 1,
-    enabled: Boolean(ensName),
-    cacheTime: 30_000,
   });
 
   // ens => address

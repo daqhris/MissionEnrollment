@@ -4,6 +4,11 @@ import { useDeployedContractInfo } from './useDeployedContractInfo';
 import { useTargetNetwork } from './useTargetNetwork';
 import type { ContractName, UseScaffoldReadConfig } from '~~/utils/scaffold-eth/contract';
 
+type CustomUseReadContractParameters = Omit<UseReadContractParameters, 'address'> & {
+  address?: Address;
+  enabled?: boolean;
+};
+
 export const useScaffoldReadContract = <
   TContractName extends ContractName,
   TAbi extends Abi,
@@ -28,5 +33,5 @@ export const useScaffoldReadContract = <
     args,
     enabled: contractAddress !== undefined && contractAbi !== undefined && (!Array.isArray(args) || !args.some(arg => arg === undefined)),
     ...readContractConfig,
-  } as UseReadContractParameters);
+  } as CustomUseReadContractParameters);
 };

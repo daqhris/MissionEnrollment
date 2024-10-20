@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import { useConnect, useDisconnect, useAccount } from 'wagmi';
-import { InjectedConnector } from 'wagmi/connectors/injected';
+import { injected } from 'wagmi/connectors';
 
 const WalletConnectTest: React.FC = () => {
   const { address, isConnected } = useAccount();
-  const { connect } = useConnect({
-    connector: new InjectedConnector()
-  });
+  const { connect } = useConnect();
   const { disconnect } = useDisconnect();
   const [error, setError] = useState<string | null>(null);
 
   const connectWallet = async (): Promise<void> => {
     try {
-      await connect();
+      await connect({ connector: injected() });
       setError(null);
     } catch (err) {
       setError('Failed to connect wallet: ' + (err instanceof Error ? err.message : String(err)));
