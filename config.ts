@@ -1,4 +1,4 @@
-import { JsonRpcProvider, Contract, InterfaceAbi, FunctionFragment } from "ethers";
+import { JsonRpcProvider, Contract, InterfaceAbi, FunctionFragment, Networkish } from "ethers";
 
 
 
