@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { createWalletClient, http, parseEther } from "viem";
 import { hardhat } from "viem/chains";
-import { useAccount, useNetwork } from "wagmi";
+import { useAccount, usePublicClient } from "wagmi";
 import { BanknotesIcon } from "@heroicons/react/24/outline";
 import { useTransactor } from "~~/hooks/scaffold-eth";
 import { useWatchBalance } from "~~/hooks/scaffold-eth/useWatchBalance";
@@ -22,7 +22,7 @@ const localWalletClient = createWalletClient({
  */
 export const FaucetButton = (): JSX.Element | null => {
   const { address } = useAccount();
-  const { chain: ConnectedChain } = useNetwork();
+  const publicClient = usePublicClient();
 
   const { data: balance } = useWatchBalance(address);
 
@@ -48,7 +48,7 @@ export const FaucetButton = (): JSX.Element | null => {
   };
 
   // Render only on local chain
-  if (ConnectedChain?.id !== hardhat.id) {
+  if (!publicClient || publicClient.chain.id !== hardhat.id) {
     return null;
   }
 

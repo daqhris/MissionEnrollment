@@ -148,13 +148,14 @@ export const useScaffoldEventHistory = <
         receiptData: receiptData ? true : undefined,
       };
       const data = await getEvents(
-        { address: deployedContractData?.address, event, fromBlock: pageParam, args: filters },
+        { address: deployedContractData?.address, event, fromBlock: BigInt(pageParam), args: filters },
         publicClient as PublicClient,
         options as { blockData?: boolean; transactionData?: boolean; receiptData?: boolean },
       );
 
       return data;
     },
+    initialPageParam: fromBlock,
     enabled: enabled && isContractAddressAndClientReady,
     getNextPageParam: (lastPage, pages) => {
       return lastPage && lastPage.length > 0 ? blockNumber : undefined;

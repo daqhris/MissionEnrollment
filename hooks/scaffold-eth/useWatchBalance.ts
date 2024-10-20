@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useTargetNetwork } from "./useTargetNetwork";
 import { useQueryClient } from "@tanstack/react-query";
 import { useBalance, useBlockNumber } from "wagmi";
-import type { Address } from "wagmi";
+import type { Address } from "viem";
 
 /**
  * Wrapper around wagmi's useBalance hook. Updates data on every block change.
@@ -14,7 +14,6 @@ export const useWatchBalance = (address?: Address) => {
   const balanceResult = useBalance({
     address,
     chainId: targetNetwork.id,
-    watch: true,
   });
 
   useEffect(() => {

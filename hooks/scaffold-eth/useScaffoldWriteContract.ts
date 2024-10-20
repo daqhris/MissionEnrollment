@@ -1,5 +1,5 @@
 import { useCallback, useState, useEffect } from "react";
-import { useContractWrite, useWaitForTransaction, UseContractWriteConfig } from "wagmi";
+import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { parseEther, type TransactionReceipt } from "viem";
 import { useTargetNetwork } from "./useTargetNetwork";
 import { useDeployedContractInfo } from "./useDeployedContractInfo";
@@ -34,28 +34,22 @@ export const useScaffoldWriteContract = <
   const [isMining, setIsMining] = useState(false);
 
   const {
-    writeAsync: writeContract,
+    writeContract,
     data: writeData,
     error,
-    isLoading: isPending,
+    isPending,
     isError,
     isSuccess,
     status,
     reset,
-  } = useContractWrite({
-    ...(deployedContractData && {
-      address: deployedContractData.address,
-      abi: deployedContractData.abi,
-    }),
-    functionName,
-  } as UseContractWriteConfig);
+  } = useWriteContract();
 
   const {
     data: receipt,
     isLoading: isWaitLoading,
     isSuccess: isWaitSuccess,
-  } = useWaitForTransaction({
-    hash: writeData?.hash,
+  } = useWaitForTransactionReceipt({
+    hash: writeData,
     confirmations: blockConfirmations,
   });
 
@@ -68,6 +62,9 @@ export const useScaffoldWriteContract = <
       try {
         setIsMining(true);
         const tx = await writeContract({
+          address: deployedContractData.address,
+          abi: deployedContractData.abi,
+          functionName,
           args: writeOptions?.args || args,
           value: writeOptions?.value ? parseEther(writeOptions.value) : value ? parseEther(value) : undefined,
         });
@@ -78,12 +75,12 @@ export const useScaffoldWriteContract = <
         throw e;
       }
     },
-    [writeContract, deployedContractData, args, value]
+    [writeContract, deployedContractData, functionName, args, value]
   );
 
   useEffect(() => {
     if (receipt && onBlockConfirmation) {
-      onBlockConfirmation(receipt as unknown as TransactionReceipt);
+      onBlockConfirmation(receipt);
       setIsMining(false);
     }
   }, [receipt, onBlockConfirmation]);

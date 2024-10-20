@@ -21,8 +21,12 @@ import type {
   TransactionReceipt,
   WriteContractParameters
 } from "viem";
-import { useContractRead, useContractEvent } from "wagmi";
-import type { UseContractReadConfig, UseContractEventConfig } from 'wagmi';
+import { useContractRead, useWatchContractEvent } from "wagmi";
+import type { Config } from "wagmi";
+import type { ReadContractParameters, WatchContractEventParameters } from "wagmi/actions";
+
+type UseContractReadConfig = ReadContractParameters;
+type UseContractEventConfig = WatchContractEventParameters;
 import deployedContractsData from "~~/contracts/deployedContracts";
 import externalContractsData from "~~/contracts/externalContracts";
 import scaffoldConfig from "~~/scaffold.config";

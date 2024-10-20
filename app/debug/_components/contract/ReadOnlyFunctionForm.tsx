@@ -50,8 +50,6 @@ export const ReadOnlyFunctionForm: React.FC<ReadOnlyFunctionFormProps> = ({
     functionName,
     args: getParsedContractFunctionArgs(form),
     chainId: targetNetwork.id,
-    enabled: false,
-    watch: false,
   });
 
   useEffect((): void => {

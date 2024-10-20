@@ -6,7 +6,7 @@ import ContractInput from "./ContractInput";
 import { InheritanceTooltip } from "./InheritanceTooltip";
 import type { Abi, AbiFunction, AbiParameter } from "abitype";
 import type { Address, TransactionReceipt } from "viem";
-import { useAccount, useWaitForTransaction, useContractWrite } from "wagmi";
+import { useAccount, useWaitForTransactionReceipt, useWriteContract, useWatchContractEvent } from "wagmi";
 import {
   TxReceipt,
   getFunctionInputKey,
@@ -39,25 +39,24 @@ export const WriteOnlyFunctionForm = ({
   const [txValue, setTxValue] = useState<string | bigint>("");
   const { isConnected } = useAccount();
   const writeTxn = useTransactor();
-  useTargetNetwork(); // Remove the destructuring to avoid unused variable
+  useTargetNetwork();
   const writeDisabled = !isConnected;
 
-  const { data: writeData, isLoading, writeAsync } = useContractWrite({
-    address: contractAddress,
-    abi: abi,
-    functionName: abiFunction.name,
-  });
+  const { writeContractAsync, data: writeData, isPending, isError } = useWriteContract();
 
   const handleWrite = async (): Promise<void> => {
-    if (writeAsync) {
+    if (writeContractAsync) {
       try {
         const txConfig = {
+          address: contractAddress,
+          abi: abi,
+          functionName: abiFunction.name,
           args: getParsedContractFunctionArgs(form),
           value: BigInt(txValue),
         };
         await writeTxn(async () => {
-          const writeResult = await writeAsync(txConfig);
-          return writeResult.hash;
+          const result = await writeContractAsync(txConfig);
+          return result;
         });
         onChange();
       } catch (e) {
@@ -67,11 +66,13 @@ export const WriteOnlyFunctionForm = ({
   };
 
   const [displayedTxResult, setDisplayedTxResult] = useState<TransactionReceipt | undefined>();
-  const { data: txResult } = useWaitForTransaction({
-    hash: writeData?.hash,
+  const { data: txResult } = useWaitForTransactionReceipt({
+    hash: writeData,
   });
   useEffect((): void => {
-    setDisplayedTxResult(txResult);
+    if (txResult) {
+      setDisplayedTxResult(txResult);
+    }
   }, [txResult]);
 
   // TODO use `useMemo` to optimize also update in ReadOnlyFunctionForm
@@ -135,10 +136,10 @@ export const WriteOnlyFunctionForm = ({
           >
             <button
               className="btn btn-secondary btn-sm"
-              disabled={writeDisabled || isLoading}
+              disabled={writeDisabled || isPending}
               onClick={handleWrite}
             >
-              {isLoading && <span className="loading loading-spinner loading-xs"></span>}
+              {isPending && <span className="loading loading-spinner loading-xs"></span>}
               Send 💸
             </button>
           </div>

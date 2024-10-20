@@ -29,8 +29,7 @@ export const useScaffoldContract = <
     contract = getContract({
       address: deployedContractData.address as Address,
       abi: deployedContractData.abi as Contract<TContractName>["abi"],
-      publicClient,
-      walletClient: walletClient as WalletClient,
+      client: publicClient,
     });
   }
 
