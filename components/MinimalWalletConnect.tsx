@@ -1,17 +1,20 @@
 import React from 'react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
-import { InjectedConnector } from 'wagmi/connectors/injected';
+import { injected } from 'wagmi/connectors';
 
 const MinimalWalletConnect: React.FC = (): React.ReactElement => {
   const { address, isConnected } = useAccount();
-  const { connect } = useConnect({
-    connector: new InjectedConnector()
-  });
+  const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
 
   const handleConnect = async (): Promise<void> => {
     try {
-      await connect();
+      const connector = connectors.find((c) => c.id === 'injected') || injected();
+      if (connector) {
+        await connect({ connector });
+      } else {
+        console.error('No injected connector available');
+      }
     } catch (err) {
       console.error('Failed to connect wallet:', err);
     }
