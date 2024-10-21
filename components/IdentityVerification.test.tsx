@@ -1,7 +1,9 @@
 import React from "react";
 import IdentityVerification from "./IdentityVerification";
 import "@testing-library/jest-dom";
-import { fireEvent, render, screen, waitFor, act } from "@testing-library/react";
+import { render } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/dom";
+import { act } from "react-dom/test-utils";
 import { useEnsAddress, useEnsName } from "wagmi";
 import { isAddress, getAddress } from "viem";
 
