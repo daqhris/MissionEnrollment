@@ -1,0 +1,39 @@
+Dependency Summary:
+1. Main ethers version: 6.13.4
+2. Conflicting ethers versions:
+@se-2/nextjs@0.1.0 /home/ubuntu/MissionEnrollment
+├─┬ @ensdomains/ens-contracts@1.2.0 -> ./package
+│ ├─┬ @nomicfoundation/hardhat-toolbox-viem@3.0.0
+│ │ └─┬ @nomicfoundation/hardhat-ignition-viem@0.15.6
+│ │   └─┬ @nomicfoundation/ignition-core@0.15.6
+│ │     └── ethers@6.13.4 deduped
+│ ├─┬ hardhat-deploy@0.12.4
+│ │ ├── ethers@5.7.2
+│ │ └─┬ zksync-ethers@5.9.2
+│ │   └── ethers@5.7.2 deduped
+│ └─┬ hardhat-gas-reporter@1.0.10
+│   └─┬ eth-gas-reporter@0.2.27
+│     └── ethers@5.7.2
+├─┬ @ethereum-attestation-service/eas-sdk@1.6.1
+│ └── ethers@6.13.4 deduped
+├─┬ @nomicfoundation/hardhat-ethers@3.0.8
+│ └── ethers@6.13.4 deduped
+├─┬ @openzeppelin/hardhat-upgrades@3.5.0
+│ └── ethers@6.13.4 deduped
+├── ethers@6.13.4
+├─┬ hardhat-deploy@0.14.0
+│ ├── ethers@5.7.2
+│ └─┬ zksync-ethers@5.9.2
+│   └── ethers@5.7.2 deduped
+└─┬ zksync-ethers@6.14.0
+  └── ethers@6.13.4 deduped
+3. Other relevant dependencies:
+@se-2/nextjs@0.1.0 /home/ubuntu/MissionEnrollment
+└── typescript@5.0.4
+@se-2/nextjs@0.1.0 /home/ubuntu/MissionEnrollment
+└── hardhat@2.19.5
+4. Attempted solutions:
+   - Updated hardhat-deploy and hardhat-gas-reporter to latest versions
+   - Forced installation of ethers@6.13.4 and updated all dependencies
+5. Persistent issues:
+   - hardhat-deploy and hardhat-gas-reporter still use ethers@5.7.2
