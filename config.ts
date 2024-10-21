@@ -16,7 +16,7 @@ export const POAP_ABI = [
 ] as const;
 
 // Create a provider
-export const provider = new JsonRpcProvider(rpc_url);
+export const provider = new JsonRpcProvider(rpc_url, undefined, { staticNetwork: true });
 
 // Create a contract instance
 export const poapContract = new Contract(POAP_CONTRACT_ADDRESS, POAP_ABI as InterfaceAbi, provider);
