@@ -1,8 +1,21 @@
-import { ethers } from 'ethers';
+// Type declaration for process.env and process
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID?: string;
+    }
+    interface Process {
+      env: ProcessEnv;
+    }
+  }
+  var process: NodeJS.Process;
+}
+
+import { JsonRpcProvider, Contract } from 'ethers/providers';
 
 export const BLOCKSCOUT_API_URL = 'https://gnosis.blockscout.com/api';
 export const POAP_CONTRACT_ADDRESS = '0x22C1f6050E56d2876009903609a2cC3fEf83B415';
-export const GNOSIS_RPC_URL = 'https://rpc.gnosischain.com';
+export const GNOSIS_RPC_URL = `https://rpc.gnosischain.com/${process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || ''}`;
 
 // POAP ABI (including necessary functions for Gnosis Chain integration)
 export const POAP_ABI = [
@@ -15,19 +28,25 @@ export const POAP_ABI = [
 ] as const;
 
 // Create a provider for the Gnosis Chain
-export const gnosisProvider = new ethers.JsonRpcProvider(GNOSIS_RPC_URL);
+export const createGnosisProvider = (): JsonRpcProvider => {
+  return new JsonRpcProvider(GNOSIS_RPC_URL);
+};
 
 // Create a contract instance
-export const poapContract = new ethers.Contract(POAP_CONTRACT_ADDRESS, POAP_ABI, gnosisProvider);
+export const createPoapContract = (): Contract => {
+  const provider = createGnosisProvider();
+  return new Contract(POAP_CONTRACT_ADDRESS, POAP_ABI, provider);
+};
 
 // Function to safely interact with the POAP contract
 export const safePoapContractCall = async <T>(
-  method: keyof typeof poapContract,
+  method: string,
   ...args: any[]
 ): Promise<T | null> => {
   try {
-    if (poapContract && typeof poapContract[method] === 'function') {
-      return await poapContract[method](...args);
+    const contract = createPoapContract();
+    if (contract && typeof contract[method as keyof typeof contract] === 'function') {
+      return await contract[method as keyof typeof contract](...args);
     }
     return null;
   } catch (error) {
@@ -35,6 +54,3 @@ export const safePoapContractCall = async <T>(
     return null;
   }
 };
-
-// Export all constants and functions
-export { ethers };

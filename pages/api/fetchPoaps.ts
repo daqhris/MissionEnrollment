@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { gnosisProvider, safePoapContractCall } from "../../config";
+import { createGnosisProvider, safePoapContractCall } from "../../config";
 
 // Simple in-memory rate limiting
 const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
@@ -62,6 +62,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   try {
     if (address.endsWith(".eth")) {
       console.log(`Attempting to resolve ENS name: ${address}`);
+      const gnosisProvider = createGnosisProvider();
       const resolvedResult = await gnosisProvider.resolveName(address);
       console.log(`Provider resolution result: ${resolvedResult}`);
 

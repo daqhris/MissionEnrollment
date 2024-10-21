@@ -2,7 +2,8 @@ import React, { useCallback, useState } from "react";
 import Image from "next/image";
 import eventIdsData from "../event_ids.json";
 import { useEnsAddress } from "wagmi";
-import { poapContract, safePoapContractCall, ethers } from "../config";
+import { createPoapContract, safePoapContractCall } from "../config";
+import type { Contract } from 'ethers';
 
 const { eventIds } = eventIdsData;
 
@@ -76,6 +77,7 @@ const fetchPOAPs = useCallback(
 
     try {
       console.log(`Initializing POAP contract for address: ${addressToFetch}`);
+      const poapContract = createPoapContract();
       if (!poapContract) {
         throw new Error("POAP contract is not initialized");
       }
