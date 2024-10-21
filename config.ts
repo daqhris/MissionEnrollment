@@ -3,7 +3,7 @@ import { JsonRpcProvider, Contract, InterfaceAbi, FunctionFragment, Networkish }
 
 
 export const POAP_CONTRACT_ADDRESS = '0x22C1f6050E56d2876009903609a2cC3fEf83B415';
-export const RPC_URL: string = process.env.NEXT_PUBLIC_RPC_URL || 'https://rpc.ankr.com/eth';
+export const rpc_url: string = process.env.NEXT_PUBLIC_RPC_URL || 'https://rpc.ankr.com/eth';
 
 // POAP ABI (including necessary functions for POAP interaction)
 export const POAP_ABI = [
@@ -16,7 +16,7 @@ export const POAP_ABI = [
 ] as const;
 
 // Create a provider
-export const provider = new JsonRpcProvider(RPC_URL);
+export const provider = new JsonRpcProvider(rpc_url);
 
 // Create a contract instance
 export const poapContract = new Contract(POAP_CONTRACT_ADDRESS, POAP_ABI as InterfaceAbi, provider);
