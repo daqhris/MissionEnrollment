@@ -1,4 +1,5 @@
-import { JsonRpcProvider, Contract, Wallet, InterfaceAbi } from 'ethers';
+import { JsonRpcProvider, Contract } from 'ethers';
+import { InterfaceAbi } from 'ethers/lib/utils';
 
 export const BLOCKSCOUT_API_URL = 'https://gnosis.blockscout.com/api';
 export const POAP_CONTRACT_ADDRESS = '0x22C1f6050E56d2876009903609a2cC3fEf83B415';
@@ -32,14 +33,14 @@ export const safePoapContractCall = async <T>(
 ): Promise<T | null> => {
   try {
     const contract = createPoapContract();
-    if (contract && typeof contract[method] === 'function') {
+    if (typeof contract[method] === 'function') {
       const result = await contract[method](...args);
       return result as T;
     }
     console.error(`Method ${method} not found on contract`);
     return null;
   } catch (error) {
-    console.error(`Error calling ${String(method)}:`, error);
+    console.error(`Error calling ${method}:`, error);
     return null;
   }
 };
