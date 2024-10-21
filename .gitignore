@@ -36,3 +36,9 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# Ignore hardhat-deploy directory
+/hardhat-deploy
+
+# Ignore package/node_modules
+/package/node_modules
