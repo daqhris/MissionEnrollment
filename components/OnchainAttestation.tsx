@@ -72,7 +72,7 @@ const initializeEAS = async (
     // Create a TransactionSigner from the WalletClient
     const signer = {
       signTypedData: walletClient.signTypedData,
-      getAddress: async (): Promise<`0x${string}`> => walletClient.account?.address ?? '0x',
+      getAddress: async (): Promise<`0x${string}`> => (walletClient.account?.address as `0x${string}`) ?? '0x0000000000000000000000000000000000000000',
       signMessage: walletClient.signMessage,
     };
 
