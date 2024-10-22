@@ -1,0 +1,3 @@
+[submodule "hardhat-deploy"]
+	path = hardhat-deploy
+	url = https://github.com/wighawag/hardhat-deploy.git
