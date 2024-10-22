@@ -71,8 +71,7 @@ const initializeEAS = async (
     const provider = new ethers.JsonRpcProvider(walletClient.chain?.rpcUrls.default.http[0]);
     const signer = new JsonRpcSigner(provider, walletClient.account.address);
     const easInstance = new EAS(contractAddress);
-    await easInstance.connect(signer as ethers.JsonRpcSigner);
-
+    await easInstance.connect(signer);
     setEAS(easInstance);
     setAttestationStatus(`EAS initialized successfully for ${selectedRollup}`);
   } catch (error: unknown) {
