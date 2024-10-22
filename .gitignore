@@ -38,7 +38,7 @@ yarn-error.log*
 *.tsbuildinfo
 
 # Ignore hardhat-deploy directory
-/hardhat-deploy
+# /hardhat-deploy
 
 # Ignore package/node_modules
 /package/node_modules
