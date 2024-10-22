@@ -12,6 +12,10 @@ const QueryClientProviderWrapper: React.FC<QueryClientProviderWrapperProps> = ({
     queryClientRef.current = getQueryClient();
   }
 
+  if (!queryClientRef.current) {
+    return null; // or return a loading indicator
+  }
+
   return <QueryClientProvider client={queryClientRef.current}>{children}</QueryClientProvider>;
 };
 

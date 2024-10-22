@@ -32,8 +32,9 @@ export const safePoapContractCall = async <T>(
 ): Promise<T | null> => {
   try {
     const contract = createPoapContract();
-    if (typeof contract[method] === 'function') {
-      const result = await contract[method](...args);
+    const contractMethod = contract[method as keyof Contract];
+    if (typeof contractMethod === 'function') {
+      const result = await contractMethod(...args);
       return result as T;
     }
     console.error(`Method ${method} not found on contract`);
