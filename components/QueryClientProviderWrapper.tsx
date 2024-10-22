@@ -1,13 +1,16 @@
 import React from "react";
 import getQueryClient from "../utils/queryClient";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 interface QueryClientProviderWrapperProps {
   children: React.ReactNode;
 }
 
 const QueryClientProviderWrapper: React.FC<QueryClientProviderWrapperProps> = ({ children }) => {
-  const queryClientRef = React.useRef(getQueryClient());
+  const queryClientRef = React.useRef<QueryClient | null>(null);
+  if (!queryClientRef.current) {
+    queryClientRef.current = getQueryClient();
+  }
 
   return <QueryClientProvider client={queryClientRef.current}>{children}</QueryClientProvider>;
 };

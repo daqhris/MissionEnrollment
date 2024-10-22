@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import type { WalletClient } from "viem";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { useAccount, useWalletClient, usePublicClient } from 'wagmi';
+import { ethers } from 'ethers';
+import { JsonRpcSigner } from 'ethers';
 
 interface PoapEvent {
   id: string;
@@ -18,12 +19,12 @@ interface Poap {
 // This component uses the Ethereum Attestation Service (EAS) protocol
 // to create attestations on both Base and Optimism rollups
 
-const EAS_CONTRACT_ADDRESS: Record<string, `0x${string}`> = {
+const EAS_CONTRACT_ADDRESS: Record<string, string> = {
   base: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e",
   optimism: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e"
 };
 const SCHEMA_UID: `0x${string}` = "0x40e5abe23a3378a9a43b7e874c5cb8dfd4d6b0823501d317acee41e08d3af4dd"; // Actual schema UID for mission enrollment
-const ATTESTER_ADDRESS: `0x${string}` = "0xF0bC5CC2B4866dAAeCb069430c60b24520077037"; // Actual address of daqhris.eth
+const ATTESTER_ADDRESS: `0x${string}` = "0xF0bC5CC2B4866dAAeCb069430c60b24520D77037"; // Actual address of daqhris.eth
 const ATTESTER_NAME = "mission-enrollment.daqhris.eth";
 
 interface OnchainAttestationProps {
@@ -53,7 +54,7 @@ const OnchainAttestation: React.FC<OnchainAttestationProps> = ({
   }, [address, walletClient, publicClient]);
 
 const initializeEAS = async (
-  walletClient: WalletClient,
+  walletClient: ReturnType<typeof useWalletClient>['data'],
   setEAS: React.Dispatch<React.SetStateAction<EAS | null>>,
   setAttestationStatus: React.Dispatch<React.SetStateAction<string | null>>,
   selectedRollup: "base" | "optimism"
@@ -63,33 +64,34 @@ const initializeEAS = async (
     return;
   }
   try {
-    const easInstance = new EAS(EAS_CONTRACT_ADDRESS[selectedRollup] as `0x${string}`);
-
-    if (!('signTypedData' in walletClient)) {
-      throw new Error("Wallet client does not support signing typed data");
+    const contractAddress = EAS_CONTRACT_ADDRESS[selectedRollup];
+    if (!contractAddress) {
+      throw new Error(`EAS contract address not found for ${selectedRollup}`);
     }
-
-    // Create a TransactionSigner from the WalletClient
-    const signer = {
-      signTypedData: walletClient.signTypedData,
-      getAddress: async (): Promise<`0x${string}`> => (walletClient.account?.address as `0x${string}`) ?? '0x0000000000000000000000000000000000000000',
-      signMessage: walletClient.signMessage,
-    };
-
-    await easInstance.connect(signer);
+    const provider = new ethers.JsonRpcProvider(walletClient.chain?.rpcUrls.default.http[0]);
+    const signer = new JsonRpcSigner(provider, walletClient.account.address);
+    const easInstance = new EAS(contractAddress);
+    await easInstance.connect(signer as any);
 
     setEAS(easInstance);
     setAttestationStatus(`EAS initialized successfully for ${selectedRollup}`);
   } catch (error: unknown) {
     console.error('Error initializing EAS:', error);
-    setAttestationStatus(
-      error instanceof Error
-        ? `Failed to initialize EAS: ${error.message}`
-        : 'Failed to initialize attestation service. Please try again.'
-    );
+    setAttestationStatus(`Failed to initialize EAS: ${error instanceof Error ? error.message : 'Unknown error'}`);
     setEAS(null);
   }
 };
+
+useEffect(() => {
+  if (walletClient) {
+    void initializeEAS(walletClient, setEAS, setAttestationStatus, selectedRollup);
+  }
+}, [walletClient, selectedRollup]);
+useEffect(() => {
+  if (walletClient) {
+    void initializeEAS(walletClient, setEAS, setAttestationStatus, selectedRollup);
+  }
+}, [walletClient, selectedRollup]);
 
 useEffect(() => {
   if (walletClient) {
