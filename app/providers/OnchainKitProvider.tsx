@@ -1,38 +1,29 @@
-import {
-  createConfig,
-  http,
-  OnchainProvider,
-  ConnectButton,
-} from '@coinbase/onchainkit';
+import { OnchainKitProvider as BaseOnchainKitProvider } from '@coinbase/onchainkit';
 import { ReactNode } from 'react';
-import { baseMainnet, baseSepolia, supportedChains } from '../config/chains';
+import { baseMainnet } from '../config/chains';
+import { type Chain } from 'viem';
 
 interface OnchainKitProviderProps {
   children: ReactNode;
 }
 
-// Create OnchainKit configuration
-const config = createConfig({
-  chains: supportedChains,
-  transports: {
-    [baseMainnet.id]: http(baseMainnet.rpcUrls.default.http[0]),
-    [baseSepolia.id]: http(baseSepolia.rpcUrls.default.http[0]),
-  },
-  walletConnectProjectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string,
-  ssr: true,
-  // Use environment variables for configuration
-  defaultChainId: parseInt(process.env.NEXT_PUBLIC_DEFAULT_CHAIN || '8453'),
-});
-
 export function OnchainKitProvider({ children }: OnchainKitProviderProps) {
+  // Get the default chain from environment or use Base Mainnet
+  const defaultChain = parseInt(process.env.NEXT_PUBLIC_DEFAULT_CHAIN || '8453');
+  const chain = defaultChain === 8453 ? baseMainnet : baseMainnet;
+
   return (
-    <OnchainProvider config={config}>
+    <BaseOnchainKitProvider
+      chain={chain as Chain}
+      projectId={process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string}
+      apiKey={process.env.NEXT_PUBLIC_CDP_API_KEY}
+      config={{
+        appearance: {
+          mode: 'light'
+        }
+      }}
+    >
       {children}
-    </OnchainProvider>
+    </BaseOnchainKitProvider>
   );
 }
-
-// Export connect button for easy access
-export { ConnectButton };
-
-export default OnchainKitProvider;
