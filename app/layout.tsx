@@ -7,8 +7,8 @@ import "~~/styles/globals.css";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 export const metadata = getMetadata({
-  title: "isTrue",
-  description: "Using LLM's and EAS to verify the truth of a statement",
+  title: "Mission Enrollment",
+  description: "A decentralized application for managing mission enrollments and verifying attestations on Base blockchain",
 });
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }): React.ReactElement => {

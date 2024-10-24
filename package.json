@@ -1,7 +1,8 @@
 {
-  "name": "@se-2/nextjs",
+  "name": "mission-enrollment",
   "private": true,
   "version": "0.1.0",
+  "description": "A decentralized application for managing mission enrollments and verifying attestations on Base blockchain",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
