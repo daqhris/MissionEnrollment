@@ -56,9 +56,6 @@ export default [
       'build/**',
       'dist/**',
       'coverage/**',
-      '*.config.js',
-      '*.config.mjs',
-      '*.config.cjs',
     ],
   },
 ];
