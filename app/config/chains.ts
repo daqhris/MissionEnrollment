@@ -1,9 +1,8 @@
-import { Chain } from '@coinbase/onchainkit';
+import { Chain } from 'viem';
 
 export const baseMainnet: Chain = {
   id: 8453,
   name: 'Base',
-  network: 'base',
   nativeCurrency: {
     name: 'Ether',
     symbol: 'ETH',
@@ -23,13 +22,11 @@ export const baseMainnet: Chain = {
       url: 'https://basescan.org',
     },
   },
-  testnet: false,
 };
 
 export const baseSepolia: Chain = {
   id: 84532,
   name: 'Base Sepolia',
-  network: 'base-sepolia',
   nativeCurrency: {
     name: 'Ether',
     symbol: 'ETH',
@@ -49,7 +46,6 @@ export const baseSepolia: Chain = {
       url: 'https://sepolia.basescan.org',
     },
   },
-  testnet: true,
 };
 
 export const supportedChains = [baseMainnet, baseSepolia];
