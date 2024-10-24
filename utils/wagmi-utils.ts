@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { JsonRpcApiProvider, BrowserProvider, Signer } from 'ethers';
+import { JsonRpcProvider, BrowserProvider, Signer } from 'ethers';
 import type { HttpTransport, PublicClient, WalletClient } from "viem";
 import { usePublicClient, useWalletClient } from "wagmi";
 
-export function publicClientToProvider(publicClient: PublicClient): JsonRpcApiProvider {
+export function publicClientToProvider(publicClient: PublicClient): JsonRpcProvider {
   const { chain, transport } = publicClient;
 
   if (!chain) {
@@ -17,8 +17,8 @@ export function publicClientToProvider(publicClient: PublicClient): JsonRpcApiPr
   };
   if (transport.type === "fallback") {
     const providerList = (transport.transports as ReturnType<HttpTransport>[])
-      .map(({ value }) => value?.url ? new JsonRpcApiProvider({ url: value.url, network }) : undefined)
-      .filter((provider): provider is JsonRpcApiProvider => provider !== undefined);
+      .map(({ value }) => value?.url ? new JsonRpcProvider(value.url, network) : undefined)
+      .filter((provider): provider is JsonRpcProvider => provider !== undefined);
 
     if (providerList.length === 1) {
       const provider = providerList[0];
@@ -70,9 +70,9 @@ export function useSigner(): Signer | undefined {
   return signer;
 }
 
-export function useProvider(): JsonRpcApiProvider | undefined {
+export function useProvider(): JsonRpcProvider | undefined {
   const publicClient = usePublicClient();
-  const [provider, setProvider] = useState<JsonRpcApiProvider | undefined>(undefined);
+  const [provider, setProvider] = useState<JsonRpcProvider | undefined>(undefined);
 
   const getProvider = useCallback(() => {
     if (!publicClient) return;
