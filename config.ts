@@ -1,4 +1,4 @@
-import { JsonRpcProvider, Contract, InterfaceAbi, FunctionFragment, Networkish } from "ethers";
+import { JsonRpcApiProvider, Contract, InterfaceAbi, FunctionFragment, Networkish } from "ethers";
 
 
 
@@ -16,10 +16,14 @@ export const POAP_ABI = [
 ] as const;
 
 // Create a provider
-export const provider = new JsonRpcProvider(rpc_url);
+export const provider = new JsonRpcApiProvider({ url: rpc_url });
 
 // Create a contract instance
-export const poapContract = new Contract(POAP_CONTRACT_ADDRESS, POAP_ABI as InterfaceAbi, provider);
+export const poapContract = Contract.from(
+  POAP_CONTRACT_ADDRESS,
+  POAP_ABI as InterfaceAbi,
+  provider
+) as Contract;
 
 // Define the type for POAP_ABI keys
 export type POAPContractMethod = (typeof POAP_ABI)[number];

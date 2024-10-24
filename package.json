@@ -14,7 +14,6 @@
     "@coinbase/onchainkit": "0.35.0",
     "@ensdomains/ensjs": "^3.7.0",
     "@ethereum-attestation-service/eas-sdk": "^2.7.0",
-    "@ethersproject/providers": "^5.7.2",
     "@heroicons/react": "^2.1.5",
     "@noble/secp256k1": "^2.1.0",
     "@tanstack/react-query": "^5",
