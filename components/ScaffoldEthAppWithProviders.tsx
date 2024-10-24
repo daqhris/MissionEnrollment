@@ -8,23 +8,25 @@ import { BlockieAvatar } from "./scaffold-eth";
 import { ProgressBar } from "./scaffold-eth/ProgressBar";
 import { getDefaultConfig, RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
+import "@coinbase/onchainkit/styles.css";
 import type { AvatarComponent } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useTheme } from "next-themes";
 import { Toaster } from "react-hot-toast";
 import { WagmiProvider } from "wagmi";
-import { sepolia, optimism } from 'wagmi/chains';
+import { base, baseSepolia } from 'viem/chains';
 import { http } from 'wagmi';
+import { OnchainKitProvider } from "@coinbase/onchainkit";
 
 const queryClient = new QueryClient();
 
 const config = getDefaultConfig({
   appName: 'MissionEnrollment',
   projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'YOUR_PROJECT_ID',
-  chains: [sepolia, optimism],
+  chains: [base, baseSepolia],
   transports: {
-    [sepolia.id]: http(),
-    [optimism.id]: http(),
+    [base.id]: http(),
+    [baseSepolia.id]: http(),
   },
 });
 
@@ -55,13 +57,18 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider
-          theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
-          avatar={BlockieAvatar as AvatarComponent}
+        <OnchainKitProvider
+          apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
+          chain={base}
         >
-          <ProgressBar />
-          <ScaffoldEthApp>{children}</ScaffoldEthApp>
-        </RainbowKitProvider>
+          <RainbowKitProvider
+            theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
+            avatar={BlockieAvatar as AvatarComponent}
+          >
+            <ProgressBar />
+            <ScaffoldEthApp>{children}</ScaffoldEthApp>
+          </RainbowKitProvider>
+        </OnchainKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
