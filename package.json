@@ -1,7 +1,6 @@
 {
   "name": "@se-2/nextjs",
   "private": true,
-  "type": "module",
   "version": "0.1.0",
   "scripts": {
     "dev": "next dev",
