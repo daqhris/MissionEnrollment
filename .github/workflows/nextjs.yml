@@ -32,7 +32,7 @@ jobs:
       NEXT_PUBLIC_ALCHEMY_API_KEY: ${{ secrets.NEXT_PUBLIC_ALCHEMY_API_KEY }}
       NEXT_PUBLIC_CDP_API_KEY: ${{ secrets.NEXT_PUBLIC_CDP_API_KEY }}
       NODE_VERSION: "18"
-      GITHUB_PAGES: true
+      GITHUB_PAGES: "true"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
