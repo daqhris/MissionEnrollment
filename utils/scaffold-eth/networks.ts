@@ -1,5 +1,5 @@
 import type { Chain } from "viem";
-import { optimism, optimismSepolia, base, baseSepolia } from "viem/chains";
+import { base } from "viem/chains";
 import scaffoldConfig from "~~/scaffold.config";
 
 type ChainAttributes = {
@@ -10,14 +10,11 @@ type ChainAttributes = {
 export type ChainWithAttributes = Chain & Partial<ChainAttributes>;
 
 export const chains = {
-  optimism, optimismSepolia, base, baseSepolia
+  base
 };
 
 export const RPC_CHAIN_NAMES: Record<number, string> = {
-  [chains.optimism.id]: "opt-mainnet",
-  [chains.optimismSepolia.id]: "opt-sepolia",
   [chains.base.id]: "base-mainnet",
-  [chains.baseSepolia.id]: "base-sepolia",
 };
 
 export const getAlchemyHttpUrl = (chainId: number): string | undefined => {
@@ -27,10 +24,7 @@ export const getAlchemyHttpUrl = (chainId: number): string | undefined => {
 };
 
 export const NETWORKS_EXTRA_DATA: Record<number, ChainAttributes> = {
-  [chains.optimismSepolia.id]: { color: "#f01a37" },
-  [chains.optimism.id]: { color: "#f01a37" },
   [chains.base.id]: { color: "#0052ff" },
-  [chains.baseSepolia.id]: { color: "#0052ff" },
 };
 
 export function getBlockExplorerTxLink(chainId: number, txnHash: string): string {

@@ -6,7 +6,7 @@ import {
   coinbaseWallet,
   walletConnectWallet,
 } from '@rainbow-me/rainbowkit/wallets';
-import { baseSepolia, optimismSepolia } from 'viem/chains';
+import { base } from 'viem/chains';
 import scaffoldConfig from "~~/scaffold.config";
 
 const { walletConnectProjectId } = scaffoldConfig;
@@ -35,4 +35,4 @@ export const connectors = connectorsForWallets(
   }
 );
 
-export const chains = [baseSepolia, optimismSepolia];
+export const chains = [base];
