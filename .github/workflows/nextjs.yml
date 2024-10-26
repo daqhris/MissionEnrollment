@@ -46,7 +46,6 @@ jobs:
       - name: Build with Next.js
         run: |
           yarn build
-          yarn next export
           touch out/.nojekyll
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
