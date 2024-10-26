@@ -24,7 +24,8 @@
       "@/*": ["./*"],
       "components/*": ["./components/*"],
       "hooks/*": ["./hooks/*"],
-      "utils/*": ["./utils/*"]
+      "utils/*": ["./utils/*"],
+      "services/*": ["./services/*"]
     },
     "baseUrl": ".",
     "types": [
