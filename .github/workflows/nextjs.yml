@@ -34,7 +34,7 @@ jobs:
       NEXT_PUBLIC_IGNORE_BUILD_ERROR: "true"
       NODE_VERSION: "18"
       GITHUB_PAGES: "true"
-      CUSTOM_DOMAIN: "true"
+      CUSTOM_DOMAIN: ${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
