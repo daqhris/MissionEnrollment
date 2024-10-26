@@ -17,6 +17,7 @@ import { WagmiProvider } from "wagmi";
 import { base, baseSepolia } from 'viem/chains';
 import { http } from 'wagmi';
 import { OnchainKitProvider } from "@coinbase/onchainkit";
+import ErrorBoundary from "./ErrorBoundary";
 
 const queryClient = new QueryClient();
 
@@ -33,14 +34,22 @@ const config = getDefaultConfig({
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }): JSX.Element => {
   useInitializeNativeCurrencyPrice();
 
+  useEffect(() => {
+    console.log('ScaffoldEthApp mounted');
+    return () => console.log('ScaffoldEthApp unmounted');
+  }, []);
+
   return (
-    <>
+    <ErrorBoundary>
       <div className="flex flex-col min-h-screen">
-        <main className="relative flex flex-col flex-1">{children}</main>
+        <Header />
+        <main className="relative flex flex-col flex-1">
+          {children}
+        </main>
         <Footer />
       </div>
       <Toaster />
-    </>
+    </ErrorBoundary>
   );
 };
 
@@ -50,24 +59,31 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    console.log('ScaffoldEthAppWithProviders mounting...');
+
+    try {
+      console.log('Initializing basic provider setup...');
+      setMounted(true);
+      console.log('Component mounted successfully');
+    } catch (error) {
+      console.error('Error during initialization:', error);
+    }
+
+    return () => {
+      console.log('ScaffoldEthAppWithProviders unmounting...');
+    };
   }, []);
 
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <OnchainKitProvider
-          apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
-          chain={base}
+        <RainbowKitProvider
+          theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
+          avatar={BlockieAvatar as AvatarComponent}
         >
-          <RainbowKitProvider
-            theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
-            avatar={BlockieAvatar as AvatarComponent}
-          >
-            <ProgressBar />
-            <ScaffoldEthApp>{children}</ScaffoldEthApp>
-          </RainbowKitProvider>
-        </OnchainKitProvider>
+          <ProgressBar />
+          <ScaffoldEthApp>{children}</ScaffoldEthApp>
+        </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
