@@ -25,8 +25,8 @@ const nextConfig = {
     forceSwcTransforms: true,
   },
   output: 'export',
-  basePath: process.env.GITHUB_PAGES === "true" ? "/MissionEnrollment" : "",
-  assetPrefix: process.env.GITHUB_PAGES === "true" ? "/MissionEnrollment/" : "",
+  basePath: process.env.GITHUB_PAGES === "true" && !process.env.CUSTOM_DOMAIN ? "/MissionEnrollment" : "",
+  assetPrefix: process.env.GITHUB_PAGES === "true" && !process.env.CUSTOM_DOMAIN ? "/MissionEnrollment/" : "",
 };
 
 module.exports = nextConfig;
