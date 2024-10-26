@@ -10,3 +10,13 @@ export async function getEnsName(address: string): Promise<string> {
     return '';
   }
 }
+
+export async function verifyEnsName(address: string, name: string): Promise<boolean> {
+  try {
+    const ensName = await getEnsName(address);
+    return ensName.toLowerCase() === name.toLowerCase();
+  } catch (error) {
+    console.error('Error verifying ENS name:', error);
+    return false;
+  }
+}
