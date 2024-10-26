@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",
-    "@coinbase/onchainkit": "0.35.0",
+    "@coinbase/onchainkit": "^0.35.1",
     "@ensdomains/ensjs": "^3.7.0",
     "@ethereum-attestation-service/eas-sdk": "^2.7.0",
     "@heroicons/react": "^2.1.5",
@@ -48,7 +48,7 @@
     "tailwindcss": "^3.4.14",
     "type-fest": "^4.26.1",
     "usehooks-ts": "^3.1.0",
-    "viem": "^2.17.4",
+    "viem": "^2.21.35",
     "wagmi": "^2.11.0",
     "ws": "^8.18.0"
   },

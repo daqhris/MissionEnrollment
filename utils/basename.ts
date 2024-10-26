@@ -1,21 +1,10 @@
-import { ethers } from 'ethers';
+import { getName } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
 import { getEnsName } from './ens';
-
-// Base Name Service contract interface
-const BNS_ABI = [
-  'function getName(address addr) view returns (string)',
-  'function getAddress(string name) view returns (address)'
-];
-
-// Base Name Service contract address on Base mainnet
-const BNS_ADDRESS = '0x4D0258B3B7ee19ee4D6329AfA5c4b76591126055';
 
 export async function getBaseName(address: string): Promise<string> {
   try {
-    const provider = new ethers.JsonRpcProvider('https://mainnet.base.org');
-    const bnsContract = new ethers.Contract(BNS_ADDRESS, BNS_ABI, provider);
-
-    const name = await bnsContract.getName(address);
+    const name = await getName({ address, chain: base });
     if (!name) {
       console.debug(`No Base name found for address ${address}`);
       return '';
