@@ -1,23 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useInitializeNativeCurrencyPrice } from "../hooks/scaffold-eth";
-import { Footer } from "./Footer";
-import { Header } from "./Header";
-import { BlockieAvatar } from "./scaffold-eth";
-import { ProgressBar } from "./scaffold-eth/ProgressBar";
 import { getDefaultConfig, RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
-import "@rainbow-me/rainbowkit/styles.css";
-import "@coinbase/onchainkit/styles.css";
 import type { AvatarComponent } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useTheme } from "next-themes";
 import { Toaster } from "react-hot-toast";
 import { WagmiProvider } from "wagmi";
-import { base } from '@wagmi/chains';
+import { base } from 'viem/chains';
 import { http } from 'wagmi';
 import { OnchainKitProvider } from "@coinbase/onchainkit";
+
+import { useInitializeNativeCurrencyPrice } from "../hooks/scaffold-eth";
+import { Footer } from "./Footer";
+import { Header } from "./Header";
+import { BlockieAvatar } from "./scaffold-eth";
+import { ProgressBar } from "./scaffold-eth/ProgressBar";
 import ErrorBoundary from "./ErrorBoundary";
+
+import "@rainbow-me/rainbowkit/styles.css";
 
 const queryClient = new QueryClient();
 
@@ -56,12 +57,16 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
   const { resolvedTheme } = useTheme();
   const isDarkMode = resolvedTheme === "dark";
   const [mounted, setMounted] = useState(false);
+  const cdpApiKey = process.env.NEXT_PUBLIC_CDP_API_KEY;
 
   useEffect(() => {
     console.log('ScaffoldEthAppWithProviders mounting...');
 
     try {
       console.log('Initializing basic provider setup...');
+      if (!cdpApiKey) {
+        console.warn('CDP API key not found in environment variables');
+      }
       setMounted(true);
       console.log('Component mounted successfully');
     } catch (error) {
@@ -71,18 +76,23 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
     return () => {
       console.log('ScaffoldEthAppWithProviders unmounting...');
     };
-  }, []);
+  }, [cdpApiKey]);
 
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider
-          theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
-          avatar={BlockieAvatar as AvatarComponent}
+        <OnchainKitProvider
+          apiKey={cdpApiKey || ''}
+          chain={base}
         >
-          <ProgressBar />
-          <ScaffoldEthApp>{children}</ScaffoldEthApp>
-        </RainbowKitProvider>
+          <RainbowKitProvider
+            theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
+            avatar={BlockieAvatar as AvatarComponent}
+          >
+            <ProgressBar />
+            <ScaffoldEthApp>{children}</ScaffoldEthApp>
+          </RainbowKitProvider>
+        </OnchainKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
