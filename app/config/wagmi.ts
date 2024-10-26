@@ -8,7 +8,7 @@ import {
 } from '@rainbow-me/rainbowkit/wallets';
 import { useMemo } from 'react';
 import { http, createConfig } from 'wagmi';
-import { base, baseSepolia } from 'wagmi/chains';
+import { base } from 'wagmi/chains';
 
 // Environment variables are handled through next.config.js
 const NEXT_PUBLIC_WC_PROJECT_ID = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
@@ -41,14 +41,13 @@ export function useWagmiConfig() {
     );
 
     const wagmiConfig = createConfig({
-      chains: [base, baseSepolia],
+      chains: [base],
       // turn off injected provider discovery
       multiInjectedProviderDiscovery: false,
       connectors,
       ssr: true,
       transports: {
         [base.id]: http(),
-        [baseSepolia.id]: http(),
       },
     });
 
@@ -59,7 +58,6 @@ export function useWagmiConfig() {
 // Export chain IDs for easy reference
 export const SUPPORTED_CHAINS = {
   BASE_MAINNET: base.id, // 8453
-  BASE_SEPOLIA: baseSepolia.id, // 84532
 };
 
 export const DEFAULT_CHAIN = base;
