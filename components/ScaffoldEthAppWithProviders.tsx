@@ -76,13 +76,18 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider
-          theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
-          avatar={BlockieAvatar as AvatarComponent}
+        <OnchainKitProvider
+          apiKey={process.env.NEXT_PUBLIC_CDP_API_KEY}
+          chain={base}
         >
-          <ProgressBar />
-          <ScaffoldEthApp>{children}</ScaffoldEthApp>
-        </RainbowKitProvider>
+          <RainbowKitProvider
+            theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
+            avatar={BlockieAvatar as AvatarComponent}
+          >
+            <ProgressBar />
+            <ScaffoldEthApp>{children}</ScaffoldEthApp>
+          </RainbowKitProvider>
+        </OnchainKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
