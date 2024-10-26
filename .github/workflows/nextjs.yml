@@ -34,6 +34,7 @@ jobs:
       NEXT_PUBLIC_IGNORE_BUILD_ERROR: "true"
       NODE_VERSION: "18"
       GITHUB_PAGES: "true"
+      CUSTOM_DOMAIN: "true"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -55,7 +56,6 @@ jobs:
 
   # Deployment job
   deploy:
-    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

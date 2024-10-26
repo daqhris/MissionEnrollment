@@ -152,8 +152,8 @@ Both deployments use the following addresses:
 
 ## Disclaimer
 
-If necessary, users should verify the authenticity of mission enrollments through additional public means.  
-The source code was forked from the project [TruthBot by EAS](https://github.com/ethereum-attestation-service/eas-is-true) and parts of the codebase require components from [Scaffold-ETH 2](https://github.com/scaffold-eth/scaffold-eth-2).
+If necessary, users should verify the authenticity of mission enrollments through additional public means.
+This project builds upon components from [Scaffold-ETH 2](https://github.com/scaffold-eth/scaffold-eth-2) and integrates protocols like EAS (Ethereum Attestation Service) for blockchain functionality.
 
 The creation of the dApp was initiated by _daqhris.eth_ at a virtual hackathon: [ETHGlobal Superhack 2024](https://ethglobal.com/events/superhack2024).  
 This became possible thanks to the help and collaboration of Devin, the world's first AI software engineer, created by [Cognition.AI](https://www.cognition.ai/).
