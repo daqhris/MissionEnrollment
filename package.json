@@ -34,6 +34,7 @@
     "encoding": "0.1.13",
     "ethers": "6.13.4",
     "graphql": "16.0.0",
+    "i18next": "23.2.3",
     "next": "14.2.15",
     "next-themes": "0.3.0",
     "node-cache": "5.1.2",
