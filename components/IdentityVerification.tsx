@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
-import { useVerificationStore } from '../services/store/verificationStore';
+import { useVerificationStore } from '../app/services/store/verificationStore';
 import { verifyBaseName } from '../utils/basename';
 import { verifyEnsName } from '../utils/ens';
 
