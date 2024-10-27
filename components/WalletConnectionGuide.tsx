@@ -1,5 +1,5 @@
 import React from 'react';
-import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
+import { ConnectWallet } from '@coinbase/onchainkit/wallet';
 
 interface WalletConnectionGuideProps {
   theme: string;
@@ -9,7 +9,7 @@ const WalletConnectionGuide: React.FC<WalletConnectionGuideProps> = ({ theme }):
   return (
     <div className={`p-6 ${theme === "dark" ? "bg-gray-800" : "bg-white"} rounded-lg shadow-lg`}>
       <div className="mt-6">
-        <RainbowKitCustomConnectButton />
+        <ConnectWallet />
       </div>
     </div>
   );
