@@ -1,29 +1,23 @@
 import React from "react";
-import "@rainbow-me/rainbowkit/styles.css";
 import "@coinbase/onchainkit/styles.css";
-import StyledComponentsRegistry from "~~/app/registry";
-import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
-import { ThemeProvider } from "~~/components/ThemeProvider";
+import { AppProvider } from "~~/app/providers/AppProvider";
 import "~~/styles/globals.css";
-import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
-export const metadata = getMetadata({
+export const metadata = {
   title: "Mission Enrollment",
   description: "A decentralized application for managing mission enrollments and verifying attestations on Base blockchain",
-});
+};
 
-const ScaffoldEthApp = ({ children }: { children: React.ReactNode }): React.ReactElement => {
+const RootLayout = ({ children }: { children: React.ReactNode }): React.ReactElement => {
   return (
     <html suppressHydrationWarning>
       <body>
-        <ThemeProvider>
-          <ScaffoldEthAppWithProviders>
-            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-          </ScaffoldEthAppWithProviders>
-        </ThemeProvider>
+        <AppProvider>
+          {children}
+        </AppProvider>
       </body>
     </html>
   );
 };
 
-export default ScaffoldEthApp;
+export default RootLayout;

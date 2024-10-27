@@ -1,155 +1,103 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { ConnectWallet } from '@coinbase/onchainkit/wallet';
-import { Avatar } from '@coinbase/onchainkit/identity';
-import { useAccount } from 'wagmi';
-import { getName } from '@coinbase/onchainkit/identity';
-import { base } from 'viem/chains';
-
+import React, { useState } from 'react';
+import Image from 'next/image';
 
 export default function Home() {
-  const { address, isConnected } = useAccount();
-  const [inputName, setInputName] = useState('');
-  const [verificationStatus, setVerificationStatus] = useState<'none' | 'success' | 'error'>('none');
-  const [verifiedName, setVerifiedName] = useState<string | null>(null);
-  const [onchainName, setOnchainName] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [name, setName] = useState('');
+  const [nameVerified, setNameVerified] = useState(false);
+  const [verificationError, setVerificationError] = useState('');
+  const [isVerifying, setIsVerifying] = useState(false);
 
-  useEffect(() => {
-    console.log('Home component mounted');
-    console.log('Wallet connection status:', isConnected);
-    console.log('Wallet address:', address);
-
-    const fetchOnchainName = async () => {
-      if (address) {
-        try {
-          console.log('Fetching onchain name for address:', address);
-          const name = await getName({
-            address: address,
-            chain: base
-          });
-          console.log('Fetched onchain name:', name);
-          setOnchainName(name);
-          setError(null);
-        } catch (error) {
-          console.error('Error fetching onchain name:', error);
-          setError('Failed to fetch onchain name. Please try again.');
-          setOnchainName(null);
-        }
-      }
-    };
-
-    if (isConnected) {
-      fetchOnchainName();
+  // Mock functions for testing UI
+  const mockVerifyName = async () => {
+    setIsVerifying(true);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    if (name === 'test') {
+      setNameVerified(true);
+      setVerificationError('');
     } else {
-      setOnchainName(null);
-      setError(null);
+      setVerificationError('The provided name does not match your onchain identity');
     }
-
-    return () => {
-      console.log('Home component unmounting');
-    };
-  }, [address, isConnected]);
-
-  const handleNameSubmit = async () => {
-    try {
-      console.log('Handling name submission:', inputName);
-      console.log('Current onchain name:', onchainName);
-
-      if (!inputName.trim()) {
-        console.log('Empty input name detected');
-        setVerificationStatus('error');
-        setError('Please enter a name');
-        return;
-      }
-
-      if (onchainName && inputName.toLowerCase() === onchainName.toLowerCase()) {
-        console.log('Name verification successful');
-        setVerificationStatus('success');
-        setVerifiedName(inputName);
-        setError(null);
-      } else {
-        console.log('Name verification failed');
-        setVerificationStatus('error');
-        setError('The provided name does not match your on-chain identity');
-      }
-    } catch (error) {
-      console.error('Error during name verification:', error);
-      setVerificationStatus('error');
-      setError('An unexpected error occurred during verification');
-    }
+    setIsVerifying(false);
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-4xl font-bold mb-6">Mission Enrollment</h1>
-      <div className="bg-base-100 p-6 rounded-lg shadow-lg">
-        <div className="space-y-4">
-          <div className="card">
-            <div className="card-body">
-              <div className="flex items-center justify-between mb-6">
-                <ConnectWallet />
-                {isConnected && address && (
-                  <div className="flex items-center gap-2">
-                    <Avatar address={address} />
-                    <span className="text-sm">{address}</span>
-                  </div>
-                )}
-              </div>
+    <main className="min-h-screen p-8">
+      <div className="container mx-auto relative">
+        {/* Logo */}
+        <div className="absolute top-4 left-4">
+          <Image
+            src="/logo.png"
+            alt="Mission Enrollment Logo"
+            width={40}
+            height={40}
+            priority
+          />
+        </div>
 
-              {error && (
-                <div className="alert alert-error mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span>{error}</span>
-                </div>
-              )}
+        {/* Network Display (mocked) */}
+        <div className="absolute top-4 right-4">
+          <span className="text-xl font-semibold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+            Base
+          </span>
+        </div>
 
-              {isConnected ? (
-                <>
-                  <h2 className="card-title mb-4">What is your identity on the blockchain?</h2>
-                  <p className="text-sm mb-4">Please provide your public name as recorded on-chain.</p>
+        {/* Main Content */}
+        <h1 className="text-4xl font-bold mb-8 text-center pt-16">Mission Enrollment</h1>
 
-                  <input
-                    type="text"
-                    placeholder="Enter your on-chain name"
-                    className="input input-bordered w-full max-w-md mb-4"
-                    value={inputName}
-                    onChange={(e) => setInputName(e.target.value)}
-                  />
+        <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+          <p className="text-lg text-gray-600">Connect your wallet to begin</p>
+          <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transform hover:scale-105 transition-transform duration-200">
+            Connect Wallet
+          </button>
+        </div>
 
-                  <button
-                    className="btn btn-primary"
-                    onClick={handleNameSubmit}
-                  >
-                    REPLY
-                  </button>
+        <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
+          <h2 className="text-xl mb-4">What is your name on the blockchain?</h2>
+          <div className="space-y-4">
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Enter your name (without .eth or .base.eth)"
+              disabled={nameVerified}
+            />
 
-                  {verificationStatus === 'success' && (
-                    <div className="alert alert-success mt-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <span>Name verified successfully!</span>
-                    </div>
-                  )}
+            <button
+              onClick={mockVerifyName}
+              disabled={!name || nameVerified || isVerifying}
+              className={`w-full py-2 px-4 rounded font-medium ${
+                nameVerified
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-blue-500 hover:bg-blue-600 active:bg-blue-700'
+              } text-white transition-colors`}
+            >
+              {isVerifying ? 'Verifying...' : 'REPLY'}
+            </button>
 
-                  <button
-                    className={`btn ${verificationStatus === 'success' ? 'btn-secondary' : 'btn-disabled'} mt-4`}
-                    disabled={verificationStatus !== 'success'}
-                  >
-                    NEXT
-                  </button>
-                </>
-              ) : (
-                <p className="text-center">Please connect your wallet to continue with mission enrollment.</p>
-              )}
-            </div>
+            {verificationError && (
+              <div className="text-red-500 text-sm bg-red-50 p-2 rounded">{verificationError}</div>
+            )}
+
+            {nameVerified && (
+              <div className="text-green-500 text-sm bg-green-50 p-2 rounded">Name verified successfully!</div>
+            )}
+
+            <button
+              disabled={!nameVerified}
+              className={`w-full py-2 px-4 rounded font-medium ${
+                nameVerified
+                  ? 'bg-blue-500 hover:bg-blue-600 active:bg-blue-700'
+                  : 'bg-gray-400 cursor-not-allowed'
+              } text-white transition-colors`}
+            >
+              NEXT
+            </button>
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
