@@ -16,12 +16,11 @@ if (!NEXT_PUBLIC_WC_PROJECT_ID) {
 // Configure connectors for the app
 const connectors = [
   coinbaseWallet({
-    appName: 'Mission Enrollment',
-    chains: [base]
+    appName: 'Mission Enrollment'
   }),
   walletConnect({
     projectId: NEXT_PUBLIC_WC_PROJECT_ID,
-    chains: [base]
+    showQrModal: true
   }),
 ];
 

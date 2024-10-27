@@ -3,8 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { ConnectWallet } from '@coinbase/onchainkit/wallet';
-import { useAccount, useEnsAddress } from 'wagmi';
+import { useName } from '@coinbase/onchainkit/identity';
+import { useAccount } from 'wagmi';
 import { type Address } from 'viem';
+import { base } from 'viem/chains';
 import '@coinbase/onchainkit/styles.css';
 
 export default function Home(): React.ReactElement {
@@ -14,41 +16,28 @@ export default function Home(): React.ReactElement {
   const [isVerifying, setIsVerifying] = useState<boolean>(false);
   const { address, isConnected } = useAccount();
 
-  // Move ENS hooks to component level
-  const { data: baseNameAddress, isError: baseNameError } = useEnsAddress({
-    name: name ? `${name}.base.eth` : undefined,
-    chainId: 8453,
-    query: {
-      enabled: !!name && !name.includes('.')
-    }
+  // Use OnchainKit's useName hook for name resolution
+  const { data: onchainName, isLoading, isError } = useName({
+    address: address as Address,
+    chain: base
   });
 
-  const { data: ensAddress, isError: ensError } = useEnsAddress({
-    name: name ? `${name}.eth` : undefined,
-    chainId: 1,
-    query: {
-      enabled: !!name && !name.includes('.')
-    }
-  });
-
-  // Effect to handle verification when addresses change
+  // Effect to handle verification when name changes
   useEffect(() => {
-    if (!name || !address || name.includes('.')) return;
+    if (!name || !address || name.includes('.') || isLoading) return;
 
     const cleanName = name.toLowerCase();
-    const connectedAddress = (address as Address).toLowerCase();
+    const baseName = `${cleanName}.base.eth`;
+    const ensName = `${cleanName}.eth`;
 
-    if (baseNameAddress && baseNameAddress.toLowerCase() === connectedAddress) {
+    if (onchainName === baseName || onchainName === ensName) {
       setNameVerified(true);
       setVerificationError('');
-    } else if (ensAddress && ensAddress.toLowerCase() === connectedAddress) {
-      setNameVerified(true);
-      setVerificationError('');
-    } else if (baseNameError && ensError) {
+    } else if (isError || (!isLoading && !onchainName)) {
       setNameVerified(false);
       setVerificationError('The provided name does not match your onchain identity');
     }
-  }, [name, address, baseNameAddress, ensAddress, baseNameError, ensError]);
+  }, [name, address, onchainName, isLoading, isError]);
 
   const verifyName = async () => {
     if (!name || !address) return;
