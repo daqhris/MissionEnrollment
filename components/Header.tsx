@@ -6,8 +6,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import tw from "tailwind-styled-components";
 import { Bars3Icon } from "@heroicons/react/24/outline";
-import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
-import { useOutsideClick } from "~~/hooks/scaffold-eth";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import "@rainbow-me/rainbowkit/styles.css";
 
 type HeaderMenuLink = {
   label: string;
@@ -16,29 +16,29 @@ type HeaderMenuLink = {
 };
 
 const NavBar = tw.div`
-  sticky 
-  lg:static 
-  top-0 
-  navbar 
-  bg-base-100 
-  min-h-0 
-  flex-shrink-0 
-  justify-between 
-  z-20 
-  shadow-md 
-  shadow-secondary 
-  px-0 
+  sticky
+  lg:static
+  top-0
+  navbar
+  bg-base-100
+  min-h-0
+  flex-shrink-0
+  justify-between
+  z-20
+  shadow-md
+  shadow-secondary
+  px-0
   sm:px-2
 `;
 
 const NavbarStart = tw.div`
-  navbar-start 
-  w-auto 
+  navbar-start
+  w-auto
   lg:w-1/2
 `;
 
 const DropdownContainer = tw.div`
-  lg:hidden 
+  lg:hidden
   dropdown
 `;
 
@@ -50,57 +50,57 @@ const BurgerMenuButton = tw.label<{ $isOpen: boolean }>`
 `;
 
 const DropdownMenu = tw.ul`
-  menu 
-  menu-compact 
-  dropdown-content 
-  mt-3 
-  p-2 
-  shadow 
-  bg-base-100 
-  rounded-box 
+  menu
+  menu-compact
+  dropdown-content
+  mt-3
+  p-2
+  shadow
+  bg-base-100
+  rounded-box
   w-52
 `;
 
 const LogoLink = tw(Link)`
-  hidden 
-  lg:flex 
-  items-center 
-  gap-2 
-  ml-4 
-  mr-6 
+  hidden
+  lg:flex
+  items-center
+  gap-2
+  ml-4
+  mr-6
   shrink-0
 `;
 
 const LogoContainer = tw.div`
-  flex 
-  relative 
-  w-8 
+  flex
+  relative
+  w-8
   h-8
 `;
 
 const LogoText = tw.div`
-  flex 
+  flex
   flex-col
 `;
 
 const LogoTitle = tw.span`
-  font-bold 
+  font-bold
   leading-tight
 `;
 
 const DesktopMenu = tw.ul`
-  hidden 
-  lg:flex 
-  lg:flex-nowrap 
-  menu 
-  menu-horizontal 
-  px-1 
+  hidden
+  lg:flex
+  lg:flex-nowrap
+  menu
+  menu-horizontal
+  px-1
   gap-2
 `;
 
 const NavbarEnd = tw.div`
-  navbar-end 
-  flex-grow 
+  navbar-end
+  flex-grow
   mr-4
 `;
 
@@ -157,10 +157,20 @@ export const HeaderMenuLinks = (): JSX.Element => {
 export const Header = (): JSX.Element => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const burgerMenuRef = useRef<HTMLDivElement>(null);
-  useOutsideClick(
-    burgerMenuRef,
-    useCallback((): void => setIsDrawerOpen(false), []),
-  );
+
+  // Custom useOutsideClick implementation
+  const handleClickOutside = useCallback((event: MouseEvent) => {
+    if (burgerMenuRef.current && !burgerMenuRef.current.contains(event.target as Node)) {
+      setIsDrawerOpen(false);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [handleClickOutside]);
 
   return (
     <NavBar>
@@ -188,7 +198,7 @@ export const Header = (): JSX.Element => {
         </DropdownContainer>
         <LogoLink href="/" passHref>
           <LogoContainer>
-            <Image alt="SE2 logo" className="cursor-pointer" fill src="/logo.svg" />
+            <Image alt="Mission Enrollment logo" className="cursor-pointer" fill src="/logo.png" />
           </LogoContainer>
           <LogoText>
             <LogoTitle>Mission Enrollment</LogoTitle>
@@ -200,8 +210,7 @@ export const Header = (): JSX.Element => {
         </DesktopMenu>
       </NavbarStart>
       <NavbarEnd>
-        <RainbowKitCustomConnectButton />
-        <FaucetButton />
+        <ConnectButton />
       </NavbarEnd>
     </NavBar>
   );

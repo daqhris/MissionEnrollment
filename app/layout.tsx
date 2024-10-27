@@ -1,6 +1,6 @@
 import React from "react";
-import "@coinbase/onchainkit/styles.css";
-import { AppProvider } from "~~/app/providers/AppProvider";
+import "@rainbow-me/rainbowkit/styles.css";
+import { RainbowKitProvider } from "~~/app/providers/RainbowKitProvider";
 import "~~/styles/globals.css";
 
 export const metadata = {
@@ -12,9 +12,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }): React.ReactEle
   return (
     <html suppressHydrationWarning>
       <body>
-        <AppProvider>
+        <RainbowKitProvider>
           {children}
-        </AppProvider>
+        </RainbowKitProvider>
       </body>
     </html>
   );
