@@ -11,7 +11,9 @@ const nextConfig = {
     '@walletconnect/types',
     '@walletconnect/core',
     '@walletconnect/sign-client',
-    'query-string'
+    'query-string',
+    'viem',
+    'wagmi'
   ],
   webpack: (config) => {
     config.resolve.fallback = {
@@ -19,6 +21,20 @@ const nextConfig = {
       fs: false,
       crypto: false
     };
+    // Add support for BigInt serialization
+    config.module.rules.push({
+      test: /\.(js|mjs|jsx|ts|tsx)$/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['next/babel'],
+          plugins: [
+            ['@babel/plugin-proposal-numeric-separator'],
+            ['@babel/plugin-syntax-bigint']
+          ]
+        }
+      }
+    });
     return config;
   }
 };
