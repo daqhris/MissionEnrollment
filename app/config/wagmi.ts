@@ -1,38 +1,51 @@
 'use client';
+// typescript
 
 import { http, createConfig } from 'wagmi';
 import { coinbaseWallet, walletConnect } from 'wagmi/connectors';
 import { base } from 'viem/chains';
 
-// Environment variables are handled through next.config.js
-const NEXT_PUBLIC_WC_PROJECT_ID = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
-
-if (!NEXT_PUBLIC_WC_PROJECT_ID) {
-  throw new Error(
-    'To connect to all Wallets you need to provide a NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID env variable'
-  );
+interface WagmiConfigParams {
+  alchemyApiKey: string;
+  wcProjectId: string;
 }
 
-// Configure connectors for the app
-const connectors = [
-  coinbaseWallet({
-    appName: 'Mission Enrollment'
-  }),
-  walletConnect({
-    projectId: NEXT_PUBLIC_WC_PROJECT_ID,
-    showQrModal: true
-  }),
-];
+// Create a configuration factory function that accepts API keys
+export function createWagmiConfig({ alchemyApiKey, wcProjectId }: WagmiConfigParams) {
+  console.log('Initializing wagmi config with Base chain...', {
+    hasAlchemyKey: !!alchemyApiKey,
+    hasWcProjectId: !!wcProjectId,
+    chain: base.name,
+    chainId: base.id
+  });
 
-// Create and export the wagmi config
-export const config = createConfig({
-  chains: [base],
-  connectors,
-  ssr: true,
-  transports: {
-    [base.id]: http(),
-  },
-});
+  // Configure connectors for the app
+  const connectors = [
+    coinbaseWallet({
+      appName: 'Mission Enrollment',
+      chains: [base]
+    }),
+    walletConnect({
+      projectId: wcProjectId,
+      showQrModal: true,
+      chains: [base]
+    }),
+  ];
 
-// Export the base chain for reference
-export const DEFAULT_CHAIN = base;
+  console.log('Creating wagmi config with Base chain and connectors...');
+
+  // Create the wagmi config with provided API keys
+  const config = createConfig({
+    chains: [base],
+    connectors,
+    transports: {
+      [base.id]: http(`https://base-mainnet.g.alchemy.com/v2/${alchemyApiKey}`),
+    },
+  });
+
+  console.log('Wagmi config created successfully');
+  return config;
+}
+
+// Export a type for the config
+export type WagmiConfig = ReturnType<typeof createConfig>;

@@ -1,0 +1,1 @@
+Create an ErrorBoundary component that extends React.Component with proper error handling, including error state management and a user-friendly error display with details that can be expanded. Include proper TypeScript interfaces for Props and State.
