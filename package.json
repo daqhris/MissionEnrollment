@@ -85,6 +85,7 @@
     "abitype": "^1.0.6",
     "alchemy-sdk": "3.4.4",
     "axios-mock-adapter": "2.1.0",
+    "babel-loader": "^9.2.1",
     "chai": "4.5.0",
     "crypto-browserify": "^3.12.1",
     "eslint": "9.0.0",
