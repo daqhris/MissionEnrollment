@@ -1,3 +1,4 @@
+import "../utils/bigint-polyfill";
 import React from "react";
 import { OnchainKitProvider } from "@coinbase/onchainkit";
 import { base } from "viem/chains";
