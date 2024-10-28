@@ -40,6 +40,14 @@ const nextConfig = {
       os: require.resolve('os-browserify/browser'),
       url: require.resolve('url')
     };
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@walletconnect/types': require.resolve('@walletconnect/types')
+    };
+    config.resolve.modules = [
+      'node_modules',
+      ...config.resolve.modules || []
+    ];
     return config;
   }
 };
