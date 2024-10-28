@@ -15,7 +15,9 @@ const nextConfig = {
     '@walletconnect/sign-client',
     'query-string',
     'viem',
-    'wagmi'
+    'wagmi',
+    '@tanstack/query-core',
+    '@tanstack/react-query'
   ],
   webpack: (config) => {
     config.resolve.fallback = {
@@ -38,9 +40,17 @@ const nextConfig = {
                 }
               }
             }]
+          ],
+          plugins: [
+            '@babel/plugin-transform-modules-commonjs'
           ]
         }
-      }
+      },
+      include: [
+        /node_modules\/@tanstack/,
+        /node_modules\/colorette/,
+        /node_modules\/fast-copy/
+      ]
     });
 
     // Add environment variable for BigInt support
