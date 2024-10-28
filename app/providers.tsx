@@ -4,7 +4,7 @@ import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import { base } from 'viem/chains';
-import { createWagmiConfig } from './config/wagmi';
+import config from './config/wagmi';
 import { ReactNode, useState, useEffect } from 'react';
 import { ENV } from './config/env';
 
@@ -35,7 +35,6 @@ interface ProvidersProps {
 
 export default function Providers({ children }: ProvidersProps): JSX.Element {
   const [mounted, setMounted] = useState(false);
-  const [wagmiConfig, setWagmiConfig] = useState<ReturnType<typeof createWagmiConfig> | null>(null);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
@@ -46,14 +45,9 @@ export default function Providers({ children }: ProvidersProps): JSX.Element {
       checkEnv();
       console.log('[Providers] Environment variables verified');
 
-      // Create wagmi config
-      const config = createWagmiConfig({
-        alchemyApiKey: ENV.ALCHEMY_API_KEY,
-        wcProjectId: ENV.WALLET_CONNECT_PROJECT_ID,
-      });
-      console.log('[Providers] Wagmi config created');
+      // Use pre-configured wagmi config
+      console.log('[Providers] Using pre-configured wagmi config');
 
-      setWagmiConfig(config);
       setMounted(true);
       console.log('[Providers] Providers initialized successfully');
     } catch (err) {
@@ -73,7 +67,7 @@ export default function Providers({ children }: ProvidersProps): JSX.Element {
     );
   }
 
-  if (!mounted || !wagmiConfig) {
+  if (!mounted) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-pulse">Initializing providers...</div>
@@ -82,7 +76,7 @@ export default function Providers({ children }: ProvidersProps): JSX.Element {
   }
 
   return (
-    <WagmiProvider config={wagmiConfig}>
+    <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
           apiKey={ENV.CDP_API_KEY}

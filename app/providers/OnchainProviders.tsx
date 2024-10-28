@@ -3,7 +3,7 @@
 import React from 'react';
 import { WagmiProvider } from 'wagmi';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { config } from '../config/wagmi';
+import config from '../config/wagmi';
 import { base } from 'viem/chains';
 
 export default function OnchainProviders({
