@@ -3,20 +3,28 @@ import type { ChainFeesFnParameters } from 'viem';
 
 // Safely convert chain ID to string to avoid BigInt serialization issues
 export const safeChainId = (chain: typeof base): Chain => {
-  // Safely convert BigInt to number, handling potential overflow
+  // Format BigInt to string representation without using Math operations
+  const formatBigInt = (value: bigint | number): string => {
+    if (typeof value === 'bigint') {
+      return value.toString();
+    }
+    return value.toString();
+  };
+
+  // Safely convert BigInt to number using string manipulation
   const safeBigIntToNumber = (value: bigint | number): number => {
     if (typeof value === 'bigint') {
-      // Check if value is within safe integer range
-      if (value <= BigInt(Number.MAX_SAFE_INTEGER)) {
-        return Number(value);
-      }
-      // If too large, return max safe integer to avoid precision loss
-      return Number.MAX_SAFE_INTEGER;
+      const str = formatBigInt(value);
+      // Remove any decimal places for integer conversion
+      const [integerPart] = str.split('.');
+      // Parse the string representation, defaulting to MAX_SAFE_INTEGER if too large
+      const num = Number(integerPart);
+      return num > Number.MAX_SAFE_INTEGER ? Number.MAX_SAFE_INTEGER : num;
     }
     return value;
   };
 
-  // Recursively convert any BigInt values to numbers
+  // Recursively convert any BigInt values to numbers using string manipulation
   const convertBigIntToNumber = (value: any): any => {
     if (typeof value === 'bigint') {
       return safeBigIntToNumber(value);
@@ -42,7 +50,10 @@ export const safeChainId = (chain: typeof base): Chain => {
     return ((args: ChainFeesFnParameters) => {
       try {
         const result = fn(args);
-        return typeof result === 'bigint' ? safeBigIntToNumber(result) : result;
+        if (typeof result === 'bigint') {
+          return safeBigIntToNumber(result);
+        }
+        return result;
       } catch {
         return 0;
       }
