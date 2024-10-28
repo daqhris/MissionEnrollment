@@ -41,8 +41,7 @@ const nextConfig = {
       url: require.resolve('url')
     };
     config.resolve.alias = {
-      ...config.resolve.alias,
-      '@walletconnect/types': require.resolve('@walletconnect/types')
+      ...config.resolve.alias
     };
     config.resolve.modules = [
       'node_modules',
