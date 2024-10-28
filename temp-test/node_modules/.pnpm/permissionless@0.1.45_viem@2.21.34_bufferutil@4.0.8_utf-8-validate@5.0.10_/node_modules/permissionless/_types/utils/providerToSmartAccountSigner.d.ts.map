@@ -1,0 +1,1 @@
+{"version":3,"file":"providerToSmartAccountSigner.d.ts","sourceRoot":"","sources":["../../utils/providerToSmartAccountSigner.ts"],"names":[],"mappings":"AAAA,OAAO,EACH,KAAK,eAAe,EACpB,KAAK,GAAG,EAGX,MAAM,MAAM,CAAA;AAGb,eAAO,MAAM,4BAA4B,aAC3B,eAAe,WAChB;IACL,aAAa,EAAE,GAAG,CAAA;CACrB,+EAqBJ,CAAA"}

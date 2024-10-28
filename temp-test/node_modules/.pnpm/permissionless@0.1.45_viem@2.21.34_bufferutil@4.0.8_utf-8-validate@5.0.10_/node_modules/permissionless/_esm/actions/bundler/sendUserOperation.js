@@ -1,0 +1,44 @@
+import { deepHexlify } from "../../utils/deepHexlify.js";
+import { getSendUserOperationError } from "../../utils/errors/getSendUserOperationError.js";
+/**
+ * Sends user operation to the bundler
+ *
+ * - Docs: https://docs.pimlico.io/permissionless/reference/bundler-actions/sendUserOperation
+ *
+ * @param client {@link BundlerClient} that you created using viem's createClient and extended it with bundlerActions.
+ * @param args {@link SendUserOperationParameters}.
+ * @returns UserOpHash that you can use to track user operation as {@link Hash}.
+ *
+ * @example
+ * import { createClient } from "viem"
+ * import { sendUserOperation } from "permissionless/actions"
+ *
+ * const bundlerClient = createClient({
+ *      chain: goerli,
+ *      transport: http(BUNDLER_URL)
+ * })
+ *
+ * const userOpHash = sendUserOperation(bundlerClient, {
+ *      userOperation: signedUserOperation,
+ *      entryPoint: entryPoint
+ * })
+ *
+ * // Return '0xe9fad2cd67f9ca1d0b7a6513b2a42066784c8df938518da2b51bb8cc9a89ea34'
+ */
+export const sendUserOperation = async (client, args) => {
+    const { userOperation, entryPoint } = args;
+    try {
+        const userOperationHash = await client.request({
+            method: "eth_sendUserOperation",
+            params: [
+                deepHexlify(userOperation),
+                entryPoint
+            ]
+        });
+        return userOperationHash;
+    }
+    catch (err) {
+        throw getSendUserOperationError(err, args);
+    }
+};
+//# sourceMappingURL=sendUserOperation.js.map

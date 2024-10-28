@@ -1,0 +1,1 @@
+{"version":3,"file":"supportedEntryPoints.js","sourceRoot":"","sources":["../../../actions/bundler/supportedEntryPoints.ts"],"names":[],"mappings":";;;AA2BO,MAAM,oBAAoB,GAAG,KAAK,EAMrC,MAA0E,EACrD,EAAE;IACvB,OAAO,MAAM,CAAC,OAAO,CAAC;QAClB,MAAM,EAAE,0BAA0B;QAClC,MAAM,EAAE,EAAE;KACb,CAAC,CAAA;AACN,CAAC,CAAA;AAZY,QAAA,oBAAoB,wBAYhC"}

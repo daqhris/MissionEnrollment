@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Enrollment - UI Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-white shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                <img src="/logo.png" alt="Mission Enrollment Logo" class="w-8 h-8">
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm font-medium text-gray-700 bg-gray-100 px-3 py-1 rounded-full">Base</span>
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        Connect Wallet
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="bg-white rounded-lg shadow-sm p-8">
+                <h1 class="text-2xl font-bold text-center mb-8">What is your name on the blockchain?</h1>
+                
+                <!-- Connect Wallet Button (Centered) -->
+                <div class="flex justify-center mb-8">
+                    <button class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                        Connect Wallet
+                    </button>
+                </div>
+
+                <!-- Name Input Form -->
+                <div class="max-w-md mx-auto">
+                    <input type="text" 
+                           placeholder="Enter your name" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mb-4">
+                    
+                    <div class="flex justify-between space-x-4">
+                        <button class="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                            REPLY
+                        </button>
+                        <button class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                            NEXT
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Basic UI interaction logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const input = document.querySelector('input');
+            const replyButton = document.querySelector('button:nth-of-type(3)');
+            const nextButton = document.querySelector('button:nth-of-type(4)');
+            
+            // Disable next button initially
+            nextButton.disabled = true;
+
+            input.addEventListener('input', (e) => {
+                const value = e.target.value.trim();
+                
+                // Check for .eth or .base.eth extensions
+                if (value.endsWith('.eth') || value.endsWith('.base.eth')) {
+                    alert('Please enter your name without .eth or .base.eth extensions');
+                    return;
+                }
+
+                // Enable reply button if input is not empty
+                replyButton.disabled = !value;
+            });
+
+            replyButton.addEventListener('click', () => {
+                const value = input.value.trim();
+                
+                // Simulate name verification
+                setTimeout(() => {
+                    // Success case
+                    alert('Name verified successfully!');
+                    replyButton.disabled = true;
+                    nextButton.disabled = false;
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>

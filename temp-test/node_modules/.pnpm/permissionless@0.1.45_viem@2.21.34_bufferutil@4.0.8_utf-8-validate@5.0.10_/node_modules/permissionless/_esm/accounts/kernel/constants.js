@@ -1,0 +1,24 @@
+export const DUMMY_ECDSA_SIGNATURE = "0xfffffffffffffffffffffffffffffff0000000000000000000000000000000007aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1c";
+export const ROOT_MODE_KERNEL_V2 = "0x00000000";
+export var CALL_TYPE;
+(function (CALL_TYPE) {
+    CALL_TYPE["SINGLE"] = "0x00";
+    CALL_TYPE["BATCH"] = "0x01";
+    CALL_TYPE["DELEGATE_CALL"] = "0xFF";
+})(CALL_TYPE || (CALL_TYPE = {}));
+export var EXEC_TYPE;
+(function (EXEC_TYPE) {
+    EXEC_TYPE["DEFAULT"] = "0x00";
+    EXEC_TYPE["TRY_EXEC"] = "0x01";
+})(EXEC_TYPE || (EXEC_TYPE = {}));
+export const VALIDATOR_TYPE = {
+    ROOT: "0x00",
+    VALIDATOR: "0x01",
+    PERMISSION: "0x02"
+};
+export var VALIDATOR_MODE;
+(function (VALIDATOR_MODE) {
+    VALIDATOR_MODE["DEFAULT"] = "0x00";
+    VALIDATOR_MODE["ENABLE"] = "0x01";
+})(VALIDATOR_MODE || (VALIDATOR_MODE = {}));
+//# sourceMappingURL=constants.js.map

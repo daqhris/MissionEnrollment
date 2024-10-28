@@ -19,6 +19,7 @@ overrides:
   '@walletconnect/encoding': 1.0.2
   '@walletconnect/jsonrpc-types': 1.0.3
   '@walletconnect/jsonrpc-utils': 1.0.8
+  react-error-boundary: 4.0.13
 
 importers:
 
@@ -145,8 +146,8 @@ importers:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
       react-error-boundary:
-        specifier: ^4.1.2
-        version: 4.1.2(react@18.3.1)
+        specifier: 4.0.13
+        version: 4.0.13(react@18.3.1)
       react-hot-toast:
         specifier: 2.4.1
         version: 2.4.1(csstype@3.0.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -175,16 +176,16 @@ importers:
         specifier: 2.12.25
         version: 2.12.25(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))
       webpack:
-        specifier: ^5.95.0
+        specifier: 5.95.0
         version: 5.95.0
       webpack-dev-middleware:
-        specifier: ^7.4.2
+        specifier: 7.4.2
         version: 7.4.2(webpack@5.95.0)
       ws:
         specifier: 8.18.0
         version: 8.18.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       zustand:
-        specifier: ^5.0.0
+        specifier: 5.0.0
         version: 5.0.0(@types/react@18.3.12)(react@18.3.1)(use-sync-external-store@1.2.0(react@18.3.1))
     devDependencies:
       '@babel/core':
@@ -193,6 +194,12 @@ importers:
       '@babel/plugin-proposal-class-properties':
         specifier: 7.18.6
         version: 7.18.6(@babel/core@7.25.8)
+      '@babel/plugin-proposal-numeric-separator':
+        specifier: 7.18.6
+        version: 7.18.6(@babel/core@7.25.8)
+      '@babel/plugin-syntax-bigint':
+        specifier: 7.8.3
+        version: 7.8.3(@babel/core@7.25.8)
       '@babel/plugin-transform-runtime':
         specifier: 7.25.7
         version: 7.25.7(@babel/core@7.25.8)
@@ -242,31 +249,31 @@ importers:
         specifier: 8.11.0
         version: 8.11.0(eslint@9.0.0)(typescript@5.6.3)
       abitype:
-        specifier: ^1.0.6
+        specifier: 1.0.6
         version: 1.0.6(typescript@5.6.3)
       alchemy-sdk:
         specifier: 3.4.4
         version: 3.4.4(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       assert:
-        specifier: ^2.1.0
+        specifier: 2.1.0
         version: 2.1.0
       axios-mock-adapter:
         specifier: 2.1.0
         version: 2.1.0(axios@1.7.7)
       babel-loader:
-        specifier: ^9.2.1
+        specifier: 9.2.1
         version: 9.2.1(@babel/core@7.25.8)(webpack@5.95.0)
       browserify-zlib:
-        specifier: ^0.2.0
+        specifier: 0.2.0
         version: 0.2.0
       buffer:
-        specifier: ^6.0.3
+        specifier: 6.0.3
         version: 6.0.3
       chai:
         specifier: 4.5.0
         version: 4.5.0
       crypto-browserify:
-        specifier: ^3.12.1
+        specifier: 3.12.1
         version: 3.12.1
       eslint:
         specifier: 9.0.0
@@ -275,7 +282,7 @@ importers:
         specifier: 15.11.0
         version: 15.11.0
       https-browserify:
-        specifier: ^1.0.0
+        specifier: 1.0.0
         version: 1.0.0
       jest:
         specifier: 29.7.0
@@ -284,25 +291,25 @@ importers:
         specifier: 29.7.0
         version: 29.7.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       os-browserify:
-        specifier: ^0.3.0
+        specifier: 0.3.0
         version: 0.3.0
       path-browserify:
-        specifier: ^1.0.1
+        specifier: 1.0.1
         version: 1.0.1
       pino-pretty:
-        specifier: ^11.3.0
+        specifier: 11.3.0
         version: 11.3.0
       process:
-        specifier: ^0.11.10
+        specifier: 0.11.10
         version: 0.11.10
       querystring-es3:
-        specifier: ^0.2.1
+        specifier: 0.2.1
         version: 0.2.1
       stream-browserify:
-        specifier: ^3.0.0
+        specifier: 3.0.0
         version: 3.0.0
       stream-http:
-        specifier: ^3.2.0
+        specifier: 3.2.0
         version: 3.2.0
       ts-jest:
         specifier: 29.2.5
@@ -311,7 +318,7 @@ importers:
         specifier: 5.6.3
         version: 5.6.3
       url:
-        specifier: ^0.11.4
+        specifier: 0.11.4
         version: 0.11.4
 
 packages:
@@ -510,6 +517,13 @@ packages:
     resolution: {integrity: sha512-wQxQzxYeJqHcfppzBDnm1yAY0jSRkUXR2z8RePZYrKwMKgMlE8+Z6LUno+bd6LvbGh8Gltvy74+9pIYkr+XkKA==}
     engines: {node: '>=6.9.0'}
     deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+
+  '@babel/plugin-proposal-numeric-separator@7.18.6':
+    resolution: {integrity: sha512-ozlZFogPqoLm8WBr5Z8UckIoE4YQ5KESVcNudyXOR8uqIkliTEgJ3RoketfG6pmzLdeZF0H/wjE9/cCEitBl7Q==}
+    engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-numeric-separator instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
@@ -5638,8 +5652,8 @@ packages:
     peerDependencies:
       react: 18.3.1
 
-  react-error-boundary@4.1.2:
-    resolution: {integrity: sha512-GQDxZ5Jd+Aq/qUxbCm1UtzmL/s++V7zKgE8yMktJiCQXCCFZnMZh9ng+6/Ne6PjNSXH0L9CjeOEREfRnq6Duag==}
+  react-error-boundary@4.0.13:
+    resolution: {integrity: sha512-b6PwbdSv8XeOSYvjt8LpgpKrZ0yGdtZokYwkwV2wlcZbxgopHX/hgPl5VgpnoVOWd868n1hktM8Qm4b+02MiLQ==}
     peerDependencies:
       react: 18.3.1
 
@@ -7279,6 +7293,12 @@ snapshots:
       '@babel/core': 7.25.8
       '@babel/helper-plugin-utils': 7.25.9
       '@babel/plugin-syntax-nullish-coalescing-operator': 7.8.3(@babel/core@7.25.8)
+
+  '@babel/plugin-proposal-numeric-separator@7.18.6(@babel/core@7.25.8)':
+    dependencies:
+      '@babel/core': 7.25.8
+      '@babel/helper-plugin-utils': 7.25.9
+      '@babel/plugin-syntax-numeric-separator': 7.10.4(@babel/core@7.25.8)
 
   '@babel/plugin-proposal-optional-chaining@7.21.0(@babel/core@7.25.8)':
     dependencies:
@@ -14132,7 +14152,7 @@ snapshots:
       react: 18.3.1
       scheduler: 0.23.2
 
-  react-error-boundary@4.1.2(react@18.3.1):
+  react-error-boundary@4.0.13(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.25.7
       react: 18.3.1
