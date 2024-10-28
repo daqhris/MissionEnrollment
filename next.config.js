@@ -1,4 +1,3 @@
-javascript
 // @ts-check
 
 /** @type {import('next').NextConfig} */
@@ -39,39 +38,30 @@ const nextConfig = {
                       const valueNode = path.node.arguments[0];
                       if (valueNode.type === 'NumericLiteral' || valueNode.type === 'StringLiteral') {
                         const strValue = valueNode.value.toString();
-                        // Handle large numbers safely without using Math.pow
-                        if (strValue.length > 16) {
+                        const isNegative = strValue.startsWith('-');
+                        const absStr = strValue.replace('-', '');
+
+                        // Check if the number exceeds safe integer bounds based on string length
+                        const MAX_SAFE_LENGTH = Number.MAX_SAFE_INTEGER.toString().length;
+                        if (absStr.length > MAX_SAFE_LENGTH) {
                           path.replaceWith({
                             type: 'NumericLiteral',
-                            value: Number.MAX_SAFE_INTEGER
+                            value: isNegative ? Number.MIN_SAFE_INTEGER : Number.MAX_SAFE_INTEGER
                           });
                         } else {
-                          // Process digits individually to avoid Math.pow
-                          let result = 0;
-                          const digits = strValue.replace(/[^0-9]/g, '').split('');
-                          for (let i = 0; i < digits.length; i++) {
-                            const digit = parseInt(digits[i], 10);
-                            if (!isNaN(digit)) {
-                              let multiplier = 1;
-                              for (let j = 0; j < digits.length - i - 1; j++) {
-                                if (multiplier > Number.MAX_SAFE_INTEGER / 10) {
-                                  result = Number.MAX_SAFE_INTEGER;
-                                  break;
-                                }
-                                multiplier *= 10;
-                              }
-                              if (result <= Number.MAX_SAFE_INTEGER - digit * multiplier) {
-                                result += digit * multiplier;
-                              } else {
-                                result = Number.MAX_SAFE_INTEGER;
-                                break;
-                              }
-                            }
+                          // For numbers within safe bounds, we can safely use parseInt
+                          const parsed = parseInt(absStr, 10);
+                          if (parsed > Number.MAX_SAFE_INTEGER) {
+                            path.replaceWith({
+                              type: 'NumericLiteral',
+                              value: isNegative ? Number.MIN_SAFE_INTEGER : Number.MAX_SAFE_INTEGER
+                            });
+                          } else {
+                            path.replaceWith({
+                              type: 'NumericLiteral',
+                              value: isNegative ? -parsed : parsed
+                            });
                           }
-                          path.replaceWith({
-                            type: 'NumericLiteral',
-                            value: result
-                          });
                         }
                       }
                     }
