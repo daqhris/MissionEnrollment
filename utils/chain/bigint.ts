@@ -24,36 +24,27 @@ export function safeBigIntToNumber(value: bigint | number | undefined): number {
   const parts = absStr.split('.');
   const integerPart = parts[0] || '0';
 
-  // Early return for potential overflow
-  if (integerPart.length > 16) {
+  // Check if the number exceeds safe integer bounds based on string length
+  const MAX_SAFE_LENGTH = Number.MAX_SAFE_INTEGER.toString().length;
+  if (integerPart.length > MAX_SAFE_LENGTH) {
     return isNegative ? Number.MIN_SAFE_INTEGER : Number.MAX_SAFE_INTEGER;
   }
 
-  // Process digits individually without using Math.pow
-  let result = 0;
-  const digits = integerPart.split('');
+  // For numbers within safe bounds, we can safely use parseInt
+  // as we've already verified the length is within safe limits
+  const parsed = parseInt(integerPart, 10);
 
-  for (let i = 0; i < digits.length; i++) {
-    const currentDigit = digits[i];
-    if (currentDigit === undefined) continue;
-
-    // Use multiplication instead of Math.pow
-    let multiplier = 1;
-    for (let j = 0; j < digits.length - i - 1; j++) {
-      if (multiplier > Number.MAX_SAFE_INTEGER / 10) {
-        return isNegative ? Number.MIN_SAFE_INTEGER : Number.MAX_SAFE_INTEGER;
-      }
-      multiplier *= 10;
-    }
-
-    const digit = parseInt(currentDigit, 10);
-    if (isNaN(digit)) continue;
-
-    if (result > Number.MAX_SAFE_INTEGER - digit * multiplier) {
-      return isNegative ? Number.MIN_SAFE_INTEGER : Number.MAX_SAFE_INTEGER;
-    }
-    result += digit * multiplier;
+  // Double-check the parsed value is within safe bounds
+  if (parsed > Number.MAX_SAFE_INTEGER) {
+    return isNegative ? Number.MIN_SAFE_INTEGER : Number.MAX_SAFE_INTEGER;
   }
+  if (parsed < Number.MIN_SAFE_INTEGER) {
+    return Number.MIN_SAFE_INTEGER;
+  }
+
+  // Handle decimal part if present (truncating any decimal portion)
+  // This is safe since we've already verified the integer part is within bounds
+  const result = parsed;
 
   return isNegative ? -result : result;
 }
