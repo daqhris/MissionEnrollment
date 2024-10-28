@@ -2,7 +2,7 @@ import "../utils/bigint-polyfill";
 import React from "react";
 import { OnchainKitProvider } from "@coinbase/onchainkit";
 import { base } from "viem/chains";
-import { safeChainId } from "../utils/chain-config";
+import { safeChainId } from "../utils/chain/transaction";
 import "~~/styles/globals.css";
 
 export const metadata = {
