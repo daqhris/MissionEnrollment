@@ -7,7 +7,14 @@ const nextConfig = {
     domains: ["api.poap.tech", "placehold.co", "assets.poap.xyz"],
   },
   output: 'standalone',
-  transpilePackages: ['colorette', 'fast-copy', 'pino-pretty', 'pino'],
+  transpilePackages: [
+    'colorette',
+    'fast-copy',
+    'pino-pretty',
+    'pino',
+    '@walletconnect/utils',
+    'query-string'
+  ],
   webpack: (config) => {
     config.module.rules.push({
       test: /\.cjs$/,
@@ -16,6 +23,10 @@ const nextConfig = {
         fullySpecified: false
       }
     });
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      querystring: require.resolve('querystring-es3'),
+    };
     return config;
   }
 };
