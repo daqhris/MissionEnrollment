@@ -2,18 +2,35 @@ import { base, type Chain } from 'viem/chains';
 
 // Safely convert chain ID to string to avoid BigInt serialization issues
 export const safeChainId = (chain: typeof base): Chain => {
-  // Create a new chain object with the same structure but with id as number
-  const chainId = typeof chain.id === 'bigint' ? Number(chain.id) : chain.id;
+  // Recursively convert any BigInt values to numbers
+  const convertBigIntToNumber = (value: any): any => {
+    if (typeof value === 'bigint') {
+      return Number(value);
+    }
+    if (Array.isArray(value)) {
+      return value.map(convertBigIntToNumber);
+    }
+    if (typeof value === 'object' && value !== null) {
+      const converted: { [key: string]: any } = {};
+      for (const key in value) {
+        converted[key] = convertBigIntToNumber(value[key]);
+      }
+      return converted;
+    }
+    return value;
+  };
 
+  // Convert the entire chain object recursively
+  const convertedChain = convertBigIntToNumber(chain);
+
+  // Ensure specific properties are properly handled
   return {
-    ...chain,
-    id: chainId,
-    // Ensure all nested objects that might contain BigInt are also converted
+    ...convertedChain,
+    id: typeof chain.id === 'bigint' ? Number(chain.id) : chain.id,
     blockExplorers: {
-      ...chain.blockExplorers,
+      ...convertedChain.blockExplorers,
       default: {
-        ...chain.blockExplorers.default,
-        // Convert any potential BigInt values in URLs or parameters
+        ...convertedChain.blockExplorers.default,
         url: chain.blockExplorers.default.url.toString(),
       },
     },
