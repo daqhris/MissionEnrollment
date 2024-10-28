@@ -1,7 +1,7 @@
 import { base, type Chain } from 'viem/chains';
 
 // Safely convert chain ID to string to avoid BigInt serialization issues
-const safeChainId = (chain: typeof base): Chain => {
+export const safeChainId = (chain: typeof base): Chain => {
   // Create a new chain object with the same structure but with id as number
   const chainId = typeof chain.id === 'bigint' ? Number(chain.id) : chain.id;
 

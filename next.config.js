@@ -23,6 +23,33 @@ const nextConfig = {
     '@rainbow-me/rainbowkit'
   ],
   webpack: (config) => {
+    // Add loader for handling BigInt serialization
+    config.module.rules.push({
+      test: /\.(js|mjs|jsx|ts|tsx)$/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          plugins: [
+            function () {
+              return {
+                visitor: {
+                  CallExpression(path) {
+                    if (path.node.callee.name === 'BigInt') {
+                      path.replaceWith({
+                        type: 'NumericLiteral',
+                        value: Number(path.node.arguments[0].value)
+                      });
+                    }
+                  }
+                }
+              };
+            }
+          ]
+        }
+      },
+      exclude: /node_modules/
+    });
+
     config.module.rules.push({
       test: /\.cjs$/,
       type: 'javascript/auto',
@@ -30,6 +57,7 @@ const nextConfig = {
         fullySpecified: false
       }
     });
+
     config.resolve.fallback = {
       ...config.resolve.fallback,
       querystring: require.resolve('querystring-es3'),
