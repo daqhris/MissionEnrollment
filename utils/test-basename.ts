@@ -1,4 +1,3 @@
-typescript
 import { ethers } from 'ethers';
 import { getBaseName, verifyBaseName } from './basename';
 import { Address } from 'viem';
