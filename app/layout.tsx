@@ -2,7 +2,7 @@ import "../utils/bigint-polyfill";
 import React from "react";
 import { OnchainKitProvider } from "@coinbase/onchainkit";
 import { base } from "viem/chains";
-import { safeChainId } from "../utils/chain/transaction";
+import { safeChainConfig } from "../utils/chain/config";
 import "~~/styles/globals.css";
 
 export const metadata = {
@@ -30,7 +30,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }): React.ReactEle
           <ErrorBoundary>
             <OnchainKitProvider
               apiKey={cdpApiKey ?? ""}
-              chain={safeChainId(base)}
+              chain={safeChainConfig(base)}
               projectId={wcProjectId ?? ""}
             >
               {children}
