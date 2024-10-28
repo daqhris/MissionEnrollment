@@ -9,11 +9,17 @@ import { base } from 'viem/chains';
 const alchemyApiKey = process.env.ALCHEMY_API_KEY || '';
 const wcProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || '';
 
+// Convert BigInt values to strings for logging
+const chainInfo = {
+  name: base.name,
+  id: base.id.toString(),
+};
+
 console.log('Initializing wagmi config with Base chain...', {
   hasAlchemyKey: !!alchemyApiKey,
   hasWcProjectId: !!wcProjectId,
-  chain: base.name,
-  chainId: base.id
+  chain: chainInfo.name,
+  chainId: chainInfo.id
 });
 
 // Configure connectors for the app
