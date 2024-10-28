@@ -1,5 +1,4 @@
 'use client';
-// typescript
 
 import { http, createConfig } from 'wagmi';
 import { coinbaseWallet, walletConnect } from 'wagmi/connectors';
@@ -8,19 +7,6 @@ import { base } from 'viem/chains';
 // Create wagmi config with environment variables
 const alchemyApiKey = process.env.ALCHEMY_API_KEY || '';
 const wcProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || '';
-
-// Convert BigInt values to strings for logging
-const chainInfo = {
-  name: base.name,
-  id: base.id.toString(),
-};
-
-console.log('Initializing wagmi config with Base chain...', {
-  hasAlchemyKey: !!alchemyApiKey,
-  hasWcProjectId: !!wcProjectId,
-  chain: chainInfo.name,
-  chainId: chainInfo.id
-});
 
 // Configure connectors for the app
 const connectors = [
@@ -41,18 +27,14 @@ const connectors = [
   })
 ];
 
-console.log('Creating wagmi config with Base chain and connectors...');
-
-// Create and export the wagmi config
+// Create and export the wagmi config with static export support
 const config = createConfig({
   chains: [base],
   connectors,
   transports: {
-    [base.id]: http(`https://base-mainnet.g.alchemy.com/v2/${alchemyApiKey}`),
+    [base.id]: http(),
   },
 });
-
-console.log('Wagmi config created successfully');
 
 // Export the config
 export default config;
