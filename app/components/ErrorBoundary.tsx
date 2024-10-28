@@ -1,1 +1,53 @@
-Create an ErrorBoundary component that extends React.Component with proper error handling, including error state management and a user-friendly error display with details that can be expanded. Include proper TypeScript interfaces for Props and State.
+import React, { ErrorInfo } from 'react';
+import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
+
+interface FallbackProps {
+  error: Error;
+  resetErrorBoundary: () => void;
+}
+
+const ErrorFallback: React.FC<FallbackProps> = ({ error, resetErrorBoundary }) => {
+  return (
+    <div role="alert" className="p-4 bg-red-50 border border-red-200 rounded-lg">
+      <h2 className="text-lg font-semibold text-red-800 mb-2">Something went wrong</h2>
+      <details className="mb-4">
+        <summary className="text-sm text-red-600 cursor-pointer hover:text-red-700">
+          View error details
+        </summary>
+        <pre className="mt-2 text-xs text-red-600 bg-red-50 p-2 rounded overflow-auto">
+          {error.message}
+        </pre>
+      </details>
+      <button
+        onClick={resetErrorBoundary}
+        className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+      >
+        Try again
+      </button>
+    </div>
+  );
+};
+
+interface ErrorBoundaryProps {
+  children: React.ReactNode;
+  onReset?: () => void;
+  onError?: (error: Error, info: ErrorInfo) => void;
+}
+
+export const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({
+  children,
+  onReset,
+  onError,
+}) => {
+  return (
+    <ReactErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onReset={onReset}
+      onError={onError}
+    >
+      {children}
+    </ReactErrorBoundary>
+  );
+};
+
+export default ErrorBoundary;
