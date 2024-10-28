@@ -17,16 +17,32 @@ const nextConfig = {
     'viem',
     'wagmi',
     '@tanstack/query-core',
-    '@tanstack/react-query'
+    '@tanstack/react-query',
+    '@coinbase/onchainkit',
+    'react-error-boundary'
   ],
+  experimental: {
+    optimizePackageImports: ['@coinbase/onchainkit']
+  },
   webpack: (config) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
       fs: false,
-      crypto: false
+      crypto: false,
+      net: false,
+      tls: false
     };
 
-    // Handle BigInt serialization
+    // Handle module resolution
+    config.module.rules.push({
+      test: /\.m?js$/,
+      type: 'javascript/auto',
+      resolve: {
+        fullySpecified: false,
+      },
+    });
+
+    // Handle ES modules and CommonJS
     config.module.rules.push({
       test: /\.(js|mjs|jsx|ts|tsx)$/,
       use: {
@@ -37,7 +53,8 @@ const nextConfig = {
               'preset-env': {
                 targets: {
                   node: 'current'
-                }
+                },
+                modules: 'auto'
               }
             }]
           ],
@@ -49,17 +66,11 @@ const nextConfig = {
       include: [
         /node_modules\/@tanstack/,
         /node_modules\/colorette/,
-        /node_modules\/fast-copy/
+        /node_modules\/fast-copy/,
+        /node_modules\/@coinbase/,
+        /node_modules\/wagmi/
       ]
     });
-
-    // Add environment variable for BigInt support
-    config.plugins = config.plugins || [];
-    config.plugins.push(
-      new webpack.DefinePlugin({
-        'process.env.NEXT_RUNTIME': JSON.stringify('nodejs')
-      })
-    );
 
     return config;
   }

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Avatar } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 import { useAccount } from 'wagmi';
@@ -11,14 +11,14 @@ interface AvatarShowcaseProps {
   onVerificationChange?: (isVerified: boolean) => void;
 }
 
-export default function AvatarShowcase({
+const AvatarShowcase: React.FC<AvatarShowcaseProps> = ({
   className = '',
   onVerificationChange
-}: AvatarShowcaseProps): React.ReactElement {
+}) => {
   const { address, isConnected } = useAccount();
-  const [isVerified, setIsVerified] = React.useState<boolean | null>(null);
+  const [isVerified, setIsVerified] = useState<boolean | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (onVerificationChange) {
       onVerificationChange(!!isVerified);
     }
@@ -85,4 +85,6 @@ export default function AvatarShowcase({
       </div>
     </div>
   );
-}
+};
+
+export default AvatarShowcase;
