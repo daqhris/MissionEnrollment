@@ -69,9 +69,21 @@ importers:
       '@wagmi/core':
         specifier: 2.14.1
         version: 2.14.1(@tanstack/query-core@5.17.19)(@types/react@18.3.12)(react@18.3.1)(typescript@5.6.3)(use-sync-external-store@1.2.0(react@18.3.1))(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))
+      '@walletconnect/core':
+        specifier: 2.17.0
+        version: 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@walletconnect/ethereum-provider':
+        specifier: 2.17.0
+        version: 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)
+      '@walletconnect/sign-client':
+        specifier: 2.17.0
+        version: 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       '@walletconnect/types':
         specifier: 2.17.0
         version: 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
+      '@walletconnect/universal-provider':
+        specifier: 2.17.0
+        version: 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
       '@xmtp/frames-validator':
         specifier: 0.6.0
         version: 0.6.0(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
