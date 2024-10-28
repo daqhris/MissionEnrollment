@@ -3,8 +3,9 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ["api.poap.tech", "placehold.co", "assets.poap.xyz"],
+    unoptimized: true,
   },
-  output: 'standalone',
+  output: 'export',
   transpilePackages: [
     '@walletconnect/utils',
     '@walletconnect/types',
