@@ -1,3 +1,4 @@
+javascript
 // @ts-check
 
 /** @type {import('next').NextConfig} */
@@ -35,10 +36,44 @@ const nextConfig = {
                 visitor: {
                   CallExpression(path) {
                     if (path.node.callee.name === 'BigInt') {
-                      path.replaceWith({
-                        type: 'NumericLiteral',
-                        value: Number(path.node.arguments[0].value)
-                      });
+                      const valueNode = path.node.arguments[0];
+                      if (valueNode.type === 'NumericLiteral' || valueNode.type === 'StringLiteral') {
+                        const strValue = valueNode.value.toString();
+                        // Handle large numbers safely without using Math.pow
+                        if (strValue.length > 16) {
+                          path.replaceWith({
+                            type: 'NumericLiteral',
+                            value: Number.MAX_SAFE_INTEGER
+                          });
+                        } else {
+                          // Process digits individually to avoid Math.pow
+                          let result = 0;
+                          const digits = strValue.replace(/[^0-9]/g, '').split('');
+                          for (let i = 0; i < digits.length; i++) {
+                            const digit = parseInt(digits[i], 10);
+                            if (!isNaN(digit)) {
+                              let multiplier = 1;
+                              for (let j = 0; j < digits.length - i - 1; j++) {
+                                if (multiplier > Number.MAX_SAFE_INTEGER / 10) {
+                                  result = Number.MAX_SAFE_INTEGER;
+                                  break;
+                                }
+                                multiplier *= 10;
+                              }
+                              if (result <= Number.MAX_SAFE_INTEGER - digit * multiplier) {
+                                result += digit * multiplier;
+                              } else {
+                                result = Number.MAX_SAFE_INTEGER;
+                                break;
+                              }
+                            }
+                          }
+                          path.replaceWith({
+                            type: 'NumericLiteral',
+                            value: result
+                          });
+                        }
+                      }
                     }
                   }
                 }
