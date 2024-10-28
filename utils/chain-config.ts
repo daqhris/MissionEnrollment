@@ -15,13 +15,35 @@ export const safeChainId = (chain: typeof base): Chain => {
   const safeBigIntToNumber = (value: bigint | number): number => {
     if (typeof value === 'bigint') {
       const str = formatBigInt(value);
-      // Remove any decimal places for integer conversion
-      const [integerPart] = str.split('.');
-      // Parse the string representation, defaulting to MAX_SAFE_INTEGER if too large
-      const num = Number(integerPart);
-      return num > Number.MAX_SAFE_INTEGER ? Number.MAX_SAFE_INTEGER : num;
+      // Remove any decimal places for integer conversion and provide default
+      const parts = str.split('.');
+      const integerPart = parts[0] || '0';
+
+      // Check string length first to avoid processing very large numbers
+      if (integerPart.length > 16) {
+        return Number.MAX_SAFE_INTEGER;
+      }
+
+      // Parse digit by digit to avoid Math.pow
+      let result = 0;
+      // Ensure we only process valid digits
+      const digitArray: string[] = integerPart.split('').filter(char => /[0-9]/.test(char));
+
+      for (const digitChar of digitArray) {
+        const digit = parseInt(digitChar, 10);
+        // Ensure digit parsing succeeded
+        if (isNaN(digit)) {
+          continue;
+        }
+        // Check if multiplying by 10 would exceed MAX_SAFE_INTEGER
+        if (result > (Number.MAX_SAFE_INTEGER - digit) / 10) {
+          return Number.MAX_SAFE_INTEGER;
+        }
+        result = result * 10 + digit;
+      }
+      return result;
     }
-    return value;
+    return typeof value === 'number' ? value : 0;
   };
 
   // Recursively convert any BigInt values to numbers using string manipulation
