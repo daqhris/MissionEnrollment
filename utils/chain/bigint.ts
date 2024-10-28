@@ -1,4 +1,4 @@
-import { type Chain, type ChainFormatter, type TransactionFormatter } from 'viem';
+import { type Chain, type ChainFormatter } from 'viem';
 
 /**
  * Formats a BigInt or number value to a string representation
