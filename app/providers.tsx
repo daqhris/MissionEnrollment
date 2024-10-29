@@ -46,7 +46,6 @@ export default function Providers({ children }: ProvidersProps): JSX.Element {
 
   const [mounted, setMounted] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const [envStatus, setEnvStatus] = useState<{ isValid: boolean; missing: string[] }>({ isValid: true, missing: [] });
 
   // Log environment variables early (without values for security)
   console.log('[Providers] Available env vars:', {
@@ -62,12 +61,12 @@ export default function Providers({ children }: ProvidersProps): JSX.Element {
       console.log('[Providers] Initializing providers...');
 
       // Check environment variables
-      const envCheck = checkRequiredEnvVars();
-      setEnvStatus(envCheck);
-      console.log('[Providers] Environment check result:', envCheck);
-
-      if (!envCheck.isValid) {
-        throw new Error(`Missing required environment variables: ${envCheck.missing.join(', ')}`);
+      try {
+        checkRequiredEnvVars();
+        console.log('[Providers] Environment check passed');
+      } catch (envError) {
+        console.error('[Providers] Environment check failed:', envError);
+        throw envError;
       }
 
       // Log wagmi config details (without sensitive data)

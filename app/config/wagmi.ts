@@ -1,6 +1,6 @@
 'use client';
 
-import { http, createConfig } from 'wagmi';
+import { http, createConfig, Config } from 'wagmi';
 import { coinbaseWallet, walletConnect } from 'wagmi/connectors';
 import { base } from 'viem/chains';
 
@@ -48,7 +48,7 @@ if (connectors.length === 0) {
 }
 
 // Create the wagmi config
-let config;
+let config: Config;
 try {
   config = createConfig({
     chains: [base],
