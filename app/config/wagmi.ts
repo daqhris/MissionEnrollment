@@ -4,6 +4,7 @@ import { http, createConfig, Config } from 'wagmi';
 import { coinbaseWallet, walletConnect } from 'wagmi/connectors';
 import { base } from 'viem/chains';
 import { logger } from '../utils/logger';
+import type { WagmiConfig } from '../types/wagmi';
 
 // Create wagmi config with environment variables
 const wcProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || '';
@@ -48,7 +49,7 @@ if (connectors.length === 0) {
 }
 
 // Create the wagmi config
-let config: Config;
+let wagmiConfiguration: Config;
 let initializationError: Error | null = null;
 let isValid = false;
 
@@ -58,7 +59,7 @@ try {
     throw new Error('CDP API key is not configured');
   }
 
-  config = createConfig({
+  wagmiConfiguration = createConfig({
     chains: [base],
     connectors: connectors.length > 0 ? connectors : [
       // Fallback connector configuration
@@ -74,7 +75,7 @@ try {
   });
 
   // Verify the configuration is valid
-  if (!config.chains || config.chains.length === 0) {
+  if (!wagmiConfiguration.chains || wagmiConfiguration.chains.length === 0) {
     throw new Error('Invalid configuration: No chains configured');
   }
 
@@ -94,7 +95,7 @@ try {
   initializationError = error instanceof Error ? error : new Error('Failed to initialize wagmi configuration');
 
   // Create minimal fallback config
-  config = createConfig({
+  wagmiConfiguration = createConfig({
     chains: [base],
     connectors: [],
     transports: {
@@ -104,12 +105,25 @@ try {
 }
 
 // Export the config and initialization status
-export default {
-  config,
+const exportedConfig: WagmiConfig = {
+  config: {
+    chains: wagmiConfiguration.chains.map(chain => ({
+      id: chain.id,
+      name: chain.name,
+      nativeCurrency: {
+        name: chain.nativeCurrency.name,
+        symbol: chain.nativeCurrency.symbol,
+        decimals: chain.nativeCurrency.decimals
+      }
+    })),
+    connectors: wagmiConfiguration.connectors.map(connector => ({
+      id: connector.uid,
+      name: connector.name
+    }))
+  },
   hasError: !!initializationError,
-  error: initializationError,
+  error: initializationError || undefined,
   isValid
 };
 
-// Export a type for the config
-export type WagmiConfig = typeof config;
+export default exportedConfig;

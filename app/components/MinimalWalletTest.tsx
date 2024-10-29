@@ -55,10 +55,14 @@ export default function MinimalWalletTest() {
       }
 
       // Check wagmi configuration
-      if (wagmiConfig.hasError || !wagmiConfig.config) {
+      if (!wagmiConfig.isValid || !wagmiConfig.config || wagmiConfig.hasError) {
         const configError = new Error(wagmiConfig.error?.message || 'Invalid wallet configuration');
         captureException(configError);
-        logger.error('MinimalWalletTest', 'Wagmi configuration error', wagmiConfig.error);
+        logger.error('MinimalWalletTest', 'Wagmi configuration error', {
+          error: wagmiConfig.error,
+          isValid: wagmiConfig.isValid,
+          hasConfig: !!wagmiConfig.config
+        });
         setConfigError(configError.message);
         return;
       }
