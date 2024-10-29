@@ -20,6 +20,7 @@
     "@heroicons/react": "2.1.5",
     "@noble/secp256k1": "2.1.0",
     "@rainbow-me/rainbowkit": "2",
+    "@sentry/nextjs": "^8.35.0",
     "@tanstack/react-query-devtools": "5.17.19",
     "@testing-library/dom": "10.0.0",
     "@types/nprogress": "0.2.3",
