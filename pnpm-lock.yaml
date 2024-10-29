@@ -28,9 +28,6 @@ importers:
       '@apollo/client':
         specifier: 3.11.8
         version: 3.11.8(@types/react@18.3.12)(graphql@16.0.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@coinbase/onchainkit':
-        specifier: 0.35.1
-        version: 0.35.1(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@types/react@18.3.12)(@xmtp/frames-validator@0.6.0(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))(babel-plugin-macros@3.1.0)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)
       '@ensdomains/ensjs':
         specifier: 3.7.0
         version: 3.7.0(encoding@0.1.13)(typescript@5.6.3)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))
@@ -45,10 +42,7 @@ importers:
         version: 2.1.0
       '@rainbow-me/rainbowkit':
         specifier: '2'
-        version: 2.2.0(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))(wagmi@2.12.25(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)))
-      '@tanstack/react-query':
-        specifier: 5.17.19
-        version: 5.17.19(react@18.3.1)
+        version: 2.2.0(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))(wagmi@2.12.25(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)))
       '@tanstack/react-query-devtools':
         specifier: 5.17.19
         version: 5.17.19(@tanstack/react-query@5.17.19(react@18.3.1))(react@18.3.1)
@@ -72,19 +66,19 @@ importers:
         version: 2.14.1(@tanstack/query-core@5.59.16)(@types/react@18.3.12)(react@18.3.1)(typescript@5.6.3)(use-sync-external-store@1.2.0(react@18.3.1))(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))
       '@walletconnect/core':
         specifier: 2.17.0
-        version: 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+        version: 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       '@walletconnect/ethereum-provider':
         specifier: 2.17.0
-        version: 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)
+        version: 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)
       '@walletconnect/sign-client':
         specifier: 2.17.0
-        version: 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+        version: 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       '@walletconnect/types':
         specifier: 2.17.0
-        version: 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
+        version: 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
       '@walletconnect/universal-provider':
         specifier: 2.17.0
-        version: 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+        version: 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
       '@xmtp/frames-validator':
         specifier: 0.6.0
         version: 0.6.0(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
@@ -145,9 +139,6 @@ importers:
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
-      react-error-boundary:
-        specifier: 4.0.13
-        version: 4.0.13(react@18.3.1)
       react-hot-toast:
         specifier: 2.4.1
         version: 2.4.1(csstype@3.0.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -169,12 +160,6 @@ importers:
       usehooks-ts:
         specifier: 3.1.0
         version: 3.1.0(react@18.3.1)
-      viem:
-        specifier: 2.21.34
-        version: 2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
-      wagmi:
-        specifier: 2.12.25
-        version: 2.12.25(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))
       webpack:
         specifier: 5.95.0
         version: 5.95.0
@@ -227,12 +212,18 @@ importers:
       '@babel/runtime':
         specifier: 7.25.7
         version: 7.25.7
+      '@coinbase/onchainkit':
+        specifier: 0.35.1
+        version: 0.35.1(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@types/react@18.3.12)(@xmtp/frames-validator@0.6.0(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))(babel-plugin-macros@3.1.0)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)
       '@eslint/js':
         specifier: 9.13.0
         version: 9.13.0
       '@next/eslint-plugin-next':
         specifier: 15.0.1
         version: 15.0.1
+      '@tanstack/react-query':
+        specifier: 5.17.19
+        version: 5.17.19(react@18.3.1)
       '@testing-library/jest-dom':
         specifier: 6.6.2
         version: 6.6.2
@@ -320,6 +311,9 @@ importers:
       querystring-es3:
         specifier: 0.2.1
         version: 0.2.1
+      react-error-boundary:
+        specifier: 4.0.13
+        version: 4.0.13(react@18.3.1)
       stream-browserify:
         specifier: 3.0.0
         version: 3.0.0
@@ -335,6 +329,12 @@ importers:
       url:
         specifier: 0.11.4
         version: 0.11.4
+      viem:
+        specifier: 2.21.34
+        version: 2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
+      wagmi:
+        specifier: 2.12.25
+        version: 2.12.25(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))
 
 packages:
 
@@ -2002,28 +2002,28 @@ packages:
     peerDependencies:
       react-native: ^0.0.0-0 || >=0.60 <1.0
 
-  '@react-native/assets-registry@0.76.0':
-    resolution: {integrity: sha512-U8KLV+PC/cRIiDpb1VbeGuEfKq2riZZtNVLp1UOyKWfPbWWu8j6Fr95w7j+nglp41z70iBeF2OmCiVnRvtNklA==}
+  '@react-native/assets-registry@0.76.1':
+    resolution: {integrity: sha512-1mcDjyvC4Z+XYtY+Abl6pW9P49l/9HJmRChX7EHF1SoXe7zPAPBoAqeZsJNtf8dhJR3u/eGvapr1yJq8T/psEg==}
     engines: {node: '>=18'}
 
-  '@react-native/babel-plugin-codegen@0.76.0':
-    resolution: {integrity: sha512-HOi45pqlZnCTeR4jJ/zK0FB12r08CI9O70uBjVUqmzvHIrWmL5FaEFp6BPVFOjjXtUsl3JZ2Mle7WpsAP2PQBA==}
+  '@react-native/babel-plugin-codegen@0.76.1':
+    resolution: {integrity: sha512-V9bGLyEdAF39nvn4L5gaJcPX1SvCHPJhaT3qfpVGvCnl7WPhdRyCq++WsN8HXlpo6WOAf6//oruLnLdl3RNM4Q==}
     engines: {node: '>=18'}
 
-  '@react-native/babel-preset@0.76.0':
-    resolution: {integrity: sha512-HgQt4MyuWLcnrIglXn7GNPPVwtzZ4ffX+SUisdhmPtJCHuP8AOU3HsgOKLhqVfEGWTBlE4kbWoTmmLU87IJaOw==}
+  '@react-native/babel-preset@0.76.1':
+    resolution: {integrity: sha512-b6YRmA13CmVuTQKHRen/Q0glHwmZFZoEDs+MJ1NL0UNHq9V5ytvdwTW1ntkmjtXuTnPMzkwYvumJBN9UTZjkBA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@babel/core': '*'
 
-  '@react-native/codegen@0.76.0':
-    resolution: {integrity: sha512-x0zzK1rb7ZSIAeHRcRSjRo+VtLROjln1IKnQSPLEZEdyQfWNXqgiMk59E5hW7KE6I05upqfbf85PRAb5WndXdw==}
+  '@react-native/codegen@0.76.1':
+    resolution: {integrity: sha512-7lE0hk2qq27wVeK5eF654v7XsKoRa7ficrfSwIDEDZ1aLB2xgUzLrsq+glSAP9EuzT6ycHhtD3QyqI+TqnlS/A==}
     engines: {node: '>=18'}
     peerDependencies:
       '@babel/preset-env': ^7.1.6
 
-  '@react-native/community-cli-plugin@0.76.0':
-    resolution: {integrity: sha512-JFU5kmo+lUf5vOsieJ/dGS71Z2+qV3leXbKW6p8cn5aVfupVmtz/uYcFVdGzEGIGJ3juorYOZjpG8Qz91FrUZw==}
+  '@react-native/community-cli-plugin@0.76.1':
+    resolution: {integrity: sha512-dECc1LuleMQDX/WK2oJInrYCpHb3OFBJxYkhPOAXb9HiktMWRA9T93qqpTDshmtLdYqvxeO9AM5eeoSL412WnQ==}
     engines: {node: '>=18'}
     peerDependencies:
       '@react-native-community/cli-server-api': '*'
@@ -2031,33 +2031,33 @@ packages:
       '@react-native-community/cli-server-api':
         optional: true
 
-  '@react-native/debugger-frontend@0.76.0':
-    resolution: {integrity: sha512-v4J22ZN1/7BQYhYvnZYi2pzd87MmTCEnxtTiktaUOhmx3YSF47LGo1Q2UfUE5YOzoRftiJTXDKvzDbI/hqAzgg==}
+  '@react-native/debugger-frontend@0.76.1':
+    resolution: {integrity: sha512-0gExx7GR8o2ctGfjIZ9+x54iFbg0eP6+kMYzRA6AcgmFAmMGLADMmjtObCN0CqGeZyWtdVVqcv5mAwRwmMlNWA==}
     engines: {node: '>=18'}
 
-  '@react-native/dev-middleware@0.76.0':
-    resolution: {integrity: sha512-XvSnCDwCghWCVNtGpoF30xgA1EzxvlGsEyhJCUe0uLMDaaVxr/ZkgD3nZ+/l4cEm1qlrlcAZoGctnUgrzHiTaA==}
+  '@react-native/dev-middleware@0.76.1':
+    resolution: {integrity: sha512-htaFSN2dwI0CinsMxjRuvIVdSDN6d6TDPeOJczM1bdAYalZX1M58knTKs5LJDComW5tleOCAg5lS5tIeFlM9+Q==}
     engines: {node: '>=18'}
 
-  '@react-native/gradle-plugin@0.76.0':
-    resolution: {integrity: sha512-MhsAahV/Ju0Md1x79ljaDsNzzFY02TsDqxSfOS8vc4trZuM0imFf7VEBitOydNDTf9NqzAqJ9p8j7OSuxUEvLg==}
+  '@react-native/gradle-plugin@0.76.1':
+    resolution: {integrity: sha512-X7rNFltPa9QYxvYrQGaSCw7U57C+y+DwspXf4AnLZj0bQm9tL6UYpijh5vE3VmPcHn76/RNU2bpFjVvWg6gjqw==}
     engines: {node: '>=18'}
 
-  '@react-native/js-polyfills@0.76.0':
-    resolution: {integrity: sha512-0UzEqvg85Bn0BpgNG80wzbiWvNypwdl64sbRs/sEvIDjzgq/tM+u3KoneSD5tP72BCydAqXFfepff3FZgImfbA==}
+  '@react-native/js-polyfills@0.76.1':
+    resolution: {integrity: sha512-HO3fzJ0FnrnQGmxdXxh2lcGGAMfaX9h1Pg1Zh38MkVw35/KnZHxHqxg6cruze6iWwZdfqSoIcQoalmMuAHby7Q==}
     engines: {node: '>=18'}
 
-  '@react-native/metro-babel-transformer@0.76.0':
-    resolution: {integrity: sha512-aq0MrjaOxDitSqQbttBcOt+5tjemCabhEX2gGthy8cNeZokBa2raoHQInDo9iBBN1ePKDCwKGypyC8zKA5dksQ==}
+  '@react-native/metro-babel-transformer@0.76.1':
+    resolution: {integrity: sha512-LUAKqgsrioXS2a+pE0jak8sutTbLo3T34KWv7mdVUZ5lUACpqkIql1EFtIQlWjIcR4oZE480CkPbRHBI681tkQ==}
     engines: {node: '>=18'}
     peerDependencies:
       '@babel/core': '*'
 
-  '@react-native/normalize-colors@0.76.0':
-    resolution: {integrity: sha512-r+pjeIhzehb+bJUUUrztOQb+n6J9DeaLbF6waLgiHa5mFOiwP/4/iWS68inSZnnBtmXHkN2IYiMXzExx8hieWA==}
+  '@react-native/normalize-colors@0.76.1':
+    resolution: {integrity: sha512-/+CUk/wGWIdXbJYVLw/q6Fs8Z0x91zzfXIbNiZUdSW1TNEDmytkF371H8a1/Nx3nWa1RqCMVsaZHCG4zqxeDvg==}
 
-  '@react-native/virtualized-lists@0.76.0':
-    resolution: {integrity: sha512-WT3Xi1+ikmWWdbrv3xnl8wYxobj1+N5JfiOQx7o/tiGUCx8m12pf5tlutXByH2m7X8bAZ+BBcRuu1vwt7XaRhQ==}
+  '@react-native/virtualized-lists@0.76.1':
+    resolution: {integrity: sha512-uWJfv0FC3zmlYORr0Sa17ngbAaw6K9yw4MAkBZyFeTM+W6AJRvTVyR1Mes/MU+vIyGFChnTcyaQrQz8jWqADOA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@types/react': ^18.2.6
@@ -3098,8 +3098,8 @@ packages:
   camelize@1.0.1:
     resolution: {integrity: sha512-dU+Tx2fsypxTgtLoE36npi3UqcjSSMNYfkqgmoEhtZrraP5VWq0K7FkWVTYa8eMPtnU/G2txVsfdCJTn9uzpuQ==}
 
-  caniuse-lite@1.0.30001673:
-    resolution: {integrity: sha512-WTrjUCSMp3LYX0nE12ECkV0a+e6LC85E0Auz75555/qr78Oc8YWhEPNfDd6SHdtlCMSzqtuXY0uyEMNRcsKpKw==}
+  caniuse-lite@1.0.30001674:
+    resolution: {integrity: sha512-jOsKlZVRnzfhLojb+Ykb+gyUSp9Xb57So+fAiFlLzzTKpqg8xxSav0e40c8/4F/v9N8QSvrRRaLeVzQbLqomYw==}
 
   chai@4.5.0:
     resolution: {integrity: sha512-RITGBfijLkBddZvnn8jdqoTypxvqbOLYQkGGxXzeFjVHvudaPw0HNFD9x928/eUwYWd2dPCugVqspGALTZZQKw==}
@@ -3592,8 +3592,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.5.47:
-    resolution: {integrity: sha512-zS5Yer0MOYw4rtK2iq43cJagHZ8sXN0jDHDKzB+86gSBSAI4v07S97mcq+Gs2vclAxSh1j7vOAHxSVgduiiuVQ==}
+  electron-to-chromium@1.5.49:
+    resolution: {integrity: sha512-ZXfs1Of8fDb6z7WEYZjXpgIRF6MEu8JdeGA0A40aZq6OQbS+eJpnnV49epZRna2DU/YsEjSQuGtQPPtvt6J65A==}
 
   elliptic@6.5.4:
     resolution: {integrity: sha512-iLhC6ULemrljPZb+QutR5TQGB+pdW6KGD5RSegS+8sorOZT+rdQFbsQFJgvN3eRqNALqJer4oQ16YvJHlU8hzQ==}
@@ -5566,8 +5566,8 @@ packages:
     resolution: {integrity: sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==}
     engines: {node: '>=8'}
 
-  parse5@7.2.0:
-    resolution: {integrity: sha512-ZkDsAOcxsUMZ4Lz5fVciOehNcJ+Gb8gTzcA4yl3wnc273BAybYWrQ+Ks/OjCjSEpjvQkDSeZbybK9qj2VHHdGA==}
+  parse5@7.2.1:
+    resolution: {integrity: sha512-BuBYQYlv1ckiPdQi/ohiivi9Sagc9JG+Ozs0r7b/0iK3sKmrb0b9FdWdBbOdx6hBCM/F9Ir82ofnBhtZOjCRPQ==}
 
   parseurl@1.3.3:
     resolution: {integrity: sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==}
@@ -5933,8 +5933,8 @@ packages:
       react: 18.3.1
       react-native: '*'
 
-  react-native@0.76.0:
-    resolution: {integrity: sha512-isbLzmY7fhhLdN/oss4jlRHeDmEShuTYsp1Zq93UM0/JssQK4g+2Ub4mHdhxDFm2LN+0ryBgVJK1nO7l93cfsA==}
+  react-native@0.76.1:
+    resolution: {integrity: sha512-z4KnbrnnAvloRs9NGnah3u6/LK3IbtNMrvByxa3ifigbMlsMY4WPRYV9lvt/hH4Mzt8bfuI+utnOxFyJTTq3lg==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
@@ -8244,9 +8244,9 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@coinbase/onchainkit@0.35.1(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@types/react@18.3.12)(@xmtp/frames-validator@0.6.0(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))(babel-plugin-macros@3.1.0)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)':
+  '@coinbase/onchainkit@0.35.1(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@types/react@18.3.12)(@xmtp/frames-validator@0.6.0(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))(babel-plugin-macros@3.1.0)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@rainbow-me/rainbowkit': 2.2.0(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))(wagmi@2.12.25(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)))
+      '@rainbow-me/rainbowkit': 2.2.0(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))(wagmi@2.12.25(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)))
       '@tanstack/react-query': 5.17.19(react@18.3.1)
       '@xmtp/frames-validator': 0.6.0(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
       clsx: 2.1.1
@@ -8257,7 +8257,7 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       tailwind-merge: 2.5.4
       viem: 2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
-      wagmi: 2.12.25(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))
+      wagmi: 2.12.25(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -9181,7 +9181,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@metamask/sdk-install-modal-web@0.12.1(@types/react@18.3.12)(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))':
+  '@metamask/sdk-install-modal-web@0.12.1(@types/react@18.3.12)(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))':
     dependencies:
       '@emotion/react': 11.13.3(@types/react@18.3.12)(react@18.3.1)
       '@emotion/styled': 11.13.0(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react@18.3.1)
@@ -9189,20 +9189,20 @@ snapshots:
       qr-code-styling: 1.8.4
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      react-i18next: 13.5.0(i18next@22.5.1)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)
+      react-i18next: 13.5.0(i18next@22.5.1)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)
     transitivePeerDependencies:
       - '@types/react'
       - react-native
       - supports-color
 
-  '@metamask/sdk@0.12.1(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(utf-8-validate@5.0.10)':
+  '@metamask/sdk@0.12.1(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(utf-8-validate@5.0.10)':
     dependencies:
       '@metamask/onboarding': 1.0.1
       '@metamask/post-message-stream': 6.2.0
       '@metamask/providers': 10.2.1
       '@metamask/sdk-communication-layer': 0.12.1(encoding@0.1.13)
-      '@metamask/sdk-install-modal-web': 0.12.1(@types/react@18.3.12)(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))
-      '@react-native-async-storage/async-storage': 1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))
+      '@metamask/sdk-install-modal-web': 0.12.1(@types/react@18.3.12)(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))
+      '@react-native-async-storage/async-storage': 1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))
       '@types/dom-screen-wake-lock': 1.0.3
       bowser: 2.11.0
       cross-fetch: 4.0.0(encoding@0.1.13)
@@ -9215,8 +9215,8 @@ snapshots:
       obj-multiplex: 1.0.0
       pump: 3.0.2
       qrcode-terminal-nooctal: 0.12.1
-      react-i18next: 13.5.0(i18next@22.5.1)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)
-      react-native-webview: 11.26.1(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)
+      react-i18next: 13.5.0(i18next@22.5.1)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)
+      react-native-webview: 11.26.1(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)
       readable-stream: 2.3.8
       rollup-plugin-visualizer: 5.12.0
       socket.io-client: 4.8.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
@@ -9224,7 +9224,7 @@ snapshots:
       uuid: 8.3.2
     optionalDependencies:
       react: 18.3.1
-      react-native: 0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)
+      react-native: 0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - '@types/react'
       - bufferutil
@@ -9560,7 +9560,7 @@ snapshots:
 
   '@protobufjs/utf8@1.1.0': {}
 
-  '@rainbow-me/rainbowkit@2.2.0(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))(wagmi@2.12.25(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)))':
+  '@rainbow-me/rainbowkit@2.2.0(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))(wagmi@2.12.25(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)))':
     dependencies:
       '@tanstack/react-query': 5.17.19(react@18.3.1)
       '@vanilla-extract/css': 1.15.5(babel-plugin-macros@3.1.0)
@@ -9573,26 +9573,26 @@ snapshots:
       react-remove-scroll: 2.6.0(@types/react@18.3.12)(react@18.3.1)
       ua-parser-js: 1.0.39
       viem: 2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
-      wagmi: 2.12.25(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))
+      wagmi: 2.12.25(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))
     transitivePeerDependencies:
       - '@types/react'
       - babel-plugin-macros
 
-  '@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))':
+  '@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))':
     dependencies:
       merge-options: 3.0.4
-      react-native: 0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)
+      react-native: 0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)
 
-  '@react-native/assets-registry@0.76.0': {}
+  '@react-native/assets-registry@0.76.1': {}
 
-  '@react-native/babel-plugin-codegen@0.76.0(@babel/preset-env@7.25.8(@babel/core@7.25.8))':
+  '@react-native/babel-plugin-codegen@0.76.1(@babel/preset-env@7.25.8(@babel/core@7.25.8))':
     dependencies:
-      '@react-native/codegen': 0.76.0(@babel/preset-env@7.25.8(@babel/core@7.25.8))
+      '@react-native/codegen': 0.76.1(@babel/preset-env@7.25.8(@babel/core@7.25.8))
     transitivePeerDependencies:
       - '@babel/preset-env'
       - supports-color
 
-  '@react-native/babel-preset@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))':
+  '@react-native/babel-preset@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))':
     dependencies:
       '@babel/core': 7.25.8
       '@babel/plugin-proposal-export-default-from': 7.25.9(@babel/core@7.25.8)
@@ -9635,7 +9635,7 @@ snapshots:
       '@babel/plugin-transform-typescript': 7.25.9(@babel/core@7.25.8)
       '@babel/plugin-transform-unicode-regex': 7.25.9(@babel/core@7.25.8)
       '@babel/template': 7.25.9
-      '@react-native/babel-plugin-codegen': 0.76.0(@babel/preset-env@7.25.8(@babel/core@7.25.8))
+      '@react-native/babel-plugin-codegen': 0.76.1(@babel/preset-env@7.25.8(@babel/core@7.25.8))
       babel-plugin-syntax-hermes-parser: 0.23.1
       babel-plugin-transform-flow-enums: 0.0.2(@babel/core@7.25.8)
       react-refresh: 0.14.2
@@ -9643,7 +9643,7 @@ snapshots:
       - '@babel/preset-env'
       - supports-color
 
-  '@react-native/codegen@0.76.0(@babel/preset-env@7.25.8(@babel/core@7.25.8))':
+  '@react-native/codegen@0.76.1(@babel/preset-env@7.25.8(@babel/core@7.25.8))':
     dependencies:
       '@babel/parser': 7.26.1
       '@babel/preset-env': 7.25.8(@babel/core@7.25.8)
@@ -9657,10 +9657,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@react-native/community-cli-plugin@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)':
+  '@react-native/community-cli-plugin@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)':
     dependencies:
-      '@react-native/dev-middleware': 0.76.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@react-native/metro-babel-transformer': 0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))
+      '@react-native/dev-middleware': 0.76.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@react-native/metro-babel-transformer': 0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))
       chalk: 4.1.2
       execa: 5.1.1
       invariant: 2.2.4
@@ -9677,12 +9677,12 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@react-native/debugger-frontend@0.76.0': {}
+  '@react-native/debugger-frontend@0.76.1': {}
 
-  '@react-native/dev-middleware@0.76.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
+  '@react-native/dev-middleware@0.76.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
       '@isaacs/ttlcache': 1.4.1
-      '@react-native/debugger-frontend': 0.76.0
+      '@react-native/debugger-frontend': 0.76.1
       chrome-launcher: 0.15.2
       chromium-edge-launcher: 0.2.0
       connect: 3.7.0
@@ -9697,28 +9697,28 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@react-native/gradle-plugin@0.76.0': {}
+  '@react-native/gradle-plugin@0.76.1': {}
 
-  '@react-native/js-polyfills@0.76.0': {}
+  '@react-native/js-polyfills@0.76.1': {}
 
-  '@react-native/metro-babel-transformer@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))':
+  '@react-native/metro-babel-transformer@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))':
     dependencies:
       '@babel/core': 7.25.8
-      '@react-native/babel-preset': 0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))
+      '@react-native/babel-preset': 0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))
       hermes-parser: 0.23.1
       nullthrows: 1.1.1
     transitivePeerDependencies:
       - '@babel/preset-env'
       - supports-color
 
-  '@react-native/normalize-colors@0.76.0': {}
+  '@react-native/normalize-colors@0.76.1': {}
 
-  '@react-native/virtualized-lists@0.76.0(@types/react@18.3.12)(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)':
+  '@react-native/virtualized-lists@0.76.1(@types/react@18.3.12)(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)':
     dependencies:
       invariant: 2.2.4
       nullthrows: 1.1.1
       react: 18.3.1
-      react-native: 0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)
+      react-native: 0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)
     optionalDependencies:
       '@types/react': 18.3.12
 
@@ -10066,7 +10066,7 @@ snapshots:
     dependencies:
       '@types/node': 22.7.7
       '@types/tough-cookie': 4.0.5
-      parse5: 7.2.0
+      parse5: 7.2.1
 
   '@types/json-schema@7.0.15': {}
 
@@ -10252,14 +10252,14 @@ snapshots:
     dependencies:
       '@vanilla-extract/css': 1.15.5(babel-plugin-macros@3.1.0)
 
-  '@wagmi/connectors@5.3.3(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@types/react@18.3.12)(@wagmi/core@2.14.1(@tanstack/query-core@5.59.16)(@types/react@18.3.12)(react@18.3.1)(typescript@5.6.3)(use-sync-external-store@1.2.0(react@18.3.1))(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))':
+  '@wagmi/connectors@5.3.3(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@types/react@18.3.12)(@wagmi/core@2.14.1(@tanstack/query-core@5.59.16)(@types/react@18.3.12)(react@18.3.1)(typescript@5.6.3)(use-sync-external-store@1.2.0(react@18.3.1))(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))':
     dependencies:
       '@coinbase/wallet-sdk': 4.1.0
-      '@metamask/sdk': 0.12.1(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(utf-8-validate@5.0.10)
+      '@metamask/sdk': 0.12.1(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(utf-8-validate@5.0.10)
       '@safe-global/safe-apps-provider': 0.18.3(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
       '@safe-global/safe-apps-sdk': 9.1.0(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
       '@wagmi/core': 2.14.1(@tanstack/query-core@5.59.16)(@types/react@18.3.12)(react@18.3.1)(typescript@5.6.3)(use-sync-external-store@1.2.0(react@18.3.1))(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))
-      '@walletconnect/ethereum-provider': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)
+      '@walletconnect/ethereum-provider': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)
       cbw-sdk: '@coinbase/wallet-sdk@3.9.3'
       viem: 2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
     optionalDependencies:
@@ -10304,21 +10304,21 @@ snapshots:
       - react
       - use-sync-external-store
 
-  '@walletconnect/core@2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
+  '@walletconnect/core@2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
       '@walletconnect/heartbeat': 1.2.2
       '@walletconnect/jsonrpc-provider': 1.0.14
       '@walletconnect/jsonrpc-types': 1.0.3
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/jsonrpc-ws-connection': 1.0.14(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
       '@walletconnect/logger': 2.1.2
       '@walletconnect/relay-api': 1.0.11
       '@walletconnect/relay-auth': 1.0.4
       '@walletconnect/safe-json': 1.0.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
-      '@walletconnect/utils': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
+      '@walletconnect/types': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
+      '@walletconnect/utils': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
       events: 3.3.0
       lodash.isequal: 4.5.0
       uint8arrays: 3.1.0
@@ -10343,17 +10343,17 @@ snapshots:
     dependencies:
       tslib: 1.14.1
 
-  '@walletconnect/ethereum-provider@2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)':
+  '@walletconnect/ethereum-provider@2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)':
     dependencies:
       '@walletconnect/jsonrpc-http-connection': 1.0.8(encoding@0.1.13)
       '@walletconnect/jsonrpc-provider': 1.0.14
       '@walletconnect/jsonrpc-types': 1.0.3
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/modal': 2.7.0(@types/react@18.3.12)(react@18.3.1)
-      '@walletconnect/sign-client': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@walletconnect/types': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
-      '@walletconnect/universal-provider': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@walletconnect/utils': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
+      '@walletconnect/sign-client': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@walletconnect/types': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
+      '@walletconnect/universal-provider': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@walletconnect/utils': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
       events: 3.3.0
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -10422,13 +10422,13 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@walletconnect/keyvaluestorage@1.1.1(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))':
+  '@walletconnect/keyvaluestorage@1.1.1(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))':
     dependencies:
       '@walletconnect/safe-json': 1.0.2
       idb-keyval: 6.2.1
       unstorage: 1.12.0(idb-keyval@6.2.1)
     optionalDependencies:
-      '@react-native-async-storage/async-storage': 1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))
+      '@react-native-async-storage/async-storage': 1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -10490,16 +10490,16 @@ snapshots:
     dependencies:
       tslib: 1.14.1
 
-  '@walletconnect/sign-client@2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
+  '@walletconnect/sign-client@2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
-      '@walletconnect/core': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@walletconnect/core': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.2
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/logger': 2.1.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
-      '@walletconnect/utils': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
+      '@walletconnect/types': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
+      '@walletconnect/utils': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
       events: 3.3.0
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -10522,12 +10522,12 @@ snapshots:
     dependencies:
       tslib: 1.14.1
 
-  '@walletconnect/types@2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))':
+  '@walletconnect/types@2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))':
     dependencies:
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.2
       '@walletconnect/jsonrpc-types': 1.0.3
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
       '@walletconnect/logger': 2.1.2
       events: 3.3.0
     transitivePeerDependencies:
@@ -10545,16 +10545,16 @@ snapshots:
       - '@vercel/kv'
       - ioredis
 
-  '@walletconnect/universal-provider@2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)':
+  '@walletconnect/universal-provider@2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)':
     dependencies:
       '@walletconnect/jsonrpc-http-connection': 1.0.8(encoding@0.1.13)
       '@walletconnect/jsonrpc-provider': 1.0.14
       '@walletconnect/jsonrpc-types': 1.0.3
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/logger': 2.1.2
-      '@walletconnect/sign-client': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      '@walletconnect/types': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
-      '@walletconnect/utils': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
+      '@walletconnect/sign-client': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      '@walletconnect/types': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
+      '@walletconnect/utils': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
       events: 3.3.0
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -10574,7 +10574,7 @@ snapshots:
       - ioredis
       - utf-8-validate
 
-  '@walletconnect/utils@2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))':
+  '@walletconnect/utils@2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))':
     dependencies:
       '@stablelib/chacha20poly1305': 1.0.1
       '@stablelib/hkdf': 1.0.1
@@ -10585,7 +10585,7 @@ snapshots:
       '@walletconnect/relay-auth': 1.0.4
       '@walletconnect/safe-json': 1.0.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
+      '@walletconnect/types': 2.17.0(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))
       '@walletconnect/window-getters': 1.0.1
       '@walletconnect/window-metadata': 1.0.1
       detect-browser: 5.3.0
@@ -10988,7 +10988,7 @@ snapshots:
   autoprefixer@10.4.20(postcss@8.4.47):
     dependencies:
       browserslist: 4.24.2
-      caniuse-lite: 1.0.30001673
+      caniuse-lite: 1.0.30001674
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.1.1
@@ -11220,8 +11220,8 @@ snapshots:
 
   browserslist@4.24.2:
     dependencies:
-      caniuse-lite: 1.0.30001673
-      electron-to-chromium: 1.5.47
+      caniuse-lite: 1.0.30001674
+      electron-to-chromium: 1.5.49
       node-releases: 2.0.18
       update-browserslist-db: 1.1.1(browserslist@4.24.2)
 
@@ -11292,7 +11292,7 @@ snapshots:
 
   camelize@1.0.1: {}
 
-  caniuse-lite@1.0.30001673: {}
+  caniuse-lite@1.0.30001674: {}
 
   chai@4.5.0:
     dependencies:
@@ -11805,7 +11805,7 @@ snapshots:
     dependencies:
       jake: 10.9.2
 
-  electron-to-chromium@1.5.47: {}
+  electron-to-chromium@1.5.49: {}
 
   elliptic@6.5.4:
     dependencies:
@@ -13581,7 +13581,7 @@ snapshots:
       https-proxy-agent: 5.0.1
       is-potential-custom-element-name: 1.0.1
       nwsapi: 2.2.13
-      parse5: 7.2.0
+      parse5: 7.2.1
       saxes: 6.0.0
       symbol-tree: 3.2.4
       tough-cookie: 4.1.4
@@ -14152,7 +14152,7 @@ snapshots:
       '@swc/counter': 0.1.3
       '@swc/helpers': 0.5.13
       busboy: 1.6.0
-      caniuse-lite: 1.0.30001673
+      caniuse-lite: 1.0.30001674
       postcss: 8.4.31
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -14416,7 +14416,7 @@ snapshots:
       json-parse-even-better-errors: 2.3.1
       lines-and-columns: 1.2.4
 
-  parse5@7.2.0:
+  parse5@7.2.1:
     dependencies:
       entities: 4.5.0
 
@@ -14771,7 +14771,7 @@ snapshots:
     transitivePeerDependencies:
       - csstype
 
-  react-i18next@13.5.0(i18next@22.5.1)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1):
+  react-i18next@13.5.0(i18next@22.5.1)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.25.7
       html-parse-stringify: 3.0.1
@@ -14779,7 +14779,7 @@ snapshots:
       react: 18.3.1
     optionalDependencies:
       react-dom: 18.3.1(react@18.3.1)
-      react-native: 0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)
+      react-native: 0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)
 
   react-is@16.13.1: {}
 
@@ -14787,23 +14787,23 @@ snapshots:
 
   react-is@18.3.1: {}
 
-  react-native-webview@11.26.1(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1):
+  react-native-webview@11.26.1(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1):
     dependencies:
       escape-string-regexp: 2.0.0
       invariant: 2.2.4
       react: 18.3.1
-      react-native: 0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)
+      react-native: 0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)
 
-  react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10):
+  react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10):
     dependencies:
       '@jest/create-cache-key-function': 29.7.0
-      '@react-native/assets-registry': 0.76.0
-      '@react-native/codegen': 0.76.0(@babel/preset-env@7.25.8(@babel/core@7.25.8))
-      '@react-native/community-cli-plugin': 0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@react-native/gradle-plugin': 0.76.0
-      '@react-native/js-polyfills': 0.76.0
-      '@react-native/normalize-colors': 0.76.0
-      '@react-native/virtualized-lists': 0.76.0(@types/react@18.3.12)(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)
+      '@react-native/assets-registry': 0.76.1
+      '@react-native/codegen': 0.76.1(@babel/preset-env@7.25.8(@babel/core@7.25.8))
+      '@react-native/community-cli-plugin': 0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@react-native/gradle-plugin': 0.76.1
+      '@react-native/js-polyfills': 0.76.1
+      '@react-native/normalize-colors': 0.76.1
+      '@react-native/virtualized-lists': 0.76.1(@types/react@18.3.12)(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)
       abort-controller: 3.0.0
       anser: 1.4.10
       ansi-regex: 5.0.1
@@ -15043,7 +15043,7 @@ snapshots:
 
   rimraf@2.7.1:
     dependencies:
-      glob: 7.2.3
+      glob: 7.2.0
 
   rimraf@3.0.2:
     dependencies:
@@ -15980,10 +15980,10 @@ snapshots:
     dependencies:
       xml-name-validator: 4.0.0
 
-  wagmi@2.12.25(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)):
+  wagmi@2.12.25(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)):
     dependencies:
       '@tanstack/react-query': 5.17.19(react@18.3.1)
-      '@wagmi/connectors': 5.3.3(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@types/react@18.3.12)(@wagmi/core@2.14.1(@tanstack/query-core@5.59.16)(@types/react@18.3.12)(react@18.3.1)(typescript@5.6.3)(use-sync-external-store@1.2.0(react@18.3.1))(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))
+      '@wagmi/connectors': 5.3.3(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@types/react@18.3.12)(@wagmi/core@2.14.1(@tanstack/query-core@5.59.16)(@types/react@18.3.12)(react@18.3.1)(typescript@5.6.3)(use-sync-external-store@1.2.0(react@18.3.1))(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)))(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))
       '@wagmi/core': 2.14.1(@tanstack/query-core@5.59.16)(@types/react@18.3.12)(react@18.3.1)(typescript@5.6.3)(use-sync-external-store@1.2.0(react@18.3.1))(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))
       react: 18.3.1
       use-sync-external-store: 1.2.0(react@18.3.1)

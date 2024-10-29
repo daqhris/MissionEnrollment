@@ -1,0 +1,48 @@
+Debugger listening on ws://127.0.0.1:9295/3b780a2b-f4ac-4830-b9ff-866770ac7a13
+For help, see: https://nodejs.org/en/docs/inspector
+
+> mission-enrollment@0.1.0 dev /home/ubuntu/MissionEnrollment
+> next dev "--port" "3095"
+
+Starting inspector on 127.0.0.1:9295 failed: address already in use
+Debugger listening on ws://127.0.0.1:9296/33461f44-96a8-4f1c-a93e-ea5c5f0c2b19
+For help, see: https://nodejs.org/en/docs/inspector
+   the --inspect option was detected, the Next.js router server should be inspected at 9296.
+  ▲ Next.js 15.0.1
+  - Local:        http://localhost:3095
+  - Environments: .env.local, .env
+
+ ✓ Starting...
+2024-10-29T12:34:21.403Z next:router-server:filesystem nextDataRoutes Set(0) {}
+2024-10-29T12:34:21.404Z next:router-server:filesystem dynamicRoutes []
+2024-10-29T12:34:21.404Z next:router-server:filesystem pageFiles Set(0) {}
+2024-10-29T12:34:21.404Z next:router-server:filesystem appFiles Set(0) {}
+   Disabled SWC as replacement for Babel because of custom Babel configuration "babel.config.js" https://nextjs.org/docs/messages/swc-disabled
+2024-10-29T12:34:22.687Z next:jsconfig-paths-plugin tsconfig.json or jsconfig.json paths: {
+  '~~/*': [ './*' ],
+  '@/*': [ './*' ],
+  'components/*': [ './components/*' ],
+  'hooks/*': [ './hooks/*' ],
+  'utils/*': [ './utils/*' ],
+  'services/*': [ './services/*' ]
+}
+2024-10-29T12:34:22.687Z next:jsconfig-paths-plugin resolved baseUrl: { baseUrl: '/home/ubuntu/MissionEnrollment', isImplicit: false }
+2024-10-29T12:34:22.730Z next:jsconfig-paths-plugin tsconfig.json or jsconfig.json paths: {
+  '~~/*': [ './*' ],
+  '@/*': [ './*' ],
+  'components/*': [ './components/*' ],
+  'hooks/*': [ './hooks/*' ],
+  'utils/*': [ './utils/*' ],
+  'services/*': [ './services/*' ]
+}
+2024-10-29T12:34:22.730Z next:jsconfig-paths-plugin resolved baseUrl: { baseUrl: '/home/ubuntu/MissionEnrollment', isImplicit: false }
+2024-10-29T12:34:22.737Z next:jsconfig-paths-plugin tsconfig.json or jsconfig.json paths: {
+  '~~/*': [ './*' ],
+  '@/*': [ './*' ],
+  'components/*': [ './components/*' ],
+  'hooks/*': [ './hooks/*' ],
+  'utils/*': [ './utils/*' ],
+  'services/*': [ './services/*' ]
+}
+2024-10-29T12:34:22.737Z next:jsconfig-paths-plugin resolved baseUrl: { baseUrl: '/home/ubuntu/MissionEnrollment', isImplicit: false }
+ ✓ Ready in 2.1s

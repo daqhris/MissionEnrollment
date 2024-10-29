@@ -4,7 +4,7 @@ import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import { base } from 'viem/chains';
-import config from './config/wagmi';
+import wagmiConfig from './config/wagmi';
 import { ReactNode, useState, useEffect } from 'react';
 import { ENV, checkRequiredEnvVars } from './config/env';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -42,13 +42,13 @@ function ErrorFallback({ error }: { error: Error }) {
 }
 
 export default function Providers({ children }: ProvidersProps): JSX.Element {
-  console.log('[Providers] Component rendering started');
+  logger.info('Providers', 'Component rendering started');
 
   const [mounted, setMounted] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
   // Log environment variables early (without values for security)
-  console.log('[Providers] Available env vars:', {
+  logger.info('Providers', 'Available env vars', {
     ALCHEMY_API_KEY: !!ENV.ALCHEMY_API_KEY,
     WALLET_CONNECT_PROJECT_ID: !!ENV.WALLET_CONNECT_PROJECT_ID,
     CDP_API_KEY: !!ENV.CDP_API_KEY
@@ -58,29 +58,31 @@ export default function Providers({ children }: ProvidersProps): JSX.Element {
     console.log('[Providers] useEffect initialization starting');
 
     try {
-      console.log('[Providers] Initializing providers...');
+      logger.info('Providers', 'Initializing providers...');
 
       // Check environment variables
       try {
         checkRequiredEnvVars();
-        console.log('[Providers] Environment check passed');
+        logger.info('Providers', 'Environment check passed');
       } catch (envError) {
-        console.error('[Providers] Environment check failed:', envError);
+        logger.error('Providers', 'Environment check failed', envError);
         throw envError;
       }
 
       // Log wagmi config details (without sensitive data)
-      console.log('[Providers] Wagmi config check:', {
-        hasConfig: !!config,
-        configKeys: config ? Object.keys(config) : []
+      logger.info('Providers', 'Wagmi config check', {
+        hasConfig: !!wagmiConfig.config,
+        hasError: wagmiConfig.hasError,
+        errorMessage: wagmiConfig.error?.message,
+        isValid: wagmiConfig.isValid
       });
 
       // Use pre-configured wagmi config
-      if (!config) {
-        console.error('[Providers] Wagmi config is missing or invalid');
+      if (!wagmiConfig.config || !wagmiConfig.isValid) {
+        logger.error('Providers', 'Wagmi config is missing or invalid', wagmiConfig.error);
         throw new Error('Invalid wagmi configuration');
       }
-      console.log('[Providers] Using pre-configured wagmi config');
+      logger.info('Providers', 'Using pre-configured wagmi config');
 
       // Additional checks for critical dependencies
       const missingDependencies = [];
@@ -90,15 +92,15 @@ export default function Providers({ children }: ProvidersProps): JSX.Element {
 
       if (missingDependencies.length > 0) {
         const errorMessage = `Missing critical dependencies: ${missingDependencies.join(', ')}`;
-        console.error('[Providers] Dependency check failed:', errorMessage);
+        logger.error('Providers', 'Dependency check failed', { missingDependencies });
         throw new Error(errorMessage);
       }
 
       setMounted(true);
-      console.log('[Providers] Providers initialized successfully');
+      logger.info('Providers', 'Providers initialized successfully');
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error during initialization';
-      console.error('[Providers] Initialization failed:', {
+      logger.error('Providers', 'Initialization failed', {
         error: err,
         message: errorMessage,
         stack: err instanceof Error ? err.stack : undefined,
@@ -132,10 +134,10 @@ export default function Providers({ children }: ProvidersProps): JSX.Element {
     );
   }
 
-  console.log('[Providers] Rendering providers');
+  logger.info('Providers', 'Rendering providers');
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <WagmiProvider config={config}>
+      <WagmiProvider config={wagmiConfig.config}>
         <QueryClientProvider client={queryClient}>
           <OnchainKitProvider
             apiKey={ENV.CDP_API_KEY}

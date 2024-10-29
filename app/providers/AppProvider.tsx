@@ -4,8 +4,9 @@ import { ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
-import config from '../config/wagmi';
+import wagmiConfig from '../config/wagmi';
 import { base } from 'viem/chains';
+import { logger } from '../utils/logger';
 
 // Create a client
 const queryClient = new QueryClient();
@@ -23,8 +24,14 @@ interface AppProviderProps {
 }
 
 export function AppProvider({ children }: AppProviderProps) {
+  // Check for wagmi initialization errors
+  if (wagmiConfig.hasError || !wagmiConfig.isValid) {
+    logger.error('AppProvider', 'Wagmi initialization error', wagmiConfig.error);
+    throw new Error('Failed to initialize wallet configuration');
+  }
+
   return (
-    <WagmiProvider config={config}>
+    <WagmiProvider config={wagmiConfig.config}>
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
           apiKey={process.env.NEXT_PUBLIC_CDP_API_KEY}

@@ -3,8 +3,9 @@
 import React from 'react';
 import { WagmiProvider } from 'wagmi';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
-import config from '../config/wagmi';
+import wagmiConfig from '../config/wagmi';
 import { base } from 'viem/chains';
+import { logger } from '../utils/logger';
 
 export default function OnchainProviders({
   children,
@@ -12,15 +13,26 @@ export default function OnchainProviders({
   children: React.ReactNode;
 }) {
   if (!process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID) {
-    throw new Error('NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID is not defined');
+    logger.warn('OnchainProviders', 'NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID is not defined');
   }
 
   if (!process.env.NEXT_PUBLIC_CDP_API_KEY) {
-    throw new Error('NEXT_PUBLIC_CDP_API_KEY is not defined');
+    logger.warn('OnchainProviders', 'NEXT_PUBLIC_CDP_API_KEY is not defined');
+  }
+
+  if (wagmiConfig.hasError || !wagmiConfig.isValid) {
+    logger.warn('OnchainProviders', 'Wagmi configuration initialized with errors', wagmiConfig.error);
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center">
+        <div className="text-red-600">
+          Failed to initialize wallet configuration. Please try again later.
+        </div>
+      </div>
+    );
   }
 
   return (
-    <WagmiProvider config={config}>
+    <WagmiProvider config={wagmiConfig.config}>
       <OnchainKitProvider
         chain={base}
         projectId={process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID}

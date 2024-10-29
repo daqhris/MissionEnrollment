@@ -2,12 +2,15 @@
 const getEnvVar = (key: string): string => {
   const value = process.env[key];
   if (!value) {
-    console.error(`[ENV] Missing required environment variable: ${key}`);
+    logger.error('ENV', `Missing required environment variable: ${key}`);
     throw new Error(`Missing required environment variable: ${key}`);
   }
-  console.log(`[ENV] Environment variable ${key} is set`);
+  logger.info('ENV', `Environment variable ${key} is set`);
   return value;
 };
+
+// Import logger
+import { logger } from './utils/logger';
 
 // Validate and export environment variables with consistent NEXT_PUBLIC_ prefix
 export const ENV = {
@@ -17,7 +20,7 @@ export const ENV = {
 } as const;
 
 // Log environment configuration status (without values for security)
-console.log('[ENV] Environment configuration loaded:', {
+logger.info('ENV', 'Environment configuration loaded', {
   hasCdpKey: !!ENV.CDP_API_KEY,
   hasWalletConnectId: !!ENV.WALLET_CONNECT_PROJECT_ID,
   hasAlchemyKey: !!ENV.ALCHEMY_API_KEY,
@@ -32,7 +35,7 @@ export const checkRequiredEnvVars = () => {
 
   if (missing.length > 0) {
     const errorMessage = `Missing required environment variables: ${missing.join(', ')}`;
-    console.error('[ENV] ' + errorMessage);
+    logger.error('ENV', errorMessage);
     throw new Error(errorMessage);
   }
 
