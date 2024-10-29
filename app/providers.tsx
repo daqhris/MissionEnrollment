@@ -6,7 +6,7 @@ import { WagmiProvider } from 'wagmi';
 import { base } from 'viem/chains';
 import config from './config/wagmi';
 import { ReactNode, useState, useEffect } from 'react';
-import { ENV } from './config/env';
+import { ENV, checkRequiredEnvVars } from './config/env';
 
 // Create a single QueryClient instance that can be reused
 const queryClient = new QueryClient({
@@ -18,20 +18,6 @@ const queryClient = new QueryClient({
   },
 });
 
-// Simple environment check for required variables
-const checkEnv = () => {
-  const missing = [];
-  const result = { isValid: true, missing: [] as string[] };
-  if (!ENV.ALCHEMY_API_KEY) result.missing.push('ALCHEMY_API_KEY');
-  if (!ENV.WALLET_CONNECT_PROJECT_ID) result.missing.push('WALLET_CONNECT_PROJECT_ID');
-  if (!ENV.CDP_API_KEY) result.missing.push('CDP_API_KEY');
-  if (result.missing.length > 0) {
-    result.isValid = false;
-    console.error('[Providers] Missing environment variables:', result.missing.join(', '));
-  }
-  return result;
-};
-
 interface ProvidersProps {
   children: ReactNode;
 }
@@ -41,6 +27,7 @@ export default function Providers({ children }: ProvidersProps): JSX.Element {
 
   const [mounted, setMounted] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const [envStatus, setEnvStatus] = useState<{ isValid: boolean; missing: string[] }>({ isValid: true, missing: [] });
 
   // Log environment variables early (without values for security)
   console.log('[Providers] Available env vars:', {
@@ -56,12 +43,9 @@ export default function Providers({ children }: ProvidersProps): JSX.Element {
       console.log('[Providers] Initializing providers...');
 
       // Check environment variables
-      const envCheck = checkEnv();
-      if (!envCheck.isValid) {
-        console.error('[Providers] Environment check failed:', envCheck.missing);
-        throw new Error(`Missing required environment variables: ${envCheck.missing.join(', ')}`);
-      }
-      console.log('[Providers] Environment variables verified');
+      const envCheck = checkRequiredEnvVars();
+      setEnvStatus(envCheck);
+      console.log('[Providers] Environment check result:', envCheck);
 
       // Log wagmi config details (without sensitive data)
       console.log('[Providers] Wagmi config check:', {
@@ -103,24 +87,28 @@ export default function Providers({ children }: ProvidersProps): JSX.Element {
     }
   }, []);
 
-  if (error) {
-    console.error('[Providers] Rendering error state:', error.message);
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="p-4 text-red-600">
-          <div className="font-bold">Provider Initialization Failed</div>
-          <div className="text-sm mt-2">{error.message}</div>
-          <div className="text-xs mt-1 text-gray-500">Please check the console for more details.</div>
-        </div>
-      </div>
-    );
-  }
+  if (!mounted || error || !envStatus.isValid) {
+    const message = error ? error.message :
+      !envStatus.isValid ? `Missing required environment variables: ${envStatus.missing.join(', ')}` :
+      'Initializing providers...';
 
-  if (!mounted) {
-    console.log('[Providers] Rendering loading state');
+    const isError = error || !envStatus.isValid;
+
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse">Initializing providers...</div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className={`p-8 rounded-lg shadow-md ${isError ? 'bg-red-50' : 'bg-white'}`}>
+          <div className={`text-lg font-semibold mb-2 ${isError ? 'text-red-600' : 'text-gray-700'}`}>
+            {isError ? 'Initialization Error' : 'Loading'}
+          </div>
+          <div className={`text-sm ${isError ? 'text-red-500' : 'text-gray-500'}`}>
+            {message}
+          </div>
+          {isError && (
+            <div className="mt-4 text-xs text-gray-500">
+              Please check that all required environment variables are set correctly.
+            </div>
+          )}
+        </div>
       </div>
     );
   }

@@ -2,10 +2,10 @@
 const getEnvVar = (key: string): string => {
   const value = process.env[key];
   if (!value) {
-    console.error(`Missing required environment variable: ${key}`);
-    throw new Error(`Environment variable ${key} is not set`);
+    console.warn(`[ENV] Missing environment variable: ${key}`);
+    return ''; // Return empty string instead of throwing
   }
-  console.log(`Environment variable ${key} is set`); // Log successful env var loading
+  console.log(`[ENV] Environment variable ${key} is set`);
   return value;
 };
 
@@ -17,8 +17,17 @@ export const ENV = {
 } as const;
 
 // Log environment configuration status
-console.log('Environment configuration loaded:', {
+console.log('[ENV] Environment configuration loaded:', {
   hasCdpKey: !!ENV.CDP_API_KEY,
   hasWalletConnectId: !!ENV.WALLET_CONNECT_PROJECT_ID,
   hasAlchemyKey: !!ENV.ALCHEMY_API_KEY,
 });
+
+// Export a function to check if all required variables are present
+export const checkRequiredEnvVars = () => {
+  const missing = [];
+  if (!ENV.CDP_API_KEY) missing.push('NEXT_PUBLIC_CDP_API_KEY');
+  if (!ENV.WALLET_CONNECT_PROJECT_ID) missing.push('NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID');
+  if (!ENV.ALCHEMY_API_KEY) missing.push('NEXT_PUBLIC_ALCHEMY_API_KEY');
+  return { isValid: missing.length === 0, missing };
+};
