@@ -106,21 +106,7 @@ try {
 
 // Export the config and initialization status
 const exportedConfig: WagmiConfig = {
-  config: {
-    chains: wagmiConfiguration.chains.map(chain => ({
-      id: chain.id,
-      name: chain.name,
-      nativeCurrency: {
-        name: chain.nativeCurrency.name,
-        symbol: chain.nativeCurrency.symbol,
-        decimals: chain.nativeCurrency.decimals
-      }
-    })),
-    connectors: wagmiConfiguration.connectors.map(connector => ({
-      id: connector.uid,
-      name: connector.name
-    }))
-  },
+  config: wagmiConfiguration,
   hasError: !!initializationError,
   error: initializationError || undefined,
   isValid
