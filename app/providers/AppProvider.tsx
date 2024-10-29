@@ -7,16 +7,17 @@ import { OnchainKitProvider } from '@coinbase/onchainkit';
 import wagmiConfig from '../config/wagmi';
 import { baseMainnet } from '../config/chains';
 import { logger } from '../utils/logger';
+import { ENV, checkRequiredEnvVars } from '../config/env';
 
 // Create a client
 const queryClient = new QueryClient();
 
-if (!process.env.NEXT_PUBLIC_CDP_API_KEY) {
-  throw new Error('NEXT_PUBLIC_CDP_API_KEY is required');
-}
-
-if (!process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID) {
-  throw new Error('NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID is required');
+// Check required environment variables early
+try {
+  checkRequiredEnvVars();
+} catch (error) {
+  logger.error('AppProvider', 'Environment check failed', error);
+  throw error;
 }
 
 interface AppProviderProps {
@@ -34,9 +35,9 @@ export function AppProvider({ children }: AppProviderProps) {
     <WagmiProvider config={wagmiConfig.config}>
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
-          apiKey={process.env.NEXT_PUBLIC_CDP_API_KEY}
+          apiKey={ENV.CDP_API_KEY}
           chain={baseMainnet}
-          projectId={process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID}
+          projectId={ENV.WALLET_CONNECT_PROJECT_ID}
         >
           {children}
         </OnchainKitProvider>

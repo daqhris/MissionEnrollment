@@ -2,18 +2,19 @@ import { OnchainKitProvider as BaseOnchainKitProvider } from '@coinbase/onchaink
 import { ReactNode } from 'react';
 import { type Chain } from 'viem';
 import { baseMainnet } from '../config/chains';
+import { ENV, checkRequiredEnvVars } from '../config/env';
+import { logger } from '../utils/logger';
 
 interface OnchainKitProviderProps {
   children: ReactNode;
 }
 
 export function OnchainKitProvider({ children }: OnchainKitProviderProps) {
-  if (!process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID) {
-    throw new Error('NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID is not defined');
-  }
-
-  if (!process.env.NEXT_PUBLIC_CDP_API_KEY) {
-    throw new Error('NEXT_PUBLIC_CDP_API_KEY is not defined');
+  try {
+    checkRequiredEnvVars();
+  } catch (error) {
+    logger.error('OnchainKitProvider', 'Environment check failed', error);
+    throw error;
   }
 
   // Use Base Mainnet as the default chain
@@ -22,8 +23,8 @@ export function OnchainKitProvider({ children }: OnchainKitProviderProps) {
   return (
     <BaseOnchainKitProvider
       chain={chain}
-      projectId={process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID}
-      apiKey={process.env.NEXT_PUBLIC_CDP_API_KEY}
+      projectId={ENV.WALLET_CONNECT_PROJECT_ID}
+      apiKey={ENV.CDP_API_KEY}
       config={{
         appearance: {
           mode: 'light'
