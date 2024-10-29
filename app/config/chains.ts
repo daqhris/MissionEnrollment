@@ -30,6 +30,39 @@ export const baseMainnet = defineChain({
       address: '0xca11bde05977b3631167028862be2a173976ca11',
       blockCreated: 5022,
     },
+    l2OutputOracle: {
+      1: {
+        address: '0x56315b90c40730925ec5485cf004d835058518A0',
+      },
+    },
+    portal: {
+      1: {
+        address: '0x49048044D57e1C92A77f79988d21Fa8fAF74E97e',
+      },
+    },
+    l1StandardBridge: {
+      1: {
+        address: '0x3154Cf16ccdb4C6d922629664174b904d80F2C35',
+      },
+    },
+    gasPriceOracle: {
+      address: '0x420000000000000000000000000000000000000F',
+    },
+    l2CrossDomainMessenger: {
+      1: {
+        address: '0x4200000000000000000000000000000000000007',
+      },
+    },
+    l2StandardBridge: {
+      1: {
+        address: '0x4200000000000000000000000000000000000010',
+      },
+    },
+    l2ToL1MessagePasser: {
+      1: {
+        address: '0x4200000000000000000000000000000000000016',
+      },
+    },
   },
 });
 
@@ -61,6 +94,39 @@ export const baseSepolia = defineChain({
     multicall3: {
       address: '0xca11bde05977b3631167028862be2a173976ca11',
       blockCreated: 1059087,
+    },
+    l2OutputOracle: {
+      1: {
+        address: '0x84457ca9D0163FbC4bbfe4Dfbb20ba46e48DF254',
+      },
+    },
+    portal: {
+      1: {
+        address: '0x49048044D57e1C92A77f79988d21Fa8fAF74E97e',
+      },
+    },
+    l1StandardBridge: {
+      1: {
+        address: '0xfd0Bf71F60660E2f608ed56e1659C450eB113120',
+      },
+    },
+    gasPriceOracle: {
+      address: '0x420000000000000000000000000000000000000F',
+    },
+    l2CrossDomainMessenger: {
+      1: {
+        address: '0x4200000000000000000000000000000000000007',
+      },
+    },
+    l2StandardBridge: {
+      1: {
+        address: '0x4200000000000000000000000000000000000010',
+      },
+    },
+    l2ToL1MessagePasser: {
+      1: {
+        address: '0x4200000000000000000000000000000000000016',
+      },
     },
   },
   testnet: true,
