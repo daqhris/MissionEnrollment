@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "A decentralized application for managing mission enrollments and verifying attestations on Base blockchain",
   "engines": {
-    "node": "18.19.0"
+    "node": "18.x"
   },
   "scripts": {
     "dev": "next dev",
