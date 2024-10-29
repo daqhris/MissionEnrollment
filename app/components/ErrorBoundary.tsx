@@ -7,15 +7,25 @@ interface FallbackProps {
 }
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error, resetErrorBoundary }) => {
+  // Log error details to console immediately
+  console.error('[ErrorBoundary] Caught error:', {
+    message: error.message,
+    stack: error.stack,
+    name: error.name,
+    cause: error.cause
+  });
+
   return (
     <div role="alert" className="p-4 bg-red-50 border border-red-200 rounded-lg">
       <h2 className="text-lg font-semibold text-red-800 mb-2">Something went wrong</h2>
-      <details className="mb-4">
+      <details className="mb-4" open>
         <summary className="text-sm text-red-600 cursor-pointer hover:text-red-700">
-          View error details
+          Error details
         </summary>
         <pre className="mt-2 text-xs text-red-600 bg-red-50 p-2 rounded overflow-auto">
           {error.message}
+          {'\n\n'}
+          {error.stack}
         </pre>
       </details>
       <button
