@@ -5,16 +5,34 @@ module.exports = {
     'plugin:@next/next/recommended',
     'next/core-web-vitals'
   ],
-  parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint', '@next/next'],
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true
+  overrides: [
+    {
+      // TypeScript files
+      files: ['**/*.ts', '**/*.tsx'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true
+        },
+        project: './tsconfig.json'
+      }
     },
-    project: './tsconfig.json'
-  },
+    {
+      // JavaScript files
+      files: ['**/*.js', '**/*.jsx'],
+      parser: '@babel/eslint-parser',
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true
+        }
+      }
+    }
+  ],
   rules: {
     'no-undef': 'off',
     'no-console': 'off',
@@ -24,6 +42,9 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 'off',
     '@next/next/no-html-link-for-pages': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off'
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-empty-interface': 'off',
+    '@typescript-eslint/no-empty-object-type': 'off',
+    '@typescript-eslint/no-require-imports': 'off'
   }
 }
