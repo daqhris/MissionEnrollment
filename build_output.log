@@ -1,0 +1,44 @@
+
+> mission-enrollment@0.1.0 build /home/ubuntu/MissionEnrollment
+> next build
+
+  ▲ Next.js 15.0.1
+  - Environments: .env.local, .env.production, .env
+
+   Creating an optimized production build ...
+   Disabled SWC as replacement for Babel because of custom Babel configuration "babel.config.js" https://nextjs.org/docs/messages/swc-disabled
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+(node:45989) Warning: To load an ES module, set "type": "module" in the package.json or use the .mjs extension.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ⨯ ESLint: Cannot use import statement outside a module
+   Collecting page data ...
+   Generating static pages (0/4) ...
+Environment variable NEXT_PUBLIC_CDP_API_KEY is set
+Environment variable NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID is set
+Environment variable NEXT_PUBLIC_ALCHEMY_API_KEY is set
+Environment configuration loaded: { hasCdpKey: true, hasWalletConnectId: true, hasAlchemyKey: true }
+   Generating static pages (1/4) 
+   Generating static pages (2/4) 
+   Generating static pages (3/4) 
+ ✓ Generating static pages (4/4)
+   Finalizing page optimization ...
+   Collecting build traces ...
+   Exporting (0/3) ...
+Environment variable NEXT_PUBLIC_CDP_API_KEY is set
+Environment variable NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID is set
+Environment variable NEXT_PUBLIC_ALCHEMY_API_KEY is set
+Environment configuration loaded: { hasCdpKey: true, hasWalletConnectId: true, hasAlchemyKey: true }
+ ✓ Exporting (3/3)
+
+Route (app)                              Size     First Load JS
+┌ ○ /                                    199 kB          297 kB
+└ ○ /_not-found                          141 B          98.4 kB
++ First Load JS shared by all            98.2 kB
+  ├ chunks/3f2f0354-8fbc3cfeb9d43318.js  52.6 kB
+  ├ chunks/9731-0c53fecdd6fdd7c2.js      42.4 kB
+  └ other shared chunks (total)          3.26 kB
+
+
+○  (Static)  prerendered as static content
+
