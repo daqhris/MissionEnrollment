@@ -10,12 +10,10 @@ export const metadata: Metadata = {
 
 // Static viewport configuration
 export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' }
-  ],
   width: 'device-width',
   initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }): React.ReactElement => {
