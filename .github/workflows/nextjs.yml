@@ -56,10 +56,10 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-      deployment_branch_policy:
-        protected_branches: true
-        custom_branches:
-          - fix/ui-and-logic-improvements
+    deployment_branch_policy:
+      protected_branches: true
+      custom_branches:
+        - fix/ui-and-logic-improvements
     runs-on: ubuntu-latest
     needs: build
     permissions:
