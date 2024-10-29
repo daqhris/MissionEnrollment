@@ -163,6 +163,12 @@ importers:
       usehooks-ts:
         specifier: 3.1.0
         version: 3.1.0(react@18.3.1)
+      viem:
+        specifier: 2.21.34
+        version: 2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
+      wagmi:
+        specifier: 2.12.25
+        version: 2.12.25(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(rollup@3.29.5)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))
       webpack:
         specifier: 5.95.0
         version: 5.95.0
@@ -332,12 +338,6 @@ importers:
       url:
         specifier: 0.11.4
         version: 0.11.4
-      viem:
-        specifier: 2.21.34
-        version: 2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
-      wagmi:
-        specifier: 2.12.25
-        version: 2.12.25(@react-native-async-storage/async-storage@1.24.0(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.59.16)(@tanstack/react-query@5.17.19(react@18.3.1))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.76.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.3.12)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(rollup@3.29.5)(typescript@5.6.3)(utf-8-validate@5.0.10)(viem@2.21.34(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10))
 
 packages:
 
