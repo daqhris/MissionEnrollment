@@ -5,7 +5,6 @@ import { coinbaseWallet, walletConnect } from 'wagmi/connectors';
 import { base } from 'viem/chains';
 
 // Create wagmi config with environment variables
-const alchemyApiKey = process.env.ALCHEMY_API_KEY || '';
 const wcProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || '';
 
 // Configure connectors for the app

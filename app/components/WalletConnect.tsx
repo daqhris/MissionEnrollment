@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import Image from 'next/image';
 
 interface WalletConnectProps {
   className?: string;
@@ -80,10 +81,12 @@ export default function WalletConnect({ className = '', onConnect }: WalletConne
                           }}
                         >
                           {chain.iconUrl && (
-                            <img
+                            <Image
                               alt={chain.name ?? 'Chain icon'}
                               src={chain.iconUrl}
-                              style={{ width: 12, height: 12 }}
+                              width={12}
+                              height={12}
+                              style={{ objectFit: 'cover' }}
                             />
                           )}
                         </div>

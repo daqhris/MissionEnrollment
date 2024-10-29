@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { ErrorBoundary } from 'react-error-boundary';
-import { useAccount, useEnsName, usePublicClient, useEnsResolver } from 'wagmi';
+import { useAccount, usePublicClient } from 'wagmi';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import AvatarShowcase from './components/AvatarShowcase';
 import WalletConnect from './components/WalletConnect';
@@ -17,9 +17,7 @@ export default function Home(): React.ReactElement {
   const [isVerifying, setIsVerifying] = useState(false);
 
   const { address, isConnected } = useAccount();
-  const { data: ensName } = useEnsName({ address });
   const publicClient = usePublicClient();
-  const ensResolver = useEnsResolver();
 
   // Set mounted state after initial render
   useEffect(() => {
