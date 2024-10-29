@@ -2,9 +2,11 @@
 
 import { ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { logger } from '../utils/logger';
+import { captureException } from "@sentry/nextjs";
 import { WalletErrorBoundary } from './WalletErrorBoundary';
 import { useEffect, useState, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { WagmiConfig } from '../types/wagmi';
 import wagmiConfig from '../config/wagmi';
 
 function LoadingFallback() {
@@ -54,16 +56,20 @@ export default function MinimalWalletTest() {
 
       // Check wagmi configuration
       if (wagmiConfig.hasError || !wagmiConfig.config) {
+        const configError = new Error(wagmiConfig.error?.message || 'Invalid wallet configuration');
+        captureException(configError);
         logger.error('MinimalWalletTest', 'Wagmi configuration error', wagmiConfig.error);
-        setConfigError(wagmiConfig.error?.message || 'Invalid wallet configuration');
+        setConfigError(configError.message);
         return;
       }
 
       logger.info('MinimalWalletTest', 'Environment and configuration check passed');
       setIsReady(true);
     } catch (error) {
-      logger.error('MinimalWalletTest', 'Initialization failed', error);
-      setConfigError(error instanceof Error ? error.message : 'Unknown initialization error');
+      const errorToCapture = error instanceof Error ? error : new Error('Unknown initialization error');
+      captureException(errorToCapture);
+      logger.error('MinimalWalletTest', 'Initialization failed', errorToCapture);
+      setConfigError(errorToCapture.message);
     }
 
     return () => {
