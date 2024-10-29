@@ -2,7 +2,7 @@
 
 import { Avatar } from '@coinbase/onchainkit/identity';
 import { useState } from 'react';
-import { base } from 'viem/chains';
+import { baseMainnet } from '../config/chains';
 
 interface AvatarVerificationProps {
   address: `0x${string}`;
@@ -28,7 +28,7 @@ export default function AvatarVerification({ address, onConfirm, onDeny }: Avata
       <div className="w-32 h-32 rounded-full overflow-hidden">
         <Avatar
           address={address}
-          chain={base}
+          chain={baseMainnet}
           className="w-full h-full"
           defaultComponent={
             <div className="w-full h-full bg-gray-200 flex items-center justify-center">

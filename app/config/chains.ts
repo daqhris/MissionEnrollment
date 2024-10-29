@@ -1,6 +1,8 @@
-import { Chain } from 'viem';
+import { Chain, defineChain, createPublicClient, http } from 'viem';
+import { base } from 'viem/chains';
 
-export const baseMainnet: Chain = {
+export const baseMainnet = defineChain({
+  ...base,
   id: 8453,
   name: 'Base',
   nativeCurrency: {
@@ -18,13 +20,21 @@ export const baseMainnet: Chain = {
   },
   blockExplorers: {
     default: {
-      name: 'BaseScan',
+      name: 'Basescan',
       url: 'https://basescan.org',
+      apiUrl: 'https://api.basescan.org/api',
     },
   },
-};
+  contracts: {
+    multicall3: {
+      address: '0xca11bde05977b3631167028862be2a173976ca11',
+      blockCreated: 5022,
+    },
+  },
+});
 
-export const baseSepolia: Chain = {
+export const baseSepolia = defineChain({
+  ...base,
   id: 84532,
   name: 'Base Sepolia',
   nativeCurrency: {
@@ -42,10 +52,18 @@ export const baseSepolia: Chain = {
   },
   blockExplorers: {
     default: {
-      name: 'BaseScan',
+      name: 'Basescan',
       url: 'https://sepolia.basescan.org',
+      apiUrl: 'https://api-sepolia.basescan.org/api',
     },
   },
-};
+  contracts: {
+    multicall3: {
+      address: '0xca11bde05977b3631167028862be2a173976ca11',
+      blockCreated: 1059087,
+    },
+  },
+  testnet: true,
+});
 
 export const supportedChains = [baseMainnet, baseSepolia];

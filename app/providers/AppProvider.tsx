@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import wagmiConfig from '../config/wagmi';
-import { base } from 'viem/chains';
+import { baseMainnet } from '../config/chains';
 import { logger } from '../utils/logger';
 
 // Create a client
@@ -35,7 +35,7 @@ export function AppProvider({ children }: AppProviderProps) {
       <QueryClientProvider client={queryClient}>
         <OnchainKitProvider
           apiKey={process.env.NEXT_PUBLIC_CDP_API_KEY}
-          chain={base}
+          chain={baseMainnet}
           projectId={process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID}
         >
           {children}

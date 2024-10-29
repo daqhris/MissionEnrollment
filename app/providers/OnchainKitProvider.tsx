@@ -1,7 +1,7 @@
 import { OnchainKitProvider as BaseOnchainKitProvider } from '@coinbase/onchainkit';
 import { ReactNode } from 'react';
 import { type Chain } from 'viem';
-import { base } from 'viem/chains';
+import { baseMainnet } from '../config/chains';
 
 interface OnchainKitProviderProps {
   children: ReactNode;
@@ -17,7 +17,7 @@ export function OnchainKitProvider({ children }: OnchainKitProviderProps) {
   }
 
   // Use Base Mainnet as the default chain
-  const chain: Chain = base;
+  const chain: Chain = baseMainnet;
 
   return (
     <BaseOnchainKitProvider

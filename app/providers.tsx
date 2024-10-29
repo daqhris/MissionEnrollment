@@ -5,13 +5,13 @@ import { captureException } from "@sentry/nextjs";
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider, createConfig } from 'wagmi';
-import { base } from 'viem/chains';
 import { ReactNode, useState, useEffect } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { logger } from './utils/logger';
 import { ENV, checkRequiredEnvVars } from './config/env';
 import wagmiConfig from './config/wagmi';
 import type { WagmiConfig } from './types/wagmi';
+import { baseMainnet } from './config/chains';
 
 // Create a single QueryClient instance that can be reused
 const queryClient = new QueryClient({
@@ -151,7 +151,7 @@ export default function Providers({ children }: ProvidersProps): JSX.Element {
         <QueryClientProvider client={queryClient}>
           <OnchainKitProvider
             apiKey={ENV.CDP_API_KEY}
-            chain={base}
+            chain={baseMainnet}
           >
             {children}
           </OnchainKitProvider>
