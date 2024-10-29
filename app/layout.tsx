@@ -1,15 +1,21 @@
 import React from "react";
 import "./styles.css";
 import ClientLayout from "./components/ClientLayout";
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 
 export const metadata: Metadata = {
   title: "Mission Enrollment",
   description: "A decentralized application for managing mission enrollments and verifying attestations on Base blockchain",
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-  },
+};
+
+// Static viewport configuration
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: 'white' },
+    { media: '(prefers-color-scheme: dark)', color: 'black' }
+  ],
+  width: 'device-width',
+  initialScale: 1,
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }): React.ReactElement => {

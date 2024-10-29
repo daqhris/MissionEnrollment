@@ -43,6 +43,9 @@
     "import/no-unresolved": "off",
     "@typescript-eslint/no-var-requires": "off",
     "import/no-commonjs": "off",
-    "@next/next/no-html-link-for-pages": "off"
+    "@next/next/no-html-link-for-pages": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "import/prefer-default-export": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   }
 }

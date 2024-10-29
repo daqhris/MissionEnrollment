@@ -1,7 +1,9 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 
-export default function NotFound() {
+const NotFound: React.FC = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-4">
       <div className="text-center">
@@ -16,4 +18,6 @@ export default function NotFound() {
       </div>
     </div>
   );
-}
+};
+
+export default NotFound;

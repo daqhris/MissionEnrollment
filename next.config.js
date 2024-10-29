@@ -19,7 +19,9 @@ const nextConfig = {
     '@tanstack/query-core',
     '@tanstack/react-query',
     '@coinbase/onchainkit',
-    'react-error-boundary'
+    'react-error-boundary',
+    'react',
+    'react-dom'
   ],
   experimental: {
     optimizePackageImports: ['@coinbase/onchainkit']
@@ -28,9 +30,18 @@ const nextConfig = {
     config.resolve.fallback = {
       ...config.resolve.fallback,
       fs: false,
-      crypto: false,
       net: false,
-      tls: false
+      tls: false,
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+      url: require.resolve('url'),
+      zlib: require.resolve('browserify-zlib'),
+      http: require.resolve('stream-http'),
+      https: require.resolve('https-browserify'),
+      assert: require.resolve('assert'),
+      os: require.resolve('os-browserify'),
+      path: require.resolve('path-browserify'),
+      'process/browser': require.resolve('process/browser'),
     };
 
     // Handle module resolution
@@ -68,7 +79,9 @@ const nextConfig = {
         /node_modules\/colorette/,
         /node_modules\/fast-copy/,
         /node_modules\/@coinbase/,
-        /node_modules\/wagmi/
+        /node_modules\/wagmi/,
+        /node_modules\/react/,
+        /node_modules\/react-dom/
       ]
     });
 
