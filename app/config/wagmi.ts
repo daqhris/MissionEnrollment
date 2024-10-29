@@ -1,6 +1,6 @@
 'use client';
 
-import { http, createConfig, Config } from 'wagmi';
+import { http, createConfig, Config, createStorage } from 'wagmi';
 import { coinbaseWallet, walletConnect } from 'wagmi/connectors';
 import { base } from 'viem/chains';
 import { logger } from '../utils/logger';
@@ -72,6 +72,12 @@ try {
     transports: {
       [base.id]: http(),
     },
+    storage: createStorage({
+      storage: typeof window !== 'undefined' ? window.localStorage : noopStorage
+    }),
+    syncConnectedChain: true,
+    multiInjectedProviderDiscovery: true,
+    ssr: false,
   });
 
   // Verify the configuration is valid
@@ -101,6 +107,12 @@ try {
     transports: {
       [base.id]: http(),
     },
+    storage: createStorage({
+      storage: typeof window !== 'undefined' ? window.localStorage : noopStorage
+    }),
+    syncConnectedChain: true,
+    multiInjectedProviderDiscovery: false,
+    ssr: false,
   });
 }
 
