@@ -10,7 +10,7 @@ jobs:
     env:
       NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID }}
       NEXT_PUBLIC_CDP_API_KEY: ${{ secrets.NEXT_PUBLIC_CDP_API_KEY }}
-      ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
+      NEXT_PUBLIC_ALCHEMY_API_KEY: ${{ secrets.NEXT_PUBLIC_ALCHEMY_API_KEY }}
       POAP_API_KEY: ${{ secrets.POAP_API_KEY }}
     steps:
       - name: Checkout
@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "18.x"
       - name: Enable Corepack
         run: corepack enable
       - name: Setup pnpm
