@@ -77,15 +77,19 @@ export type GenericContractsDeclaration = {
   [chainId: number]: {
     [contractName: string]: GenericContract;
   };
-};
+} & { [key: number]: { [key: string]: GenericContract } };
 
-export const contracts = contractsData as GenericContractsDeclaration | null;
+// Define a type for empty contract data that maintains the index signature
+type EmptyContractData = { [K: number]: { [key: string]: GenericContract } };
+
+// Ensure contractsData has a default type with numeric index
+export const contracts = (contractsData || {}) as GenericContractsDeclaration & EmptyContractData;
 
 type ConfiguredChainId = (typeof scaffoldConfig)["targetNetworks"][0]["id"];
 
-type IsContractDeclarationMissing<TYes, TNo> = typeof contractsData extends { [key in ConfiguredChainId]: Record<string, GenericContract> }
-  ? TNo
-  : TYes;
+type IsContractDeclarationMissing<TYes, TNo> = typeof contractsData extends { [key in ConfiguredChainId]: { [key: string]: GenericContract } }
+  ? TNo & EmptyContractData
+  : TYes & EmptyContractData;
 
 type ContractsDeclaration = IsContractDeclarationMissing<GenericContractsDeclaration, typeof contractsData>;
 
@@ -252,17 +256,13 @@ type IndexedEventInputs<
 export type EventFilters<
   TContractName extends ContractName,
   TEventName extends ExtractAbiEventNames<ContractAbi<TContractName>>,
-> = IsContractDeclarationMissing<
-  Record<string, unknown>,
-  IndexedEventInputs<TContractName, TEventName> extends never
-    ? never
-    : {
-        [Key in IsContractDeclarationMissing<
-          string,
-          IndexedEventInputs<TContractName, TEventName>["name"]
-        >]?: AbiParameterToPrimitiveType<Extract<IndexedEventInputs<TContractName, TEventName>, { name: Key }>>;
-      }
->;
+> = IndexedEventInputs<TContractName, TEventName> extends never
+  ? never
+  : {
+      [Key in Extract<IndexedEventInputs<TContractName, TEventName>["name"], string>]?: AbiParameterToPrimitiveType<
+        Extract<IndexedEventInputs<TContractName, TEventName>, { name: Key }>
+      >;
+    };
 
 export type UseScaffoldEventHistoryConfig<
   TContractName extends ContractName,
