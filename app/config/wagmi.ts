@@ -6,7 +6,17 @@ import { base } from 'viem/chains';
 import { logger } from '../utils/logger';
 import type { WagmiConfig } from '../types/wagmi';
 
-// Create wagmi config with environment variables
+// Implement noopStorage for SSR environments
+const noopStorage: Storage = {
+  length: 0,
+  clear: () => undefined,
+  getItem: () => null,
+  key: () => null,
+  removeItem: () => undefined,
+  setItem: () => undefined,
+  [Symbol.iterator]: function* () { yield* []; }
+};
+
 const wcProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || '';
 
 // Validate required environment variables
