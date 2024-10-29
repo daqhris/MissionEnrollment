@@ -1,3 +1,6 @@
+// Import logger
+import { logger } from '../utils/logger';
+
 // Environment variable validation and access
 const getEnvVar = (key: string): string => {
   const value = process.env[key];
@@ -8,9 +11,6 @@ const getEnvVar = (key: string): string => {
   logger.info('ENV', `Environment variable ${key} is set`);
   return value;
 };
-
-// Import logger
-import { logger } from './utils/logger';
 
 // Validate and export environment variables with consistent NEXT_PUBLIC_ prefix
 export const ENV = {
