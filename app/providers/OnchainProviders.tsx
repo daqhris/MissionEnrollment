@@ -4,7 +4,7 @@ import React from 'react';
 import { WagmiProvider } from 'wagmi';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import wagmiConfig from '../config/wagmi';
-import { baseMainnet } from '../config/chains';
+import { onchainKitConfig } from '../config/onchainkit';
 import { logger } from '../utils/logger';
 
 export default function OnchainProviders({
@@ -34,7 +34,7 @@ export default function OnchainProviders({
   return (
     <WagmiProvider config={wagmiConfig.config}>
       <OnchainKitProvider
-        chain={baseMainnet}
+        chain={onchainKitConfig.chain}
         projectId={process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID}
         apiKey={process.env.NEXT_PUBLIC_CDP_API_KEY}
       >

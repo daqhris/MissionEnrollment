@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Avatar } from '@coinbase/onchainkit/identity';
-import { baseMainnet } from '../config/chains';
+import { onchainKitConfig } from '../config/onchainkit';
 import { useAccount } from 'wagmi';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 
@@ -42,7 +42,7 @@ const AvatarShowcase: React.FC<AvatarShowcaseProps> = ({
         <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-blue-500">
           <Avatar
             address={address}
-            chain={baseMainnet}
+            chain={onchainKitConfig.chain}
             className="w-full h-full"
             defaultComponent={
               <div className="w-full h-full bg-gray-200 flex items-center justify-center">
