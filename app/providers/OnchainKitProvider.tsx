@@ -17,7 +17,7 @@ export function OnchainKitProvider({ children }: OnchainKitProviderProps) {
   }
 
   // Use Base Mainnet as the default chain
-  const chain: Chain = baseMainnet;
+  const chain: Chain = baseMainnet as Chain;
 
   return (
     <BaseOnchainKitProvider
