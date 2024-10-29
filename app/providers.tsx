@@ -27,7 +27,7 @@ interface ProvidersProps {
   children: ReactNode;
 }
 
-function ErrorFallback({ error }: { error: Error }) {
+function ErrorFallback({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="p-8 rounded-lg shadow-md bg-red-50">
@@ -40,89 +40,112 @@ function ErrorFallback({ error }: { error: Error }) {
         <div className="mt-4 text-xs text-gray-500">
           Please check the browser console for more details.
         </div>
+        <button
+          onClick={resetErrorBoundary}
+          className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+        >
+          Try Again
+        </button>
       </div>
     </div>
   );
 }
 
-initSentry();
+// Initialize Sentry inside the component to ensure proper initialization order
 export default function Providers({ children }: ProvidersProps): JSX.Element {
   logger.info('Providers', 'Component rendering started');
 
   const [mounted, setMounted] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-
-  // Log environment variables early (without values for security)
-  logger.info('Providers', 'Available env vars', {
-    ALCHEMY_API_KEY: !!ENV.ALCHEMY_API_KEY,
-    WALLET_CONNECT_PROJECT_ID: !!ENV.WALLET_CONNECT_PROJECT_ID,
-    CDP_API_KEY: !!ENV.CDP_API_KEY
+  const [initializationStage, setInitializationStage] = useState<string>('starting');
+  const [providersReady, setProvidersReady] = useState({
+    sentry: false,
+    wagmi: false,
+    query: false,
+    onchain: false
   });
 
+  // Initialize environment variables first
   useEffect(() => {
-    console.log('[Providers] useEffect initialization starting');
-
     try {
-      logger.info('Providers', 'Initializing providers...');
-
-      // Check environment variables
-      try {
-        checkRequiredEnvVars();
-        logger.info('Providers', 'Environment check passed');
-      } catch (envError) {
-        captureException(envError);
-        logger.error('Providers', 'Environment check failed', envError);
-        throw envError;
-      }
-
-      // Log wagmi config details (without sensitive data)
-      logger.info('Providers', 'Wagmi config check', {
-        hasConfig: !!wagmiConfig.config,
-        hasError: wagmiConfig.hasError,
-        errorMessage: wagmiConfig.error?.message,
-        isValid: wagmiConfig.isValid
-      });
-
-      // Use pre-configured wagmi config
-      if (!wagmiConfig.config || !wagmiConfig.isValid) {
-        const configError = new Error('Invalid wagmi configuration');
-        captureException(configError);
-        logger.error('Providers', 'Wagmi config is missing or invalid', wagmiConfig.error);
-        throw configError;
-      }
-      logger.info('Providers', 'Using pre-configured wagmi config');
-
-      // Additional checks for critical dependencies
-      const missingDependencies: string[] = [];
-      if (!WagmiProvider) missingDependencies.push('WagmiProvider');
-      if (!QueryClientProvider) missingDependencies.push('QueryClientProvider');
-      if (!OnchainKitProvider) missingDependencies.push('OnchainKitProvider');
-
-      if (missingDependencies.length > 0) {
-        const dependencyError = new Error(`Missing critical dependencies: ${missingDependencies.join(', ')}`);
-        captureException(dependencyError);
-        logger.error('Providers', 'Dependency check failed', { missingDependencies });
-        throw dependencyError;
-      }
-
-      setMounted(true);
-      logger.info('Providers', 'Providers initialized successfully');
-    } catch (err) {
-      const errorToSet = err instanceof Error ? err : new Error('Unknown error during initialization');
-      captureException(errorToSet);
-      logger.error('Providers', 'Initialization failed', {
-        error: err,
-        message: errorToSet.message,
-        stack: errorToSet.stack,
-        type: err instanceof Error ? err.constructor.name : typeof err,
-        timestamp: new Date().toISOString()
-      });
-      setError(errorToSet);
+      checkRequiredEnvVars();
+      logger.info('Providers', 'Environment variables validated');
+      setInitializationStage('env_check_passed');
+    } catch (envError) {
+      logger.error('Providers', 'Environment validation failed', envError);
+      setError(envError instanceof Error ? envError : new Error('Environment validation failed'));
+      setInitializationStage('env_check_failed');
     }
   }, []);
 
+  // Initialize Sentry after environment check
+  useEffect(() => {
+    if (initializationStage !== 'env_check_passed') return;
+
+    try {
+      initSentry();
+      setProvidersReady(prev => ({ ...prev, sentry: true }));
+      logger.info('Providers', 'Sentry initialized successfully');
+      setInitializationStage('sentry_initialized');
+    } catch (err) {
+      logger.error('Providers', 'Sentry initialization failed', err);
+      setError(err instanceof Error ? err : new Error('Sentry initialization failed'));
+    }
+  }, [initializationStage]);
+
+  // Detect client-side hydration
+  useEffect(() => {
+    setHydrated(true);
+    logger.info('Providers', 'Hydration detected');
+  }, []);
+
+  // Initialize providers after hydration and environment check
+  useEffect(() => {
+    if (!hydrated || initializationStage !== 'sentry_initialized') return;
+
+    const initializeProviders = async () => {
+      try {
+        logger.info('Providers', 'Starting provider initialization');
+
+        // Initialize WagmiProvider
+        if (!wagmiConfig.config || !wagmiConfig.isValid) {
+          throw new Error('Invalid wagmi configuration');
+        }
+        setProvidersReady(prev => ({ ...prev, wagmi: true }));
+
+        // Initialize QueryClient
+        if (!queryClient) {
+          throw new Error('QueryClient initialization failed');
+        }
+        setProvidersReady(prev => ({ ...prev, query: true }));
+
+        // Initialize OnchainKit
+        if (!ENV.CDP_API_KEY || !ENV.WALLET_CONNECT_PROJECT_ID) {
+          throw new Error('Missing required OnchainKit configuration');
+        }
+        setProvidersReady(prev => ({ ...prev, onchain: true }));
+
+        setInitializationStage('initialization_complete');
+        setMounted(true);
+        logger.info('Providers', 'All providers initialized successfully');
+      } catch (err) {
+        const errorToSet = err instanceof Error ? err : new Error('Provider initialization failed');
+        captureException(errorToSet);
+        logger.error('Providers', 'Provider initialization failed', {
+          error: errorToSet,
+          stage: initializationStage,
+          providersStatus: providersReady
+        });
+        setError(errorToSet);
+      }
+    };
+
+    initializeProviders();
+  }, [hydrated, initializationStage]);
+
   if (!mounted || error) {
-    const message = error ? error.message : 'Initializing providers...';
+    const message = error ? error.message : `Initializing providers (${initializationStage})...`;
     const isError = !!error;
 
     return (
@@ -136,7 +159,11 @@ export default function Providers({ children }: ProvidersProps): JSX.Element {
           </div>
           {isError && (
             <div className="mt-4 text-xs text-gray-500">
-              Please check the browser console for more details.
+              Stage: {initializationStage}
+              <br />
+              Providers Status: {Object.entries(providersReady)
+                .map(([key, value]) => `${key}: ${value ? '✓' : '✗'}`)
+                .join(', ')}
             </div>
           )}
         </div>
@@ -144,14 +171,35 @@ export default function Providers({ children }: ProvidersProps): JSX.Element {
     );
   }
 
-  logger.info('Providers', 'Rendering providers');
+  logger.info('Providers', 'Rendering provider chain', {
+    stage: 'render',
+    hasWagmiConfig: !!wagmiConfig.config,
+    hasQueryClient: !!queryClient,
+    chain: baseMainnet.name,
+    providersStatus: providersReady
+  });
+
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
+    <ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onReset={() => {
+        setError(null);
+        setMounted(false);
+        setInitializationStage('restarting');
+        setProvidersReady({
+          sentry: false,
+          wagmi: false,
+          query: false,
+          onchain: false
+        });
+      }}
+    >
       <WagmiProvider config={wagmiConfig.config}>
         <QueryClientProvider client={queryClient}>
           <OnchainKitProvider
             apiKey={ENV.CDP_API_KEY}
             chain={baseMainnet}
+            projectId={ENV.WALLET_CONNECT_PROJECT_ID}
           >
             {children}
           </OnchainKitProvider>
