@@ -66,47 +66,44 @@ export default function Providers({ children }: ProvidersProps): JSX.Element {
     onchain: false
   });
 
-  // Initialize environment variables first
+  // Check if we're on client side
+  const isClient = typeof window !== 'undefined';
+
+  // Detect client-side hydration first
   useEffect(() => {
-    try {
-      checkRequiredEnvVars();
-      logger.info('Providers', 'Environment variables validated');
-      setInitializationStage('env_check_passed');
-    } catch (envError) {
-      logger.error('Providers', 'Environment validation failed', envError);
-      setError(envError instanceof Error ? envError : new Error('Environment validation failed'));
-      setInitializationStage('env_check_failed');
+    if (isClient) {
+      setHydrated(true);
+      logger.info('Providers', 'Hydration detected');
+      setInitializationStage('hydration_complete');
     }
-  }, []);
+  }, [isClient]);
 
-  // Initialize Sentry after environment check
+  // Initialize environment variables and providers after hydration
   useEffect(() => {
-    if (initializationStage !== 'env_check_passed') return;
-
-    try {
-      initSentry();
-      setProvidersReady(prev => ({ ...prev, sentry: true }));
-      logger.info('Providers', 'Sentry initialized successfully');
-      setInitializationStage('sentry_initialized');
-    } catch (err) {
-      logger.error('Providers', 'Sentry initialization failed', err);
-      setError(err instanceof Error ? err : new Error('Sentry initialization failed'));
-    }
-  }, [initializationStage]);
-
-  // Detect client-side hydration
-  useEffect(() => {
-    setHydrated(true);
-    logger.info('Providers', 'Hydration detected');
-  }, []);
-
-  // Initialize providers after hydration and environment check
-  useEffect(() => {
-    if (!hydrated || initializationStage !== 'sentry_initialized') return;
+    if (!hydrated) return;
 
     const initializeProviders = async () => {
       try {
-        logger.info('Providers', 'Starting provider initialization');
+        logger.info('Providers', 'Starting initialization sequence');
+
+        // Validate environment variables
+        try {
+          checkRequiredEnvVars();
+          logger.info('Providers', 'Environment variables validated');
+          setInitializationStage('env_check_passed');
+        } catch (envError) {
+          throw new Error(`Environment validation failed: ${envError instanceof Error ? envError.message : 'Unknown error'}`);
+        }
+
+        // Initialize Sentry
+        try {
+          initSentry();
+          setProvidersReady(prev => ({ ...prev, sentry: true }));
+          logger.info('Providers', 'Sentry initialized successfully');
+          setInitializationStage('sentry_initialized');
+        } catch (sentryError) {
+          throw new Error(`Sentry initialization failed: ${sentryError instanceof Error ? sentryError.message : 'Unknown error'}`);
+        }
 
         // Initialize WagmiProvider
         if (!wagmiConfig.config || !wagmiConfig.isValid) {
@@ -120,9 +117,12 @@ export default function Providers({ children }: ProvidersProps): JSX.Element {
         }
         setProvidersReady(prev => ({ ...prev, query: true }));
 
-        // Initialize OnchainKit
-        if (!ENV.CDP_API_KEY || !ENV.WALLET_CONNECT_PROJECT_ID) {
-          throw new Error('Missing required OnchainKit configuration');
+        // Validate OnchainKit environment variables
+        const cdpApiKey = ENV.CDP_API_KEY;
+        const projectId = ENV.WALLET_CONNECT_PROJECT_ID;
+
+        if (!cdpApiKey || !projectId) {
+          throw new Error(`Missing required OnchainKit configuration: ${!cdpApiKey ? 'CDP_API_KEY' : ''} ${!projectId ? 'WALLET_CONNECT_PROJECT_ID' : ''}`);
         }
         setProvidersReady(prev => ({ ...prev, onchain: true }));
 
@@ -135,15 +135,34 @@ export default function Providers({ children }: ProvidersProps): JSX.Element {
         logger.error('Providers', 'Provider initialization failed', {
           error: errorToSet,
           stage: initializationStage,
-          providersStatus: providersReady
+          providersStatus: providersReady,
+          isClient,
+          hydrated
         });
         setError(errorToSet);
       }
     };
 
     initializeProviders();
-  }, [hydrated, initializationStage]);
+  }, [hydrated]);
 
+  // Show loading state during server-side rendering or hydration
+  if (!isClient || !hydrated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="p-8 rounded-lg shadow-md bg-white">
+          <div className="text-lg font-semibold mb-2 text-gray-700">
+            Loading
+          </div>
+          <div className="text-sm text-gray-500">
+            Initializing application...
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error or loading state during initialization
   if (!mounted || error) {
     const message = error ? error.message : `Initializing providers (${initializationStage})...`;
     const isError = !!error;
@@ -176,7 +195,9 @@ export default function Providers({ children }: ProvidersProps): JSX.Element {
     hasWagmiConfig: !!wagmiConfig.config,
     hasQueryClient: !!queryClient,
     chain: baseMainnet.name,
-    providersStatus: providersReady
+    providersStatus: providersReady,
+    isClient,
+    hydrated
   });
 
   return (

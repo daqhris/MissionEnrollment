@@ -1,37 +1,17 @@
-import { OnchainKitProvider as BaseOnchainKitProvider } from '@coinbase/onchainkit';
+// This file has been deprecated in favor of the consolidated implementation in app/providers.tsx
+// The OnchainKitProvider configuration and implementation has been moved to the main providers file
+// to prevent initialization conflicts and ensure consistent provider setup.
+// See app/providers.tsx for the current implementation.
+
 import { ReactNode } from 'react';
-import { type Chain } from 'viem';
-import { baseMainnet } from '../config/chains';
-import { ENV, checkRequiredEnvVars } from '../config/env';
 import { logger } from '../utils/logger';
 
 interface OnchainKitProviderProps {
   children: ReactNode;
 }
 
+logger.warn('OnchainKitProvider', 'This file is deprecated. Using app/providers.tsx instead.');
+
 export function OnchainKitProvider({ children }: OnchainKitProviderProps) {
-  try {
-    checkRequiredEnvVars();
-  } catch (error) {
-    logger.error('OnchainKitProvider', 'Environment check failed', error);
-    throw error;
-  }
-
-  // Use Base Mainnet as the default chain
-  const chain: Chain = baseMainnet as Chain;
-
-  return (
-    <BaseOnchainKitProvider
-      chain={chain}
-      projectId={ENV.WALLET_CONNECT_PROJECT_ID}
-      apiKey={ENV.CDP_API_KEY}
-      config={{
-        appearance: {
-          mode: 'light'
-        }
-      }}
-    >
-      {children}
-    </BaseOnchainKitProvider>
-  );
+  throw new Error('OnchainKitProvider is deprecated. Use the implementation in app/providers.tsx instead.');
 }

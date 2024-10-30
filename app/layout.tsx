@@ -1,4 +1,5 @@
 import React from "react";
+import "@coinbase/onchainkit/styles.css";
 import "./styles.css";
 import ClientLayout from "./components/ClientLayout";
 import { Metadata, Viewport } from 'next';
