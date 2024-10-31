@@ -1,4 +1,5 @@
 import { ethers } from "hardhat";
+import { Log } from "ethers";
 
 async function main() {
   // Base Sepolia EAS Contract addresses
@@ -29,7 +30,7 @@ async function main() {
 
   // Get the schema ID from the event
   const schemaCreatedEvent = receipt.logs.find(
-    log => log.fragment?.name === "SchemaCreated"
+    (log: Log) => log.fragment?.name === "SchemaCreated"
   );
   const schemaId = schemaCreatedEvent?.args?.schemaId;
   console.log("Schema created with ID:", schemaId);
