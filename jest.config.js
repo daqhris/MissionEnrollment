@@ -1,52 +1,22 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
-  testEnvironment: "jest-environment-jsdom",
-  transform: {
-    "^.+\\.(ts|tsx)$": [
-      "ts-jest",
-      {
-        tsconfig: "tsconfig.jest.json",
-        useESM: true,
-        babelConfig: {
-          presets: [
-            "@babel/preset-env",
-            ["@babel/preset-react", { "runtime": "automatic" }],
-            "@babel/preset-typescript"
-          ],
-          plugins: ["@babel/plugin-transform-runtime"],
-        },
-      },
-    ],
-    "^.+\\.(js|jsx)$": [
-      "babel-jest",
-      {
-        presets: [
-          "@babel/preset-env",
-          ["@babel/preset-react", { "runtime": "automatic" }]
-        ],
-        plugins: ["@babel/plugin-transform-runtime"],
-      },
-    ],
-  },
-  moduleNameMapper: {
-    "\\.(css|less|scss|sass)$": "identity-obj-proxy",
-    "^@/(.*)$": "<rootDir>/src/$1",
-  },
-  preset: "ts-jest",
-  transformIgnorePatterns: ["/node_modules/(?!(wagmi|@wagmi|@tanstack|viem|@viem|alchemy-sdk))"],
-  extensionsToTreatAsEsm: [".ts", ".tsx"],
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
-  moduleFileExtensions: ["js", "jsx", "ts", "tsx", "json", "node"],
-  collectCoverage: true,
-  coverageDirectory: "coverage",
-  coverageReporters: ["text", "lcov"],
-  testPathIgnorePatterns: ["/node_modules/", "/.next/"],
-  globals: {
-    'ts-jest': {
-      tsconfig: 'tsconfig.jest.json',
-      jsx: 'react-jsx',
-      useESM: true,
-    },
-  },
+  preset: 'ts-jest',
   testEnvironment: 'jsdom',
+  setupFiles: ['<rootDir>/test/setup.ts'],
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/$1',
+    '\\.(css|less|sass|scss)$': '<rootDir>/test/mocks/styleMock.js',
+    '\\.(gif|ttf|eot|svg)$': '<rootDir>/test/mocks/fileMock.js'
+  },
+  transform: {
+    '^.+\\.(ts|tsx)$': ['ts-jest', {
+      tsconfig: {
+        jsx: 'react',
+        esModuleInterop: true,
+        strict: true
+      }
+    }]
+  },
+  testTimeout: 10000,
+  verbose: true
 };

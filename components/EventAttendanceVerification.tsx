@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { fetchPoaps } from '../utils/fetchPoapsUtil';
+import { ETH_GLOBAL_BRUSSELS_EVENT_NAMES, EVENT_VENUE } from '../utils/eventConstants';
 
 interface POAPEvent {
   event: {
@@ -25,15 +26,6 @@ interface EventAttendanceVerificationProps {
   verifiedName: string;
   onVerified: (hasAttended: boolean, eventInfo?: EventInfo) => void;
 }
-
-const ETH_GLOBAL_BRUSSELS_EVENT_NAMES = [
-  'ETHGlobal Brussels Hacker',
-  'ETHGlobal Brussels Sponsor',
-  'ETHGlobal Brussels Speaker',
-  'ETHGlobal Brussels Mentor',
-  'ETHGlobal Brussels Staff',
-  'ETHGlobal Brussels Volunteer'
-];
 
 const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = ({
   address,
