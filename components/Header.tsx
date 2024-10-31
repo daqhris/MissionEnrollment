@@ -21,13 +21,14 @@ const NavBar = tw.div`
   lg:static
   top-0
   navbar
-  bg-base-100
+  bg-gradient-to-r
+  from-blue-900
+  to-blue-800
   min-h-0
   flex-shrink-0
   justify-between
   z-20
   shadow-md
-  shadow-secondary
   px-0
   sm:px-2
 `;
@@ -46,8 +47,8 @@ const DropdownContainer = tw.div`
 const BurgerMenuButton = tw.label<{ $isOpen: boolean }>`
   ml-1
   btn
-  btn-ghost
-  ${(p): string => (p.$isOpen ? "hover:bg-secondary" : "hover:bg-transparent")}
+  text-white
+  ${(p): string => (p.$isOpen ? "hover:bg-blue-600" : "hover:bg-blue-700")}
 `;
 
 const DropdownMenu = tw.ul`
@@ -56,9 +57,10 @@ const DropdownMenu = tw.ul`
   dropdown-content
   mt-3
   p-2
-  shadow
-  bg-base-100
-  rounded-box
+  shadow-lg
+  bg-blue-900
+  text-white
+  rounded-lg
   w-52
 `;
 
@@ -75,8 +77,8 @@ const LogoLink = tw(Link)`
 const LogoContainer = tw.div`
   flex
   relative
-  w-8
-  h-8
+  w-12
+  h-12
 `;
 
 const LogoText = tw.div`
@@ -116,14 +118,19 @@ const ChainIdentifier = tw.div`
   text-sm
   font-bold
   uppercase
+  text-primary
+  bg-base-200
+  px-3
+  py-1
+  rounded-lg
 `;
 
 const MenuLink = tw(Link)<{ $isActive: boolean }>`
-  ${(p): string => (p.$isActive ? "bg-secondary shadow-md" : "")}
-  hover:bg-secondary
+  ${(p): string => (p.$isActive ? "bg-blue-600 shadow-md" : "")}
+  hover:bg-blue-500
   hover:shadow-md
-  focus:!bg-secondary
-  active:!text-neutral
+  focus:!bg-blue-600
+  active:!text-white
   py-1.5
   px-3
   text-sm
@@ -214,7 +221,7 @@ export const Header = (): JSX.Element => {
         </DropdownContainer>
         <LogoLink href="/" passHref>
           <LogoContainer>
-            <Image alt="SE2 logo" className="cursor-pointer" fill src="/logo.svg" />
+            <Image alt="Mission Enrollment logo" className="cursor-pointer" fill src="/logo.png" />
           </LogoContainer>
           <LogoText>
             <LogoTitle>Mission Enrollment</LogoTitle>
