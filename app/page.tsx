@@ -6,6 +6,7 @@ import { useAccount } from 'wagmi';
 import { getName } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 import { RainbowKitCustomConnectButton } from '../components/scaffold-eth';
+import EventAttendanceVerification from '../components/EventAttendanceVerification';
 
 
 export default function Home() {
@@ -15,7 +16,15 @@ export default function Home() {
   const [verifiedName, setVerifiedName] = useState<string | null>(null);
   const [onchainName, setOnchainName] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-
+  const [showEventAttendance, setShowEventAttendance] = useState(false);
+  const [eventAttendanceVerified, setEventAttendanceVerified] = useState(false);
+  const [eventInfo, setEventInfo] = useState<{
+    role: string;
+    date: string;
+    venue: string;
+    verifiedName: string;
+    tokenId: string;
+  } | null>(null);
   useEffect(() => {
     console.log('Home component mounted');
     console.log('Wallet connection status:', isConnected);
@@ -163,7 +172,16 @@ export default function Home() {
                     <EventAttendanceVerification
                       address={address || ''}
                       verifiedName={verifiedName}
-                      onVerified={setEventAttendanceVerified}
+                      onVerified={(hasAttended: boolean, info?: {
+                        role: string;
+                        date: string;
+                        venue: string;
+                        verifiedName: string;
+                        tokenId: string;
+                      }) => {
+                        setEventAttendanceVerified(hasAttended);
+                        if (info) setEventInfo(info);
+                      }}
                     />
                   )}
                 </>

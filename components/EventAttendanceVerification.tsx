@@ -12,10 +12,18 @@ interface POAPEvent {
   token_id: string;
 }
 
+interface EventInfo {
+  role: string;
+  date: string;
+  venue: string;
+  verifiedName: string;
+  tokenId: string;
+}
+
 interface EventAttendanceVerificationProps {
   address: string;
   verifiedName: string;
-  onVerified: (hasAttended: boolean) => void;
+  onVerified: (hasAttended: boolean, eventInfo?: EventInfo) => void;
 }
 
 const ETH_GLOBAL_BRUSSELS_EVENT_NAMES = [
@@ -60,7 +68,22 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
           console.log('Found ETHGlobal Brussels POAP:', ethGlobalBrusselsPoap);
           setPoapDetails(ethGlobalBrusselsPoap);
           setVerificationStatus('success');
-          onVerified(true);
+
+          // Extract role from POAP name (e.g., "ETHGlobal Brussels Hacker" -> "Hacker")
+          const role = ethGlobalBrusselsPoap.event.name
+            .replace('ETHGlobal Brussels ', '')
+            .trim();
+
+          // Combine verified name and POAP info for attestation
+          const eventInfo: EventInfo = {
+            role,
+            date: ethGlobalBrusselsPoap.event.start_date,
+            venue: 'The EGG Brussels, Rue Bara 175, 1070 Brussels, Belgium', // Fixed venue for ETHGlobal Brussels
+            verifiedName: verifiedName,
+            tokenId: ethGlobalBrusselsPoap.token_id
+          };
+
+          onVerified(true, eventInfo);
         } else {
           console.log('No ETHGlobal Brussels POAP found');
           setVerificationStatus('error');
@@ -78,7 +101,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
     };
 
     verifyEventAttendance();
-  }, [address, onVerified]);
+  }, [address, onVerified, verifiedName]);
 
   const handleImageError = () => {
     setImageLoadError(true);
