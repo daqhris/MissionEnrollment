@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import { ethers } from 'ethers';
-import { useAccount, useNetwork } from 'wagmi';
+import { JsonRpcProvider } from 'ethers';
+import { useAccount, useChainId } from 'wagmi';
 
 interface EnrollmentAttestationProps {
   verifiedName: string;
@@ -19,7 +19,7 @@ export default function EnrollmentAttestation({
   onAttestationComplete,
 }: EnrollmentAttestationProps) {
   const { address } = useAccount();
-  const { chain } = useNetwork();
+  const chainId = useChainId();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,7 +34,7 @@ export default function EnrollmentAttestation({
       setError(null);
 
       // Connect to Base Sepolia
-      const provider = new ethers.providers.JsonRpcProvider(
+      const provider = new JsonRpcProvider(
         process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL
       );
 
