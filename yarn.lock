@@ -1045,10 +1045,10 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@coinbase/onchainkit@^0.35.1":
-  version "0.35.1"
-  resolved "https://registry.yarnpkg.com/@coinbase/onchainkit/-/onchainkit-0.35.1.tgz#3e916d2d80602acd68bac1d46ad5d399908ccc81"
-  integrity sha512-bfKPsvDZ/yrTi69tnlS9R7FG2y31VLRlWr30Io+1iK0HFIdiN9aVdwJocVx04RnPKGOSDy6dIsLI+D16L6E5UA==
+"@coinbase/onchainkit@^0.35.2":
+  version "0.35.2"
+  resolved "https://registry.yarnpkg.com/@coinbase/onchainkit/-/onchainkit-0.35.2.tgz#a12388e7bf58a840b18f75140c5d5161771c4604"
+  integrity sha512-bVXmr2nM59DfD0ilj6BKY6d3WmVu9p5oNv9ykIBDlp0g8B95EqpBU3nZRgiq+fnyCd/Wq85imRhzYED06o7H/A==
   dependencies:
     "@rainbow-me/rainbowkit" "^2.1.3"
     "@tanstack/react-query" "^5"

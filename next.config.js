@@ -16,6 +16,7 @@ const nextConfig = {
   },
   images: {
     domains: ["api.poap.tech", "placehold.co", "assets.poap.xyz"],
+    unoptimized: true,
   },
   swcMinify: true,
   compiler: {
@@ -27,6 +28,10 @@ const nextConfig = {
   output: 'export',
   basePath: process.env.CUSTOM_DOMAIN === "true" ? "" : process.env.GITHUB_PAGES === "true" ? "/MissionEnrollment" : "",
   assetPrefix: process.env.CUSTOM_DOMAIN === "true" ? "" : process.env.GITHUB_PAGES === "true" ? "/MissionEnrollment/" : "",
+  // Ensure client-side rendering works properly with static export
+  trailingSlash: true,
+  // Optimize for static export
+  optimizeFonts: false,
 };
 
 module.exports = nextConfig;
