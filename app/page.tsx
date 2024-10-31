@@ -169,20 +169,38 @@ export default function Home() {
                   )}
 
                   {showEventAttendance && verifiedName && (
-                    <EventAttendanceVerification
-                      address={address || ''}
-                      verifiedName={verifiedName}
-                      onVerified={(hasAttended: boolean, info?: {
-                        role: string;
-                        date: string;
-                        venue: string;
-                        verifiedName: string;
-                        tokenId: string;
-                      }) => {
-                        setEventAttendanceVerified(hasAttended);
-                        if (info) setEventInfo(info);
-                      }}
-                    />
+                    <div className="mt-4">
+                      <EventAttendanceVerification
+                        address={address || ''}
+                        verifiedName={verifiedName}
+                        onVerified={(hasAttended: boolean, info?: {
+                          role: string;
+                          date: string;
+                          venue: string;
+                          verifiedName: string;
+                          tokenId: string;
+                        }) => {
+                          setEventAttendanceVerified(hasAttended);
+                          if (info) {
+                            setEventInfo(info);
+                            setShowAttestation(true);
+                          }
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {showAttestation && eventInfo && (
+                    <div className="mt-4">
+                      <EnrollmentAttestation
+                        verifiedName={eventInfo.verifiedName}
+                        poapVerified={eventAttendanceVerified}
+                        onAttestationComplete={(attestationId: string) => {
+                          console.log('Attestation created:', attestationId);
+                          // TODO: Handle attestation completion
+                        }}
+                      />
+                    </div>
                   )}
                 </>
               )}
