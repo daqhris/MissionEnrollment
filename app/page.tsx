@@ -7,6 +7,7 @@ import { getName } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 import { RainbowKitCustomConnectButton } from '../components/scaffold-eth';
 import EventAttendanceVerification from '../components/EventAttendanceVerification';
+import EnrollmentAttestation from '../components/EnrollmentAttestation';
 
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
   const [onchainName, setOnchainName] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showEventAttendance, setShowEventAttendance] = useState(false);
+  const [showAttestation, setShowAttestation] = useState(false);
   const [eventAttendanceVerified, setEventAttendanceVerified] = useState(false);
   const [eventInfo, setEventInfo] = useState<{
     role: string;
@@ -169,20 +171,38 @@ export default function Home() {
                   )}
 
                   {showEventAttendance && verifiedName && (
-                    <EventAttendanceVerification
-                      address={address || ''}
-                      verifiedName={verifiedName}
-                      onVerified={(hasAttended: boolean, info?: {
-                        role: string;
-                        date: string;
-                        venue: string;
-                        verifiedName: string;
-                        tokenId: string;
-                      }) => {
-                        setEventAttendanceVerified(hasAttended);
-                        if (info) setEventInfo(info);
-                      }}
-                    />
+                    <div className="mt-4">
+                      <EventAttendanceVerification
+                        address={address || ''}
+                        verifiedName={verifiedName}
+                        onVerified={(hasAttended: boolean, info?: {
+                          role: string;
+                          date: string;
+                          venue: string;
+                          verifiedName: string;
+                          tokenId: string;
+                        }) => {
+                          setEventAttendanceVerified(hasAttended);
+                          if (info) {
+                            setEventInfo(info);
+                            setShowAttestation(true);
+                          }
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {showAttestation && eventInfo && (
+                    <div className="mt-4">
+                      <EnrollmentAttestation
+                        verifiedName={eventInfo.verifiedName}
+                        poapVerified={eventAttendanceVerified}
+                        onAttestationComplete={(attestationId: string) => {
+                          console.log('Attestation created:', attestationId);
+                          // TODO: Handle attestation completion
+                        }}
+                      />
+                    </div>
                   )}
                 </>
               )}
