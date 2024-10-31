@@ -1,4 +1,4 @@
-import { ethers } from "@nomicfoundation/hardhat-ethers";
+import { ethers } from "hardhat";
 
 async function main() {
   // Base Sepolia EAS Contract addresses
@@ -12,8 +12,9 @@ async function main() {
     SCHEMA_REGISTRY_ADDRESS
   );
 
-  await attestationService.deployed();
-  console.log("AttestationService deployed to:", attestationService.address);
+  await attestationService.waitForDeployment();
+  const address = await attestationService.getAddress();
+  console.log("AttestationService deployed to:", address);
 
   // Initialize the contract
   console.log("Initializing contract...");
@@ -27,13 +28,15 @@ async function main() {
   const receipt = await schemaTx.wait();
 
   // Get the schema ID from the event
-  const schemaCreatedEvent = receipt.events?.find(e => e.event === "SchemaCreated");
+  const schemaCreatedEvent = receipt.logs.find(
+    log => log.fragment?.name === "SchemaCreated"
+  );
   const schemaId = schemaCreatedEvent?.args?.schemaId;
   console.log("Schema created with ID:", schemaId);
 
   // Update the EnrollmentAttestation component with the contract address and schema ID
   console.log("\nUpdate your EnrollmentAttestation component with these values:");
-  console.log("Contract Address:", attestationService.address);
+  console.log("Contract Address:", address);
   console.log("Schema ID:", schemaId);
 
   return { attestationService, schemaId };
