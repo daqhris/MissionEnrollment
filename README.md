@@ -1,3 +1,5 @@
+[![Mission Enrollment Logo](./public/logo.svg)](https://mission-enrollment.vercel.app/)
+
 # Mission Enrollment
 
 **An enrollment tool for a collaborative mission on the Superchain.**
@@ -5,7 +7,7 @@
 This app has 3 features that certify the enrollment of its user for an future mission.
 Its use requires an onchain name, a non-fungible token from an in-person event, and the validation of an attestation signed by _daqhris.eth_ on either **Base** or **Optimism** blockchains.
 
-This project provides a transparent process that requires 3 phases of control and validation: identity verification, event participation, and public attestation on the Superchain.  
+This project provides a transparent process that requires 3 phases of control and validation: identity verification, event participation, and public attestation on the Superchain.
 It is built as a web application with **Next.js** and **React**, and runs on top of smart contracts integrating blockchain protocols: Ethereum Name Service (**ENS**), Ethereum Attestation Service (**EAS**) and Proof of Attendance Protocol (**POAP**).
 
 ## Key Features
@@ -23,6 +25,8 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 - Displays POAP data including event name, date, and image
 
 ### 3. Onchain Attestation
+
+![Oracle Image](./public/oracle.png)
 
 - Utilizes Ethereum Attestation Service (EAS) for creating verifiable onchain records
 - Supports attestations on both Base and Optimism L2 rollups
@@ -42,34 +46,42 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 ## Technical Stack
 
 - Frontend: React with Next.js
-- Blockchain Interaction: ethers.js, wagmi
+- Blockchain Interaction: ethers.js (v6), wagmi
 - ENS Integration: ENS resolution via ethers.js
 - POAP API: Custom API route with caching and rate limiting
 - Smart Contracts: Solidity with OpenZeppelin libraries
 - Attestation: Ethereum Attestation Service (EAS) SDK
+- OnchainKit: Integrated for identity and wallet functionalities
 
 ### Other Dev Tools
 
 - **State Management**: React Query (with singleton QueryClient instance)
-- **Wallet Login**: Wagmi
+- **Wallet Login**: Wagmi, prioritized scaffold-eth connector
 - **Styling**: Tailwind CSS
 - **Type Checking**: TypeScript
-- **Code Quality**: ESLint
+- **Code Quality**: ESLint, comprehensive test suite with Jest
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v14 or later)
+- Node.js (v18 or later)
 - Yarn
 - An Ethereum wallet (Brave Wallet or any Web3-compatible wallet)
+- Environment Variables:
+  - `NEXT_PUBLIC_ONCHAINKIT_API_KEY`: API key for OnchainKit integration
+  - `NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID`: Project ID for WalletConnect
+  - `NEXT_PUBLIC_ALCHEMY_API_KEY`: API key for Alchemy services
+  - `MAINNET_RPC_URL`: RPC URL for Ethereum mainnet
+  - `BASE_SEPOLIA_RPC_URL`: RPC URL for Base Sepolia network
+- Note: Ensure that sensitive information such as private keys are securely managed and not included in public repositories. Use secure secrets management for deployment credentials.
 
 ### Installation
 
 1. Clone the repository:
 
    ```
-   git clone https://github.com/yourusername/MissionEnrollment.git
+   git clone https://github.com/daqhris/MissionEnrollment.git
    cd MissionEnrollment
    ```
 
@@ -96,9 +108,10 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 **Mission Enrollment** provides a streamlined, one-page application for people to enroll in advance of the _Zinneke Rescue Mission_.
 
-1. User connects their Ethereum wallet and verifies their identity (ENS).
-2. The application fetches and displays relevant POAPs.
+1. User connects their Ethereum wallet using the prioritized scaffold-eth connector and verifies their identity with .base.eth name verification.
+2. The application fetches and displays relevant POAPs, including ETHGlobal Brussels 2024.
 3. User selects the desired L2 network (Base or Optimism) for attestation creation using EAS.
+4. The EventAttendanceVerification component verifies event attendance through POAPs before proceeding to attestation.
 
 ## API Routes
 
@@ -108,7 +121,7 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 `POAPVerification.sol`: Integrates with the POAP protocol for verifying real-life event attendance.
 
-`AttestationService.sol`: This contract implements on-chain attestation using the Ethereum Attestation Service (EAS). It features role-based access control, with specific roles for attestation creators and administrators. The contract uses a custom schema for mission enrollment attestations, which includes the user's address, token ID, timestamp, and attester's address.
+`AttestationService.sol`: This contract implements on-chain attestation using the Ethereum Attestation Service (EAS). It features role-based access control, with specific roles for attestation creators and administrators. The contract uses a custom schema for mission enrollment attestations, which includes the user's address, token ID, timestamp, and attester's address. Recent updates include hardhat configuration changes and ethers v6 integration.
 
 ## Smart Contract Functions
 
@@ -120,11 +133,16 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 - `IdentityVerification.tsx`: This component handles user identity verification by validating Ethereum addresses. It ensures that users are properly authenticated before proceeding with attestations.
 - `OnchainAttestation.tsx`: This component manages the creation of on-chain attestations, supporting both Base and Optimism L2 rollups. It integrates with the user's wallet using wagmi hooks and encodes POAP data for attestation.
+- `EventAttendanceVerification.tsx`: This component verifies user attendance at events using POAPs, integrating with the POAP API to fetch and validate event participation.
+
+## Testing
+
+The project includes a comprehensive test suite using Jest, focusing on POAP verification and event attendance logic. Tests ensure robust handling of API interactions and user data validation. To run the tests, use the command `yarn test`. The test suite includes mock data located in the `test/mocks` directory for simulating API responses and covers various edge cases to ensure reliability. Test coverage reports are generated using Jest's built-in coverage tool to help identify untested areas of the codebase. Configuration for tests can be found in the `jest.config.js` file, which includes settings for handling TypeScript and React components.
 
 ## ETHGlobal Brussels 2024
 
-This onchain app includes a special feature that is dependent on ETHGlobal Brussels 2024.  
-Users are invited to retrieve their ETHGlobal Brussels 2024 POAP, adding an extra layer of credibility to their enrollment attestations.  
+This onchain app includes a special feature that is dependent on ETHGlobal Brussels 2024.
+Users are invited to retrieve their ETHGlobal Brussels 2024 POAP, adding an extra layer of credibility to their enrollment attestations.
 The app builder participated in this global hackathon when it was held for the first time in Belgium.
 
 ## Deployed Contracts
