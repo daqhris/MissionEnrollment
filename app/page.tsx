@@ -20,7 +20,6 @@ export default function Home() {
   const [showEventAttendance, setShowEventAttendance] = useState(false);
   const [showAttestation, setShowAttestation] = useState(false);
   const [eventAttendanceVerified, setEventAttendanceVerified] = useState(false);
-  const [eventAttendanceVerified, setEventAttendanceVerified] = useState(false);
   const [eventInfo, setEventInfo] = useState<{
     role: string;
     date: string;
