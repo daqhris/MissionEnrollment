@@ -54,7 +54,8 @@ export default function Home() {
 
   const handleNameSubmit = async () => {
     try {
-      console.log('Handling name submission:', inputName);
+      const fullName = `${inputName.trim()}.base.eth`;
+      console.log('Handling name submission:', fullName);
       console.log('Current onchain name:', onchainName);
 
       if (!inputName.trim()) {
@@ -64,15 +65,15 @@ export default function Home() {
         return;
       }
 
-      if (onchainName && inputName.toLowerCase() === onchainName.toLowerCase()) {
+      if (onchainName && fullName.toLowerCase() === onchainName.toLowerCase()) {
         console.log('Name verification successful');
         setVerificationStatus('success');
-        setVerifiedName(inputName);
+        setVerifiedName(fullName);
         setError(null);
       } else {
         console.log('Name verification failed');
         setVerificationStatus('error');
-        setError('The provided name does not match your onchain identity');
+        setError('The provided name does not match your onchain basename identity');
       }
     } catch (error) {
       console.error('Error during name verification:', error);
@@ -123,14 +124,16 @@ export default function Home() {
                   <h3 className="card-title mb-4">What is your name on the blockchain?</h3>
                   <p className="text-sm mb-4">Please submit your public name as recorded onchain.</p>
 
-                  <input
-                    type="text"
-                    placeholder="Enter your onchain name"
-                    className="input input-bordered w-full max-w-md mb-4"
-                    value={inputName}
-                    onChange={(e) => setInputName(e.target.value)}
-                  />
-
+                  <div className="flex items-center w-full max-w-md mb-4">
+                    <input
+                      type="text"
+                      placeholder="Enter your name"
+                      className="input input-bordered flex-grow"
+                      value={inputName}
+                      onChange={(e) => setInputName(e.target.value)}
+                    />
+                    <span className="ml-2 text-base-content/70">.base.eth</span>
+                  </div>
                   <button
                     className="btn btn-primary"
                     onClick={handleNameSubmit}
