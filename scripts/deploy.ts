@@ -1,4 +1,4 @@
-import { ethers } from "hardhat";
+import { ethers } from "@nomicfoundation/hardhat-toolbox";
 
 async function main() {
   // Base Sepolia EAS Contract addresses
