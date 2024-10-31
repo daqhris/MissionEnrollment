@@ -19,12 +19,7 @@ const config: HardhatUserConfig = {
   networks: {
     baseSepolia: {
       url: process.env.BASE_SEPOLIA_RPC_URL || "https://sepolia.base.org",
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
-      verify: {
-        etherscan: {
-          apiUrl: "https://api-sepolia.basescan.org"
-        }
-      }
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : []
     },
   },
   paths: {
