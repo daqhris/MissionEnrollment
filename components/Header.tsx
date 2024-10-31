@@ -16,29 +16,29 @@ type HeaderMenuLink = {
 };
 
 const NavBar = tw.div`
-  sticky 
-  lg:static 
-  top-0 
-  navbar 
-  bg-base-100 
-  min-h-0 
-  flex-shrink-0 
-  justify-between 
-  z-20 
-  shadow-md 
-  shadow-secondary 
-  px-0 
+  sticky
+  lg:static
+  top-0
+  navbar
+  bg-base-100
+  min-h-0
+  flex-shrink-0
+  justify-between
+  z-20
+  shadow-md
+  shadow-secondary
+  px-0
   sm:px-2
 `;
 
 const NavbarStart = tw.div`
-  navbar-start 
-  w-auto 
+  navbar-start
+  w-auto
   lg:w-1/2
 `;
 
 const DropdownContainer = tw.div`
-  lg:hidden 
+  lg:hidden
   dropdown
 `;
 
@@ -50,58 +50,71 @@ const BurgerMenuButton = tw.label<{ $isOpen: boolean }>`
 `;
 
 const DropdownMenu = tw.ul`
-  menu 
-  menu-compact 
-  dropdown-content 
-  mt-3 
-  p-2 
-  shadow 
-  bg-base-100 
-  rounded-box 
+  menu
+  menu-compact
+  dropdown-content
+  mt-3
+  p-2
+  shadow
+  bg-base-100
+  rounded-box
   w-52
 `;
 
 const LogoLink = tw(Link)`
-  hidden 
-  lg:flex 
-  items-center 
-  gap-2 
-  ml-4 
-  mr-6 
+  hidden
+  lg:flex
+  items-center
+  gap-2
+  ml-4
+  mr-6
   shrink-0
 `;
 
 const LogoContainer = tw.div`
-  flex 
-  relative 
-  w-8 
+  flex
+  relative
+  w-8
   h-8
 `;
 
 const LogoText = tw.div`
-  flex 
+  flex
   flex-col
 `;
 
 const LogoTitle = tw.span`
-  font-bold 
+  font-bold
   leading-tight
 `;
 
 const DesktopMenu = tw.ul`
-  hidden 
-  lg:flex 
-  lg:flex-nowrap 
-  menu 
-  menu-horizontal 
-  px-1 
+  hidden
+  lg:flex
+  lg:flex-nowrap
+  menu
+  menu-horizontal
+  px-1
   gap-2
 `;
 
+const NavbarCenter = tw.div`
+  navbar-center
+  flex
+  items-center
+  justify-center
+`;
+
 const NavbarEnd = tw.div`
-  navbar-end 
-  flex-grow 
+  navbar-end
+  flex-grow
   mr-4
+`;
+
+const ChainIdentifier = tw.div`
+  text-sm
+  font-semibold
+  text-accent
 `;
 
 const MenuLink = tw(Link)<{ $isActive: boolean }>`
@@ -199,9 +212,11 @@ export const Header = (): JSX.Element => {
           <HeaderMenuLinks />
         </DesktopMenu>
       </NavbarStart>
-      <NavbarEnd>
+      <NavbarCenter>
         <RainbowKitCustomConnectButton />
-        <FaucetButton />
+      </NavbarCenter>
+      <NavbarEnd>
+        <ChainIdentifier>Base</ChainIdentifier>
       </NavbarEnd>
     </NavBar>
   );

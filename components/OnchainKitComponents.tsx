@@ -1,4 +1,3 @@
-import { ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { Avatar } from '@coinbase/onchainkit/identity';
 import { TokenRow } from '@coinbase/onchainkit/token';
 import { useAccount } from 'wagmi';
@@ -21,23 +20,17 @@ export const OnchainKitComponents: React.FC<OnchainKitComponentsProps> = ({ clas
     symbol: "DAI"
   };
 
+  if (!address) {
+    return null;
+  }
+
   return (
     <div className={`flex flex-col gap-4 p-4 ${className || ''}`}>
-      <div className="flex items-center justify-between">
-        <div className="flex" data-testid="ockConnectWallet_Container">
-          <ConnectWallet />
-        </div>
+      <div className="flex items-center gap-2">
+        <Avatar address={address} />
+        <span className="text-sm">{address}</span>
       </div>
-
-      {address && (
-        <>
-          <div className="flex items-center gap-2">
-            <Avatar address={address} />
-            <span className="text-sm">{address}</span>
-          </div>
-          <TokenRow token={token} />
-        </>
-      )}
+      <TokenRow token={token} />
     </div>
   );
 };
