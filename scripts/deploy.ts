@@ -30,9 +30,13 @@ async function main() {
 
   // Get the schema ID from the event
   const schemaCreatedEvent = receipt.logs.find(
-    (log: Log) => log.fragment?.name === "SchemaCreated"
+    (log: Log) => log.topics[0] === ethers.id("SchemaCreated(bytes32,string,string)")
   );
-  const schemaId = schemaCreatedEvent?.args?.schemaId;
+
+  // Extract schema ID from the event data (bytes32 from first indexed parameter)
+  const schemaId = schemaCreatedEvent ?
+    ethers.hexlify(schemaCreatedEvent.topics[1]) :
+    undefined;
   console.log("Schema created with ID:", schemaId);
 
   // Update the EnrollmentAttestation component with the contract address and schema ID
