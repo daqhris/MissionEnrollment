@@ -8,6 +8,7 @@ import tw from "tailwind-styled-components";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
+import { useChainId } from 'wagmi';
 
 type HeaderMenuLink = {
   label: string;
@@ -113,8 +114,8 @@ const NavbarEnd = tw.div`
 
 const ChainIdentifier = tw.div`
   text-sm
-  font-semibold
-  text-accent
+  font-bold
+  uppercase
 `;
 
 const MenuLink = tw(Link)<{ $isActive: boolean }>`
@@ -170,10 +171,22 @@ export const HeaderMenuLinks = (): JSX.Element => {
 export const Header = (): JSX.Element => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const burgerMenuRef = useRef<HTMLDivElement>(null);
+  const chainId = useChainId();
   useOutsideClick(
     burgerMenuRef,
     useCallback((): void => setIsDrawerOpen(false), []),
   );
+
+  const getChainName = (id: number): string => {
+    switch (id) {
+      case 8453:
+        return 'BASE';
+      case 84532:
+        return 'BASE SEPOLIA';
+      default:
+        return 'BASE';
+    }
+  };
 
   return (
     <NavBar>
@@ -216,7 +229,7 @@ export const Header = (): JSX.Element => {
         <RainbowKitCustomConnectButton />
       </NavbarCenter>
       <NavbarEnd>
-        <ChainIdentifier>Base</ChainIdentifier>
+        <ChainIdentifier>{getChainName(chainId)}</ChainIdentifier>
       </NavbarEnd>
     </NavBar>
   );
