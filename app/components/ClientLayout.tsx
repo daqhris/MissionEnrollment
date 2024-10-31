@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from 'react';
 import { validateEnv } from '../config/env';
 import dynamic from 'next/dynamic';
