@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import EventAttendanceVerification from '../components/EventAttendanceVerification';
-import { mockPoapsResponse, mockValidWalletAddresses, mockEventInfo } from './mocks/poapData';
+import { mockPoapsResponse, mockValidWalletAddresses, mockEventInfo, POAPEvent, EventInfo } from './mocks/poapData';
 import { fetchPoaps } from '../utils/fetchPoapsUtil';
 
 // Mock fetchPoaps function
@@ -13,11 +13,12 @@ const mockedFetchPoaps = fetchPoaps as jest.MockedFunction<typeof fetchPoaps>;
 jest.useFakeTimers();
 
 describe('EventAttendanceVerification Component', () => {
+  // Ensure mock data exists
   const mockAddress = mockValidWalletAddresses[0];
+  if (!mockAddress) throw new Error('Mock wallet address is not defined');
+
   const mockVerifiedName = mockEventInfo.verifiedName;
   const mockOnVerified = jest.fn();
-
-  if (!mockAddress) throw new Error('Mock address is undefined');
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -47,14 +48,25 @@ describe('EventAttendanceVerification Component', () => {
       />
     );
 
-    fireEvent.click(screen.getByText("No, I didn't attend"));
+    fireEvent.click(screen.getByRole('button', { name: /No, I didn't attend/i }));
 
-    expect(screen.getByText('Thank you for your honesty!')).toBeInTheDocument();
+    expect(screen.getByText(/Thank you for your honesty!/i)).toBeInTheDocument();
     expect(screen.getByText(/The enrollment process requires in-person attendance/i)).toBeInTheDocument();
     expect(mockOnVerified).toHaveBeenCalledWith(false);
   });
 
-  it('shows loading animation and verifies POAP when user clicks Yes', async () => {
+  it('shows loading animation and verifies POAP using wallet address', async () => {
+    const mockPoap = mockPoapsResponse[0];
+    if (!mockPoap) throw new Error('Mock POAP data is not defined');
+
+    // Mock fetchPoaps to verify wallet address usage
+    mockedFetchPoaps.mockImplementation(async (userAddress: string): Promise<POAPEvent[]> => {
+      // Verify that the wallet address is used for verification
+      expect(userAddress).toBe(mockAddress);
+      await new Promise(resolve => setTimeout(resolve, 100));
+      return [mockPoap];
+    });
+
     render(
       <EventAttendanceVerification
         address={mockAddress}
@@ -63,34 +75,47 @@ describe('EventAttendanceVerification Component', () => {
       />
     );
 
-    // Click Yes button
+    // Click Yes button and verify loading state
     fireEvent.click(screen.getByRole('button', { name: /Yes, I attended/i }));
 
-    // Check initial loading state
+    // Verify loading animation elements
     expect(screen.getByText('🎭 Verifying your attendance...')).toBeInTheDocument();
     expect(screen.getByText('🔍 Searching POAPs on Gnosis Chain')).toBeInTheDocument();
+    expect(screen.getByText('🎪 Looking for ETHGlobal Brussels badges')).toBeInTheDocument();
+    expect(screen.getByText('🎯 Matching your wallet address')).toBeInTheDocument();
 
-    // Fast-forward through loading animation (3 seconds)
+    // Verify loading indicators are present
+    expect(document.querySelector('.loading-spinner')).toBeInTheDocument();
+    expect(document.querySelector('.loading-ring')).toBeInTheDocument();
+
+    // Fast-forward through API call and drumroll effect
     await act(async () => {
-      jest.advanceTimersByTime(3000);
+      jest.advanceTimersByTime(3100); // API delay + drumroll effect
     });
 
-    // Wait for verification to complete and results to display
+    // Verify success state and POAP details
     await waitFor(() => {
       expect(screen.getByText('🎉 Event attendance verified!')).toBeInTheDocument();
+      expect(screen.getByText(/ETHGlobal Brussels/)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /Continue Enrollment/i })).toBeEnabled();
     });
 
-    // Verify POAP details are displayed
-    expect(screen.getByText(/ETHGlobal Brussels/)).toBeInTheDocument();
-    expect(screen.getByText(/Role:/)).toBeInTheDocument();
-    expect(screen.getByText(/Date:/)).toBeInTheDocument();
-    expect(screen.getByText(/Venue:/)).toBeInTheDocument();
-    expect(screen.getByText(/Token ID:/)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Continue Enrollment/i })).toBeEnabled();
+    // Verify onVerified callback includes correct data
+    expect(mockOnVerified).toHaveBeenCalledWith(true, expect.objectContaining({
+      role: expect.any(String),
+      date: expect.any(String),
+      venue: expect.any(String),
+      verifiedName: mockVerifiedName,
+      tokenId: mockPoap.token_id
+    }));
   });
 
   it('shows error message when no POAP is found', async () => {
-    mockedFetchPoaps.mockResolvedValueOnce([]);
+    mockedFetchPoaps.mockImplementation(async (userAddress: string): Promise<POAPEvent[]> => {
+      expect(userAddress).toBe(mockAddress); // Verify wallet address is used
+      await new Promise(resolve => setTimeout(resolve, 100));
+      return [];
+    });
 
     render(
       <EventAttendanceVerification
@@ -102,14 +127,18 @@ describe('EventAttendanceVerification Component', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /Yes, I attended/i }));
 
+    // Fast-forward through API call and loading animation
     await act(async () => {
-      jest.advanceTimersByTime(3000);
+      jest.advanceTimersByTime(3100);
     });
 
+    // Verify error state
     await waitFor(() => {
       expect(screen.getByText(/No ETHGlobal Brussels attendance record found/i)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /Continue Enrollment/i })).toBeDisabled();
     });
 
-    expect(screen.getByRole('button', { name: /Continue Enrollment/i })).toBeDisabled();
+    // Verify that onVerified was called with false
+    expect(mockOnVerified).toHaveBeenCalledWith(false);
   });
 });

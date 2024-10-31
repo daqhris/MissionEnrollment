@@ -1,4 +1,4 @@
-interface POAPEvent {
+export interface POAPEvent {
   event: {
     id: string;
     name: string;
@@ -8,7 +8,7 @@ interface POAPEvent {
   token_id: string;
 }
 
-interface EventInfo {
+export interface EventInfo {
   role: string;
   date: string;
   venue: string;
@@ -16,7 +16,7 @@ interface EventInfo {
   tokenId: string;
 }
 
-interface ErrorResponse {
+export interface ErrorResponse {
   status: number;
   message: string;
 }
