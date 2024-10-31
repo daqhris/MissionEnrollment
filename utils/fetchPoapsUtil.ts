@@ -15,12 +15,12 @@ interface POAPEvent {
 
 export const fetchPoaps = async (userAddress: string): Promise<POAPEvent[]> => {
   try {
-    const poapApiKey = process.env.NEXT_PUBLIC_POAP_API_KEY;
+    const poapApiKey = process.env.POAP_API_KEY;
     if (!poapApiKey) {
       throw new Error("POAP API key is not available. Please check your environment variables.");
     }
 
-    const poapApiUrl = `https://api.poap.xyz/actions/scan/${userAddress}`;
+    const poapApiUrl = `https://api.poap.tech/actions/scan/${userAddress}`;
 
     const response = await axios.get(poapApiUrl, {
       headers: {
