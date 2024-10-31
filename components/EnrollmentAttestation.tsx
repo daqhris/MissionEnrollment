@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useAccount } from 'wagmi';
-import { base } from 'viem/chains';
-import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk';
+import { useState } from 'react';
+import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
+import { ethers } from 'ethers';
+import { useAccount, useNetwork } from 'wagmi';
 
 interface EnrollmentAttestationProps {
   verifiedName: string;
@@ -9,52 +9,62 @@ interface EnrollmentAttestationProps {
   onAttestationComplete: (attestationId: string) => void;
 }
 
-const EAS_CONTRACT_ADDRESS = '0x4200000000000000000000000000000000000021'; // Base Mainnet EAS Contract
-const SCHEMA_UID = '0x'; // TODO: Add schema UID from deployed contract
+const EAS_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_EAS_CONTRACT_ADDRESS || '0x4200000000000000000000000000000000000021';
+const SCHEMA_REGISTRY_ADDRESS = process.env.NEXT_PUBLIC_SCHEMA_REGISTRY_ADDRESS || '0x4200000000000000000000000000000000000020';
+const SCHEMA_UID = '0x0000000000000000000000000000000000000000000000000000000000000000'; // Will be updated after deployment
 
 export default function EnrollmentAttestation({
   verifiedName,
   poapVerified,
-  onAttestationComplete
+  onAttestationComplete,
 }: EnrollmentAttestationProps) {
   const { address } = useAccount();
+  const { chain } = useNetwork();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const createAttestation = async () => {
-    if (!address || !verifiedName || !poapVerified) {
-      setError('Missing required information for attestation');
+    if (!address || !poapVerified) {
+      setError('Wallet not connected or POAP verification incomplete');
       return;
     }
 
-    setIsLoading(true);
-    setError(null);
-
     try {
+      setIsLoading(true);
+      setError(null);
+
+      // Connect to Base Sepolia
+      const provider = new ethers.providers.JsonRpcProvider(
+        process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL
+      );
+
+      // Initialize EAS SDK
       const eas = new EAS(EAS_CONTRACT_ADDRESS);
+      eas.connect(provider);
 
-      // Initialize SchemaEncoder with the schema string from the smart contract
-      const schemaEncoder = new SchemaEncoder("address userAddress,uint256 tokenId,uint256 timestamp,address attester");
-
+      // Create SchemaEncoder instance
+      const schemaEncoder = new SchemaEncoder("address userAddress,string verifiedName,bool poapVerified,uint256 timestamp");
       const encodedData = schemaEncoder.encodeData([
         { name: "userAddress", value: address, type: "address" },
-        { name: "tokenId", value: 1, type: "uint256" }, // TODO: Get actual token ID
+        { name: "verifiedName", value: verifiedName, type: "string" },
+        { name: "poapVerified", value: poapVerified, type: "bool" },
         { name: "timestamp", value: Math.floor(Date.now() / 1000), type: "uint256" },
-        { name: "attester", value: address, type: "address" }
       ]);
 
+      // Create the attestation
       const tx = await eas.attest({
         schema: SCHEMA_UID,
         data: {
           recipient: address,
-          expirationTime: 0,
           revocable: true,
           data: encodedData,
         },
       });
 
-      const attestationUID = await tx.wait();
-      onAttestationComplete(attestationUID);
+      const newAttestationUID = await tx.wait();
+      console.log("New attestation created with UID:", newAttestationUID);
+      onAttestationComplete(newAttestationUID);
+
     } catch (err) {
       console.error('Error creating attestation:', err);
       setError('Failed to create attestation. Please try again.');
@@ -64,39 +74,26 @@ export default function EnrollmentAttestation({
   };
 
   return (
-    <div className="card w-96 bg-base-100 shadow-xl">
+    <div className="card bg-base-100 shadow-xl">
       <div className="card-body">
         <h2 className="card-title">Enrollment Attestation</h2>
-        <p className="text-sm mb-4">Create an onchain attestation for your mission enrollment.</p>
+        <p>Create an onchain attestation for your mission enrollment</p>
+
+        <div className="mt-4">
+          <p><strong>Verified Name:</strong> {verifiedName}</p>
+          <p><strong>POAP Verification:</strong> {poapVerified ? '✅ Verified' : '❌ Not Verified'}</p>
+        </div>
 
         {error && (
-          <div className="alert alert-error">
+          <div className="alert alert-error mt-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
             <span>{error}</span>
           </div>
         )}
 
-        <div className="flex flex-col gap-4">
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Verified Name</span>
-            </label>
-            <input
-              type="text"
-              className="input input-bordered"
-              value={verifiedName}
-              disabled
-            />
-          </div>
-
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">POAP Verification</span>
-            </label>
-            <div className={`badge ${poapVerified ? 'badge-success' : 'badge-error'}`}>
-              {poapVerified ? 'Verified' : 'Not Verified'}
-            </div>
-          </div>
-
+        <div className="card-actions justify-end mt-4">
           <button
             className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
             onClick={createAttestation}

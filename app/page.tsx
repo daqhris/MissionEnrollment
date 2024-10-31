@@ -7,6 +7,7 @@ import { getName } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
 import { RainbowKitCustomConnectButton } from '../components/scaffold-eth';
 import EventAttendanceVerification from '../components/EventAttendanceVerification';
+import EnrollmentAttestation from '../components/EnrollmentAttestation';
 
 
 export default function Home() {
@@ -17,6 +18,8 @@ export default function Home() {
   const [onchainName, setOnchainName] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showEventAttendance, setShowEventAttendance] = useState(false);
+  const [showAttestation, setShowAttestation] = useState(false);
+  const [eventAttendanceVerified, setEventAttendanceVerified] = useState(false);
   const [eventAttendanceVerified, setEventAttendanceVerified] = useState(false);
   const [eventInfo, setEventInfo] = useState<{
     role: string;
