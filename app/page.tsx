@@ -150,12 +150,22 @@ export default function Home() {
                     </div>
                   )}
 
-                  <button
-                    className={`btn ${verificationStatus === 'success' ? 'btn-secondary' : 'btn-disabled'} mt-4`}
-                    disabled={verificationStatus !== 'success'}
-                  >
-                    NEXT
-                  </button>
+                  {verificationStatus === 'success' && !showEventAttendance && (
+                    <button
+                      className="btn btn-secondary mt-4"
+                      onClick={() => setShowEventAttendance(true)}
+                    >
+                      NEXT
+                    </button>
+                  )}
+
+                  {showEventAttendance && verifiedName && (
+                    <EventAttendanceVerification
+                      address={address || ''}
+                      verifiedName={verifiedName}
+                      onVerified={setEventAttendanceVerified}
+                    />
+                  )}
                 </>
               )}
             </div>
