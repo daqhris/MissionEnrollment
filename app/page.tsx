@@ -100,25 +100,26 @@ export default function Home() {
                 </>
               )}
 
-              {isConnected && address && (
-                <div className="flex items-center gap-2 mb-6">
-                  <Avatar address={address} />
-                  <span className="text-sm">{address}</span>
-                </div>
-              )}
-
-              {error && (
-                <div className="alert alert-error mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span>{error}</span>
-                </div>
-              )}
-
               {isConnected && (
                 <>
                   <h2 className="text-2xl font-bold mb-4">Identity Check</h2>
+
+                  {address && (
+                    <div className="flex items-center gap-2 mb-6">
+                      <Avatar address={address} />
+                      <span className="text-sm">{address}</span>
+                    </div>
+                  )}
+
+                  {error && (
+                    <div className="alert alert-error mb-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>{error}</span>
+                    </div>
+                  )}
+
                   <h3 className="card-title mb-4">What is your name on the blockchain?</h3>
                   <p className="text-sm mb-4">Please submit your public name as recorded onchain.</p>
 
