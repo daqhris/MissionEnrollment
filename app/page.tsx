@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { Avatar } from '@coinbase/onchainkit/identity';
 import { useAccount } from 'wagmi';
 import { getName } from '@coinbase/onchainkit/identity';
 import { base } from 'viem/chains';
+import { RainbowKitCustomConnectButton } from '../components/scaffold-eth';
 
 
 export default function Home() {
@@ -72,7 +72,7 @@ export default function Home() {
       } else {
         console.log('Name verification failed');
         setVerificationStatus('error');
-        setError('The provided name does not match your on-chain identity');
+        setError('The provided name does not match your onchain identity');
       }
     } catch (error) {
       console.error('Error during name verification:', error);
@@ -88,15 +88,24 @@ export default function Home() {
         <div className="space-y-4">
           <div className="card">
             <div className="card-body">
-              <div className="flex items-center justify-between mb-6">
-                <ConnectWallet />
-                {isConnected && address && (
-                  <div className="flex items-center gap-2">
-                    <Avatar address={address} />
-                    <span className="text-sm">{address}</span>
+              {!isConnected && (
+                <>
+                  <h2 className="text-2xl font-bold mb-4">Start Registration</h2>
+                  <p className="text-base-content/70 text-center mb-8">
+                    Please connect your wallet to start enrolling for the mission
+                  </p>
+                  <div className="flex justify-center">
+                    <RainbowKitCustomConnectButton />
                   </div>
-                )}
-              </div>
+                </>
+              )}
+
+              {isConnected && address && (
+                <div className="flex items-center gap-2 mb-6">
+                  <Avatar address={address} />
+                  <span className="text-sm">{address}</span>
+                </div>
+              )}
 
               {error && (
                 <div className="alert alert-error mb-4">
@@ -107,14 +116,15 @@ export default function Home() {
                 </div>
               )}
 
-              {isConnected ? (
+              {isConnected && (
                 <>
-                  <h2 className="card-title mb-4">What is your identity on the blockchain?</h2>
-                  <p className="text-sm mb-4">Please provide your public name as recorded on-chain.</p>
+                  <h2 className="text-2xl font-bold mb-4">Identity Check</h2>
+                  <h3 className="card-title mb-4">What is your name on the blockchain?</h3>
+                  <p className="text-sm mb-4">Please submit your public name as recorded onchain.</p>
 
                   <input
                     type="text"
-                    placeholder="Enter your on-chain name"
+                    placeholder="Enter your onchain name"
                     className="input input-bordered w-full max-w-md mb-4"
                     value={inputName}
                     onChange={(e) => setInputName(e.target.value)}
@@ -143,8 +153,6 @@ export default function Home() {
                     NEXT
                   </button>
                 </>
-              ) : (
-                <p className="text-center">Please connect your wallet to continue with mission enrollment.</p>
               )}
             </div>
           </div>
