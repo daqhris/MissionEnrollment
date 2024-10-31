@@ -225,9 +225,7 @@ export const Header = (): JSX.Element => {
           <HeaderMenuLinks />
         </DesktopMenu>
       </NavbarStart>
-      <NavbarCenter>
-        <RainbowKitCustomConnectButton />
-      </NavbarCenter>
+      <NavbarCenter />
       <NavbarEnd>
         <ChainIdentifier>{getChainName(chainId)}</ChainIdentifier>
       </NavbarEnd>
