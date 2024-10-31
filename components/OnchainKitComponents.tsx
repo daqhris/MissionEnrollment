@@ -24,7 +24,9 @@ export const OnchainKitComponents: React.FC<OnchainKitComponentsProps> = ({ clas
   return (
     <div className={`flex flex-col gap-4 p-4 ${className || ''}`}>
       <div className="flex items-center justify-between">
-        <ConnectWallet />
+        <div className="flex" data-testid="ockConnectWallet_Container">
+          <ConnectWallet />
+        </div>
       </div>
 
       {address && (
