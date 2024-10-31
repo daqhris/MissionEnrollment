@@ -47,8 +47,9 @@ jobs:
         run: yarn install
       - name: Build with Next.js
         run: |
-          yarn build
+          mkdir -p out
           touch out/.nojekyll
+          yarn build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
