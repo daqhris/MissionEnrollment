@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import tw from "tailwind-styled-components";
@@ -96,6 +98,37 @@ export const Footer = (): JSX.Element => {
               </>
             )}
           </LeftSection>
+          <div className="pointer-events-auto flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="text-base-content">Mission Coordinator:</span>
+              <Link
+                href="https://app.ens.domains/daqhris.eth"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link link-primary font-semibold hover:text-primary-focus"
+              >
+                daqhris.eth
+              </Link>
+            </div>
+            <div className="flex items-center gap-4">
+              <Link
+                href="https://ethglobal.com/showcase/missionenrollment-i4fkr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link link-secondary text-sm"
+              >
+                ETHGlobal Showcase
+              </Link>
+              <Link
+                href="https://github.com/daqhris/MissionEnrollment"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link link-secondary text-sm"
+              >
+                GitHub
+              </Link>
+            </div>
+          </div>
         </FixedBottomBar>
       </div>
       <FooterContent>
