@@ -1,4 +1,4 @@
-[![Mission Enrollment Logo](./public/logo.svg)](https://mission-enrollment.vercel.app/)
+[![Mission Enrollment Logo](./public/logo.png)](https://mission-enrollment.vercel.app/)
 
 # Mission Enrollment
 
@@ -26,7 +26,7 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 ### 3. Onchain Attestation
 
-![Oracle Image](./public/oracle.png)
+
 
 - Utilizes Ethereum Attestation Service (EAS) for creating verifiable onchain records
 - Supports attestations on both Base and Optimism L2 rollups
