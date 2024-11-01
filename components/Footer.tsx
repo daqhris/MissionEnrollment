@@ -105,7 +105,7 @@ export const Footer = (): JSX.Element => {
                 href="https://app.ens.domains/daqhris.eth"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="link link-primary font-semibold hover:text-primary-focus"
+                className="text-accent font-semibold hover:text-accent-focus"
               >
                 daqhris.eth
               </Link>
@@ -115,7 +115,7 @@ export const Footer = (): JSX.Element => {
                 href="https://ethglobal.com/showcase/missionenrollment-i4fkr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="link link-secondary text-sm"
+                className="text-accent-content hover:text-accent text-sm"
               >
                 ETHGlobal Showcase
               </Link>
@@ -123,7 +123,7 @@ export const Footer = (): JSX.Element => {
                 href="https://github.com/daqhris/MissionEnrollment"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="link link-secondary text-sm"
+                className="text-accent-content hover:text-accent text-sm"
               >
                 GitHub
               </Link>
