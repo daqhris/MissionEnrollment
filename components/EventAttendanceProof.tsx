@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react";
-import axios from "axios";
+import React, { useCallback, useState } from "react";
 import { toast } from "react-toastify";
+import { fetchAndVerifyPOAPs, POAPEvent } from "../utils/poapUtils";
 
 interface Poap {
   event: {
@@ -20,9 +20,10 @@ const EventAttendanceProof: React.FC<EventAttendanceProofProps> = ({ onVerified,
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchPoaps = useCallback(async () => {
+  const verifyAttendance = useCallback(async () => {
     if (!userAddress) {
       setError("Please connect your wallet to verify attendance.");
+      toast.error("Please connect your wallet to verify attendance.");
       return;
     }
 
@@ -30,60 +31,46 @@ const EventAttendanceProof: React.FC<EventAttendanceProofProps> = ({ onVerified,
     setError(null);
 
     try {
-      console.log("Fetching POAPs for address:", userAddress);
-      const response = await axios.get(`/api/fetchPoaps?address=${userAddress}`);
-      console.log("API response:", response.data);
-      const fetchedPoaps = response.data.poaps;
-      console.log("Fetched POAPs:", fetchedPoaps);
-      setPoaps(fetchedPoaps);
-      if (fetchedPoaps.length > 0) {
-        console.log("Searching for ETHGlobal Brussels 2024 POAP");
-        const ethGlobalBrusselsPOAP = fetchedPoaps.find(
-          (poap: Poap) => poap.event.name.toLowerCase() === "ethglobal brussels 2024",
+      console.log("Starting POAP verification for address:", userAddress);
+      const { poaps, hasEthGlobalBrussels } = await fetchAndVerifyPOAPs(userAddress);
+
+      console.log("POAP verification completed:", {
+        totalPoaps: poaps.length,
+        hasEthGlobalBrussels
+      });
+
+      // Convert POAPEvent[] to Poap[] to match the expected type
+      const convertedPoaps: Poap[] = poaps.map(poap => ({
+        event: {
+          name: poap.event.name,
+          description: poap.event.description || ''
+        },
+        imageUrl: poap.metadata?.image || poap.event.image_url
+      }));
+
+      setPoaps(convertedPoaps);
+
+      if (hasEthGlobalBrussels) {
+        onVerified();
+        toast.success("ETHGlobal Brussels 2024 POAP verified successfully!");
+      } else if (poaps.length > 0) {
+        toast.warning(
+          "You have POAPs, but none from ETHGlobal Brussels 2024. Please make sure you've claimed the correct POAP."
         );
-        console.log("ETHGlobal Brussels 2024 POAP found:", ethGlobalBrusselsPOAP);
-        if (ethGlobalBrusselsPOAP) {
-          onVerified();
-          toast.success("ETHGlobal Brussels 2024 POAP verified successfully!");
-        } else {
-          console.log("ETHGlobal Brussels 2024 POAP not found");
-          toast.warning(
-            "You have POAPs, but none from ETHGlobal Brussels 2024. Please make sure you've claimed the correct POAP.",
-          );
-        }
       } else {
-        console.log("No POAPs found for the address");
         toast.info(
-          "No POAPs found for this address. Make sure you've claimed your ETHGlobal Brussels 2024 POAP and try again.",
+          "No POAPs found for this address. Make sure you've claimed your ETHGlobal Brussels 2024 POAP and try again."
         );
       }
     } catch (err) {
-      console.error("Error fetching POAPs:", err);
-      if (axios.isAxiosError(err)) {
-        if (err.response) {
-          console.error("API error response:", err.response.data);
-          toast.error(`Failed to fetch POAPs: ${err.response.data.error || "Unknown error"}. Please try again later.`);
-        } else if (err.request) {
-          console.error("Network error:", err.request);
-          toast.error("Network error. Please check your internet connection and try again.");
-        } else {
-          console.error("Unexpected error:", err.message);
-          toast.error("An unexpected error occurred. Please try again later or contact support if the issue persists.");
-        }
-      } else {
-        console.error("Non-Axios error:", err);
-        toast.error("Failed to fetch POAPs. Please try again later or contact support if the issue persists.");
-      }
+      const errorMessage = err instanceof Error ? err.message : "An unknown error occurred";
+      console.error("Error during POAP verification:", errorMessage);
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
   }, [userAddress, setPoaps, onVerified]);
-
-  useEffect(() => {
-    if (userAddress) {
-      fetchPoaps();
-    }
-  }, [userAddress, fetchPoaps]);
 
   return (
     <div className="event-attendance-proof text-center">
@@ -91,14 +78,14 @@ const EventAttendanceProof: React.FC<EventAttendanceProofProps> = ({ onVerified,
       {loading ? (
         <div className="flex justify-center items-center">
           <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900"></div>
-          <p className="ml-2">Loading POAPs...</p>
+          <p className="ml-2">Verifying POAPs...</p>
         </div>
       ) : error ? (
         <div>
           <p className="text-red-500 mb-2">{error}</p>
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={fetchPoaps}
+            onClick={verifyAttendance}
             disabled={loading}
           >
             Retry Verification
@@ -109,7 +96,7 @@ const EventAttendanceProof: React.FC<EventAttendanceProofProps> = ({ onVerified,
           <p className="mb-2">Click the button below to verify your ETHGlobal Brussels 2024 POAP.</p>
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={fetchPoaps}
+            onClick={verifyAttendance}
             disabled={loading}
           >
             Verify Attendance
