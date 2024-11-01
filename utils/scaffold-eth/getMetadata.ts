@@ -7,7 +7,7 @@ const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
 export const getMetadata = ({
   title,
   description,
-  imageRelativePath = "/thumbnail.png",
+  imageRelativePath = "/logo.png",
 }: {
   title: string;
   description: string;
@@ -32,9 +32,6 @@ export const getMetadata = ({
       title: title,
       description: description,
       images: [imageUrl],
-    },
-    icons: {
-      icon: [{ url: "/favicon.png", sizes: "32x32", type: "image/png" }],
     },
   };
 };

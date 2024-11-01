@@ -77,8 +77,9 @@ const LogoLink = tw(Link)`
 const LogoContainer = tw.div`
   flex
   relative
-  w-12
+  w-24
   h-12
+  overflow-hidden
 `;
 
 const LogoText = tw.div`
@@ -118,10 +119,11 @@ const ChainIdentifier = tw.div`
   text-sm
   font-bold
   uppercase
-  text-primary
-  bg-base-200
-  px-3
-  py-1
+  text-white
+  bg-blue-500
+  hover:bg-blue-600
+  px-4
+  py-2
   rounded-lg
 `;
 
@@ -221,7 +223,7 @@ export const Header = (): JSX.Element => {
         </DropdownContainer>
         <LogoLink href="/" passHref>
           <LogoContainer>
-            <Image alt="Mission Enrollment logo" className="cursor-pointer" fill src="/logo.png" />
+            <Image alt="Mission Enrollment logo" className="cursor-pointer object-contain" fill src="/logo.png" />
           </LogoContainer>
           <LogoText>
             <LogoTitle>Mission Enrollment</LogoTitle>
