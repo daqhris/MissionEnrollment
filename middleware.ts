@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith('/poap-api/')) {
-    const apiUrl = new URL(request.url.replace('/poap-api/', ''), 'https://api.poap.xyz/')
+    const apiUrl = new URL(request.url.replace('/poap-api/', ''), 'https://api.poap.tech/')
 
     const response = await fetch(apiUrl, {
       headers: {
