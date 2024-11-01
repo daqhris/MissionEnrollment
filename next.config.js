@@ -25,15 +25,8 @@ const nextConfig = {
   experimental: {
     forceSwcTransforms: true,
   },
-  async rewrites() {
-    return [
-      {
-        source: '/poap-api/:path*',
-        destination: 'https://api.poap.xyz/:path*',
-      },
-    ];
-  },
-  output: 'export',
+  // Temporarily comment out for local development testing
+  // output: 'export',
   basePath: process.env.CUSTOM_DOMAIN === "true" ? "" : process.env.GITHUB_PAGES === "true" ? "/MissionEnrollment" : "",
   assetPrefix: process.env.CUSTOM_DOMAIN === "true" ? "" : process.env.GITHUB_PAGES === "true" ? "/MissionEnrollment/" : "",
   // Ensure client-side rendering works properly with static export
