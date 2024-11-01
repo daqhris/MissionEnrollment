@@ -1,26 +1,42 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { fetchAndVerifyPOAPs, POAPEvent } from "../utils/poapUtils";
 
-interface Poap {
-  event: {
-    name: string;
-    description: string;
-  };
-  imageUrl: string;
-}
-
 interface EventAttendanceProofProps {
   onVerified: () => void;
-  setPoaps: (poaps: Poap[]) => void;
+  setPoaps: (poaps: POAPEvent[]) => void;
   userAddress: string | undefined;
 }
 
 const EventAttendanceProof: React.FC<EventAttendanceProofProps> = ({ onVerified, setPoaps, userAddress }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [progress, setProgress] = useState<number>(0);
+  const [verificationStarted, setVerificationStarted] = useState<boolean>(false);
 
-  const verifyAttendance = useCallback(async () => {
+  // 5-minute delay implementation
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+    if (verificationStarted && progress < 100) {
+      intervalId = setInterval(() => {
+        setProgress((prev) => {
+          const newProgress = prev + (1/300) * 100; // 5 minutes = 300 seconds
+          return newProgress > 100 ? 100 : newProgress;
+        });
+      }, 1000);
+    }
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [verificationStarted, progress]);
+
+  useEffect(() => {
+    if (progress === 100) {
+      verifyPOAPs();
+    }
+  }, [progress]);
+
+  const verifyPOAPs = async () => {
     if (!userAddress) {
       setError("Please connect your wallet to verify attendance.");
       toast.error("Please connect your wallet to verify attendance.");
@@ -39,16 +55,7 @@ const EventAttendanceProof: React.FC<EventAttendanceProofProps> = ({ onVerified,
         hasEthGlobalBrussels
       });
 
-      // Convert POAPEvent[] to Poap[] to match the expected type
-      const convertedPoaps: Poap[] = poaps.map(poap => ({
-        event: {
-          name: poap.event.name,
-          description: poap.event.description || ''
-        },
-        imageUrl: poap.metadata?.image || poap.event.image_url
-      }));
-
-      setPoaps(convertedPoaps);
+      setPoaps(poaps);
 
       if (hasEthGlobalBrussels) {
         onVerified();
@@ -69,38 +76,66 @@ const EventAttendanceProof: React.FC<EventAttendanceProofProps> = ({ onVerified,
       toast.error(errorMessage);
     } finally {
       setLoading(false);
+      setVerificationStarted(false);
+      setProgress(0);
     }
-  }, [userAddress, setPoaps, onVerified]);
+  };
+
+  const startVerification = () => {
+    setVerificationStarted(true);
+    setProgress(0);
+  };
 
   return (
-    <div className="event-attendance-proof text-center">
+    <div className="event-attendance-proof text-center p-4">
       <h2 className="text-2xl font-bold mb-4">Event Attendance Proof</h2>
       {loading ? (
-        <div className="flex justify-center items-center">
-          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900"></div>
-          <p className="ml-2">Verifying POAPs...</p>
+        <div className="flex justify-center items-center space-y-2">
+          <div className="animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
+          <p className="ml-3">Verifying POAPs...</p>
         </div>
       ) : error ? (
-        <div>
-          <p className="text-red-500 mb-2">{error}</p>
+        <div className="space-y-4">
+          <p className="text-red-500">{error}</p>
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={verifyAttendance}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200"
+            onClick={startVerification}
             disabled={loading}
           >
             Retry Verification
           </button>
         </div>
       ) : (
-        <div>
-          <p className="mb-2">Click the button below to verify your ETHGlobal Brussels 2024 POAP.</p>
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={verifyAttendance}
-            disabled={loading}
-          >
-            Verify Attendance
-          </button>
+        <div className="space-y-4">
+          <p>Click the button below to verify your ETHGlobal Brussels 2024 POAP.</p>
+          {verificationStarted ? (
+            <div className="w-full max-w-md mx-auto space-y-4">
+              <div className="relative w-20 h-20 mx-auto">
+                <div className="absolute inset-0 border-4 border-blue-200 rounded-full"></div>
+                <div className="absolute inset-0 border-4 border-blue-500 rounded-full animate-spin" style={{ borderRightColor: 'transparent', animationDuration: '2s' }}></div>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className="bg-blue-500 h-2 rounded-full transition-all duration-1000"
+                  style={{ width: `${progress}%` }}
+                ></div>
+              </div>
+              <p className="text-sm text-gray-600">
+                Verification in progress... {Math.round(progress)}%
+              </p>
+              <p className="text-xs text-gray-500">
+                Estimated time remaining: {Math.ceil((100 - progress) * 3)} seconds
+              </p>
+            </div>
+          ) : (
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200"
+              onClick={startVerification}
+              disabled={loading}
+            >
+              Verify Attendance
+            </button>
+          )}
         </div>
       )}
     </div>
