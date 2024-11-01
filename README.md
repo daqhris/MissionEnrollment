@@ -17,17 +17,21 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 - Supports real-time Basename resolution
 - Robust error handling for invalid inputs
 
-### 2. Event Attendace
+### 2. Event Attendance
 
-- Fetches and verifies Proof of Attendance Protocol (POAP) tokens
+- Fetches and verifies Proof of Attendance Protocol (POAP) tokens with a 5-minute delay animation
+- Implements robust error handling and loading states for better user experience
+- Uses api.poap.tech endpoint for reliable POAP data retrieval
 - Filters specific POAPs related to ETHGlobal Brussels 2024
 - Displays POAP data including event name, date, role and image
 
 ### 3. Enrollment Attestation
 
 - Utilizes Ethereum Attestation Service (EAS) for creating verifiable onchain records
-- Supports attestations on Base Sepolia or Optimism Sepolia L2 rollups
-- Includes onchain name and other in-person event info in the attestation data
+- Primarily supports attestations on Base Sepolia network
+- Includes comprehensive attestation data: user address, verified name, POAP verification status, and timestamp
+- Features attestation history tracking and display
+- Provides real-time network status and validation
 
 ### 4. Smart Contract
 
@@ -45,10 +49,11 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 - Frontend: React with Next.js
 - Blockchain Interaction: ethers.js (v6), wagmi
 - ENS Integration: ENS resolution via ethers.js
-- POAP API: Custom API route with caching and rate limiting
+- POAP API: Custom API route with caching, rate limiting, and 5-minute delay implementation
 - Smart Contracts: Solidity with OpenZeppelin libraries
-- Attestation: Ethereum Attestation Service (EAS) SDK
+- Attestation: Ethereum Attestation Service (EAS) SDK v1.1
 - OnchainKit: Integrated for identity and wallet functionalities
+- Middleware: Custom implementation for POAP API request handling
 
 ### Other Dev Tools
 
@@ -64,13 +69,15 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 - Node.js (v18 or later)
 - Yarn
-- An Ethereum wallet 
+- An Ethereum wallet
 - Environment Variables:
   - `NEXT_PUBLIC_ONCHAINKIT_API_KEY`: API key for OnchainKit integration
   - `NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID`: Project ID for WalletConnect
   - `NEXT_PUBLIC_ALCHEMY_API_KEY`: API key for Alchemy services
+  - `NEXT_PUBLIC_POAP_API_KEY`: API key for POAP data retrieval
+  - `NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL`: RPC URL for Base Sepolia network
+  - `NEXT_PUBLIC_EAS_CONTRACT_ADDRESS`: Address of the EAS contract
   - `MAINNET_RPC_URL`: RPC URL for Ethereum mainnet
-  - `BASE_SEPOLIA_RPC_URL`: RPC URL for Base Sepolia network
 - Note: Ensure that sensitive information such as private keys are securely managed and not included in public repositories. Use secure secrets management for deployment credentials.
 
 ### Installation
@@ -129,8 +136,9 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 ## Frontend Components
 
 - `IdentityVerification.tsx`: This component handles user identity verification by validating Ethereum addresses. It ensures that users are properly authenticated before proceeding with attestations.
-- `OnchainAttestation.tsx`: This component manages the creation of onchain attestations, supporting both Base and Optimism L2 rollups. It integrates with the user's wallet using wagmi hooks and encodes POAP data for attestation.
-- `EventAttendanceVerification.tsx`: This component verifies user attendance at events using POAPs, integrating with the POAP API to fetch and validate event participation.
+- `OnchainAttestation.tsx`: This component manages the creation of onchain attestations on the Base Sepolia network. It integrates with the user's wallet using wagmi hooks and encodes POAP data for attestation.
+- `EventAttendanceVerification.tsx`: This component verifies user attendance at events using POAPs, implementing a 5-minute delay animation and comprehensive error handling.
+- `ContractUI.tsx`: This component provides the interface for attestation contract interactions, including network status, attestation creation, and history tracking.
 
 ## Testing
 
