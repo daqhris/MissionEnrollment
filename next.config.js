@@ -15,7 +15,7 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ["api.poap.tech", "placehold.co", "assets.poap.xyz"],
+    domains: ["api.poap.tech", "placehold.co", "assets.poap.xyz", "ipfs.io"],
     unoptimized: true,
   },
   swcMinify: true,
@@ -24,6 +24,14 @@ const nextConfig = {
   },
   experimental: {
     forceSwcTransforms: true,
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/poap-api/:path*',
+        destination: 'https://api.poap.xyz/:path*',
+      },
+    ];
   },
   // Temporarily comment out for local development testing
   // output: 'export',
