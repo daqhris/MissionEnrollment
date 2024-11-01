@@ -25,14 +25,6 @@ const nextConfig = {
   experimental: {
     forceSwcTransforms: true,
   },
-  async rewrites() {
-    return [
-      {
-        source: '/poap-api/:path*',
-        destination: 'https://api.poap.xyz/:path*',
-      },
-    ];
-  },
   // Temporarily comment out for local development testing
   // output: 'export',
   basePath: process.env.CUSTOM_DOMAIN === "true" ? "" : process.env.GITHUB_PAGES === "true" ? "/MissionEnrollment" : "",
