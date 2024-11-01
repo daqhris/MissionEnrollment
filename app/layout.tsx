@@ -4,6 +4,7 @@ import "@coinbase/onchainkit/styles.css";
 import StyledComponentsRegistry from "~~/app/registry";
 import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
 import { ThemeProvider } from "~~/components/ThemeProvider";
+import { Footer } from "~~/components/Footer";
 import "~~/styles/globals.css";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
@@ -18,7 +19,10 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }): React.Reac
       <body>
         <ThemeProvider>
           <ScaffoldEthAppWithProviders>
-            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+            <StyledComponentsRegistry>
+              {children}
+              <Footer />
+            </StyledComponentsRegistry>
           </ScaffoldEthAppWithProviders>
         </ThemeProvider>
       </body>
