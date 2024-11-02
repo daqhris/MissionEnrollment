@@ -3,7 +3,7 @@ import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { injected } from 'wagmi/connectors';
 
 const MinimalWalletConnect: React.FC = (): React.ReactElement => {
-  const { address, isConnected } = useAccount();
+  const { isConnected } = useAccount();
   const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
 
@@ -21,15 +21,22 @@ const MinimalWalletConnect: React.FC = (): React.ReactElement => {
   };
 
   return (
-    <div>
-      <h2>Minimal Wallet Connect</h2>
+    <div className="fixed top-4 right-4 z-50">
       {isConnected ? (
-        <>
-          <p>Connected Account: {address}</p>
-          <button onClick={() => disconnect()}>Disconnect</button>
-        </>
+        <button
+          onClick={() => disconnect()}
+          className="btn btn-sm btn-secondary hover:bg-secondary-focus transition-colors duration-200"
+          title="Disconnect wallet"
+        >
+          Disconnect
+        </button>
       ) : (
-        <button onClick={handleConnect}>Connect Wallet</button>
+        <button
+          onClick={handleConnect}
+          className="btn btn-sm btn-primary hover:bg-primary-focus transition-colors duration-200"
+        >
+          Connect Wallet
+        </button>
       )}
     </div>
   );
