@@ -1,11 +1,11 @@
 export interface POAPEvent {
   event: {
-    id: string;
+    id: number;
     name: string;
     image_url: string;
     start_date: string;
   };
-  token_id: string;
+  tokenId: string;
 }
 
 export interface EventInfo {
@@ -24,30 +24,30 @@ export interface ErrorResponse {
 export const mockPoapsResponse: POAPEvent[] = [
   {
     event: {
-      id: "123456",
+      id: 123456,
       name: "ETHGlobal Brussels Hacker",
       image_url: "https://assets.poap.xyz/ethglobal-brussels-2024-hacker-2024-logo.png",
       start_date: "2024-02-17"
     },
-    token_id: "7890123"
+    tokenId: "7890123"
   },
   {
     event: {
-      id: "123457",
+      id: 123457,
       name: "ETHGlobal Brussels Speaker",
       image_url: "https://assets.poap.xyz/ethglobal-brussels-2024-speaker-2024-logo.png",
       start_date: "2024-02-17"
     },
-    token_id: "7890124"
+    tokenId: "7890124"
   },
   {
     event: {
-      id: "123458",
+      id: 123458,
       name: "Some Other Event",
       image_url: "https://assets.poap.xyz/other-event-2024-logo.png",
       start_date: "2024-02-17"
     },
-    token_id: "7890125"
+    tokenId: "7890125"
   }
 ];
 

@@ -2,15 +2,18 @@ import axios from 'axios';
 
 interface POAPEvent {
   event: {
-    id: string;
+    id: number;
     name: string;
     image_url: string;
+    event_url: string;
     start_date: string;
+    end_date?: string;
+    description?: string;
   };
-  token_id: string;
+  tokenId: string;
   metadata?: {
-    image?: string;
-  } | null;
+    image: string;
+  };
 }
 
 export const fetchPoaps = async (userAddress: string): Promise<POAPEvent[]> => {
@@ -38,7 +41,7 @@ export const fetchPoaps = async (userAddress: string): Promise<POAPEvent[]> => {
       return [];
     }
 
-    if (!Array.isArray(response.data) || !response.data.every(poap => poap.event && poap.token_id)) {
+    if (!Array.isArray(response.data) || !response.data.every(poap => poap.event && poap.tokenId)) {
       throw new Error(`POAP API error: Invalid response format`);
     }
 
@@ -54,7 +57,7 @@ export const fetchPoaps = async (userAddress: string): Promise<POAPEvent[]> => {
               const metadataResponse = await axios.get(ipfsUrl, { timeout: 5000 });
               metadata = metadataResponse.data;
             } catch (error) {
-              console.warn(`Error fetching IPFS metadata for POAP ${poap.token_id}:`, error);
+              console.warn(`Error fetching IPFS metadata for POAP ${poap.tokenId}:`, error);
               metadata = { image: poap.event.image_url };
             }
           } else {
@@ -62,12 +65,15 @@ export const fetchPoaps = async (userAddress: string): Promise<POAPEvent[]> => {
           }
           return {
             event: {
-              id: poap.event.id,
+              id: Number(poap.event.id),
               name: poap.event.name || "Unknown Event",
               image_url: poap.event.image_url || "",
+              event_url: poap.event.event_url || "",
               start_date: poap.event.start_date || '',
+              end_date: (poap.event.event_url || "").toLowerCase().includes('brussels') ? "14-Jul-2024" : poap.event.end_date,
+              description: poap.event.description
             },
-            token_id: poap.token_id,
+            tokenId: poap.tokenId,
             metadata,
           };
         })
