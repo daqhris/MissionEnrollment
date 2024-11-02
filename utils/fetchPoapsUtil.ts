@@ -5,6 +5,7 @@ interface POAPEvent {
     id: number;
     name: string;
     image_url: string;
+    event_url: string;
     start_date: string;
     end_date?: string;
     description?: string;
@@ -67,8 +68,9 @@ export const fetchPoaps = async (userAddress: string): Promise<POAPEvent[]> => {
               id: Number(poap.event.id),
               name: poap.event.name || "Unknown Event",
               image_url: poap.event.image_url || "",
+              event_url: poap.event.event_url || "",
               start_date: poap.event.start_date || '',
-              end_date: poap.event.name === "ETHGlobal Brussels 2024 Hacker" ? "14-Jul-2024" : poap.event.end_date,
+              end_date: (poap.event.event_url || "").toLowerCase().includes('brussels') ? "14-Jul-2024" : poap.event.end_date,
               description: poap.event.description
             },
             tokenId: poap.tokenId,
