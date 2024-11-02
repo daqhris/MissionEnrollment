@@ -8,7 +8,6 @@ const nextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: process.env.NEXT_PUBLIC_IGNORE_BUILD_ERROR === "true",
-    dirs: ['pages', 'components', 'lib', 'app'],
   },
   webpack: config => {
     config.resolve.fallback = { fs: false, net: false, tls: false };
@@ -26,6 +25,7 @@ const nextConfig = {
   experimental: {
     forceSwcTransforms: true,
   },
+  output: 'export',
   basePath: process.env.CUSTOM_DOMAIN === "true" ? "" : process.env.GITHUB_PAGES === "true" ? "/MissionEnrollment" : "",
   assetPrefix: process.env.CUSTOM_DOMAIN === "true" ? "" : process.env.GITHUB_PAGES === "true" ? "/MissionEnrollment/" : "",
   // Ensure client-side rendering works properly with static export

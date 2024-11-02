@@ -1,51 +1,27 @@
-import { Chain } from 'viem';
+'use client';
 
-export const baseMainnet: Chain = {
-  id: 8453,
-  name: 'Base',
-  nativeCurrency: {
-    name: 'Ether',
-    symbol: 'ETH',
-    decimals: 18,
-  },
+import { type Chain } from 'viem';
+import { base, baseSepolia } from 'viem/chains';
+
+// Extend the base chain with our custom RPC URL while maintaining the Chain type
+export const baseMainnet = {
+  ...base,
   rpcUrls: {
     default: {
-      http: [process.env.NEXT_PUBLIC_BASE_MAINNET_RPC_URL || 'https://mainnet.base.org'],
-    },
-    public: {
-      http: ['https://mainnet.base.org'],
+      http: [process.env.NEXT_PUBLIC_BASE_MAINNET_RPC_URL || base.rpcUrls.default.http[0]],
     },
   },
-  blockExplorers: {
-    default: {
-      name: 'BaseScan',
-      url: 'https://basescan.org',
-    },
-  },
-};
+} as Chain;
 
-export const baseSepolia: Chain = {
-  id: 84532,
-  name: 'Base Sepolia',
-  nativeCurrency: {
-    name: 'Ether',
-    symbol: 'ETH',
-    decimals: 18,
-  },
+// Extend the baseSepolia chain with our custom RPC URL while maintaining the Chain type
+export const baseSepoliaChain = {
+  ...baseSepolia,
   rpcUrls: {
     default: {
-      http: [process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL || 'https://sepolia.base.org'],
-    },
-    public: {
-      http: ['https://sepolia.base.org'],
+      http: [process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL || baseSepolia.rpcUrls.default.http[0]],
     },
   },
-  blockExplorers: {
-    default: {
-      name: 'BaseScan',
-      url: 'https://sepolia.basescan.org',
-    },
-  },
-};
+} as Chain;
 
-export const supportedChains = [baseMainnet, baseSepolia];
+// Export the chains array for wagmi configuration
+export const chains = [baseMainnet, baseSepoliaChain] as const;
