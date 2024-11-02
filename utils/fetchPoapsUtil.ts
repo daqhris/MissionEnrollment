@@ -68,7 +68,7 @@ export const fetchPoaps = async (userAddress: string): Promise<POAPEvent[]> => {
               name: poap.event.name || "Unknown Event",
               image_url: poap.event.image_url || "",
               start_date: poap.event.start_date || '',
-              end_date: poap.event.end_date,
+              end_date: poap.event.name === "ETHGlobal Brussels 2024 Hacker" ? "14-Jul-2024" : poap.event.end_date,
               description: poap.event.description
             },
             tokenId: poap.tokenId,
