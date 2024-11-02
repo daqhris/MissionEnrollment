@@ -22,6 +22,7 @@ const SCHEMA_UID = '0x46a1e77e9f1d74c8c60c8d8bd8129947b3c5f4d3e6e9497ae2e4701dd8
 export default function EnrollmentAttestation({ verifiedName, poapVerified }: EnrollmentAttestationProps) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const { address } = useAccount();
   const chainId = useChainId();
   const { data: walletClient } = useWalletClient();
@@ -42,6 +43,8 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified }: En
       errorMessage = 'Please switch to Base Sepolia network to create attestation.';
     } else if ((err as any).code === 4902) {
       errorMessage = 'Base Sepolia network not configured in wallet. Please add Base Sepolia first.';
+    } else if (err.message.includes('user rejected transaction')) {
+      errorMessage = 'Transaction was rejected. Please try again and confirm the transaction in your wallet.';
     }
 
     setError(errorMessage);
@@ -57,6 +60,7 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified }: En
     try {
       setLoading(true);
       setError(null);
+      setSuccess(false);
       console.log('Starting attestation process...');
 
       // Ensure we're on Base Sepolia first
@@ -125,6 +129,7 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified }: En
       console.log('Waiting for transaction confirmation...');
       await tx.wait();
       console.log('Attestation created successfully!');
+      setSuccess(true);
     } catch (err: any) {
       handleAttestationError(err);
     } finally {
@@ -141,6 +146,11 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified }: En
       )}
       {error && (
         <div className="text-red-500 text-sm mt-2">{error}</div>
+      )}
+      {success && (
+        <div className="text-green-500 text-sm mt-2">
+          Attestation created successfully on Base Sepolia!
+        </div>
       )}
       <button
         onClick={createAttestation}

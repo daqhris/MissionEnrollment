@@ -24,14 +24,13 @@ if (!baseSepoliaRpcUrl) {
   console.warn('Base Sepolia RPC URL could not be constructed. Please ensure NEXT_PUBLIC_ALCHEMY_API_KEY is set.');
 }
 
+// Configure wagmi with Base Sepolia as primary chain for attestations
 export const wagmiConfig = createConfig({
-  chains: [sepolia, optimism, baseSepolia],
+  chains: [baseSepolia, sepolia, optimism],
   transports: {
+    [baseSepolia.id]: http(baseSepoliaRpcUrl),
     [sepolia.id]: http(),
     [optimism.id]: http(),
-    [baseSepolia.id]: http(baseSepoliaRpcUrl),
   },
   connectors,
 });
-
-export const chains = [sepolia, optimism, baseSepolia];
