@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import { JsonRpcProvider } from 'ethers';
-import { useAccount, useChainId } from 'wagmi';
+import { JsonRpcProvider, Wallet, BrowserProvider } from 'ethers';
+import { useAccount, useChainId, useWalletClient } from 'wagmi';
 
 interface EnrollmentAttestationProps {
   verifiedName: string;
@@ -20,11 +20,12 @@ export default function EnrollmentAttestation({
 }: EnrollmentAttestationProps) {
   const { address } = useAccount();
   const chainId = useChainId();
+  const { data: walletClient } = useWalletClient();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const createAttestation = async () => {
-    if (!address || !poapVerified) {
+    if (!address || !poapVerified || !walletClient) {
       setError('Wallet not connected or POAP verification incomplete');
       return;
     }
@@ -33,14 +34,13 @@ export default function EnrollmentAttestation({
       setIsLoading(true);
       setError(null);
 
-      // Connect to Base Sepolia
-      const provider = new JsonRpcProvider(
-        process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL
-      );
+      // Create browser provider from wallet client
+      const provider = new BrowserProvider(walletClient as any);
+      const signer = await provider.getSigner();
 
-      // Initialize EAS SDK
+      // Initialize EAS SDK with wallet signer
       const eas = new EAS(EAS_CONTRACT_ADDRESS);
-      eas.connect(provider);
+      eas.connect(signer);
 
       // Create SchemaEncoder instance
       const schemaEncoder = new SchemaEncoder("address userAddress,string verifiedName,bool poapVerified,uint256 timestamp");
