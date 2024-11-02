@@ -1,7 +1,7 @@
 import '@rainbow-me/rainbowkit/styles.css';
 import { getDefaultWallets } from '@rainbow-me/rainbowkit';
 import { createConfig } from 'wagmi';
-import { sepolia, optimism, baseSepolia } from 'viem/chains';
+import { base, baseSepolia, sepolia, optimism } from 'viem/chains';
 import { http } from 'viem';
 import scaffoldConfig from "~~/scaffold.config";
 
@@ -24,10 +24,12 @@ if (!baseSepoliaRpcUrl) {
   console.warn('Base Sepolia RPC URL could not be constructed. Please ensure NEXT_PUBLIC_ALCHEMY_API_KEY is set.');
 }
 
-// Configure wagmi with Base Sepolia as primary chain for attestations
+// Configure wagmi with Base as primary chain for initial user experience
+// Base Sepolia will be used later for attestations
 export const wagmiConfig = createConfig({
-  chains: [baseSepolia, sepolia, optimism],
+  chains: [base, baseSepolia, sepolia, optimism],
   transports: {
+    [base.id]: http('https://mainnet.base.org'),
     [baseSepolia.id]: http(baseSepoliaRpcUrl),
     [sepolia.id]: http(),
     [optimism.id]: http(),

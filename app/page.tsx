@@ -1,19 +1,33 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { type Chain } from 'viem';
+import { base } from 'viem/chains';
 import { Avatar } from '@coinbase/onchainkit/identity';
 import { useAccount } from 'wagmi';
 import { getName } from '@coinbase/onchainkit/identity';
-import { base } from 'viem/chains';
 import { RainbowKitCustomConnectButton } from '../components/scaffold-eth';
 import EventAttendanceVerification from '../components/EventAttendanceVerification';
 import EnrollmentAttestation from '../components/EnrollmentAttestation';
 
+// Type definitions
+interface EnrollmentAttestationProps {
+  verifiedName: string;
+  poapVerified: boolean;
+  onAttestationComplete: (attestationId: string) => void;
+}
+
+type VerificationStatus = 'idle' | 'loading' | 'success' | 'error';
+
+interface POAPEventInfo {
+  verifiedName: string;
+  tokenId: string;
+}
 
 export default function Home() {
   const { address, isConnected } = useAccount();
   const [inputName, setInputName] = useState('');
-  const [verificationStatus, setVerificationStatus] = useState<'none' | 'success' | 'error'>('none');
+  const [verificationStatus, setVerificationStatus] = useState<VerificationStatus>('idle');
   const [verifiedName, setVerifiedName] = useState<string | null>(null);
   const [onchainName, setOnchainName] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -27,27 +41,44 @@ export default function Home() {
     verifiedName: string;
     tokenId: string;
   } | null>(null);
+
   useEffect(() => {
     console.log('Home component mounted');
     console.log('Wallet connection status:', isConnected);
     console.log('Wallet address:', address);
 
     const fetchOnchainName = async () => {
-      if (address) {
-        try {
-          console.log('Fetching onchain name for address:', address);
-          const name = await getName({
-            address: address,
-            chain: base
-          });
-          console.log('Fetched onchain name:', name);
-          setOnchainName(name);
-          setError(null);
-        } catch (error) {
-          console.error('Error fetching onchain name:', error);
-          setError('Failed to fetch onchain name. Please try again.');
-          setOnchainName(null);
-        }
+      if (!address) return;
+
+      try {
+        console.log('Fetching onchain name for address:', address);
+        // Ensure we're using Base mainnet for initial user experience
+        const chainConfig = {
+          id: base.id,
+          name: base.name,
+          nativeCurrency: {
+            name: 'Ether',
+            symbol: 'ETH',
+            decimals: 18
+          },
+          rpcUrls: {
+            default: { http: ['https://mainnet.base.org'] },
+            public: { http: ['https://mainnet.base.org'] }
+          }
+        } satisfies Chain;
+
+        console.log('Using Base mainnet for name verification:', chainConfig);
+        const name = await getName({
+          address: address,
+          chain: chainConfig
+        });
+        console.log('Fetched onchain name:', name);
+        setOnchainName(name);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching onchain name:', err);
+        setError(err instanceof Error ? err.message : 'Failed to fetch onchain name');
+        setOnchainName(null);
       }
     };
 
