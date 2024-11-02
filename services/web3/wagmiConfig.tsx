@@ -1,7 +1,7 @@
 import '@rainbow-me/rainbowkit/styles.css';
 import { getDefaultWallets } from '@rainbow-me/rainbowkit';
 import { createConfig } from 'wagmi';
-import { sepolia, optimism, base } from 'viem/chains';
+import { sepolia, optimism, baseSepolia } from 'viem/chains';
 import { http } from 'viem';
 import scaffoldConfig from "~~/scaffold.config";
 
@@ -12,17 +12,26 @@ const { connectors } = getDefaultWallets({
   projectId: walletConnectProjectId,
 });
 
-// Get Base RPC URL from environment variable
-const baseRpcUrl = process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL;
+// Get Alchemy API key from environment variable
+const alchemyApiKey = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY;
+
+// Construct Base Sepolia RPC URL using Alchemy API key
+const baseSepoliaRpcUrl = alchemyApiKey
+  ? `https://base-sepolia.g.alchemy.com/v2/${alchemyApiKey}`
+  : undefined;
+
+if (!baseSepoliaRpcUrl) {
+  console.warn('Base Sepolia RPC URL could not be constructed. Please ensure NEXT_PUBLIC_ALCHEMY_API_KEY is set.');
+}
 
 export const wagmiConfig = createConfig({
-  chains: [sepolia, optimism, base],
+  chains: [sepolia, optimism, baseSepolia],
   transports: {
     [sepolia.id]: http(),
     [optimism.id]: http(),
-    [base.id]: http(baseRpcUrl),
+    [baseSepolia.id]: http(baseSepoliaRpcUrl),
   },
   connectors,
 });
 
-export const chains = [sepolia, optimism, base];
+export const chains = [sepolia, optimism, baseSepolia];
