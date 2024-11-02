@@ -1,150 +1,154 @@
 import { useState } from 'react';
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import { JsonRpcProvider, Wallet, BrowserProvider } from 'ethers';
+import { BrowserProvider } from 'ethers';
 import { useAccount, useChainId, useWalletClient, useSwitchChain } from 'wagmi';
-import { base } from 'viem/chains';
+import { baseSepolia } from 'viem/chains';
+
+interface SchemaItem {
+  name: string;
+  value: any;
+  type: string;
+}
 
 interface EnrollmentAttestationProps {
   verifiedName: string;
   poapVerified: boolean;
-  onAttestationComplete: (attestationId: string) => void;
 }
 
-// EAS Contract on Base Sepolia
+const BASE_SEPOLIA_CHAIN_ID = 84532;
 const EAS_CONTRACT_ADDRESS = '0xC2679fBD37d54388Ce493F1DB75320D236e1815e';
-// Schema UID for Mission Enrollment attestations on Base Sepolia
 const SCHEMA_UID = '0x46a1e77e9f1d74c8c60c8d8bd8129947b3c5f4d3e6e9497ae2e4701dd8e2c401';
 
-export default function EnrollmentAttestation({
-  verifiedName,
-  poapVerified,
-  onAttestationComplete,
-}: EnrollmentAttestationProps) {
+export default function EnrollmentAttestation({ verifiedName, poapVerified }: EnrollmentAttestationProps) {
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const { address } = useAccount();
   const chainId = useChainId();
   const { data: walletClient } = useWalletClient();
   const { switchChain } = useSwitchChain();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+
+  const handleAttestationError = (err: Error) => {
+    console.error('Attestation error:', {
+      message: err.message,
+      code: (err as any).code,
+      chainId
+    });
+
+    let errorMessage = 'Failed to create attestation. Please try again.';
+
+    if (err.message.includes('invalid signer')) {
+      errorMessage = 'Invalid signer. Please ensure your wallet is properly connected and on Base Sepolia network.';
+    } else if ((err as any).code === 'CHAIN_NOT_CONFIGURED') {
+      errorMessage = 'Please switch to Base Sepolia network to create attestation.';
+    } else if ((err as any).code === 4902) {
+      errorMessage = 'Base Sepolia network not configured in wallet. Please add Base Sepolia first.';
+    }
+
+    setError(errorMessage);
+    setLoading(false);
+  };
 
   const createAttestation = async () => {
-    if (!address || !poapVerified || !walletClient) {
-      setError('Wallet not connected or POAP verification incomplete');
+    if (!address || !walletClient) {
+      setError('Please connect your wallet first.');
       return;
     }
 
     try {
-      setIsLoading(true);
+      setLoading(true);
       setError(null);
+      console.log('Starting attestation process...');
 
-      // Check if we're on Base chain and switch if needed
-      if (chainId !== base.id) {
+      // Ensure we're on Base Sepolia first
+      if (chainId !== BASE_SEPOLIA_CHAIN_ID) {
+        console.log('Switching to Base Sepolia...');
         try {
-          await switchChain({ chainId: base.id });
-          // Wait for chain switch to complete
-          await new Promise(resolve => setTimeout(resolve, 1000));
-        } catch (switchError: any) {
-          if (switchError.code === 4902) {
-            setError('Base network not configured in wallet. Please add Base network first.');
-          } else {
-            setError('Failed to switch to Base network. Please switch manually.');
-          }
+          await switchChain({ chainId: BASE_SEPOLIA_CHAIN_ID });
+          setError('Please confirm the network switch to Base Sepolia and try again.');
+          setLoading(false);
           return;
+        } catch (err: any) {
+          console.error('Chain switch error:', err);
+          if (err.code === 4902) {
+            throw new Error('Base Sepolia network not configured in wallet. Please add Base Sepolia first.');
+          }
+          throw new Error(`Failed to switch to Base Sepolia: ${err.message}`);
         }
       }
 
-      // Create browser provider from wallet client
-      const provider = new BrowserProvider(walletClient);
+      // Get provider and signer after ensuring correct chain
+      console.log('Getting provider and signer...');
+      const provider = new BrowserProvider(walletClient as any);
       const signer = await provider.getSigner();
 
-      // Verify signer is connected
-      const signerAddress = await signer.getAddress();
-      if (signerAddress.toLowerCase() !== address.toLowerCase()) {
-        setError('Signer address mismatch. Please check your wallet connection.');
-        return;
+      if (!signer) {
+        throw new Error('Failed to get signer from wallet.');
       }
 
-      // Initialize EAS SDK with wallet signer
+      // Initialize EAS with proper chain verification
+      console.log('Initializing EAS...');
       const eas = new EAS(EAS_CONTRACT_ADDRESS);
-      await eas.connect(signer);
 
-      // Create SchemaEncoder instance
+      // Connect signer to EAS
+      console.log('Connecting signer to EAS...');
+      await eas.connect(signer);
+      console.log('EAS SDK initialized successfully');
+
+      // Verify chain again after signer initialization
+      const network = await provider.getNetwork();
+      if (network.chainId !== BigInt(BASE_SEPOLIA_CHAIN_ID)) {
+        throw new Error('Wrong network detected after initialization. Please ensure you are on Base Sepolia.');
+      }
+
+      // Create attestation data
+      console.log('Creating attestation data...');
       const schemaEncoder = new SchemaEncoder("address userAddress,string verifiedName,bool poapVerified,uint256 timestamp");
       const encodedData = schemaEncoder.encodeData([
         { name: "userAddress", value: address, type: "address" },
         { name: "verifiedName", value: verifiedName, type: "string" },
         { name: "poapVerified", value: poapVerified, type: "bool" },
-        { name: "timestamp", value: Math.floor(Date.now() / 1000), type: "uint256" },
+        { name: "timestamp", value: BigInt(Math.floor(Date.now() / 1000)), type: "uint256" }
       ]);
 
-      // Create the attestation
-      console.log('Creating attestation with data:', {
-        schema: SCHEMA_UID,
-        recipient: address,
-        data: encodedData
-      });
-
+      // Submit attestation
+      console.log('Submitting attestation...');
       const tx = await eas.attest({
         schema: SCHEMA_UID,
         data: {
           recipient: address,
+          expirationTime: BigInt(0),
           revocable: true,
-          data: encodedData,
-        },
+          data: encodedData
+        }
       });
 
-      console.log('Transaction submitted:', tx);
-      const newAttestationUID = await tx.wait();
-      console.log("New attestation created with UID:", newAttestationUID);
-      onAttestationComplete(newAttestationUID);
-
+      console.log('Waiting for transaction confirmation...');
+      await tx.wait();
+      console.log('Attestation created successfully!');
     } catch (err: any) {
-      console.error('Error creating attestation:', err);
-      if (err.code === 'CHAIN_NOT_CONFIGURED') {
-        setError('Please switch to Base network to create attestation.');
-      } else if (err.code === 'USER_REJECTED_REQUEST') {
-        setError('User rejected the transaction. Please try again.');
-      } else if (err.message?.includes('invalid signer')) {
-        setError('Invalid signer. Please ensure your wallet is properly connected and try again.');
-      } else {
-        setError(`Failed to create attestation: ${err.message || 'Unknown error'}`);
-      }
+      handleAttestationError(err);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
   return (
-    <div className="card bg-base-100 shadow-xl">
-      <div className="card-body">
-        <h2 className="card-title">Enrollment Attestation</h2>
-        <p>Create an onchain attestation for your mission enrollment</p>
-
-        <div className="mt-4">
-          <p><strong>Verified Name:</strong> {verifiedName}</p>
-          <p><strong>POAP Verification:</strong> {poapVerified ? '✅ Verified' : '❌ Not Verified'}</p>
-          <p><strong>Network:</strong> {chainId === base.id ? '✅ Base' : '❌ Please switch to Base network'}</p>
+    <div className="flex flex-col items-center justify-center w-full gap-4">
+      {chainId !== BASE_SEPOLIA_CHAIN_ID && (
+        <div className="text-yellow-600 text-sm mb-2">
+          Note: This attestation will be created on Base Sepolia network. Please switch networks when prompted.
         </div>
-
-        {error && (
-          <div className="alert alert-error mt-4">
-            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span>{error}</span>
-          </div>
-        )}
-
-        <div className="card-actions justify-end mt-4">
-          <button
-            className={`btn btn-primary ${isLoading ? 'loading' : ''}`}
-            onClick={createAttestation}
-            disabled={isLoading || !poapVerified}
-          >
-            {isLoading ? 'Creating Attestation...' : 'Create Attestation'}
-          </button>
-        </div>
-      </div>
+      )}
+      {error && (
+        <div className="text-red-500 text-sm mt-2">{error}</div>
+      )}
+      <button
+        onClick={createAttestation}
+        disabled={loading || !address}
+        className={`px-4 py-2 rounded ${loading || !address ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'} text-white font-semibold`}
+      >
+        {loading ? 'Creating Attestation...' : 'Create Attestation'}
+      </button>
     </div>
   );
 }
