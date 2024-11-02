@@ -26,6 +26,7 @@ const nextConfig = {
   experimental: {
     forceSwcTransforms: true,
   },
+  output: 'export',
   basePath: process.env.CUSTOM_DOMAIN === "true" ? "" : process.env.GITHUB_PAGES === "true" ? "/MissionEnrollment" : "",
   assetPrefix: process.env.CUSTOM_DOMAIN === "true" ? "" : process.env.GITHUB_PAGES === "true" ? "/MissionEnrollment/" : "",
   // Ensure client-side rendering works properly with static export
