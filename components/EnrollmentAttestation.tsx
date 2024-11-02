@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { JsonRpcProvider, Wallet, BrowserProvider } from 'ethers';
-import { useAccount, useChainId, useWalletClient } from 'wagmi';
+import { useAccount, useChainId, useWalletClient, useSwitchChain } from 'wagmi';
+import { base } from 'viem/chains';
 
 interface EnrollmentAttestationProps {
   verifiedName: string;
@@ -9,9 +10,10 @@ interface EnrollmentAttestationProps {
   onAttestationComplete: (attestationId: string) => void;
 }
 
-const EAS_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_EAS_CONTRACT_ADDRESS || '0x4200000000000000000000000000000000000021';
-const SCHEMA_REGISTRY_ADDRESS = process.env.NEXT_PUBLIC_SCHEMA_REGISTRY_ADDRESS || '0x4200000000000000000000000000000000000020';
-const SCHEMA_UID = '0x0000000000000000000000000000000000000000000000000000000000000000'; // Will be updated after deployment
+// EAS Contract on Base Sepolia
+const EAS_CONTRACT_ADDRESS = '0xC2679fBD37d54388Ce493F1DB75320D236e1815e';
+// Schema UID for Mission Enrollment attestations on Base Sepolia
+const SCHEMA_UID = '0x46a1e77e9f1d74c8c60c8d8bd8129947b3c5f4d3e6e9497ae2e4701dd8e2c401';
 
 export default function EnrollmentAttestation({
   verifiedName,
@@ -21,6 +23,7 @@ export default function EnrollmentAttestation({
   const { address } = useAccount();
   const chainId = useChainId();
   const { data: walletClient } = useWalletClient();
+  const { switchChain } = useSwitchChain();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,13 +37,36 @@ export default function EnrollmentAttestation({
       setIsLoading(true);
       setError(null);
 
+      // Check if we're on Base chain and switch if needed
+      if (chainId !== base.id) {
+        try {
+          await switchChain({ chainId: base.id });
+          // Wait for chain switch to complete
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        } catch (switchError: any) {
+          if (switchError.code === 4902) {
+            setError('Base network not configured in wallet. Please add Base network first.');
+          } else {
+            setError('Failed to switch to Base network. Please switch manually.');
+          }
+          return;
+        }
+      }
+
       // Create browser provider from wallet client
-      const provider = new BrowserProvider(walletClient as any);
+      const provider = new BrowserProvider(walletClient);
       const signer = await provider.getSigner();
+
+      // Verify signer is connected
+      const signerAddress = await signer.getAddress();
+      if (signerAddress.toLowerCase() !== address.toLowerCase()) {
+        setError('Signer address mismatch. Please check your wallet connection.');
+        return;
+      }
 
       // Initialize EAS SDK with wallet signer
       const eas = new EAS(EAS_CONTRACT_ADDRESS);
-      eas.connect(signer);
+      await eas.connect(signer);
 
       // Create SchemaEncoder instance
       const schemaEncoder = new SchemaEncoder("address userAddress,string verifiedName,bool poapVerified,uint256 timestamp");
@@ -52,6 +78,12 @@ export default function EnrollmentAttestation({
       ]);
 
       // Create the attestation
+      console.log('Creating attestation with data:', {
+        schema: SCHEMA_UID,
+        recipient: address,
+        data: encodedData
+      });
+
       const tx = await eas.attest({
         schema: SCHEMA_UID,
         data: {
@@ -61,13 +93,22 @@ export default function EnrollmentAttestation({
         },
       });
 
+      console.log('Transaction submitted:', tx);
       const newAttestationUID = await tx.wait();
       console.log("New attestation created with UID:", newAttestationUID);
       onAttestationComplete(newAttestationUID);
 
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error creating attestation:', err);
-      setError('Failed to create attestation. Please try again.');
+      if (err.code === 'CHAIN_NOT_CONFIGURED') {
+        setError('Please switch to Base network to create attestation.');
+      } else if (err.code === 'USER_REJECTED_REQUEST') {
+        setError('User rejected the transaction. Please try again.');
+      } else if (err.message?.includes('invalid signer')) {
+        setError('Invalid signer. Please ensure your wallet is properly connected and try again.');
+      } else {
+        setError(`Failed to create attestation: ${err.message || 'Unknown error'}`);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -82,6 +123,7 @@ export default function EnrollmentAttestation({
         <div className="mt-4">
           <p><strong>Verified Name:</strong> {verifiedName}</p>
           <p><strong>POAP Verification:</strong> {poapVerified ? '✅ Verified' : '❌ Not Verified'}</p>
+          <p><strong>Network:</strong> {chainId === base.id ? '✅ Base' : '❌ Please switch to Base network'}</p>
         </div>
 
         {error && (
