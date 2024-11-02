@@ -12,12 +12,15 @@ const { connectors } = getDefaultWallets({
   projectId: walletConnectProjectId,
 });
 
+// Get Base RPC URL from environment variable
+const baseRpcUrl = process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL;
+
 export const wagmiConfig = createConfig({
   chains: [sepolia, optimism, base],
   transports: {
     [sepolia.id]: http(),
     [optimism.id]: http(),
-    [base.id]: http(),
+    [base.id]: http(baseRpcUrl),
   },
   connectors,
 });
