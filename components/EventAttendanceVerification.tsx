@@ -5,12 +5,12 @@ import { ETH_GLOBAL_BRUSSELS_EVENT_NAMES, EVENT_VENUE } from '../utils/eventCons
 
 interface POAPEvent {
   event: {
-    id: string;
+    id: number;
     name: string;
     image_url: string;
     start_date: string;
   };
-  token_id: string;
+  tokenId: string;
 }
 
 interface EventInfo {
@@ -57,9 +57,8 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
         )
       );
 
-      // Add a minimum delay for the drumroll effect (3 seconds)
-      await new Promise(resolve => setTimeout(resolve, 3000));
-
+      // Add a minimum delay for the drumroll effect (15 seconds)
+      await new Promise(resolve => setTimeout(resolve, 15000));
       if (ethGlobalBrusselsPoap) {
         console.log('Found ETHGlobal Brussels POAP:', ethGlobalBrusselsPoap);
         setPoapDetails(ethGlobalBrusselsPoap);
@@ -76,7 +75,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
           date: ethGlobalBrusselsPoap.event.start_date,
           venue: EVENT_VENUE,
           verifiedName: verifiedName,
-          tokenId: ethGlobalBrusselsPoap.token_id
+          tokenId: ethGlobalBrusselsPoap.tokenId
         };
 
         onVerified(true, eventInfo);
@@ -201,7 +200,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                       <p>🎭 Role: {poapDetails.event.name.replace('ETHGlobal Brussels ', '')}</p>
                       <p>📅 Date: {new Date(poapDetails.event.start_date).toLocaleDateString()}</p>
                       <p>📍 Venue: {EVENT_VENUE}</p>
-                      <p>🎫 Token ID: {poapDetails.token_id}</p>
+                      <p>🎫 Token ID: {poapDetails.tokenId}</p>
                     </div>
                   </div>
                 </div>
