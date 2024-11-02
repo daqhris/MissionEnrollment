@@ -8,7 +8,6 @@ const nextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: process.env.NEXT_PUBLIC_IGNORE_BUILD_ERROR === "true",
-    dirs: ['pages', 'components', 'lib', 'app', 'hooks', 'utils'],
   },
   webpack: config => {
     config.resolve.fallback = { fs: false, net: false, tls: false };

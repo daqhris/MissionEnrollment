@@ -5,19 +5,19 @@ import { InheritanceTooltip } from "./InheritanceTooltip";
 import { displayTxResult } from "./utilsDisplay";
 import type { DisplayContent } from "./utilsDisplay";
 import type { Abi, AbiFunction } from "abitype";
-import type { Address } from "viem";
+import { type Address } from "viem";
 import { useContractRead } from "wagmi";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useAnimationConfig } from "~~/hooks/scaffold-eth";
 import { getParsedError, notification } from "~~/utils/scaffold-eth";
 
-type DisplayVariableProps = {
+interface DisplayVariableProps {
   contractAddress: Address;
   abiFunction: AbiFunction;
   refreshDisplayVariables: boolean;
   inheritedFrom?: string | undefined;
   abi: Abi;
-};
+}
 
 export const DisplayVariable = ({
   contractAddress,
@@ -29,7 +29,7 @@ export const DisplayVariable = ({
   // Removed unused variable
 
   const result = useContractRead({
-    address: contractAddress,
+    address: contractAddress as `0x${string}`,
     abi: abi,
     functionName: abiFunction.name,
   });
