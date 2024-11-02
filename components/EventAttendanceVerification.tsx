@@ -39,6 +39,8 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
   const [imageLoadError, setImageLoadError] = useState(false);
   const [hasAnswered, setHasAnswered] = useState<boolean>(false);
   const [attendedEvent, setAttendedEvent] = useState<boolean | null>(null);
+  const [countdown, setCountdown] = useState<number>(10);
+  const [progress, setProgress] = useState<number>(0);
 
   const verifyEventAttendance = async () => {
     if (!address) return;
@@ -57,8 +59,12 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
         )
       );
 
-      // Add a minimum delay for the drumroll effect (10 seconds)
-      await new Promise(resolve => setTimeout(resolve, 10000));
+      // Add a countdown effect with loading bar (10 seconds)
+      for (let i = 10; i > 0; i--) {
+        setCountdown(i);
+        setProgress(((10 - i) / 10) * 100);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
       if (ethGlobalBrusselsPoap) {
         console.log('Found ETHGlobal Brussels POAP:', ethGlobalBrusselsPoap);
         setPoapDetails(ethGlobalBrusselsPoap);
@@ -150,12 +156,21 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
           </p>
 
           {isVerifying && (
-            <div className="flex flex-col items-center justify-center p-8 space-y-4">
-              <div className="relative">
-                <span className="loading loading-spinner loading-lg"></span>
-                <span className="loading loading-ring loading-lg absolute inset-0 animate-ping"></span>
+            <div className="flex flex-col items-center justify-center p-8 space-y-6">
+              <div className="relative w-full max-w-md">
+                <div className="text-center text-4xl font-bold mb-6 text-primary animate-pulse">
+                  {countdown}s
+                </div>
+                <div className="w-full bg-base-200 rounded-full h-6 mb-4 relative overflow-hidden">
+                  <div
+                    className="bg-primary h-6 rounded-full transition-all duration-1000 flex items-center justify-center text-white text-sm font-medium"
+                    style={{ width: `${progress}%` }}
+                  >
+                    {Math.round(progress)}%
+                  </div>
+                </div>
               </div>
-              <p className="text-base-content/70 animate-pulse text-lg font-semibold">
+              <p className="text-base-content/70 text-lg font-semibold">
                 🎭 Verifying your attendance...
               </p>
               <div className="flex flex-col items-center space-y-2 text-sm text-base-content/50">
