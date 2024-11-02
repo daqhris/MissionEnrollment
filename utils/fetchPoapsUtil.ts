@@ -6,8 +6,8 @@ interface POAPEvent {
     name: string;
     image_url: string;
     start_date: string;
-    end_date: string;
-    description: string;
+    end_date?: string;
+    description?: string;
   };
   tokenId: string;
   metadata?: {
@@ -64,10 +64,12 @@ export const fetchPoaps = async (userAddress: string): Promise<POAPEvent[]> => {
           }
           return {
             event: {
-              id: String(poap.event.id),
+              id: Number(poap.event.id),
               name: poap.event.name || "Unknown Event",
               image_url: poap.event.image_url || "",
               start_date: poap.event.start_date || '',
+              end_date: poap.event.end_date,
+              description: poap.event.description
             },
             tokenId: poap.tokenId,
             metadata,
