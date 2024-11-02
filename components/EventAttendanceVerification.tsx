@@ -57,8 +57,8 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
         )
       );
 
-      // Add a minimum delay for the drumroll effect (15 seconds)
-      await new Promise(resolve => setTimeout(resolve, 15000));
+      // Add a minimum delay for the drumroll effect (10 seconds)
+      await new Promise(resolve => setTimeout(resolve, 10000));
       if (ethGlobalBrusselsPoap) {
         console.log('Found ETHGlobal Brussels POAP:', ethGlobalBrusselsPoap);
         setPoapDetails(ethGlobalBrusselsPoap);
