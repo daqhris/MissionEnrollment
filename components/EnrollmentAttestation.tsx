@@ -13,13 +13,14 @@ interface SchemaItem {
 interface EnrollmentAttestationProps {
   verifiedName: string;
   poapVerified: boolean;
+  onAttestationComplete: (attestationId: string) => void;
 }
 
 const BASE_SEPOLIA_CHAIN_ID = 84532;
 const EAS_CONTRACT_ADDRESS = '0xC2679fBD37d54388Ce493F1DB75320D236e1815e';
 const SCHEMA_UID = '0x46a1e77e9f1d74c8c60c8d8bd8129947b3c5f4d3e6e9497ae2e4701dd8e2c401';
 
-export default function EnrollmentAttestation({ verifiedName, poapVerified }: EnrollmentAttestationProps) {
+export default function EnrollmentAttestation({ verifiedName, poapVerified, onAttestationComplete }: EnrollmentAttestationProps) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -127,8 +128,11 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified }: En
       });
 
       console.log('Waiting for transaction confirmation...');
-      await tx.wait();
-      console.log('Attestation created successfully!');
+      const receipt = await tx.wait();
+      // The transaction hash serves as a unique identifier for the attestation
+      const attestationId = receipt.hash;
+      console.log('Attestation created successfully!', attestationId);
+      onAttestationComplete(attestationId);
       setSuccess(true);
     } catch (err: any) {
       handleAttestationError(err);

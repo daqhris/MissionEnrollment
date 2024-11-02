@@ -48,7 +48,7 @@
     "tailwindcss": "^3.4.14",
     "type-fest": "^4.26.1",
     "usehooks-ts": "^3.1.0",
-    "viem": "^2.21.39",
+    "viem": "^2.17.0",
     "wagmi": "^2.12.25",
     "ws": "^8.18.0"
   },
@@ -101,5 +101,8 @@
     "ts-node": "^10.9.2",
     "typechain": "^8.3.0",
     "typescript": "^5.6.3"
+  },
+  "resolutions": {
+    "viem": "2.17.0"
   }
 }

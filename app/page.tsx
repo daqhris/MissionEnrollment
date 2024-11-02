@@ -16,12 +16,14 @@ interface EnrollmentAttestationProps {
   poapVerified: boolean;
   onAttestationComplete: (attestationId: string) => void;
 }
-
 type VerificationStatus = 'idle' | 'loading' | 'success' | 'error';
 
 interface POAPEventInfo {
   verifiedName: string;
   tokenId: string;
+  role: string;
+  date: string;
+  venue: string;
 }
 
 export default function Home() {
@@ -230,7 +232,8 @@ export default function Home() {
                         poapVerified={eventAttendanceVerified}
                         onAttestationComplete={(attestationId: string) => {
                           console.log('Attestation created:', attestationId);
-                          // TODO: Handle attestation completion
+                          setShowAttestation(false);
+                          setEventInfo(null);
                         }}
                       />
                     </div>
