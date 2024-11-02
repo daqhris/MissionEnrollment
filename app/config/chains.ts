@@ -1,6 +1,6 @@
 'use client';
 
-import { type Chain } from 'wagmi';
+import { type Chain } from 'viem';
 import { base, baseSepolia } from 'viem/chains';
 
 // Extend the base chain with our custom RPC URL while maintaining the Chain type
