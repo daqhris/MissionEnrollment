@@ -47,11 +47,13 @@ export const WriteOnlyFunctionForm = ({
     if (writeContract) {
       try {
         const txConfig = {
-          address: contractAddress,
-          abi: abi,
+          address: contractAddress as `0x${string}`,
+          abi,
           functionName: abiFunction.name,
           args: getParsedContractFunctionArgs(form),
-          value: BigInt(txValue),
+          value: txValue ? BigInt(txValue) : undefined,
+          maxFeePerBlobGas: undefined,
+          blobs: undefined
         };
         await writeContract(txConfig);
         console.log('Transaction hash:', hash);

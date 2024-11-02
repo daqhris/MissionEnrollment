@@ -5,7 +5,7 @@ import type { SetStateAction } from "react";
 import ContractInput from "./ContractInput";
 import { InheritanceTooltip } from "./InheritanceTooltip";
 import type { Abi, AbiFunction, AbiParameter } from "abitype";
-import type { Address } from "viem";
+import type { Address, Hex } from "viem";
 import { useContractRead } from "wagmi";
 import {
   getFunctionInputKey,
@@ -18,7 +18,7 @@ import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { getParsedError, notification } from "~~/utils/scaffold-eth";
 
 type ReadOnlyFunctionFormProps = {
-  contractAddress: Address;
+  contractAddress: Hex;
   functionName: string;
   functionArgs: readonly AbiParameter[];
   inheritedFrom?: string | undefined;

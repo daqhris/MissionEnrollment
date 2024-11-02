@@ -128,9 +128,7 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
       });
 
       console.log('Waiting for transaction confirmation...');
-      const receipt = await tx.wait();
-      // The transaction hash serves as a unique identifier for the attestation
-      const attestationId = receipt.hash;
+      const attestationId = await tx.wait();
       console.log('Attestation created successfully!', attestationId);
       onAttestationComplete(attestationId);
       setSuccess(true);

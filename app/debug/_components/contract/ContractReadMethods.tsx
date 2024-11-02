@@ -34,7 +34,7 @@ export const ContractReadMethods = ({ deployedContractData }: { deployedContract
           key={fn.name}
           functionName={fn.name}
           functionArgs={fn.inputs}
-          contractAddress={deployedContractData.address}
+          contractAddress={deployedContractData.address as `0x${string}`}
           abi={deployedContractData.abi as Abi}
           inheritedFrom={inheritedFrom || undefined}
         />

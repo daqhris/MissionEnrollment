@@ -55,24 +55,10 @@ export default function Home() {
       try {
         console.log('Fetching onchain name for address:', address);
         // Ensure we're using Base mainnet for initial user experience
-        const chainConfig = {
-          id: base.id,
-          name: base.name,
-          nativeCurrency: {
-            name: 'Ether',
-            symbol: 'ETH',
-            decimals: 18
-          },
-          rpcUrls: {
-            default: { http: ['https://mainnet.base.org'] },
-            public: { http: ['https://mainnet.base.org'] }
-          }
-        } satisfies Chain;
-
-        console.log('Using Base mainnet for name verification:', chainConfig);
+        console.log('Using Base mainnet for name verification:', base);
         const name = await getName({
           address: address,
-          chain: chainConfig
+          chain: base
         });
         console.log('Fetched onchain name:', name);
         setOnchainName(name);

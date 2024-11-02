@@ -22,7 +22,7 @@ async function main() {
         const schemaUID = "0x46a1e77e9f1d74c8c60c8d8bd8129947b3c5f4d3e6e9497ae2e4701dd8e2c401";
 
         // Verify the schema exists
-        const schemaRecord = await schemaRegistry.getSchema(schemaUID);
+        const schemaRecord = await schemaRegistry.getSchema({ uid: schemaUID });
         console.log("\nSchema details:");
         console.log("UID:", schemaUID);
         console.log("Schema:", schemaRecord.schema);
