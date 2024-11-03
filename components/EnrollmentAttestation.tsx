@@ -25,6 +25,7 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [attestationId, setAttestationId] = useState<string | null>(null);
   const { address } = useAccount();
   const chainId = useChainId();
   const { data: walletClient } = useWalletClient();
@@ -43,6 +44,10 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
       errorMessage = 'Invalid signer. Please ensure your wallet is properly connected.';
     } else if (err.message.includes('user rejected transaction')) {
       errorMessage = 'Transaction was rejected. Please try again and confirm the transaction in your wallet.';
+    } else if (err.message.includes('Failed to extract attestation ID')) {
+      errorMessage = 'Transaction succeeded but attestation ID could not be retrieved. Please check EAS Explorer for your attestation.';
+    } else if (err.message.includes('insufficient funds')) {
+      errorMessage = 'Insufficient funds for transaction. Please ensure you have enough Base Sepolia ETH.';
     }
 
     setError(errorMessage);
@@ -114,9 +119,20 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
         }
       });
 
+      console.log('Transaction submitted:', tx);
       console.log('Waiting for transaction confirmation...');
-      const attestationId = await tx.wait();
-      console.log('Attestation created successfully!', attestationId);
+      const receipt = await tx.wait();
+      console.log('Transaction receipt:', receipt);
+
+      // Extract attestation ID from transaction logs
+      const attestationId = receipt.logs[0].topics[1];
+      console.log('Extracted attestation ID:', attestationId);
+
+      if (!attestationId) {
+        throw new Error('Failed to extract attestation ID from transaction receipt');
+      }
+
+      setAttestationId(attestationId);
       onAttestationComplete(attestationId);
       setSuccess(true);
     } catch (err: any) {
@@ -128,17 +144,40 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
 
   return (
     <div className="flex flex-col items-center justify-center w-full gap-4">
-      <div className="text-lg font-semibold mb-4">Create Enrollment Attestation</div>
+      <h1 className="text-2xl font-bold mb-2">Enrollment Attestation</h1>
+      <div className="bg-gray-100 p-4 rounded-lg mb-4 w-full max-w-md">
+        <h2 className="text-lg font-semibold mb-2">Attestation Summary</h2>
+        <div className="space-y-2">
+          <p><span className="font-medium">Verified Name:</span> {verifiedName}</p>
+          <p><span className="font-medium">POAP Verification:</span> {poapVerified ? 'Verified' : 'Not Verified'}</p>
+          <p><span className="font-medium">Wallet Address:</span> {address}</p>
+          <p><span className="font-medium">Network:</span> Base Sepolia</p>
+        </div>
+      </div>
       <div className="text-sm text-gray-600 mb-4">
         To create your enrollment attestation, you need to be connected to the Base Sepolia network.
       </div>
       <NetworkSwitchButton className="mb-4" />
       {error && (
-        <div className="text-red-500 text-sm mt-2">{error}</div>
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong className="font-bold">Error: </strong>
+          <span className="block sm:inline">{error}</span>
+        </div>
       )}
       {success && (
-        <div className="text-green-500 text-sm mt-2">
-          Attestation created successfully on Base Sepolia!
+        <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded relative" role="alert">
+          <strong className="font-bold">Success! </strong>
+          <span className="block sm:inline">
+            Attestation created successfully on Base Sepolia!{' '}
+            <a
+              href={`https://base-sepolia.easscan.org/attestation/view/${attestationId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-green-800"
+            >
+              View on EAS Explorer
+            </a>
+          </span>
         </div>
       )}
       <button
