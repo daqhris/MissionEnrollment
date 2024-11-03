@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { BrowserProvider } from 'ethers';
 import { useAccount, useChainId, useWalletClient, useSwitchChain } from 'wagmi';
@@ -40,11 +40,7 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
     let errorMessage = 'Failed to create attestation. Please try again.';
 
     if (err.message.includes('invalid signer')) {
-      errorMessage = 'Invalid signer. Please ensure your wallet is properly connected and on Base Sepolia network.';
-    } else if ((err as any).code === 'CHAIN_NOT_CONFIGURED') {
-      errorMessage = 'Please switch to Base Sepolia network to create attestation.';
-    } else if ((err as any).code === 4902) {
-      errorMessage = 'Base Sepolia network not configured in wallet. Please add Base Sepolia first.';
+      errorMessage = 'Invalid signer. Please ensure your wallet is properly connected.';
     } else if (err.message.includes('user rejected transaction')) {
       errorMessage = 'Transaction was rejected. Please try again and confirm the transaction in your wallet.';
     }
@@ -67,19 +63,9 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
 
       // Ensure we're on Base Sepolia first
       if (chainId !== BASE_SEPOLIA_CHAIN_ID) {
-        console.log('Switching to Base Sepolia...');
-        try {
-          await switchChain({ chainId: BASE_SEPOLIA_CHAIN_ID });
-          setError('Please confirm the network switch to Base Sepolia and try again.');
-          setLoading(false);
-          return;
-        } catch (err: any) {
-          console.error('Chain switch error:', err);
-          if (err.code === 4902) {
-            throw new Error('Base Sepolia network not configured in wallet. Please add Base Sepolia first.');
-          }
-          throw new Error(`Failed to switch to Base Sepolia: ${err.message}`);
-        }
+        setError('Please switch to Base Sepolia network first using the yellow button above.');
+        setLoading(false);
+        return;
       }
 
       // Get provider and signer after ensuring correct chain
@@ -160,7 +146,7 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
         disabled={loading || !address || chainId !== BASE_SEPOLIA_CHAIN_ID}
         className={`px-4 py-2 rounded ${loading || !address || chainId !== BASE_SEPOLIA_CHAIN_ID ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'} text-white font-semibold`}
       >
-        {loading ? 'Creating Attestation...' : chainId !== BASE_SEPOLIA_CHAIN_ID ? 'Switch to Base Sepolia First' : 'Create Attestation'}
+        {loading ? 'Creating Attestation...' : 'Create Attestation'}
       </button>
     </div>
   );
