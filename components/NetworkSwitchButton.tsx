@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useChainId, useSwitchChain } from 'wagmi';
 import { baseSepolia } from 'viem/chains';
+import { SUPPORTED_CHAINS } from '../app/config/wagmi';
 
 interface NetworkSwitchButtonProps {
   className?: string;
   onError?: (error: Error) => void;
 }
 
-const BASE_SEPOLIA_CHAIN_ID = 84532;
+const BASE_SEPOLIA_CHAIN_ID = SUPPORTED_CHAINS.BASE_SEPOLIA;
 
 const NetworkSwitchButton = ({ className = '', onError }: NetworkSwitchButtonProps): JSX.Element => {
   const chainId = useChainId();
@@ -19,12 +20,44 @@ const NetworkSwitchButton = ({ className = '', onError }: NetworkSwitchButtonPro
     try {
       setError(null);
       setIsLoading(true);
-      await switchChain({ chainId: BASE_SEPOLIA_CHAIN_ID });
+
+      // Try to switch to Base Sepolia
+      try {
+        await switchChain({ chainId: BASE_SEPOLIA_CHAIN_ID });
+      } catch (switchError: any) {
+        // If the network is not configured in the wallet (error code 4902)
+        if (switchError.code === 4902) {
+          // Attempt to add the network first
+          const provider = (window as any).ethereum;
+          if (provider && provider.request) {
+            await provider.request({
+              method: 'wallet_addEthereumChain',
+              params: [{
+                chainId: `0x${BASE_SEPOLIA_CHAIN_ID.toString(16)}`,
+                chainName: 'Base Sepolia',
+                nativeCurrency: {
+                  name: 'Ether',
+                  symbol: 'ETH',
+                  decimals: 18
+                },
+                rpcUrls: ['https://sepolia.base.org'],
+                blockExplorerUrls: ['https://sepolia.basescan.org']
+              }]
+            });
+            // After adding the network, try switching again
+            await switchChain({ chainId: BASE_SEPOLIA_CHAIN_ID });
+          } else {
+            throw new Error('Wallet provider not found. Please ensure your wallet is properly connected.');
+          }
+        } else {
+          throw switchError;
+        }
+      }
     } catch (error: any) {
       console.error('Failed to switch network:', error);
       const errorMessage = error.code === 4902
         ? 'Base Sepolia network not configured in wallet. Please add Base Sepolia first.'
-        : 'Failed to switch network. Please try again.';
+        : error.message || 'Failed to switch network. Please try again.';
       setError(errorMessage);
       if (onError) {
         onError(new Error(errorMessage));
