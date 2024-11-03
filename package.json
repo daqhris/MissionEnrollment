@@ -13,9 +13,13 @@
   "dependencies": {
     "@apollo/client": "^3.11.8",
     "@coinbase/onchainkit": "^0.35.2",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@ensdomains/ensjs": "^3.7.0",
     "@ethereum-attestation-service/eas-sdk": "^2.7.0",
     "@heroicons/react": "^2.1.5",
+    "@mui/icons-material": "^6.1.6",
+    "@mui/material": "^6.1.6",
     "@noble/secp256k1": "^2.1.0",
     "@tanstack/react-query": "^5",
     "@testing-library/dom": "^10.0.0",

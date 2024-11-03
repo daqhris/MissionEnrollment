@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useAccount, useNetwork } from 'wagmi';
+import { useAccount, useNetwork, useWalletClient } from 'wagmi';
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import { ethers } from 'ethers';
+import { ethers, BrowserProvider, TransactionReceipt, Log } from 'ethers';
 import { NetworkSwitchButton } from './NetworkSwitchButton';
 import { Card, CardContent, Typography, Button, Box, Alert } from '@mui/material';
 
@@ -24,6 +24,8 @@ const SCHEMA_UID = '0x46a1e77e9f1d74c8c60c8d8bd8129947b3c5f4d3e6e9497ae2e4701dd8
 export default function EnrollmentAttestation({ verifiedName, poapVerified, onAttestationComplete }: EnrollmentAttestationProps) {
   const { address } = useAccount();
   const { chain } = useNetwork();
+  const { data: walletClient } = useWalletClient();
+  const chainId = chain?.id;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -76,9 +78,8 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
 
       // Get provider and signer after ensuring correct chain
       console.log('Getting provider and signer...');
-      const provider = new BrowserProvider(walletClient as any);
+      const provider = new ethers.BrowserProvider(walletClient as any);
       const signer = await provider.getSigner();
-
       if (!signer) {
         throw new Error('Failed to get signer from wallet.');
       }
@@ -134,7 +135,7 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
       console.log('Transaction receipt:', receipt);
 
       // Find the Attested event in the logs
-      const attestEvent = receipt.logs.find(log =>
+      const attestEvent = (receipt as ethers.ContractTransactionReceipt).logs.find(log =>
         log.address.toLowerCase() === EAS_CONTRACT_ADDRESS.toLowerCase() &&
         log.topics[0] === ethers.id("Attested(address,address,bytes32,bytes32)")
       );
