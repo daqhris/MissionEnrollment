@@ -3,6 +3,7 @@ import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { BrowserProvider } from 'ethers';
 import { useAccount, useChainId, useWalletClient, useSwitchChain } from 'wagmi';
 import { baseSepolia } from 'viem/chains';
+import NetworkSwitchButton from './NetworkSwitchButton';
 
 interface SchemaItem {
   name: string;
@@ -141,11 +142,11 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
 
   return (
     <div className="flex flex-col items-center justify-center w-full gap-4">
-      {chainId !== BASE_SEPOLIA_CHAIN_ID && (
-        <div className="text-yellow-600 text-sm mb-2">
-          Note: This attestation will be created on Base Sepolia network. Please switch networks when prompted.
-        </div>
-      )}
+      <div className="text-lg font-semibold mb-4">Create Enrollment Attestation</div>
+      <div className="text-sm text-gray-600 mb-4">
+        To create your enrollment attestation, you need to be connected to the Base Sepolia network.
+      </div>
+      <NetworkSwitchButton className="mb-4" />
       {error && (
         <div className="text-red-500 text-sm mt-2">{error}</div>
       )}
@@ -156,10 +157,10 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
       )}
       <button
         onClick={createAttestation}
-        disabled={loading || !address}
-        className={`px-4 py-2 rounded ${loading || !address ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'} text-white font-semibold`}
+        disabled={loading || !address || chainId !== BASE_SEPOLIA_CHAIN_ID}
+        className={`px-4 py-2 rounded ${loading || !address || chainId !== BASE_SEPOLIA_CHAIN_ID ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'} text-white font-semibold`}
       >
-        {loading ? 'Creating Attestation...' : 'Create Attestation'}
+        {loading ? 'Creating Attestation...' : chainId !== BASE_SEPOLIA_CHAIN_ID ? 'Switch to Base Sepolia First' : 'Create Attestation'}
       </button>
     </div>
   );
