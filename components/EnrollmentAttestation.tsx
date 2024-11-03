@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useAccount, useNetwork, useWalletClient } from 'wagmi';
+import { useAccount, useChainId, useWalletClient } from 'wagmi';
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import { ethers, BrowserProvider, TransactionReceipt, Log } from 'ethers';
-import { NetworkSwitchButton } from './NetworkSwitchButton';
+import { ethers, BrowserProvider, ContractTransactionReceipt } from 'ethers';
+import NetworkSwitchButton from './NetworkSwitchButton';
 import { Card, CardContent, Typography, Button, Box, Alert } from '@mui/material';
 
 interface SchemaItem {
@@ -131,11 +131,15 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
       setTransactionHash(tx.hash);
 
       // Wait for transaction confirmation
-      const receipt = await tx.wait();
+      const receipt = await tx.wait() as ContractTransactionReceipt;
       console.log('Transaction receipt:', receipt);
 
+      if (!receipt.logs) {
+        throw new Error('No logs found in transaction receipt');
+      }
+
       // Find the Attested event in the logs
-      const attestEvent = (receipt as ethers.ContractTransactionReceipt).logs.find(log =>
+      const attestEvent = receipt.logs.find(log =>
         log.address.toLowerCase() === EAS_CONTRACT_ADDRESS.toLowerCase() &&
         log.topics[0] === ethers.id("Attested(address,address,bytes32,bytes32)")
       );
