@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useAccount, useNetwork } from 'wagmi';
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import { BrowserProvider } from 'ethers';
-import { useAccount, useChainId, useWalletClient, useSwitchChain } from 'wagmi';
-import { baseSepolia } from 'viem/chains';
-import NetworkSwitchButton from './NetworkSwitchButton';
+import { ethers } from 'ethers';
+import { NetworkSwitchButton } from './NetworkSwitchButton';
+import { Card, CardContent, Typography, Button, Box, Alert } from '@mui/material';
 
 interface SchemaItem {
   name: string;
@@ -22,15 +22,16 @@ const EAS_CONTRACT_ADDRESS = '0xC2679fBD37d54388Ce493F1DB75320D236e1815e';
 const SCHEMA_UID = '0x46a1e77e9f1d74c8c60c8d8bd8129947b3c5f4d3e6e9497ae2e4701dd8e2c401';
 
 export default function EnrollmentAttestation({ verifiedName, poapVerified, onAttestationComplete }: EnrollmentAttestationProps) {
-  const [error, setError] = useState<string | null>(null);
+  const { address } = useAccount();
+  const { chain } = useNetwork();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [attestationId, setAttestationId] = useState<string | null>(null);
-  const { address } = useAccount();
-  const chainId = useChainId();
-  const { data: walletClient } = useWalletClient();
-  const { switchChain } = useSwitchChain();
+  const [transactionHash, setTransactionHash] = useState<string | null>(null);
 
+  // Constants for EAS
+  const EAS_EXPLORER_URL = 'https://base-sepolia.easscan.org';
   const handleAttestationError = (err: Error) => {
     console.error('Attestation error:', {
       message: err.message,
@@ -108,7 +109,13 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
       ]);
 
       // Submit attestation
-      console.log('Submitting attestation...');
+      console.log('Submitting attestation with data:', {
+        address,
+        verifiedName,
+        poapVerified,
+        timestamp: Math.floor(Date.now() / 1000)
+      });
+
       const tx = await eas.attest({
         schema: SCHEMA_UID,
         data: {
@@ -119,21 +126,26 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
         }
       });
 
-      console.log('Transaction submitted:', tx);
-      console.log('Waiting for transaction confirmation...');
+      console.log('Transaction submitted:', tx.hash);
+      setTransactionHash(tx.hash);
+
+      // Wait for transaction confirmation
       const receipt = await tx.wait();
       console.log('Transaction receipt:', receipt);
 
-      // Extract attestation ID from transaction logs
-      const attestationId = receipt.logs[0].topics[1];
-      console.log('Extracted attestation ID:', attestationId);
+      // Find the Attested event in the logs
+      const attestEvent = receipt.logs.find(log =>
+        log.address.toLowerCase() === EAS_CONTRACT_ADDRESS.toLowerCase() &&
+        log.topics[0] === ethers.id("Attested(address,address,bytes32,bytes32)")
+      );
 
-      if (!attestationId) {
-        throw new Error('Failed to extract attestation ID from transaction receipt');
+      if (!attestEvent || !attestEvent.topics[2]) {
+        throw new Error('Failed to extract attestation ID from transaction logs');
       }
 
-      setAttestationId(attestationId);
-      onAttestationComplete(attestationId);
+      const newAttestationId = attestEvent.topics[2];
+      setAttestationId(newAttestationId);
+      onAttestationComplete(newAttestationId);
       setSuccess(true);
     } catch (err: any) {
       handleAttestationError(err);
@@ -143,50 +155,71 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full gap-4">
-      <h1 className="text-2xl font-bold mb-2">Enrollment Attestation</h1>
-      <div className="bg-gray-100 p-4 rounded-lg mb-4 w-full max-w-md">
-        <h2 className="text-lg font-semibold mb-2">Attestation Summary</h2>
-        <div className="space-y-2">
-          <p><span className="font-medium">Verified Name:</span> {verifiedName}</p>
-          <p><span className="font-medium">POAP Verification:</span> {poapVerified ? 'Verified' : 'Not Verified'}</p>
-          <p><span className="font-medium">Wallet Address:</span> {address}</p>
-          <p><span className="font-medium">Network:</span> Base Sepolia</p>
-        </div>
-      </div>
-      <div className="text-sm text-gray-600 mb-4">
-        To create your enrollment attestation, you need to be connected to the Base Sepolia network.
-      </div>
-      <NetworkSwitchButton className="mb-4" />
-      {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative" role="alert">
-          <strong className="font-bold">Error: </strong>
-          <span className="block sm:inline">{error}</span>
-        </div>
-      )}
-      {success && (
-        <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded relative" role="alert">
-          <strong className="font-bold">Success! </strong>
-          <span className="block sm:inline">
-            Attestation created successfully on Base Sepolia!{' '}
-            <a
-              href={`https://base-sepolia.easscan.org/attestation/view/${attestationId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-green-800"
-            >
-              View on EAS Explorer
-            </a>
-          </span>
-        </div>
-      )}
-      <button
-        onClick={createAttestation}
-        disabled={loading || !address || chainId !== BASE_SEPOLIA_CHAIN_ID}
-        className={`px-4 py-2 rounded ${loading || !address || chainId !== BASE_SEPOLIA_CHAIN_ID ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'} text-white font-semibold`}
-      >
-        {loading ? 'Creating Attestation...' : 'Create Attestation'}
-      </button>
-    </div>
+    <Card>
+      <CardContent>
+        <Typography variant="h5" gutterBottom>
+          Enrollment Attestation
+        </Typography>
+
+        {/* Show attestation details before creation */}
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="subtitle1" gutterBottom>
+            Attestation Details:
+          </Typography>
+          <Typography variant="body2">
+            • Verified Name: {verifiedName}
+          </Typography>
+          <Typography variant="body2">
+            • POAP Verification: {poapVerified ? 'Verified' : 'Not Verified'}
+          </Typography>
+          <Typography variant="body2">
+            • Wallet Address: {address}
+          </Typography>
+        </Box>
+
+        {/* Network switch button */}
+        <NetworkSwitchButton />
+
+        {/* Error message */}
+        {error && (
+          <Alert severity="error" sx={{ mt: 2, mb: 2 }}>
+            {error}
+          </Alert>
+        )}
+
+        {/* Success message with links */}
+        {success && attestationId && (
+          <Alert severity="success" sx={{ mt: 2, mb: 2 }}>
+            Attestation created successfully!
+            <Box sx={{ mt: 1 }}>
+              <Typography variant="body2">
+                • View on EAS Explorer:{' '}
+                <a href={`${EAS_EXPLORER_URL}/attestation/view/${attestationId}`} target="_blank" rel="noopener noreferrer">
+                  View Attestation
+                </a>
+              </Typography>
+              {transactionHash && (
+                <Typography variant="body2">
+                  • View Transaction:{' '}
+                  <a href={`https://base-sepolia.blockscout.com/tx/${transactionHash}`} target="_blank" rel="noopener noreferrer">
+                    View Transaction
+                  </a>
+                </Typography>
+              )}
+            </Box>
+          </Alert>
+        )}
+
+        {/* Create attestation button */}
+        <Button
+          variant="contained"
+          onClick={createAttestation}
+          disabled={loading || !address || chain?.id !== 84532}
+          sx={{ mt: 2 }}
+        >
+          {loading ? 'Creating Attestation...' : 'Create Attestation'}
+        </Button>
+      </CardContent>
+    </Card>
   );
 }
