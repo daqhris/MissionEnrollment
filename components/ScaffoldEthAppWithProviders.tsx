@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useTheme } from "next-themes";
 import { Toaster } from "react-hot-toast";
 import { WagmiProvider } from "wagmi";
-import { base } from 'viem/chains';
+import { base, baseSepolia } from 'viem/chains';
 import { http } from 'wagmi';
 import { OnchainKitProvider } from "@coinbase/onchainkit";
 
@@ -25,9 +25,10 @@ const queryClient = new QueryClient();
 const config = getDefaultConfig({
   appName: 'MissionEnrollment',
   projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'YOUR_PROJECT_ID',
-  chains: [base],
+  chains: [base, baseSepolia],
   transports: {
     [base.id]: http(),
+    [baseSepolia.id]: http('https://sepolia.base.org'),
   },
 });
 

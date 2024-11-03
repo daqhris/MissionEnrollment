@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useChainId, useSwitchChain } from 'wagmi';
 import { baseSepolia } from 'viem/chains';
 
@@ -12,17 +12,25 @@ const BASE_SEPOLIA_CHAIN_ID = 84532;
 const NetworkSwitchButton = ({ className = '', onError }: NetworkSwitchButtonProps): JSX.Element => {
   const chainId = useChainId();
   const { switchChain } = useSwitchChain();
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleNetworkSwitch = async (): Promise<void> => {
     try {
+      setError(null);
+      setIsLoading(true);
       await switchChain({ chainId: BASE_SEPOLIA_CHAIN_ID });
     } catch (error: any) {
       console.error('Failed to switch network:', error);
+      const errorMessage = error.code === 4902
+        ? 'Base Sepolia network not configured in wallet. Please add Base Sepolia first.'
+        : 'Failed to switch network. Please try again.';
+      setError(errorMessage);
       if (onError) {
-        onError(new Error(error.code === 4902
-          ? 'Base Sepolia network not configured in wallet. Please add Base Sepolia first.'
-          : 'Failed to switch network. Please try again.'));
+        onError(new Error(errorMessage));
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -44,10 +52,14 @@ const NetworkSwitchButton = ({ className = '', onError }: NetworkSwitchButtonPro
         onClick={handleNetworkSwitch}
         className="flex items-center gap-2 px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition-colors"
         type="button"
+        disabled={isLoading}
       >
         <div className="w-2 h-2 rounded-full bg-white" />
-        <span>Switch to Base Sepolia</span>
+        <span>{isLoading ? 'Switching...' : 'Switch to Base Sepolia'}</span>
       </button>
+      {error && (
+        <span className="text-xs text-red-500">{error}</span>
+      )}
       <span className="text-xs text-gray-500">Required for creating attestation</span>
     </div>
   );
