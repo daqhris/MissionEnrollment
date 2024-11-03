@@ -1,37 +1,30 @@
 import { useState } from 'react';
-import { useAccount, useNetwork } from 'wagmi';
-import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
+import { useAccount, useChainId, usePublicClient } from 'wagmi';
+import { EAS, SchemaEncoder, type AttestationRequest } from "@ethereum-attestation-service/eas-sdk";
 import { ethers } from 'ethers';
-import { NetworkSwitchButton } from './NetworkSwitchButton';
-import { Card, CardContent, Typography, Button, Box, Alert } from '@mui/material';
-
-interface SchemaItem {
-  name: string;
-  value: any;
-  type: string;
-}
+import { Card, CardContent, Typography, Button, CircularProgress, Box } from '@mui/material';
+import NetworkSwitchButton from './NetworkSwitchButton';
+import { BASE_SEPOLIA_CHAIN_ID, EAS_CONTRACT_ADDRESS, SCHEMA_UID } from '../utils/constants';
 
 interface EnrollmentAttestationProps {
   verifiedName: string;
   poapVerified: boolean;
-  onAttestationComplete: (attestationId: string) => void;
+  onAttestationComplete: (attestationUID: string) => void;
 }
 
-const BASE_SEPOLIA_CHAIN_ID = 84532;
-const EAS_CONTRACT_ADDRESS = '0xC2679fBD37d54388Ce493F1DB75320D236e1815e';
-const SCHEMA_UID = '0x46a1e77e9f1d74c8c60c8d8bd8129947b3c5f4d3e6e9497ae2e4701dd8e2c401';
+type AttestationError = {
+  message: string;
+  code?: number;
+};
 
 export default function EnrollmentAttestation({ verifiedName, poapVerified, onAttestationComplete }: EnrollmentAttestationProps) {
   const { address } = useAccount();
-  const { chain } = useNetwork();
+  const chainId = useChainId();
+  const publicClient = usePublicClient();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  const [attestationId, setAttestationId] = useState<string | null>(null);
   const [transactionHash, setTransactionHash] = useState<string | null>(null);
 
-  // Constants for EAS
-  const EAS_EXPLORER_URL = 'https://base-sepolia.easscan.org';
   const handleAttestationError = (err: Error) => {
     console.error('Attestation error:', {
       message: err.message,
@@ -42,13 +35,9 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
     let errorMessage = 'Failed to create attestation. Please try again.';
 
     if (err.message.includes('invalid signer')) {
-      errorMessage = 'Invalid signer. Please ensure your wallet is properly connected.';
-    } else if (err.message.includes('user rejected transaction')) {
-      errorMessage = 'Transaction was rejected. Please try again and confirm the transaction in your wallet.';
-    } else if (err.message.includes('Failed to extract attestation ID')) {
-      errorMessage = 'Transaction succeeded but attestation ID could not be retrieved. Please check EAS Explorer for your attestation.';
-    } else if (err.message.includes('insufficient funds')) {
-      errorMessage = 'Insufficient funds for transaction. Please ensure you have enough Base Sepolia ETH.';
+      errorMessage = 'Invalid signer. Please check your wallet connection.';
+    } else if (err.message.includes('user rejected')) {
+      errorMessage = 'Transaction was rejected. Please try again.';
     }
 
     setError(errorMessage);
@@ -56,101 +45,94 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
   };
 
   const createAttestation = async () => {
-    if (!address || !walletClient) {
-      setError('Please connect your wallet first.');
-      return;
-    }
-
     try {
       setLoading(true);
       setError(null);
-      setSuccess(false);
-      console.log('Starting attestation process...');
 
-      // Ensure we're on Base Sepolia first
+      if (!address) {
+        throw new Error('Wallet not connected');
+      }
+
+      if (!publicClient) {
+        throw new Error('Web3 provider not available');
+      }
+
       if (chainId !== BASE_SEPOLIA_CHAIN_ID) {
-        setError('Please switch to Base Sepolia network first using the yellow button above.');
-        setLoading(false);
-        return;
+        throw new Error('Please switch to Base Sepolia network');
       }
 
-      // Get provider and signer after ensuring correct chain
-      console.log('Getting provider and signer...');
-      const provider = new BrowserProvider(walletClient as any);
-      const signer = await provider.getSigner();
-
-      if (!signer) {
-        throw new Error('Failed to get signer from wallet.');
-      }
-
-      // Initialize EAS with proper chain verification
-      console.log('Initializing EAS...');
+      // Initialize EAS SDK
       const eas = new EAS(EAS_CONTRACT_ADDRESS);
 
-      // Connect signer to EAS
-      console.log('Connecting signer to EAS...');
-      await eas.connect(signer);
-      console.log('EAS SDK initialized successfully');
-
-      // Verify chain again after signer initialization
-      const network = await provider.getNetwork();
-      if (network.chainId !== BigInt(BASE_SEPOLIA_CHAIN_ID)) {
-        throw new Error('Wrong network detected after initialization. Please ensure you are on Base Sepolia.');
-      }
-
-      // Create attestation data
-      console.log('Creating attestation data...');
-      const schemaEncoder = new SchemaEncoder("address userAddress,string verifiedName,bool poapVerified,uint256 timestamp");
+      // Create Schema Encoder instance
+      const schemaEncoder = new SchemaEncoder("string name, bool poapVerified");
       const encodedData = schemaEncoder.encodeData([
-        { name: "userAddress", value: address, type: "address" },
-        { name: "verifiedName", value: verifiedName, type: "string" },
-        { name: "poapVerified", value: poapVerified, type: "bool" },
-        { name: "timestamp", value: BigInt(Math.floor(Date.now() / 1000)), type: "uint256" }
+        { name: "name", value: verifiedName, type: "string" },
+        { name: "poapVerified", value: poapVerified, type: "bool" }
       ]);
 
-      // Submit attestation
-      console.log('Submitting attestation with data:', {
-        address,
-        verifiedName,
-        poapVerified,
-        timestamp: Math.floor(Date.now() / 1000)
-      });
-
-      const tx = await eas.attest({
+      // Prepare the attestation request
+      const attestationRequest = {
         schema: SCHEMA_UID,
         data: {
           recipient: address,
           expirationTime: BigInt(0),
           revocable: true,
-          data: encodedData
-        }
-      });
+          data: encodedData,
+        },
+      };
 
-      console.log('Transaction submitted:', tx.hash);
-      setTransactionHash(tx.hash);
+      // Submit the attestation
+      const attestationResponse = await eas.attest(attestationRequest);
 
-      // Wait for transaction confirmation
-      const receipt = await tx.wait();
-      console.log('Transaction receipt:', receipt);
-
-      // Find the Attested event in the logs
-      const attestEvent = receipt.logs.find(log =>
-        log.address.toLowerCase() === EAS_CONTRACT_ADDRESS.toLowerCase() &&
-        log.topics[0] === ethers.id("Attested(address,address,bytes32,bytes32)")
-      );
-
-      if (!attestEvent || !attestEvent.topics[2]) {
-        throw new Error('Failed to extract attestation ID from transaction logs');
+      if (!attestationResponse || !attestationResponse.data) {
+        throw new Error('Failed to submit attestation');
       }
 
-      const newAttestationId = attestEvent.topics[2];
-      setAttestationId(newAttestationId);
-      onAttestationComplete(newAttestationId);
-      setSuccess(true);
-    } catch (err: any) {
-      handleAttestationError(err);
-    } finally {
+      // Get transaction hash and wait for confirmation
+      const txHash = typeof attestationResponse.data === 'string'
+        ? attestationResponse.data
+        : attestationResponse.data.toString();
+      setTransactionHash(txHash);
+
+      // Wait for the transaction to be mined
+      const receipt = await publicClient.waitForTransactionReceipt({ hash: txHash as `0x${string}` });
+      console.log('Transaction receipt:', receipt);
+
+      if (!receipt || !receipt.logs || receipt.logs.length === 0) {
+        throw new Error('No logs found in transaction receipt');
+      }
+
+      // Create an interface to parse the logs
+      const iface = new ethers.Interface([
+        'event Attested(bytes32 indexed attestationUID, address indexed recipient, address indexed attester, bytes32 referenceUID, bytes32 schemaUID, uint64 expirationTime, bool revocable)'
+      ]);
+
+      // Parse logs to find the attestation event
+      const attestEvent = receipt.logs
+        .map(log => {
+          try {
+            return iface.parseLog({
+              topics: log.topics as string[],
+              data: log.data
+            });
+          } catch (e) {
+            return null;
+          }
+        })
+        .find(event => event && event.name === 'Attested');
+
+      if (!attestEvent) {
+        throw new Error('Attestation event not found in transaction receipt');
+      }
+
+      // Get the attestation UID from the event args
+      const attestationUID = attestEvent.args[0];
+      onAttestationComplete(attestationUID);
       setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      handleAttestationError(error as Error);
     }
   };
 
@@ -158,66 +140,25 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
     <Card>
       <CardContent>
         <Typography variant="h5" gutterBottom>
-          Enrollment Attestation
+          Create Enrollment Attestation
         </Typography>
-
-        {/* Show attestation details before creation */}
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="subtitle1" gutterBottom>
-            Attestation Details:
-          </Typography>
-          <Typography variant="body2">
-            • Verified Name: {verifiedName}
-          </Typography>
-          <Typography variant="body2">
-            • POAP Verification: {poapVerified ? 'Verified' : 'Not Verified'}
-          </Typography>
-          <Typography variant="body2">
-            • Wallet Address: {address}
-          </Typography>
-        </Box>
-
-        {/* Network switch button */}
-        <NetworkSwitchButton />
-
-        {/* Error message */}
+        {chainId !== BASE_SEPOLIA_CHAIN_ID && (
+          <Box sx={{ mb: 2 }}>
+            <NetworkSwitchButton targetChainId={BASE_SEPOLIA_CHAIN_ID} />
+          </Box>
+        )}
         {error && (
-          <Alert severity="error" sx={{ mt: 2, mb: 2 }}>
+          <Typography color="error" sx={{ mb: 2 }}>
             {error}
-          </Alert>
+          </Typography>
         )}
-
-        {/* Success message with links */}
-        {success && attestationId && (
-          <Alert severity="success" sx={{ mt: 2, mb: 2 }}>
-            Attestation created successfully!
-            <Box sx={{ mt: 1 }}>
-              <Typography variant="body2">
-                • View on EAS Explorer:{' '}
-                <a href={`${EAS_EXPLORER_URL}/attestation/view/${attestationId}`} target="_blank" rel="noopener noreferrer">
-                  View Attestation
-                </a>
-              </Typography>
-              {transactionHash && (
-                <Typography variant="body2">
-                  • View Transaction:{' '}
-                  <a href={`https://base-sepolia.blockscout.com/tx/${transactionHash}`} target="_blank" rel="noopener noreferrer">
-                    View Transaction
-                  </a>
-                </Typography>
-              )}
-            </Box>
-          </Alert>
-        )}
-
-        {/* Create attestation button */}
         <Button
           variant="contained"
           onClick={createAttestation}
-          disabled={loading || !address || chain?.id !== 84532}
+          disabled={loading || chainId !== BASE_SEPOLIA_CHAIN_ID}
           sx={{ mt: 2 }}
         >
-          {loading ? 'Creating Attestation...' : 'Create Attestation'}
+          {loading ? <CircularProgress size={24} /> : 'Create Attestation'}
         </Button>
       </CardContent>
     </Card>

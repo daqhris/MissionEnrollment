@@ -6,11 +6,12 @@ import { SUPPORTED_CHAINS } from '../app/config/wagmi';
 interface NetworkSwitchButtonProps {
   className?: string;
   onError?: (error: Error) => void;
+  targetChainId: number;
 }
 
 const BASE_SEPOLIA_CHAIN_ID = SUPPORTED_CHAINS.BASE_SEPOLIA;
 
-const NetworkSwitchButton = ({ className = '', onError }: NetworkSwitchButtonProps): JSX.Element => {
+const NetworkSwitchButton = ({ className = '', onError, targetChainId }: NetworkSwitchButtonProps): JSX.Element => {
   const chainId = useChainId();
   const { switchChain } = useSwitchChain();
   const [error, setError] = useState<string | null>(null);
@@ -21,9 +22,9 @@ const NetworkSwitchButton = ({ className = '', onError }: NetworkSwitchButtonPro
       setError(null);
       setIsLoading(true);
 
-      // Try to switch to Base Sepolia
+      // Try to switch to target chain
       try {
-        await switchChain({ chainId: BASE_SEPOLIA_CHAIN_ID });
+        await switchChain({ chainId: targetChainId });
       } catch (switchError: any) {
         // If the network is not configured in the wallet (error code 4902)
         if (switchError.code === 4902) {
@@ -33,7 +34,7 @@ const NetworkSwitchButton = ({ className = '', onError }: NetworkSwitchButtonPro
             await provider.request({
               method: 'wallet_addEthereumChain',
               params: [{
-                chainId: `0x${BASE_SEPOLIA_CHAIN_ID.toString(16)}`,
+                chainId: `0x${targetChainId.toString(16)}`,
                 chainName: 'Base Sepolia',
                 nativeCurrency: {
                   name: 'Ether',
@@ -45,7 +46,7 @@ const NetworkSwitchButton = ({ className = '', onError }: NetworkSwitchButtonPro
               }]
             });
             // After adding the network, try switching again
-            await switchChain({ chainId: BASE_SEPOLIA_CHAIN_ID });
+            await switchChain({ chainId: targetChainId });
           } else {
             throw new Error('Wallet provider not found. Please ensure your wallet is properly connected.');
           }
@@ -67,7 +68,7 @@ const NetworkSwitchButton = ({ className = '', onError }: NetworkSwitchButtonPro
     }
   };
 
-  if (chainId === BASE_SEPOLIA_CHAIN_ID) {
+  if (chainId === targetChainId) {
     return (
       <div className={`flex flex-col items-center gap-2 ${className}`}>
         <div className="flex items-center gap-2">
