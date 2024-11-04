@@ -46,9 +46,31 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 - Loading indicators and error messages for better user experience
 - Step-by-step guided process from identity verification to enrollment attestation
 
+## Technical Stack
+
+- Frontend: React with Next.js (Node.js v20)
+- Blockchain Interaction: ethers.js, wagmi, viem
+- Basename/ENS Integration: user name resolution via ethers.js with two-step verification
+- POAP API: Custom API route with caching, rate limiting, and a delay implementation
+- Smart Contracts: Solidity with OpenZeppelin libraries (UUPS proxy pattern)
+- Attestation: Ethereum Attestation Service (EAS) SDK v1.1 with role-based access
+- OnchainKit: Integrated for identity and wallet functionalities
+- Middleware: Custom implementation for POAP API request handling with rate limiting
+
+### Other Dev Tools
+
+- **State Management**: React Query (with singleton QueryClient instance)
+- **Wallet Login**: Wagmi, prioritized Scaffold-ETH connector
+- **Styling**: Tailwind CSS, daisy UI
+- **Type Checking**: TypeScript
+- **Code Quality**: ESLint, comprehensive test suite with Jest
+
+## Screenshots
+
 | [![Step 0: Initial Screen](./public/Enrollment-Step0.png)](./public/Enrollment-Step0.png) | [![Step 1: Identity Check](./public/Enrollment-Step1.PNG)](./public/Enrollment-Step1.PNG) | [![Pause 1: Loading](./public/Enrollment-Pause1.PNG)](./public/Enrollment-Pause1.PNG) | [![Step 2: Event Attendance](./public/Enrollment-Step2.PNG)](./public/Enrollment-Step2.PNG) | [![Pause 2: Loading](./public/Enrollment-Pause2.PNG)](./public/Enrollment-Pause2.PNG) | [![Step 3: Attestation](./public/Enrollment-Step3.PNG)](./public/Enrollment-Step3.PNG) |
 |:---:|:---:|:---:|:---:|:---:|:---:|
 | Enrollment-Step0 | Enrollment-Step1 | Enrollment-Pause1 | Enrollment-Step2 | Enrollment-Pause2 | Enrollment-Step3 |
+
 
 ## Getting Started
 
