@@ -164,8 +164,9 @@ It became possible thanks to the help and collaboration of **Devin**, the world'
 
 Hackathon project submission: [ethglobal.com/showcase/missionenrollment-i4fkr](https://ethglobal.com/showcase/missionenrollment-i4fkr)
 
-## Preview
-
-![Preview: Mission Enrollment Web App](./public/Preview-MissionEnrollment-WebApp.mp4)
+<video width="800" controls>
+  <source src="./public/Preview-MissionEnrollment-WebApp.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 Preview-MissionEnrollment-WebApp.mp4
