@@ -4,24 +4,26 @@
 
 [![Mission Enrollment Logo](./public/logo.png)](https://mission-enrollment.vercel.app/)
 
-This web app has 3 main features that certify the enrollment of its connected user for a future mission.
+This web app allows the enrollment of its connected user for a up-coming onchain mission.
 Its use requires the verification of an onchain name, a token from an in-person event, and an attestation signed by the mission coordinator on the **Base** blockchain.
 
-This project provides a transparent process reliant on 3 steps of control and validation: identity check, event attendance, and enrollment attestation.
+This project implements a transparent process reliant on 3 steps of control and validation: identity check, event attendance, and enrollment attestation.
 It is built as a web application with **Next.js** and **React**, and runs on top of smart contracts integrating blockchain protocols: **Basename (ENS)**, **Proof of Attendance Protocol (POAP)** and **Ethereum Attestation Service (EAS)**.
 
 ## Key Stages
 
 ### 1. Identity Check
 
-- Supports real-time Basename resolution
+- Supports name submission and real-time Basenames resolution
+- Displays an avatar and a connected wallet address with OnchainKit from Coinbase
 - Robust error handling for invalid inputs
 
 ### 2. Event Attendance
 
-- Fetches and verifies Proof of Attendance Protocol (POAP) tokens with a 5-minute delay animation
-- Implements robust error handling and loading states for better user experience
-- Uses api.poap.tech endpoint for reliable POAP data retrieval
+- Asks the user whether they attended the hackathon or not
+- Fetches and verifies Proof of Attendance Protocol (POAP) tokens
+- Features a short delay animation before revealing results
+- Sends requests to a POAP API endpoint for reliable POAP data retrieval
 - Filters specific POAPs related to ETHGlobal Brussels 2024
 - Displays POAP data including event name, date, role and image
 
@@ -29,7 +31,7 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 - Utilizes Ethereum Attestation Service (EAS) for creating verifiable onchain records
 - Primarily supports attestations on Base Sepolia network
-- Includes comprehensive attestation data: user address, verified name, POAP verification status, and timestamp
+- Includes comprehensive attestation data: user address, verified name, POAP data, and timestamp
 - Features attestation history tracking and display
 - Provides real-time network status and validation
 
@@ -47,9 +49,9 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 ## Technical Stack
 
 - Frontend: React with Next.js (Node.js v20)
-- Blockchain Interaction: ethers.js (v6 migration in progress), wagmi, viem
-- ENS Integration: ENS resolution via ethers.js with two-step verification
-- POAP API: Custom API route with caching, rate limiting, and 5-minute delay implementation
+- Blockchain Interaction: ethers.js, wagmi, viem
+- Basename/ENS Integration: user name resolution via ethers.js with two-step verification
+- POAP API: Custom API route with caching, rate limiting, and a delay implementation
 - Smart Contracts: Solidity with OpenZeppelin libraries (UUPS proxy pattern)
 - Attestation: Ethereum Attestation Service (EAS) SDK v1.1 with role-based access
 - OnchainKit: Integrated for identity and wallet functionalities
@@ -120,7 +122,7 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 ## API Routes
 
-- `/api/fetchPoaps`: Fetches POAPs for a given Ethereum address or ENS name
+- `/api/fetchPoaps`: Fetches POAPs for a given Ethereum address, Basename or ENS name.
 
 ## Smart Contracts
 
@@ -136,19 +138,15 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 ## Frontend Components
 
-- `IdentityVerification.tsx`: This component handles user identity verification by validating Ethereum addresses. It ensures that users are properly authenticated before proceeding with attestations.
+- `IdentityVerification.tsx`: This component handles user identity verification by validating Basenames. It ensures that users are properly authenticated before proceeding with event attendance.
+- `EventAttendanceVerification.tsx`: This component verifies user attendance at events using POAPs, implementing a short delay animation and comprehensive error handling.
 - `OnchainAttestation.tsx`: This component manages the creation of onchain attestations on the Base Sepolia network. It integrates with the user's wallet using wagmi hooks and encodes POAP data for attestation.
-- `EventAttendanceVerification.tsx`: This component verifies user attendance at events using POAPs, implementing a 5-minute delay animation and comprehensive error handling.
 - `ContractUI.tsx`: This component provides the interface for attestation contract interactions, including network status, attestation creation, and history tracking.
-
-## Testing
-
-The project includes a comprehensive test suite using Jest, focusing on POAP verification and event attendance logic. Tests ensure robust handling of API interactions and user data validation. To run the tests, use the command `yarn test`. The test suite includes mock data located in the `test/mocks` directory for simulating API responses and covers various edge cases to ensure reliability. Test coverage reports are generated using Jest's built-in coverage tool to help identify untested areas of the codebase. Configuration for tests can be found in the `jest.config.js` file, which includes settings for handling TypeScript and React components.
 
 ## ETHGlobal Brussels 2024
 
-This onchain app includes a special feature that is dependent on ETHGlobal Brussels 2024.
-Users are invited to retrieve their ETHGlobal Brussels 2024 POAP, adding an extra layer of credibility to their enrollment attestations.
+This web app includes a special feature that is dependent on participation in ETHGlobal Brussels 2024.
+Users are invited to verify ownership of an ETHGlobal-certified POAP, adding an extra layer of credibility to their enrollment attestations.
 The app builder and mission coordinator participated in this global hackathon when it was held for the first time in Belgium.
 
 ## Deployed Contracts
@@ -163,7 +161,7 @@ The AttestationService contract has been deployed on the following networks:
 ### Optimism Sepolia
 - Schema Registry: 0x4200000000000000000000000000000000000020
 
-Note: Contract addresses are maintained and updated regularly. Please refer to the official documentation of each protocol for the most up-to-date addresses.
+Note: Contract addresses are maintained and updated regularly as the app is still under construction.
 
 ## External Resources
 
@@ -171,13 +169,12 @@ Note: Contract addresses are maintained and updated regularly. Please refer to t
 - [Basename Documentation](https://onchainkit.xyz/identity/name)
 - [POAP Documentation](https://documentation.poap.tech/)
 
-
 ## Disclaimer
 
+This project builds upon components from [Scaffold-ETH 2](https://github.com/scaffold-eth/scaffold-eth-2) and leverages open-source protocols for blockchain functionality.
 If necessary, users should verify the authenticity of mission enrollments through additional public means.
-This project builds upon components from [Scaffold-ETH 2](https://github.com/scaffold-eth/scaffold-eth-2) and integrates open-source protocols for blockchain functionality.
 
-The creation of the dApp was initiated by **daqhris.eth** during a virtual hackathon: [ETHGlobal Superhack 2024](https://ethglobal.com/events/superhack2024).  
-This became possible thanks to the help and collaboration of **Devin**, the world's first AI software engineer, created by [Cognition.AI](https://www.cognition.ai/).
+The creation of this dApp was initiated by **daqhris.eth** during a virtual hackathon: [ETHGlobal Superhack 2024](https://ethglobal.com/events/superhack2024).  
+It became possible thanks to the help and collaboration of **Devin**, the world's first AI software engineer, created by [Cognition.AI](https://www.cognition.ai/).
 
-[ethglobal.com/showcase/missionenrollment-i4fkr](https://ethglobal.com/showcase/missionenrollment-i4fkr)
+Hackathon project submission: [ethglobal.com/showcase/missionenrollment-i4fkr](https://ethglobal.com/showcase/missionenrollment-i4fkr)
