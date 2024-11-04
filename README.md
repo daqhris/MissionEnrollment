@@ -4,7 +4,7 @@
 
 [![Mission Enrollment Logo](./public/logo.png)](https://mission-enrollment.vercel.app/)
 
-This web app has 3 main features that certify the enrollment of its connected user for an future mission.
+This web app has 3 main features that certify the enrollment of its connected user for a future mission.
 Its use requires the verification of an onchain name, a token from an in-person event, and an attestation signed by the mission coordinator on the **Base** blockchain.
 
 This project provides a transparent process reliant on 3 steps of control and validation: identity check, event attendance, and enrollment attestation.
@@ -46,14 +46,14 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 ## Technical Stack
 
-- Frontend: React with Next.js
-- Blockchain Interaction: ethers.js (v6), wagmi
-- ENS Integration: ENS resolution via ethers.js
+- Frontend: React with Next.js (Node.js v20)
+- Blockchain Interaction: ethers.js (v6 migration in progress), wagmi, viem
+- ENS Integration: ENS resolution via ethers.js with two-step verification
 - POAP API: Custom API route with caching, rate limiting, and 5-minute delay implementation
-- Smart Contracts: Solidity with OpenZeppelin libraries
-- Attestation: Ethereum Attestation Service (EAS) SDK v1.1
+- Smart Contracts: Solidity with OpenZeppelin libraries (UUPS proxy pattern)
+- Attestation: Ethereum Attestation Service (EAS) SDK v1.1 with role-based access
 - OnchainKit: Integrated for identity and wallet functionalities
-- Middleware: Custom implementation for POAP API request handling
+- Middleware: Custom implementation for POAP API request handling with rate limiting
 
 ### Other Dev Tools
 
@@ -67,7 +67,7 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 ### Prerequisites
 
-- Node.js (v18 or later)
+- Node.js (v20 or later)
 - Yarn
 - An Ethereum wallet
 - Environment Variables:
@@ -77,7 +77,8 @@ It is built as a web application with **Next.js** and **React**, and runs on top
   - `NEXT_PUBLIC_POAP_API_KEY`: API key for POAP data retrieval
   - `NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL`: RPC URL for Base Sepolia network
   - `NEXT_PUBLIC_EAS_CONTRACT_ADDRESS`: Address of the EAS contract
-  - `MAINNET_RPC_URL`: RPC URL for Ethereum mainnet
+  - `NEXT_PUBLIC_DEFAULT_CHAIN`: Chain ID (default: 8453 for Base)
+  - `PRIVATE_KEY`: For contract deployment and testing
 - Note: Ensure that sensitive information such as private keys are securely managed and not included in public repositories. Use secure secrets management for deployment credentials.
 
 ### Installation
@@ -155,16 +156,14 @@ The app builder and mission coordinator participated in this global hackathon wh
 The AttestationService contract has been deployed on the following networks:
 
 ### Base Sepolia
-- Proxy Address: 0x9f040BD10a6D6e70772ea3Ab055FFfc8E5Af6deF
-- Implementation Address: 0x23E6C11A0cd7322498c0eC85cfCCaeeD3F3E7843
+- EAS Contract: 0x4200000000000000000000000000000000000021
+- Schema Registry: 0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0
+- POAP Contract: 0x22C1f6050E56d2876009903609a2cC3fEf83B415
 
 ### Optimism Sepolia
-- Proxy Address: 0x2909d5554944ba93d75F418429249C6105CbeBff
-- Implementation Address: 0x23E6C11A0cd7322498c0eC85cfCCaeeD3F3E7843
+- Schema Registry: 0x4200000000000000000000000000000000000020
 
-Both deployments use the following addresses:
-- EAS Contract Address: 0xC2679fBD37d54388Ce493F1DB75320D236e1815e
-- Schema Registry Address: 0x54f0e66D5A04702F5Df9BAe330295a11bD862c81
+Note: Contract addresses are maintained and updated regularly. Please refer to the official documentation of each protocol for the most up-to-date addresses.
 
 ## External Resources
 
