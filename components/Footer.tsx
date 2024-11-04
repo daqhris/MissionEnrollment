@@ -100,14 +100,23 @@ export const Footer = (): JSX.Element => {
           </LeftSection>
           <div className="pointer-events-auto flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <span className="text-base-content">Mission Coordinator:</span>
+              <span className="text-base-content">Made by</span>
               <Link
-                href="https://app.ens.domains/daqhris.eth"
+                href="https://www.base.org/name/daqhris"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-accent font-semibold hover:text-accent-focus"
               >
-                daqhris.eth
+                daqhris
+              </Link>
+              <span className="text-base-content">and</span>
+              <Link
+                href="https://devin.ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent font-semibold hover:text-accent-focus"
+              >
+                devin
               </Link>
             </div>
             <div className="flex items-center gap-4">
