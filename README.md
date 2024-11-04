@@ -46,63 +46,9 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 - Loading indicators and error messages for better user experience
 - Step-by-step guided process from identity verification to enrollment attestation
 
-## Screenshot Gallery
-
-<style>
-  details { display: inline-block; }
-  summary { list-style: none; cursor: pointer; }
-  details[open] { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 999; display: flex; align-items: center; justify-content: center; }
-  details[open] img { max-width: 90%; max-height: 90%; object-fit: contain; }
-  details[open] summary::before { content: "Click anywhere to close"; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); color: white; }
-</style>
-
-<table align="center">
-  <tr>
-    <td align="center">
-      <details><summary><img src="./public/Enrollment-Step0.png" width="150" alt="Step 0: Initial Screen"/></summary><img src="./public/Enrollment-Step0.png" alt="Step 0: Initial Screen"/></details>
-      <br/><sub>Enrollment-Step0</sub>
-    </td>
-    <td align="center">
-      <details><summary><img src="./public/Enrollment-Step1.PNG" width="150" alt="Step 1: Identity Check"/></summary><img src="./public/Enrollment-Step1.PNG" alt="Step 1: Identity Check"/></details>
-      <br/><sub>Enrollment-Step1</sub>
-    </td>
-    <td align="center">
-      <details><summary><img src="./public/Enrollment-Pause1.PNG" width="150" alt="Pause 1: Loading"/></summary><img src="./public/Enrollment-Pause1.PNG" alt="Pause 1: Loading"/></details>
-      <br/><sub>Enrollment-Pause1</sub>
-    </td>
-    <td align="center">
-      <details><summary><img src="./public/Enrollment-Step2.PNG" width="150" alt="Step 2: Event Attendance"/></summary><img src="./public/Enrollment-Step2.PNG" alt="Step 2: Event Attendance"/></details>
-      <br/><sub>Enrollment-Step2</sub>
-    </td>
-    <td align="center">
-      <details><summary><img src="./public/Enrollment-Pause2.PNG" width="150" alt="Pause 2: Loading"/></summary><img src="./public/Enrollment-Pause2.PNG" alt="Pause 2: Loading"/></details>
-      <br/><sub>Enrollment-Pause2</sub>
-    </td>
-    <td align="center">
-      <details><summary><img src="./public/Enrollment-Step3.PNG" width="150" alt="Step 3: Attestation"/></summary><img src="./public/Enrollment-Step3.PNG" alt="Step 3: Attestation"/></details>
-      <br/><sub>Enrollment-Step3</sub>
-    </td>
-  </tr>
-</table>
-
-## Technical Stack
-
-- Frontend: React with Next.js (Node.js v20)
-- Blockchain Interaction: ethers.js, wagmi, viem
-- Basename/ENS Integration: user name resolution via ethers.js with two-step verification
-- POAP API: Custom API route with caching, rate limiting, and a delay implementation
-- Smart Contracts: Solidity with OpenZeppelin libraries (UUPS proxy pattern)
-- Attestation: Ethereum Attestation Service (EAS) SDK v1.1 with role-based access
-- OnchainKit: Integrated for identity and wallet functionalities
-- Middleware: Custom implementation for POAP API request handling with rate limiting
-
-### Other Dev Tools
-
-- **State Management**: React Query (with singleton QueryClient instance)
-- **Wallet Login**: Wagmi, prioritized Scaffold-ETH connector
-- **Styling**: Tailwind CSS, daisy UI
-- **Type Checking**: TypeScript
-- **Code Quality**: ESLint, comprehensive test suite with Jest
+| [![Step 0: Initial Screen](./public/Enrollment-Step0.png)](./public/Enrollment-Step0.png) | [![Step 1: Identity Check](./public/Enrollment-Step1.PNG)](./public/Enrollment-Step1.PNG) | [![Pause 1: Loading](./public/Enrollment-Pause1.PNG)](./public/Enrollment-Pause1.PNG) | [![Step 2: Event Attendance](./public/Enrollment-Step2.PNG)](./public/Enrollment-Step2.PNG) | [![Pause 2: Loading](./public/Enrollment-Pause2.PNG)](./public/Enrollment-Pause2.PNG) | [![Step 3: Attestation](./public/Enrollment-Step3.PNG)](./public/Enrollment-Step3.PNG) |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| Enrollment-Step0 | Enrollment-Step1 | Enrollment-Pause1 | Enrollment-Step2 | Enrollment-Pause2 | Enrollment-Step3 |
 
 ## Getting Started
 
@@ -220,11 +166,6 @@ Hackathon project submission: [ethglobal.com/showcase/missionenrollment-i4fkr](h
 
 ## Preview
 
-<div align="center">
-  <video width="800" controls>
-    <source src="./public/Preview-MissionEnrollment-WebApp.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-  <br/>
-  <sub>Preview-MissionEnrollment-WebApp.mp4</sub>
-</div>
+![Preview: Mission Enrollment Web App](./public/Preview-MissionEnrollment-WebApp.mp4)
+
+Preview-MissionEnrollment-WebApp.mp4
