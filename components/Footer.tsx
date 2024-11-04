@@ -7,6 +7,7 @@ import { hardhat } from "viem/chains";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Faucet } from "~~/components/scaffold-eth";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
+import { ExternalLinkIcon } from "./ExternalLinkIcon";
 
 const FooterContainer = tw.div`
   min-h-0 
@@ -118,23 +119,26 @@ export const Footer = (): JSX.Element => {
               >
                 devin
               </Link>
+              <span className="text-base-content mx-4">—</span>
             </div>
             <div className="flex items-center gap-4">
               <Link
                 href="https://ethglobal.com/showcase/missionenrollment-i4fkr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent-content hover:text-accent text-sm"
+                className="text-accent-content hover:text-accent text-sm flex items-center"
               >
                 ETHGlobal Showcase
+                <ExternalLinkIcon />
               </Link>
               <Link
                 href="https://github.com/daqhris/MissionEnrollment"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent-content hover:text-accent text-sm"
+                className="text-accent-content hover:text-accent text-sm flex items-center"
               >
                 GitHub
+                <ExternalLinkIcon />
               </Link>
             </div>
           </div>
