@@ -46,6 +46,47 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 - Loading indicators and error messages for better user experience
 - Step-by-step guided process from identity verification to enrollment attestation
 
+<style>
+.image-gallery details { display: inline-block; }
+.image-gallery summary { list-style: none; cursor: pointer; }
+.image-gallery details[open] { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 999; display: flex; align-items: center; justify-content: center; }
+.image-gallery details[open] img { max-width: 90%; max-height: 90%; object-fit: contain; }
+.image-gallery details[open] summary::before { content: "Click anywhere to close"; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); color: white; }
+</style>
+
+<div align="center" class="image-gallery">
+  <table>
+    <tr>
+      <td align="center">
+        <details><summary><img src="./public/Enrollment-Step0.png" width="300" alt="Step 0: Initial Screen"/></summary><img src="./public/Enrollment-Step0.png" alt="Step 0: Initial Screen"/></details>
+        <br/><sub>Enrollment-Step0</sub>
+      </td>
+      <td align="center">
+        <details><summary><img src="./public/Enrollment-Step1.PNG" width="300" alt="Step 1: Identity Check"/></summary><img src="./public/Enrollment-Step1.PNG" alt="Step 1: Identity Check"/></details>
+        <br/><sub>Enrollment-Step1</sub>
+      </td>
+      <td align="center">
+        <details><summary><img src="./public/Enrollment-Pause1.PNG" width="300" alt="Pause 1: Loading"/></summary><img src="./public/Enrollment-Pause1.PNG" alt="Pause 1: Loading"/></details>
+        <br/><sub>Enrollment-Pause1</sub>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <details><summary><img src="./public/Enrollment-Step2.PNG" width="300" alt="Step 2: Event Attendance"/></summary><img src="./public/Enrollment-Step2.PNG" alt="Step 2: Event Attendance"/></details>
+        <br/><sub>Enrollment-Step2</sub>
+      </td>
+      <td align="center">
+        <details><summary><img src="./public/Enrollment-Pause2.PNG" width="300" alt="Pause 2: Loading"/></summary><img src="./public/Enrollment-Pause2.PNG" alt="Pause 2: Loading"/></details>
+        <br/><sub>Enrollment-Pause2</sub>
+      </td>
+      <td align="center">
+        <details><summary><img src="./public/Enrollment-Step3.PNG" width="300" alt="Step 3: Attestation"/></summary><img src="./public/Enrollment-Step3.PNG" alt="Step 3: Attestation"/></details>
+        <br/><sub>Enrollment-Step3</sub>
+      </td>
+    </tr>
+  </table>
+</div>
+
 ## Technical Stack
 
 - Frontend: React with Next.js (Node.js v20)
@@ -64,6 +105,39 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 - **Styling**: Tailwind CSS, daisy UI
 - **Type Checking**: TypeScript
 - **Code Quality**: ESLint, comprehensive test suite with Jest
+
+<div align="center" class="image-gallery">
+  <table>
+    <tr>
+      <td align="center">
+        <details><summary><img src="./public/Enrollment-Step0.png" width="300" alt="Step 0: Initial Screen"/></summary><img src="./public/Enrollment-Step0.png" alt="Step 0: Initial Screen"/></details>
+        <br/><sub>Enrollment-Step0</sub>
+      </td>
+      <td align="center">
+        <details><summary><img src="./public/Enrollment-Step1.PNG" width="300" alt="Step 1: Identity Check"/></summary><img src="./public/Enrollment-Step1.PNG" alt="Step 1: Identity Check"/></details>
+        <br/><sub>Enrollment-Step1</sub>
+      </td>
+      <td align="center">
+        <details><summary><img src="./public/Enrollment-Pause1.PNG" width="300" alt="Pause 1: Loading"/></summary><img src="./public/Enrollment-Pause1.PNG" alt="Pause 1: Loading"/></details>
+        <br/><sub>Enrollment-Pause1</sub>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <details><summary><img src="./public/Enrollment-Step2.PNG" width="300" alt="Step 2: Event Attendance"/></summary><img src="./public/Enrollment-Step2.PNG" alt="Step 2: Event Attendance"/></details>
+        <br/><sub>Enrollment-Step2</sub>
+      </td>
+      <td align="center">
+        <details><summary><img src="./public/Enrollment-Pause2.PNG" width="300" alt="Pause 2: Loading"/></summary><img src="./public/Enrollment-Pause2.PNG" alt="Pause 2: Loading"/></details>
+        <br/><sub>Enrollment-Pause2</sub>
+      </td>
+      <td align="center">
+        <details><summary><img src="./public/Enrollment-Step3.PNG" width="300" alt="Step 3: Attestation"/></summary><img src="./public/Enrollment-Step3.PNG" alt="Step 3: Attestation"/></details>
+        <br/><sub>Enrollment-Step3</sub>
+      </td>
+    </tr>
+  </table>
+</div>
 
 ## Getting Started
 
@@ -178,3 +252,14 @@ The creation of this dApp was initiated by **daqhris.eth** during a virtual hack
 It became possible thanks to the help and collaboration of **Devin**, the world's first AI software engineer, created by [Cognition.AI](https://www.cognition.ai/).
 
 Hackathon project submission: [ethglobal.com/showcase/missionenrollment-i4fkr](https://ethglobal.com/showcase/missionenrollment-i4fkr)
+
+## Preview
+
+<div align="center">
+  <video width="800" controls>
+    <source src="./public/Preview-MissionEnrollment-WebApp.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <br/>
+  <sub>Preview-MissionEnrollment-WebApp.mp4</sub>
+</div>
