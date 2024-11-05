@@ -119,7 +119,7 @@ export const Footer = (): JSX.Element => {
               >
                 devin
               </Link>
-              <span className="text-base-content mx-4">—</span>
+              <span className="text-base-content mx-4">|</span>
             </div>
             <div className="flex items-center gap-4">
               <Link
