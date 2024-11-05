@@ -182,13 +182,8 @@ This project builds upon components from [Scaffold-ETH 2](https://github.com/sca
 If necessary, users should verify the authenticity of mission enrollments through additional public means.
 
 The creation of this dApp was initiated by **daqhris.eth** during a virtual hackathon: [ETHGlobal Superhack 2024](https://ethglobal.com/events/superhack2024).
-It became possible thanks to the help and collaboration of **Devin**, the world's first AI software engineer, created by [Cognition.AI](https://www.cognition.ai/).
+It became possible thanks to the help and collaboration of **Devin**, the world's first AI software engineer from [Cognition.AI](https://www.cognition.ai/).
 
-Hackathon submission: [ethglobal.com/showcase/missionenrollment-i4fkr](https://ethglobal.com/showcase/missionenrollment-i4fkr)
+**Hackathon Submission**: [ethglobal.com/showcase/missionenrollment-i4fkr](https://ethglobal.com/showcase/missionenrollment-i4fkr)
 
-<video width="800" controls>
-  <source src="https://mission-enrollment.daqhris.com/Preview-MissionEnrollment-WebApp.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
-https://mission-enrollment.daqhris.com/Preview-MissionEnrollment-WebApp.mp4
+**Recent Video Preview**: https://mission-enrollment.daqhris.com/Preview-MissionEnrollment-WebApp.mp4
