@@ -135,13 +135,50 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 `POAPVerification.sol`: Integrates with the POAP protocol for verifying real-life event attendance.
 
-`AttestationService.sol`: This contract implements onchain attestation using the Ethereum Attestation Service (EAS). It features role-based access control, with specific roles for attestation creators and administrators. The contract uses a custom schema for mission enrollment attestations, which includes the user's address, token ID, timestamp, and attester's address. Recent updates include hardhat configuration changes and ethers v6 integration.
+`AttestationService.sol`: This contract implements onchain attestation using the Ethereum Attestation Service (EAS). It features role-based access control, with specific roles for attestation creators and administrators. The contract uses a custom schema for mission enrollment attestations, which includes the user's address, verified name, POAP verification status, and timestamp. The contract follows the UUPS (Universal Upgradeable Proxy Standard) pattern for upgradability while maintaining contract state and addresses. Integration with EAS is handled through the official EAS SDK v1.1.
 
 ## Smart Contract Functions
 
 1. `createMissionEnrollmentSchema()`: Creates the schema for mission enrollment attestations
 2. `createMissionEnrollmentAttestation(address recipient, uint256 tokenId)`: Creates an attestation for a user
 3. `verifyAttestation(bytes32 attestationId)`: Verifies the validity of an attestation
+
+## EAS Architecture and Schema
+
+The attestation system leverages the Ethereum Attestation Service (EAS) infrastructure with the following components:
+
+### Schema Details
+- **Schema Structure**: `address userAddress,string verifiedName,bool poapVerified,uint256 timestamp`
+- **Schema UID**: 0x46a1e77e9f1d74c8c60c8d8bd8129947b3c5f4d3e6e9497ae2e4701dd8e2c401
+- **Fields**:
+  - `userAddress`: Ethereum address of the enrolled user
+  - `verifiedName`: User's verified Basename or ENS name
+  - `poapVerified`: Boolean indicating POAP verification status
+  - `timestamp`: Unix timestamp of attestation creation
+
+### Contract Architecture
+- **Proxy Pattern**: UUPS (Universal Upgradeable Proxy Standard)
+  - Allows contract upgrades while preserving state and address
+  - Implements access control for upgrade operations
+- **Integration**:
+  - Uses EAS SDK v1.1 for attestation operations
+  - Connects to Base's EAS contract at 0x4200000000000000000000000000000000000021
+  - Implements role-based access control for attestation creation
+
+### Implementation Details
+- **Proxy Contracts** (Developer: 0xF0bC5CC2B4866dAAeCb069430c60b24520077037):
+  - 0x3a5b4651aae3f43ea4994d16c17c74ce012ce664
+  - 0x85a8c21e26695112b83c50d69eba08bfb533b0cb
+- **Features**:
+  - Schema creation and management
+  - Attestation creation with role validation
+  - POAP verification integration
+  - Attestation verification functions
+
+### Resources
+- [EAS Documentation](https://docs.attest.sh/)
+- [EAS SDK Reference](https://github.com/ethereum-attestation-service/eas-sdk)
+- [Base Network EAS Guide](https://docs.base.org/guides/attestation-service)
 
 ## Frontend Components
 
@@ -167,8 +204,10 @@ The AttestationService contract has been deployed on the following networks:
 
 #### Proxy Contract Deployments
 Developer Address (0xF0bC5CC2B4866dAAeCb069430c60b24520077037):
-- Proxy Implementation: 0x3a5b4651aae3f43ea4994d16c17c74ce012ce664 (February 2024)
-- Proxy Implementation: 0x85a8c21e26695112b83c50d69eba08bfb533b0cb (February 2024)
+- Proxy Implementation: 0x3a5b4651aae3f43ea4994d16c17c74ce012ce664
+- Proxy Implementation: 0x85a8c21e26695112b83c50d69eba08bfb533b0cb
+
+For detailed information about the proxy pattern, schema, and EAS architecture, see the [EAS Architecture and Schema](#eas-architecture-and-schema) section above.
 
 ### Optimism Sepolia
 - Schema Registry: 0x4200000000000000000000000000000000000020
