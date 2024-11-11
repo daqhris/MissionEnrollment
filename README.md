@@ -125,7 +125,7 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 1. User connects their Ethereum wallet using the prioritized scaffold-eth connector and verifies their identity with .base.eth name verification.
 2. The application fetches and displays relevant POAPs, specifically ETHGlobal Brussels 2024.
 3. The EventAttendanceVerification component verifies event attendance through POAPs before proceeding to attestation.
-4. User selects the desired L2 network (Base Sepolia or Optimism Sepolia) for attestation creation using EAS.
+4. User creates an attestation on Base Sepolia network using EAS. All attestations can be verified on the [Base Network Explorer](https://sepolia.basescan.org/).
 
 ## API Routes
 
@@ -175,10 +175,15 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
   - POAP verification integration
   - Attestation verification functions
 
-### Resources
+### Resources and Contract Verification
 - [EAS Documentation](https://docs.attest.sh/)
 - [EAS SDK Reference](https://github.com/ethereum-attestation-service/eas-sdk)
 - [Base Network EAS Guide](https://docs.base.org/guides/attestation-service)
+- [Base Sepolia Explorer](https://sepolia.basescan.org/)
+- Contract Verification:
+  - [EAS Contract on Base Sepolia](https://sepolia.basescan.org/address/0x4200000000000000000000000000000000000021)
+  - [Schema Registry on Base Sepolia](https://sepolia.basescan.org/address/0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0)
+  - [POAP Contract on Base Sepolia](https://sepolia.basescan.org/address/0x22C1f6050E56d2876009903609a2cC3fEf83B415)
 
 ## Frontend Components
 
@@ -204,13 +209,10 @@ The AttestationService contract has been deployed on the following networks:
 
 #### Proxy Contract Deployments
 Developer Address (0xF0bC5CC2B4866dAAeCb069430c60b24520077037):
-- Proxy Implementation: 0x3a5b4651aae3f43ea4994d16c17c74ce012ce664
-- Proxy Implementation: 0x85a8c21e26695112b83c50d69eba08bfb533b0cb
+- Proxy Implementation 1: [0x3a5b4651aae3f43ea4994d16c17c74ce012ce664](https://sepolia.basescan.org/address/0x3a5b4651aae3f43ea4994d16c17c74ce012ce664)
+- Proxy Implementation 2: [0x85a8c21e26695112b83c50d69eba08bfb533b0cb](https://sepolia.basescan.org/address/0x85a8c21e26695112b83c50d69eba08bfb533b0cb)
 
 For detailed information about the proxy pattern, schema, and EAS architecture, see the [EAS Architecture and Schema](#eas-architecture-and-schema) section above.
-
-### Optimism Sepolia
-- Schema Registry: 0x4200000000000000000000000000000000000020
 
 Note: Contract addresses are maintained and updated regularly as the app is still under construction.
 
