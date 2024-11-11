@@ -165,6 +165,11 @@ The AttestationService contract has been deployed on the following networks:
 - Schema Registry: 0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0
 - POAP Contract: 0x22C1f6050E56d2876009903609a2cC3fEf83B415
 
+#### Proxy Contract Deployments
+Developer Address (0xF0bC5CC2B4866dAAeCb069430c60b24520077037):
+- Proxy Implementation: 0x3a5b4651aae3f43ea4994d16c17c74ce012ce664 (February 2024)
+- Proxy Implementation: 0x85a8c21e26695112b83c50d69eba08bfb533b0cb (February 2024)
+
 ### Optimism Sepolia
 - Schema Registry: 0x4200000000000000000000000000000000000020
 
