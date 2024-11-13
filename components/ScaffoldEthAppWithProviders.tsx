@@ -9,7 +9,6 @@ import { Toaster } from "react-hot-toast";
 import { WagmiProvider } from "wagmi";
 import { base, baseSepolia } from 'viem/chains';
 import { http } from 'wagmi';
-import { OnchainKitProvider } from "@coinbase/onchainkit";
 
 import { useInitializeNativeCurrencyPrice } from "../hooks/scaffold-eth";
 import { Footer } from "./Footer";
@@ -58,42 +57,31 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
   const { resolvedTheme } = useTheme();
   const isDarkMode = resolvedTheme === "dark";
   const [mounted, setMounted] = useState(false);
-  const cdpApiKey = process.env.NEXT_PUBLIC_CDP_API_KEY;
 
   useEffect(() => {
     console.log('ScaffoldEthAppWithProviders mounting...');
-
     try {
       console.log('Initializing basic provider setup...');
-      if (!cdpApiKey) {
-        console.warn('CDP API key not found in environment variables');
-      }
       setMounted(true);
       console.log('Component mounted successfully');
     } catch (error) {
       console.error('Error during initialization:', error);
     }
-
     return () => {
       console.log('ScaffoldEthAppWithProviders unmounting...');
     };
-  }, [cdpApiKey]);
+  }, []);
 
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <OnchainKitProvider
-          apiKey={cdpApiKey || ''}
-          chain={base}
+        <RainbowKitProvider
+          theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
+          avatar={BlockieAvatar as AvatarComponent}
         >
-          <RainbowKitProvider
-            theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
-            avatar={BlockieAvatar as AvatarComponent}
-          >
-            <ProgressBar />
-            <ScaffoldEthApp>{children}</ScaffoldEthApp>
-          </RainbowKitProvider>
-        </OnchainKitProvider>
+          <ProgressBar />
+          <ScaffoldEthApp>{children}</ScaffoldEthApp>
+        </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
