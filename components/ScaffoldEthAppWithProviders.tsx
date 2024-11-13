@@ -58,6 +58,7 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
   const isDarkMode = resolvedTheme === "dark";
   const [mounted, setMounted] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     console.log('ScaffoldEthAppWithProviders mounting...');
@@ -77,6 +78,13 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
     };
   }, []);
 
+  // Wait for theme to be resolved
+  useEffect(() => {
+    if (mounted && resolvedTheme) {
+      setIsInitialized(true);
+    }
+  }, [mounted, resolvedTheme]);
+
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-4">
@@ -88,13 +96,21 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
     );
   }
 
+  if (!isInitialized) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
   return (
     <ErrorBoundary>
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
           <ErrorBoundary>
             <RainbowKitProvider
-              theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
+              theme={isDarkMode ? darkTheme() : lightTheme()}
               avatar={BlockieAvatar as AvatarComponent}
             >
               <ErrorBoundary>
