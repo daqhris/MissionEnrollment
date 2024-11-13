@@ -17,12 +17,8 @@ interface NavLinkProps {
   passHref?: boolean;
 }
 
-const StyledNavContainer = tw.div`
-  ${({ isActive }: { isActive?: boolean }) => isActive ? "bg-blue-600 shadow-md" : ""}
-`;
-
 const NavLink: React.FC<NavLinkProps> = ({ href, children, isActive, passHref }) => (
-  <StyledNavContainer isActive={isActive}>
+  <div className={`${isActive ? "bg-blue-600 shadow-md" : ""}`}>
     <Link href={href} passHref={passHref} className={`
       hover:bg-blue-500
       hover:shadow-md
@@ -38,7 +34,7 @@ const NavLink: React.FC<NavLinkProps> = ({ href, children, isActive, passHref })
     `}>
       {children}
     </Link>
-  </StyledNavContainer>
+  </div>
 );
 
 type HeaderMenuLink = {
