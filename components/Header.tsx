@@ -10,15 +10,36 @@ import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaff
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 import { useChainId } from 'wagmi';
 
-interface StyledLinkProps extends LinkProps {
-  className?: string;
-  children?: React.ReactNode;
-  $isActive?: boolean;
+interface NavLinkProps {
+  href: string;
+  children: React.ReactNode;
+  isActive?: boolean;
+  passHref?: boolean;
 }
 
-const StyledLink = tw(Link)`
-  ${({ $isActive }: { $isActive?: boolean }) => $isActive ? "bg-blue-600 shadow-md" : ""}
+const StyledNavContainer = tw.div`
+  ${({ isActive }: { isActive?: boolean }) => isActive ? "bg-blue-600 shadow-md" : ""}
 `;
+
+const NavLink: React.FC<NavLinkProps> = ({ href, children, isActive, passHref }) => (
+  <StyledNavContainer isActive={isActive}>
+    <Link href={href} passHref={passHref} className={`
+      hover:bg-blue-500
+      hover:shadow-md
+      focus:!bg-blue-600
+      active:!text-white
+      py-1.5
+      px-3
+      text-sm
+      rounded-full
+      gap-2
+      grid
+      grid-flow-col
+    `}>
+      {children}
+    </Link>
+  </StyledNavContainer>
+);
 
 type HeaderMenuLink = {
   label: string;
@@ -74,16 +95,6 @@ const DropdownMenu = tw.ul`
   w-52
 `;
 
-const LogoLink = tw(StyledLink)`
-  hidden
-  lg:flex
-  items-center
-  gap-2
-  ml-4
-  mr-6
-  shrink-0
-`;
-
 const LogoContainer = tw.div`
   flex
   relative
@@ -137,21 +148,6 @@ const ChainIdentifier = tw.div`
   rounded-lg
 `;
 
-const MenuLink = tw(Link)`
-  hover:bg-blue-500
-  hover:shadow-md
-  focus:!bg-blue-600
-  active:!text-white
-  py-1.5
-  px-3
-  text-sm
-  rounded-full
-  gap-2
-  grid
-  grid-flow-col
-  ${({ $isActive }: { $isActive: boolean }) => $isActive ? "bg-blue-600 shadow-md" : ""}
-`;
-
 export const menuLinks: HeaderMenuLink[] = [
   {
     label: "Home",
@@ -176,10 +172,10 @@ export const HeaderMenuLinks = (): JSX.Element => {
         const isActive = pathname === href;
         return (
           <li key={href}>
-            <MenuLink href={href} passHref $isActive={isActive}>
+            <NavLink href={href} isActive={isActive} passHref>
               {icon}
               <span>{label}</span>
-            </MenuLink>
+            </NavLink>
           </li>
         );
       })}
@@ -231,7 +227,7 @@ export const Header = (): JSX.Element => {
             </DropdownMenu>
           )}
         </DropdownContainer>
-        <LogoLink href="/" passHref>
+        <Link href="/" className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
           <LogoContainer>
             <Image alt="Mission Enrollment logo" className="cursor-pointer object-contain" fill src="/logo.png" />
           </LogoContainer>
@@ -239,7 +235,7 @@ export const Header = (): JSX.Element => {
             <LogoTitle>Mission Enrollment</LogoTitle>
             {/*<span className="text-xs">Ethereum dev stack</span>*/}
           </LogoText>
-        </LogoLink>
+        </Link>
         <DesktopMenu>
           <HeaderMenuLinks />
         </DesktopMenu>
