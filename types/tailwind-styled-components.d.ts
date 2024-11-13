@@ -1,5 +1,5 @@
 declare module 'tailwind-styled-components' {
-  import { ComponentType, PropsWithChildren } from 'react';
+  import { ComponentType, PropsWithChildren, HTMLAttributes } from 'react';
 
   export interface TwComponent extends ComponentType<any> {
     tw: string;
@@ -8,7 +8,7 @@ declare module 'tailwind-styled-components' {
   type TemplateFn<P = {}> = (strings: TemplateStringsArray, ...values: any[]) => ComponentType<P>;
 
   interface TwElementFn {
-    <P = {}>(strings: TemplateStringsArray, ...values: any[]): ComponentType<P>;
+    <P = {}>(strings: TemplateStringsArray, ...values: any[]): ComponentType<P & { children?: React.ReactNode }>;
     <P>(component: ComponentType<P>): ComponentType<P & { className?: string }>;
   }
 
