@@ -48,7 +48,7 @@ const BurgerMenuButton = tw.label<{ $isOpen: boolean }>`
   ml-1
   btn
   text-white
-  ${(p): string => (p.$isOpen ? "hover:bg-blue-600" : "hover:bg-blue-700")}
+  ${(p: { $isOpen: boolean }): string => (p.$isOpen ? "hover:bg-blue-600" : "hover:bg-blue-700")}
 `;
 
 const DropdownMenu = tw.ul`
