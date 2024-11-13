@@ -5,11 +5,11 @@ declare module 'tailwind-styled-components' {
     tw: string;
   }
 
-  type TemplateFn = (strings: TemplateStringsArray, ...values: any[]) => ComponentType<any>;
+  type TemplateFn<P = {}> = (strings: TemplateStringsArray, ...values: any[]) => ComponentType<P>;
 
   interface TwElementFn {
-    (strings: TemplateStringsArray, ...values: any[]): ComponentType<any>;
-    (component: ComponentType<any>): ComponentType<any>;
+    <P = {}>(strings: TemplateStringsArray, ...values: any[]): ComponentType<P>;
+    <P>(component: ComponentType<P>): ComponentType<P & { className?: string }>;
   }
 
   interface TwElements {
@@ -26,6 +26,7 @@ declare module 'tailwind-styled-components' {
     li: TwElementFn;
     nav: TwElementFn;
     footer: TwElementFn;
+    label: TwElementFn;
     [key: string]: TwElementFn;
   }
 
