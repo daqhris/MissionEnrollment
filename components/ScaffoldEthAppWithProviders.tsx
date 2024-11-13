@@ -53,23 +53,17 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }): JSX.Elemen
 };
 
 export const ScaffoldEthAppWithProviders = ({ children }: { children: React.ReactNode }): JSX.Element => {
-  const { resolvedTheme } = useTheme();
-  const isDarkMode = resolvedTheme === "dark";
   const [mounted, setMounted] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     console.log('ScaffoldEthAppWithProviders mounting...');
     try {
-      console.log('Initializing provider setup...');
-      if (!process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID) {
-        console.warn('Warning: NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID is not set');
-      }
+      console.log('Initializing minimal setup...');
       setMounted(true);
-      console.log('Provider setup complete');
+      console.log('Minimal setup complete');
     } catch (err) {
-      console.error('Error during provider initialization:', err);
+      console.error('Error during initialization:', err);
       setError(err as Error);
     }
     return () => {
@@ -77,25 +71,18 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
     };
   }, []);
 
-  // Wait for theme to be resolved
-  useEffect(() => {
-    if (mounted && resolvedTheme) {
-      setIsInitialized(true);
-    }
-  }, [mounted, resolvedTheme]);
-
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-4">
         <div className="text-red-500 bg-red-50 p-4 rounded-lg">
-          <h2 className="text-xl font-bold mb-2">Provider Initialization Error</h2>
+          <h2 className="text-xl font-bold mb-2">Initialization Error</h2>
           <pre className="text-sm">{error.message}</pre>
         </div>
       </div>
     );
   }
 
-  if (!isInitialized) {
+  if (!mounted) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
@@ -103,23 +90,14 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
     );
   }
 
+  // Return minimal setup for testing
   return (
     <ErrorBoundary>
-      <WagmiProvider config={config}>
-        <QueryClientProvider client={queryClient}>
-          <ErrorBoundary>
-            <RainbowKitProvider
-              theme={isDarkMode ? darkTheme() : lightTheme()}
-              avatar={BlockieAvatar as AvatarComponent}
-            >
-              <ErrorBoundary>
-                <ProgressBar />
-                <ScaffoldEthApp>{children}</ScaffoldEthApp>
-              </ErrorBoundary>
-            </RainbowKitProvider>
-          </ErrorBoundary>
-        </QueryClientProvider>
-      </WagmiProvider>
+      <div className="flex flex-col min-h-screen">
+        <main className="relative flex flex-col flex-1">
+          {children}
+        </main>
+      </div>
     </ErrorBoundary>
   );
 };
