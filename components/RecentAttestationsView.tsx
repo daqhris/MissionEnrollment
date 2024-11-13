@@ -14,8 +14,8 @@ interface AttestationWithDecodedData {
   recipient: string;
   refUID: string;
   revocable: boolean;
-  revocationTime: string;
-  expirationTime: string;
+  revocationTime: string | null;
+  expirationTime: string | null;
   data?: string;
 }
 
