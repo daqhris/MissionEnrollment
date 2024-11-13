@@ -24,9 +24,8 @@ const queryClient = new QueryClient();
 const config = getDefaultConfig({
   appName: 'MissionEnrollment',
   projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'YOUR_PROJECT_ID',
-  chains: [base, baseSepolia],
+  chains: [baseSepolia], // Temporarily use only Base Sepolia for testing
   transports: {
-    [base.id]: http(),
     [baseSepolia.id]: http('https://sepolia.base.org'),
   },
 });
