@@ -21,6 +21,7 @@ declare module 'tailwind-styled-components' {
     input: TwElementFn;
     button: TwElementFn;
     span: TwElementFn;
+    a: TwElementFn;  // Add anchor element type
     [key: string]: TwElementFn;
   }
 
