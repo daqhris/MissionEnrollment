@@ -22,6 +22,10 @@ declare module 'tailwind-styled-components' {
     button: TwElementFn;
     span: TwElementFn;
     a: TwElementFn;
+    ul: TwElementFn;
+    li: TwElementFn;
+    nav: TwElementFn;
+    footer: TwElementFn;
     [key: string]: TwElementFn;
   }
 
