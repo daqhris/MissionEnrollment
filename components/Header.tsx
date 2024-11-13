@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useState, ComponentType } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -9,6 +9,8 @@ import { Bars3Icon } from "@heroicons/react/24/outline";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 import { useChainId } from 'wagmi';
+
+const StyledLink: ComponentType<any> = Link;
 
 type HeaderMenuLink = {
   label: string;
@@ -64,7 +66,7 @@ const DropdownMenu = tw.ul`
   w-52
 `;
 
-const LogoLink = tw(Link as any)`
+const LogoLink = tw(StyledLink)`
   hidden
   lg:flex
   items-center
@@ -127,7 +129,7 @@ const ChainIdentifier = tw.div`
   rounded-lg
 `;
 
-const MenuLink = tw(Link as any)<{ $isActive: boolean }>`
+const MenuLink = tw(StyledLink)<{ $isActive: boolean }>`
   ${(p: { $isActive: boolean }): string => (p.$isActive ? "bg-blue-600 shadow-md" : "")}
   hover:bg-blue-500
   hover:shadow-md
