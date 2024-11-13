@@ -117,9 +117,14 @@ const PaginationContainer = tw.div`
 ` as unknown as React.FC<React.HTMLAttributes<HTMLDivElement>>;
 
 export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestationsViewProps): React.ReactElement {
+  const [isClient, setIsClient] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [dateFilter, setDateFilter] = useState("");
   const [addressFilter, setAddressFilter] = useState("");
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const { loading, error, data } = useQuery(GET_RECENT_ATTESTATIONS, {
     variables: {
@@ -127,7 +132,8 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
       skip: (currentPage - 1) * pageSize,
       attester: addressFilter || undefined
     },
-    fetchPolicy: 'no-cache',
+    skip: !isClient,
+    fetchPolicy: 'network-only',
     onError: (error) => {
       console.error("GraphQL query error:", error);
     }
@@ -169,6 +175,14 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
 
   const totalPages = Math.ceil(filteredAttestations.length / pageSize);
   const paginatedAttestations = filteredAttestations.slice(0, pageSize);
+
+  if (!isClient) {
+    return (
+      <LoadingWrapper>
+        <Spinner />
+      </LoadingWrapper>
+    );
+  }
 
   if (error) {
     return (
