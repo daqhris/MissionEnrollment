@@ -1,14 +1,12 @@
 import React from "react";
 import "@rainbow-me/rainbowkit/styles.css";
 import "@coinbase/onchainkit/styles.css";
-import { ApolloProvider } from "@apollo/client";
 import StyledComponentsRegistry from "~~/app/registry";
 import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
 import { ThemeProvider } from "~~/components/ThemeProvider";
 import { Footer } from "~~/components/Footer";
 import "~~/styles/globals.css";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
-import { apolloClient } from "~~/services/apollo/apolloClient";
 
 export const metadata = getMetadata({
   title: "Mission Enrollment",
@@ -22,10 +20,8 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }): React.Reac
         <ThemeProvider>
           <ScaffoldEthAppWithProviders>
             <StyledComponentsRegistry>
-              <ApolloProvider client={apolloClient}>
-                {children}
-                <Footer />
-              </ApolloProvider>
+              {children}
+              <Footer />
             </StyledComponentsRegistry>
           </ScaffoldEthAppWithProviders>
         </ThemeProvider>

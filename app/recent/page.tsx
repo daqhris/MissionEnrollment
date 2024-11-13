@@ -3,6 +3,7 @@
 import React, { Suspense } from 'react';
 import { RecentAttestationsView } from '../../components/RecentAttestationsView';
 import { ErrorBoundary } from 'react-error-boundary';
+import { ClientLayout } from '../../components/ClientLayout';
 
 function ErrorFallback({ error }: { error: Error }) {
   return (
@@ -27,7 +28,9 @@ export default function RecentAttestationsPage() {
       <h1 className="text-3xl font-bold mb-8">Recent Attestations</h1>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Suspense fallback={<LoadingFallback />}>
-          <RecentAttestationsView title="Recent Attestations" pageSize={20} />
+          <ClientLayout>
+            <RecentAttestationsView title="Recent Attestations" pageSize={20} />
+          </ClientLayout>
         </Suspense>
       </ErrorBoundary>
     </div>
