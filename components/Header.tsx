@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useCallback, useRef, useState, ComponentType } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import Link, { LinkProps } from "next/link";
 import { usePathname } from "next/navigation";
 import tw from "tailwind-styled-components";
 import { Bars3Icon } from "@heroicons/react/24/outline";
@@ -10,7 +10,25 @@ import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaff
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 import { useChainId } from 'wagmi';
 
-const StyledLink: ComponentType<any> = Link;
+interface StyledLinkProps extends LinkProps {
+  className?: string;
+  children?: React.ReactNode;
+  $isActive?: boolean;  // Add support for styled-components props
+}
+
+const StyledLink = React.forwardRef<HTMLAnchorElement, StyledLinkProps>(
+  ({ className, children, $isActive, ...props }, ref) => (
+    <Link
+      {...props}
+      ref={ref}
+      className={className}
+    >
+      {children}
+    </Link>
+  )
+);
+
+StyledLink.displayName = 'StyledLink';
 
 type HeaderMenuLink = {
   label: string;
