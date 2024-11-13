@@ -1,5 +1,5 @@
 declare module 'tailwind-styled-components' {
-  import { ComponentType, PropsWithChildren, HTMLAttributes } from 'react';
+  import { ComponentType, PropsWithChildren, HTMLAttributes, AnchorHTMLAttributes, InputHTMLAttributes, ButtonHTMLAttributes } from 'react';
 
   export interface TwComponent extends ComponentType<any> {
     tw: string;
@@ -13,20 +13,20 @@ declare module 'tailwind-styled-components' {
   }
 
   interface TwElements {
-    div: TwElementFn;
-    p: TwElementFn;
-    h1: TwElementFn;
-    h2: TwElementFn;
-    h3: TwElementFn;
-    input: TwElementFn;
-    button: TwElementFn;
-    span: TwElementFn;
-    a: TwElementFn;
-    ul: TwElementFn;
-    li: TwElementFn;
-    nav: TwElementFn;
-    footer: TwElementFn;
-    label: TwElementFn;
+    div: TwElementFn & ComponentType<HTMLAttributes<HTMLDivElement>>;
+    p: TwElementFn & ComponentType<HTMLAttributes<HTMLParagraphElement>>;
+    h1: TwElementFn & ComponentType<HTMLAttributes<HTMLHeadingElement>>;
+    h2: TwElementFn & ComponentType<HTMLAttributes<HTMLHeadingElement>>;
+    h3: TwElementFn & ComponentType<HTMLAttributes<HTMLHeadingElement>>;
+    input: TwElementFn & ComponentType<InputHTMLAttributes<HTMLInputElement>>;
+    button: TwElementFn & ComponentType<ButtonHTMLAttributes<HTMLButtonElement>>;
+    span: TwElementFn & ComponentType<HTMLAttributes<HTMLSpanElement>>;
+    a: TwElementFn & ComponentType<AnchorHTMLAttributes<HTMLAnchorElement>>;
+    ul: TwElementFn & ComponentType<HTMLAttributes<HTMLUListElement>>;
+    li: TwElementFn & ComponentType<HTMLAttributes<HTMLLIElement>>;
+    nav: TwElementFn & ComponentType<HTMLAttributes<HTMLElement>>;
+    footer: TwElementFn & ComponentType<HTMLAttributes<HTMLElement>>;
+    label: TwElementFn & ComponentType<HTMLAttributes<HTMLLabelElement>>;
     [key: string]: TwElementFn;
   }
 
