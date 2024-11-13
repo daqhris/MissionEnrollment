@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense } from 'react';
+import React from 'react';
 import { RecentAttestationsView } from '../../components/RecentAttestationsView';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ClientLayout } from '../../components/ClientLayout';
@@ -27,11 +27,9 @@ export default function RecentAttestationsPage() {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">Recent Attestations</h1>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <Suspense fallback={<LoadingFallback />}>
-          <ClientLayout>
-            <RecentAttestationsView title="Recent Attestations" pageSize={20} />
-          </ClientLayout>
-        </Suspense>
+        <ClientLayout>
+          <RecentAttestationsView title="Recent Attestations" pageSize={20} />
+        </ClientLayout>
       </ErrorBoundary>
     </div>
   );
