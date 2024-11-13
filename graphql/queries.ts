@@ -6,7 +6,7 @@ export const GET_RECENT_ATTESTATIONS = gql`
       take: $take
       skip: $skip
       orderBy: { time: DESC }
-      where: { attester: $attester }
+      where: { attester: { equals: $attester } }
     ) {
       id
       attester
@@ -41,7 +41,7 @@ export const GET_ATTESTATION_BY_ID = gql`
 
 export const GET_ATTESTATIONS_BY_RECIPIENT = gql`
   query GetAttestationsByRecipient($address: String!) {
-    attestations(where: { recipient: $address }) {
+    attestations(where: { recipient: { equals: $address } }) {
       id
       attester
       recipient
