@@ -41,7 +41,7 @@ const AttestationList = tw.div`
   w-full
   max-w-3xl
   space-y-6
-`;
+` as unknown as React.FC<React.HTMLAttributes<HTMLDivElement>>;
 
 const AttestationItem = tw.div`
   bg-gray-800
@@ -50,7 +50,7 @@ const AttestationItem = tw.div`
   shadow-2xl
   p-6
   backdrop-blur-sm
-`;
+` as unknown as React.FC<React.HTMLAttributes<HTMLDivElement>>;
 
 const Title = tw.h1`
   text-3xl
@@ -59,7 +59,7 @@ const Title = tw.h1`
   text-center
   text-white
   mt-4
-`;
+` as unknown as React.FC<React.HTMLAttributes<HTMLHeadingElement>>;
 
 const StatementText = tw.p`
   text-xl
@@ -67,31 +67,31 @@ const StatementText = tw.p`
   text-white
   mb-4
   mt-0
-`;
+` as unknown as React.FC<React.HTMLAttributes<HTMLParagraphElement>>;
 
 const ValidityText = tw.p`
   text-lg
   font-medium
   mb-2
   text-white
-`;
+` as unknown as React.FC<React.HTMLAttributes<HTMLParagraphElement>>;
 
 const CritiqueText = tw.p`
   text-gray-300
   mb-4
-`;
+` as unknown as React.FC<React.HTMLAttributes<HTMLParagraphElement>>;
 
 const TimeText = tw.p`
   text-sm
   text-gray-400
-`;
+` as unknown as React.FC<React.HTMLAttributes<HTMLParagraphElement>>;
 
 const LoadingWrapper = tw.div`
   flex
   justify-center
   items-center
   h-64
-`;
+` as unknown as React.FC<React.HTMLAttributes<HTMLDivElement>>;
 
 const FilterContainer = tw.div`
   flex
@@ -100,21 +100,21 @@ const FilterContainer = tw.div`
   gap-4
   mb-6
   px-4
-`;
+` as unknown as React.FC<React.HTMLAttributes<HTMLDivElement>>;
 
 const FilterInput = tw.input`
   input
   input-bordered
   w-full
   md:w-auto
-`;
+` as unknown as React.FC<React.InputHTMLAttributes<HTMLInputElement>>;
 
 const PaginationContainer = tw.div`
   flex
   justify-center
   gap-2
   mt-6
-`;
+` as unknown as React.FC<React.HTMLAttributes<HTMLDivElement>>;
 
 export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestationsViewProps): React.ReactElement {
   const [currentPage, setCurrentPage] = useState(1);
@@ -210,7 +210,7 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
                       revocable: attestation.revocable,
                       revocationTime: attestation.revocationTime,
                       expirationTime: attestation.expirationTime,
-                      data: attestation.data,
+                      data: attestation.data || '',
                     }}
                   />
                 </AttestationItem>
