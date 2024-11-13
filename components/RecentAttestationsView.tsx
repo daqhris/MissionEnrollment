@@ -63,18 +63,20 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
       ) : (
         <>
           <div className="grid gap-4 mb-8">
-            {attestations.map((attestation: any) => (
+            {attestations.map((attestation: Attestation) => (
               <div key={attestation.id} className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <p className="font-medium">Attester: {attestation?.attester || 'Unknown'}</p>
+                <p className="font-medium">Attester: {attestation.attester}</p>
                 <p className="text-sm text-gray-600">
-                  Time: {attestation?.time ? new Date(attestation.time * 1000).toLocaleString() : 'Unknown'}
+                  Time: {new Date(attestation.time * 1000).toLocaleString()}
                 </p>
-                {attestation?.decodedDataJson && (
+                {attestation.decodedDataJson && (
                   <pre className="text-sm bg-gray-50 p-2 mt-2 rounded overflow-auto">
                     {(() => {
                       try {
-                        return JSON.stringify(JSON.parse(attestation.decodedDataJson), null, 2);
+                        const decodedData = JSON.parse(attestation.decodedDataJson) as AttestationData[];
+                        return JSON.stringify(decodedData, null, 2);
                       } catch (e) {
+                        console.error('[RecentAttestationsView] JSON Parse Error:', e);
                         return 'Invalid JSON data';
                       }
                     })()}

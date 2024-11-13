@@ -6,7 +6,23 @@ export interface Attestation {
   revocable: boolean;
   revocationTime: string | null;
   expirationTime: string | null;
-  time: string;  // Add time field from GraphQL response
+  time: number;  // Changed from string to number to match GraphQL response
   data: string;
-  decodedDataJson?: string;  // Optional field for decoded data
+  decodedDataJson: string;  // Made required as it's always present in responses
+}
+
+export interface AttestationData {
+  name: string;
+  type: string;
+  signature: string;
+  value: {
+    name: string;
+    type: string;
+    value: string | number | boolean | { type: string; hex: string };
+  };
+}
+
+export interface AttestationQueryResponse {
+  attestations: Attestation[];
+  attestationsCount: number;
 }
