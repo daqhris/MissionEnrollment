@@ -1,8 +1,10 @@
-import React, { useEffect, useState, ChangeEvent } from 'react';
+import React, { useState } from 'react';
+import { useQuery } from '@apollo/client';
 import type { Attestation } from '../types/attestation';
 import { AttestationCard } from './AttestationCard';
 import { Spinner } from './assets/Spinner';
 import tw from 'tailwind-styled-components';
+import { GET_RECENT_ATTESTATIONS } from '../graphql/queries';
 
 interface AttestationWithDecodedData {
   decodedDataJson: string;
@@ -114,12 +116,19 @@ const PaginationContainer = tw.div`
   mt-6
 `;
 
-export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestationsViewProps): JSX.Element {
-  const [attestations, setAttestations] = useState<ExtendedAttestation[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestationsViewProps): React.ReactElement {
   const [currentPage, setCurrentPage] = useState(1);
   const [dateFilter, setDateFilter] = useState("");
   const [addressFilter, setAddressFilter] = useState("");
+
+  const { loading, error, data } = useQuery(GET_RECENT_ATTESTATIONS, {
+    variables: {
+      take: pageSize * 2,
+      skip: (currentPage - 1) * pageSize,
+      attester: addressFilter || "0x0fB2FA8306F661E31C7BFE76a5fF3A3F85a9f9A2"
+    },
+    fetchPolicy: 'cache-and-network'
+  });
 
   const parseDecodedData = (decodedDataJson: string): Record<string, string> => {
     try {
@@ -134,84 +143,29 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
     }
   };
 
-  useEffect(() => {
-    const fetchAttestations = async (): Promise<void> => {
-      try {
-        const response = await fetch("https://sepolia.easscan.org/graphql", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            query: `
-              query GetAttestations($attester: String, $take: Int!) {
-                attestations(
-                  where: {
-                    schemaId: {
-                      equals: "0x40e5abe23a3378a9a43b7e874c5cb8dfd4d6b0823501d317acee41e08d3af4dd"
-                    },
-                    attester: {
-                      equals: $attester
-                    }
-                  }
-                  orderBy: [{ time: desc }],
-                  take: $take
-                ) {
-                  attester
-                  decodedDataJson
-                  id
-                  time
-                }
-              }
-            `,
-            variables: {
-              attester: addressFilter || "0x0fB2FA8306F661E31C7BFE76a5fF3A3F85a9f9A2",
-              take: pageSize * 2 // Fetch extra for pagination
-            }
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch attestations");
-        }
-
-        const data = await response.json();
-        setAttestations(
-          data.data.attestations.map((attestation: AttestationWithDecodedData) => ({
-            ...attestation,
-            recipient: "",
-            refUID: "",
-            revocable: false,
-            revocationTime: "",
-            expirationTime: "",
-          })),
-        );
-      } catch (error) {
-        console.error("Error fetching attestations:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchAttestations();
-  }, [addressFilter, pageSize]);
-
-  // Filter and paginate attestations
-  const filteredAttestations = attestations.filter((attestation: ExtendedAttestation) => {
+  // Filter attestations by date
+  const filteredAttestations = data?.attestations?.filter((attestation: ExtendedAttestation) => {
     if (dateFilter) {
       const attestationDate = new Date(parseInt(attestation.time) * 1000).toISOString().split('T')[0];
       if (attestationDate !== dateFilter) return false;
     }
     return true;
-  });
+  }) || [];
 
   const totalPages = Math.ceil(filteredAttestations.length / pageSize);
-  const paginatedAttestations = filteredAttestations.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
+  const paginatedAttestations = filteredAttestations.slice(0, pageSize);
+
+  if (error) {
+    return (
+      <div className="text-red-500 text-center p-4">
+        Error loading attestations: {error.message}
+      </div>
+    );
+  }
 
   return (
     <>
-      {isLoading ? (
+      {loading ? (
         <LoadingWrapper>
           <Spinner />
         </LoadingWrapper>
@@ -268,7 +222,7 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
             <PaginationContainer>
               <button
                 className="btn btn-primary"
-                onClick={() => setCurrentPage((p: number) => Math.max(1, p - 1))}
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
               >
                 Previous
@@ -278,7 +232,7 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
               </span>
               <button
                 className="btn btn-primary"
-                onClick={() => setCurrentPage((p: number) => Math.min(totalPages, p + 1))}
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
               >
                 Next

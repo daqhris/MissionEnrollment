@@ -1,18 +1,29 @@
 declare module 'tailwind-styled-components' {
-  import { ComponentType } from 'react';
+  import { ComponentType, PropsWithChildren } from 'react';
 
   export interface TwComponent extends ComponentType<any> {
     tw: string;
   }
 
-  export default function tw<T extends keyof JSX.IntrinsicElements | ComponentType<any>>(
-    component: T,
-    styles?: string
-  ): T extends keyof JSX.IntrinsicElements ? ComponentType<JSX.IntrinsicElements[T]> : T;
+  type TemplateFn = (strings: TemplateStringsArray, ...values: any[]) => ComponentType<any>;
 
-  export function styled<T extends keyof JSX.IntrinsicElements | ComponentType<any>>(
-    component: T
-  ): (strings: TemplateStringsArray, ...interpolations: any[]) => T extends keyof JSX.IntrinsicElements
-    ? ComponentType<JSX.IntrinsicElements[T]>
-    : T;
+  interface TwElementFn {
+    (strings: TemplateStringsArray, ...values: any[]): ComponentType<any>;
+    (component: ComponentType<any>): ComponentType<any>;
+  }
+
+  interface TwElements {
+    div: TwElementFn;
+    p: TwElementFn;
+    h1: TwElementFn;
+    h2: TwElementFn;
+    h3: TwElementFn;
+    input: TwElementFn;
+    button: TwElementFn;
+    span: TwElementFn;
+    [key: string]: TwElementFn;
+  }
+
+  const tw: TwElements & TwElementFn;
+  export default tw;
 }
