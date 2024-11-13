@@ -16,19 +16,9 @@ interface StyledLinkProps extends LinkProps {
   $isActive?: boolean;
 }
 
-const BaseLink = React.forwardRef<HTMLAnchorElement, StyledLinkProps>(
-  ({ className, children, $isActive, ...props }, ref) => (
-    <Link
-      {...props}
-      ref={ref}
-      className={className}
-    >
-      {children}
-    </Link>
-  )
-);
-
-BaseLink.displayName = 'BaseLink';
+const StyledLink = tw(Link)<StyledLinkProps>`
+  ${(p: { $isActive?: boolean }): string => (p.$isActive ? "bg-blue-600 shadow-md" : "")}
+`;
 
 type HeaderMenuLink = {
   label: string;
@@ -84,7 +74,7 @@ const DropdownMenu = tw.ul`
   w-52
 `;
 
-const LogoLink = tw(BaseLink)`
+const LogoLink = tw(StyledLink)`
   hidden
   lg:flex
   items-center
@@ -147,8 +137,7 @@ const ChainIdentifier = tw.div`
   rounded-lg
 `;
 
-const MenuLink = tw(BaseLink)<{ $isActive: boolean }>`
-  ${(p: { $isActive: boolean }): string => (p.$isActive ? "bg-blue-600 shadow-md" : "")}
+const MenuLink = tw(StyledLink)<{ $isActive: boolean }>`
   hover:bg-blue-500
   hover:shadow-md
   focus:!bg-blue-600
