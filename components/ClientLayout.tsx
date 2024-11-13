@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ApolloProvider } from '@apollo/client';
-import { apolloClient } from '~/services/apollo/apolloClient';
+import { apolloClient } from '../services/apollo/apolloClient';
 import { Spinner } from './assets/Spinner';
 
 interface ClientLayoutProps {
