@@ -64,7 +64,7 @@ const DropdownMenu = tw.ul`
   w-52
 `;
 
-const LogoLink = tw(Link)`
+const LogoLink = tw(Link as any)`
   hidden
   lg:flex
   items-center
@@ -127,8 +127,8 @@ const ChainIdentifier = tw.div`
   rounded-lg
 `;
 
-const MenuLink = tw(Link)<{ $isActive: boolean }>`
-  ${(p): string => (p.$isActive ? "bg-blue-600 shadow-md" : "")}
+const MenuLink = tw(Link as any)<{ $isActive: boolean }>`
+  ${(p: { $isActive: boolean }): string => (p.$isActive ? "bg-blue-600 shadow-md" : "")}
   hover:bg-blue-500
   hover:shadow-md
   focus:!bg-blue-600
