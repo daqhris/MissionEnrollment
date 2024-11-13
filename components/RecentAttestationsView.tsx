@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import type { Attestation } from '../types/attestation';
