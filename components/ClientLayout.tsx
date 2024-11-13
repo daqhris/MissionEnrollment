@@ -1,8 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ApolloProvider } from '@apollo/client';
-import { apolloClient } from '../services/apollo/apolloClient';
 import { Spinner } from './assets/Spinner';
 
 interface ClientLayoutProps {
@@ -42,10 +40,6 @@ export function ClientLayout({ children }: ClientLayoutProps) {
     );
   }
 
-  console.log('[ClientLayout] Rendering with Apollo Provider...');
-  return (
-    <ApolloProvider client={apolloClient}>
-      {children}
-    </ApolloProvider>
-  );
+  console.log('[ClientLayout] Rendering children...');
+  return <>{children}</>;
 }
