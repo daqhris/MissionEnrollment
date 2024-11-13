@@ -13,10 +13,10 @@ import { useChainId } from 'wagmi';
 interface StyledLinkProps extends LinkProps {
   className?: string;
   children?: React.ReactNode;
-  $isActive?: boolean;  // Add support for styled-components props
+  $isActive?: boolean;
 }
 
-const StyledLink = React.forwardRef<HTMLAnchorElement, StyledLinkProps>(
+const BaseLink = React.forwardRef<HTMLAnchorElement, StyledLinkProps>(
   ({ className, children, $isActive, ...props }, ref) => (
     <Link
       {...props}
@@ -28,7 +28,7 @@ const StyledLink = React.forwardRef<HTMLAnchorElement, StyledLinkProps>(
   )
 );
 
-StyledLink.displayName = 'StyledLink';
+BaseLink.displayName = 'BaseLink';
 
 type HeaderMenuLink = {
   label: string;
@@ -84,7 +84,7 @@ const DropdownMenu = tw.ul`
   w-52
 `;
 
-const LogoLink = tw(StyledLink)`
+const LogoLink = tw(BaseLink)`
   hidden
   lg:flex
   items-center
@@ -147,7 +147,7 @@ const ChainIdentifier = tw.div`
   rounded-lg
 `;
 
-const MenuLink = tw(StyledLink)<{ $isActive: boolean }>`
+const MenuLink = tw(BaseLink)<{ $isActive: boolean }>`
   ${(p: { $isActive: boolean }): string => (p.$isActive ? "bg-blue-600 shadow-md" : "")}
   hover:bg-blue-500
   hover:shadow-md
