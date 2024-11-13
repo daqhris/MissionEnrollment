@@ -121,22 +121,25 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
   const [currentPage, setCurrentPage] = useState(1);
   const [dateFilter, setDateFilter] = useState("");
   const [addressFilter, setAddressFilter] = useState("");
+  const [isApolloReady, setIsApolloReady] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
+    setIsApolloReady(true);
   }, []);
 
   const { loading, error, data } = useQuery(GET_RECENT_ATTESTATIONS, {
     variables: {
-      take: pageSize * 2,
+      take: pageSize,
       skip: (currentPage - 1) * pageSize,
-      attester: addressFilter || undefined
+      attester: addressFilter || undefined,
     },
-    skip: !isClient,
+    skip: !isClient || !isApolloReady,
     fetchPolicy: 'network-only',
     onError: (error) => {
-      console.error("GraphQL query error:", error);
-    }
+      console.error('GraphQL query error:', error);
+    },
+    notifyOnNetworkStatusChange: true,
   });
 
   const parseDecodedData = (decodedDataJson: string | undefined): Record<string, string> => {
