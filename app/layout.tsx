@@ -7,8 +7,7 @@ import { ThemeProvider } from "~~/components/ThemeProvider";
 import { Footer } from "~~/components/Footer";
 import "~~/styles/globals.css";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
-import { ApolloProvider } from "@apollo/client";
-import { apolloClient } from "~~/services/apollo/apolloClient";
+import { ClientApolloProvider } from "~~/components/ClientApolloProvider";
 
 export const metadata = getMetadata({
   title: "Mission Enrollment",
@@ -22,10 +21,10 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }): React.Reac
         <ThemeProvider>
           <ScaffoldEthAppWithProviders>
             <StyledComponentsRegistry>
-              <ApolloProvider client={apolloClient}>
+              <ClientApolloProvider>
                 {children}
                 <Footer />
-              </ApolloProvider>
+              </ClientApolloProvider>
             </StyledComponentsRegistry>
           </ScaffoldEthAppWithProviders>
         </ThemeProvider>
