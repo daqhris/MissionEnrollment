@@ -53,7 +53,7 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 - Basename/ENS Integration: user name resolution via ethers.js with two-step verification
 - POAP API: Custom API route with caching, rate limiting, and a delay implementation
 - Smart Contracts: Solidity with OpenZeppelin libraries (UUPS proxy pattern)
-- Attestation: Ethereum Attestation Service (EAS) SDK v1.1 with role-based access
+- Attestation: Ethereum Attestation Service (EAS) SDK v2.7.0 with role-based access
 - OnchainKit: Integrated for identity and wallet functionalities
 - Middleware: Custom implementation for POAP API request handling with rate limiting
 
@@ -135,7 +135,7 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 `POAPVerification.sol`: Integrates with the POAP protocol for verifying real-life event attendance.
 
-`AttestationService.sol`: This contract implements onchain attestation using the Ethereum Attestation Service (EAS). It features role-based access control, with specific roles for attestation creators and administrators. The contract uses a custom schema for mission enrollment attestations, which includes the user's address, verified name, POAP verification status, and timestamp. The contract follows the UUPS (Universal Upgradeable Proxy Standard) pattern for upgradability while maintaining contract state and addresses. Integration with EAS is handled through the official EAS SDK v1.1.
+`AttestationService.sol`: This contract implements onchain attestation using the Ethereum Attestation Service (EAS). It features role-based access control, with specific roles for attestation creators and administrators. The contract uses a custom schema for mission enrollment attestations, which includes the user's name and POAP verification status. The contract follows the UUPS (Universal Upgradeable Proxy Standard) pattern for upgradability while maintaining contract state and addresses. Integration with EAS is handled through the official EAS SDK v2.7.0.
 
 ## Smart Contract Functions
 
@@ -148,20 +148,18 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 The attestation system leverages the Ethereum Attestation Service (EAS) infrastructure with the following components:
 
 ### Schema Details
-- **Schema Structure**: `address userAddress,string verifiedName,bool poapVerified,uint256 timestamp`
+- **Schema Structure**: `string name, bool poapVerified`
 - **Schema UID**: 0x46a1e77e9f1d74c8c60c8d8bd8129947b3c5f4d3e6e9497ae2e4701dd8e2c401
 - **Fields**:
-  - `userAddress`: Ethereum address of the enrolled user
-  - `verifiedName`: User's verified Basename or ENS name
+  - `name`: User's verified Basename or ENS name
   - `poapVerified`: Boolean indicating POAP verification status
-  - `timestamp`: Unix timestamp of attestation creation
 
 ### Contract Architecture
 - **Proxy Pattern**: UUPS (Universal Upgradeable Proxy Standard)
   - Allows contract upgrades while preserving state and address
   - Implements access control for upgrade operations
 - **Integration**:
-  - Uses EAS SDK v1.1 for attestation operations
+  - Uses EAS SDK v2.7.0 for attestation operations
   - Connects to Base's EAS contract at 0x4200000000000000000000000000000000000021
   - Implements role-based access control for attestation creation
 
