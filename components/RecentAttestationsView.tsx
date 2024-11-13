@@ -125,16 +125,22 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
     variables: {
       take: pageSize * 2,
       skip: (currentPage - 1) * pageSize,
-      attester: addressFilter || "0x0fB2FA8306F661E31C7BFE76a5fF3A3F85a9f9A2"
+      attester: addressFilter || undefined
     },
-    fetchPolicy: 'cache-and-network'
+    fetchPolicy: 'no-cache',
+    onError: (error) => {
+      console.error("GraphQL query error:", error);
+    }
   });
 
-  const parseDecodedData = (decodedDataJson: string): Record<string, string> => {
+  const parseDecodedData = (decodedDataJson: string | undefined): Record<string, string> => {
+    if (!decodedDataJson) return {};
     try {
       const parsedData: DecodedData[] = JSON.parse(decodedDataJson);
       return parsedData.reduce((acc, item) => {
-        acc[item.name] = item.value.value;
+        if (item?.value?.value) {
+          acc[item.name] = item.value.value;
+        }
         return acc;
       }, {} as Record<string, string>);
     } catch (error) {
@@ -143,14 +149,23 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
     }
   };
 
-  // Filter attestations by date
-  const filteredAttestations = data?.attestations?.filter((attestation: ExtendedAttestation) => {
-    if (dateFilter) {
-      const attestationDate = new Date(parseInt(attestation.time) * 1000).toISOString().split('T')[0];
-      if (attestationDate !== dateFilter) return false;
-    }
-    return true;
-  }) || [];
+  // Filter attestations by date if filter is set
+  const filteredAttestations = React.useMemo(() => {
+    if (!data?.attestations) return [];
+    return data.attestations.filter((attestation: ExtendedAttestation) => {
+      if (!attestation) return false;
+      if (dateFilter) {
+        try {
+          const attestationDate = new Date(parseInt(attestation.time) * 1000).toISOString().split('T')[0];
+          if (attestationDate !== dateFilter) return false;
+        } catch (error) {
+          console.error("Error parsing attestation date:", error);
+          return false;
+        }
+      }
+      return true;
+    });
+  }, [data?.attestations, dateFilter]);
 
   const totalPages = Math.ceil(filteredAttestations.length / pageSize);
   const paginatedAttestations = filteredAttestations.slice(0, pageSize);
@@ -164,7 +179,7 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
   }
 
   return (
-    <>
+    <div className="container mx-auto px-4">
       {loading ? (
         <LoadingWrapper>
           <Spinner />
@@ -184,39 +199,52 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
               type="text"
               value={addressFilter}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAddressFilter(e.target.value)}
-              placeholder="Filter by address"
+              placeholder="Filter by attester address"
             />
           </FilterContainer>
 
-          <AttestationList>
-            {paginatedAttestations.map((attestation: ExtendedAttestation) => {
-              const decodedData = parseDecodedData(attestation.decodedDataJson);
-              return (
-                <AttestationItem key={attestation.id}>
-                  <StatementText>{decodedData.requestedTextToVerify}</StatementText>
-                  <ValidityText>
-                    Validity: <span className="font-bold capitalize">{decodedData.validity}</span>
-                  </ValidityText>
-                  <CritiqueText>{decodedData.critique}</CritiqueText>
-                  <TimeText>
-                    Attested on: {new Date(parseInt(attestation.time) * 1000).toLocaleString()}
-                  </TimeText>
-                  <AttestationCard
-                    attestation={{
-                      id: attestation.id,
-                      attester: attestation.attester,
-                      recipient: attestation.recipient,
-                      refUID: attestation.refUID,
-                      revocable: attestation.revocable,
-                      revocationTime: attestation.revocationTime,
-                      expirationTime: attestation.expirationTime,
-                      data: attestation.data || '',
-                    }}
-                  />
-                </AttestationItem>
-              );
-            })}
-          </AttestationList>
+          {paginatedAttestations.length > 0 ? (
+            <AttestationList>
+              {paginatedAttestations.map((attestation: ExtendedAttestation) => {
+                if (!attestation) return null;
+                const decodedData = parseDecodedData(attestation.decodedDataJson);
+                return (
+                  <AttestationItem key={attestation.id}>
+                    {decodedData.requestedTextToVerify && (
+                      <StatementText>{decodedData.requestedTextToVerify}</StatementText>
+                    )}
+                    {decodedData.validity && (
+                      <ValidityText>
+                        Validity: <span className="font-bold capitalize">{decodedData.validity}</span>
+                      </ValidityText>
+                    )}
+                    {decodedData.critique && (
+                      <CritiqueText>{decodedData.critique}</CritiqueText>
+                    )}
+                    <TimeText>
+                      Attested on: {new Date(parseInt(attestation.time) * 1000).toLocaleString()}
+                    </TimeText>
+                    <AttestationCard
+                      attestation={{
+                        id: attestation.id,
+                        attester: attestation.attester,
+                        recipient: attestation.recipient,
+                        refUID: attestation.refUID,
+                        revocable: attestation.revocable,
+                        revocationTime: attestation.revocationTime,
+                        expirationTime: attestation.expirationTime,
+                        data: attestation.data || '',
+                      }}
+                    />
+                  </AttestationItem>
+                );
+              })}
+            </AttestationList>
+          ) : (
+            <div className="text-center text-gray-400 py-8">
+              No attestations found
+            </div>
+          )}
 
           {totalPages > 1 && (
             <PaginationContainer>
@@ -241,6 +269,6 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
           )}
         </>
       )}
-    </>
+    </div>
   );
 }
