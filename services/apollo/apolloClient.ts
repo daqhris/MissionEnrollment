@@ -2,6 +2,8 @@ import { ApolloClient, InMemoryCache, HttpLink, from } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 import { RetryLink } from '@apollo/client/link/retry';
 
+let apolloClientInstance: ApolloClient<any> | null = null;
+
 console.log('[Apollo] Initializing Apollo Client configuration...');
 
 const httpLink = new HttpLink({
@@ -40,26 +42,50 @@ const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) 
   return forward(operation);
 });
 
-console.log('[Apollo] Creating Apollo Client instance...');
+function createApolloClient() {
+  console.log('[Apollo] Creating Apollo Client instance...');
 
-export const apolloClient = new ApolloClient({
-  link: from([errorLink, retryLink, httpLink]),
-  cache: new InMemoryCache({
-    addTypename: false
-  }),
-  defaultOptions: {
-    watchQuery: {
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-      notifyOnNetworkStatusChange: true,
-    },
-    query: {
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-      notifyOnNetworkStatusChange: true,
-    },
-  },
-  connectToDevTools: true
-});
+  try {
+    if (!apolloClientInstance) {
+      apolloClientInstance = new ApolloClient({
+        link: from([errorLink, retryLink, httpLink]),
+        cache: new InMemoryCache({
+          addTypename: true,
+          typePolicies: {
+            Query: {
+              fields: {
+                attestations: {
+                  merge(existing = [], incoming) {
+                    return [...incoming];
+                  },
+                },
+              },
+            },
+          },
+        }),
+        defaultOptions: {
+          watchQuery: {
+            fetchPolicy: 'cache-and-network',
+            errorPolicy: 'all',
+            notifyOnNetworkStatusChange: true,
+          },
+          query: {
+            fetchPolicy: 'cache-first',
+            errorPolicy: 'all',
+            notifyOnNetworkStatusChange: true,
+          },
+        },
+        connectToDevTools: process.env.NODE_ENV === 'development'
+      });
+      console.log('[Apollo] Apollo Client instance created successfully');
+    }
+    return apolloClientInstance;
+  } catch (error) {
+    console.error('[Apollo] Error creating Apollo Client:', error);
+    throw error;
+  }
+}
+
+export const apolloClient = createApolloClient();
 
 console.log('[Apollo] Apollo Client configuration complete');
