@@ -38,11 +38,11 @@ const LeftSection = tw.div`
   pointer-events-auto
 `;
 
-const ExplorerLink = tw(Link)`
-  btn 
-  btn-primary 
-  btn-sm 
-  font-normal 
+const StyledAnchor = tw.a`
+  btn
+  btn-primary
+  btn-sm
+  font-normal
   gap-1
 `;
 
@@ -92,10 +92,12 @@ export const Footer = (): JSX.Element => {
             {isLocalNetwork && (
               <>
                 <Faucet />
-                <ExplorerLink href="/blockexplorer" passHref>
-                  <MagnifyingGlassIcon className="h-4 w-4" />
-                  <span>Block Explorer</span>
-                </ExplorerLink>
+                <Link href="/blockexplorer" passHref>
+                  <StyledAnchor>
+                    <MagnifyingGlassIcon className="h-4 w-4" />
+                    <span>Block Explorer</span>
+                  </StyledAnchor>
+                </Link>
               </>
             )}
           </LeftSection>

@@ -1,8 +1,6 @@
-// @ts-check
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false, // Temporarily disabled for debugging
   typescript: {
     ignoreBuildErrors: process.env.NEXT_PUBLIC_IGNORE_BUILD_ERROR === "true",
   },
@@ -19,20 +17,18 @@ const nextConfig = {
     domains: ["api.poap.tech", "placehold.co", "assets.poap.xyz", "ipfs.io"],
     unoptimized: true,
   },
-  swcMinify: true,
   compiler: {
     styledComponents: true,
   },
   experimental: {
     forceSwcTransforms: true,
   },
-  output: 'export',
+  // Remove static export to support dynamic routes and middleware
+  // output: 'export',
   basePath: process.env.CUSTOM_DOMAIN === "true" ? "" : process.env.GITHUB_PAGES === "true" ? "/MissionEnrollment" : "",
   assetPrefix: process.env.CUSTOM_DOMAIN === "true" ? "" : process.env.GITHUB_PAGES === "true" ? "/MissionEnrollment/" : "",
-  // Ensure client-side rendering works properly with static export
+  // Ensure client-side rendering works properly
   trailingSlash: true,
-  // Optimize for static export
-  optimizeFonts: false,
 };
 
 module.exports = nextConfig;

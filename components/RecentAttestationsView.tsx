@@ -1,195 +1,132 @@
-import React, { useEffect, useState } from "react";
-import type { Attestation } from "../types/attestation";
-import { AttestationCard } from "./AttestationCard";
-import { Spinner } from "./assets/Spinner";
-import tw from "tailwind-styled-components";
+'use client';
 
-interface AttestationWithDecodedData {
-  decodedDataJson: string;
-  time: string;
-}
-
-type ExtendedAttestation = Attestation & AttestationWithDecodedData;
-
-interface DecodedData {
-  name: string;
-  type: string;
-  signature: string;
-  value: {
-    name: string;
-    type: string;
-    value: string;
-  };
-}
-
-const AttestationList = tw.div`
-  w-full 
-  max-w-3xl 
-  space-y-6
-`;
-
-const AttestationItem = tw.div`
-  bg-gray-800 
-  bg-opacity-95 
-  rounded-2xl 
-  shadow-2xl 
-  p-6 
-  backdrop-blur-sm
-`;
-
-const Title = tw.h1`
-  text-3xl 
-  font-extrabold 
-  mb-6 
-  text-center 
-  text-white 
-  mt-4
-`;
-
-const StatementText = tw.p`
-  text-xl 
-  font-semibold 
-  text-white 
-  mb-4
-  mt-0
-`;
-
-const ValidityText = tw.p`
-  text-lg 
-  font-medium 
-  mb-2
-  text-white
-
-`;
-
-const CritiqueText = tw.p`
-  text-gray-300 
-  mb-4
-`;
-
-const TimeText = tw.p`
-  text-sm 
-  text-gray-400
-`;
-
-const LoadingWrapper = tw.div`
-  flex
-  justify-center
-  items-center
-  h-64
-`;
+import React, { useState } from 'react';
+import { useQuery } from '@apollo/client';
+import { GET_RECENT_ATTESTATIONS } from '../graphql/queries';
+import { Spinner } from './assets/Spinner';
+import { Attestation, AttestationData } from '../types/attestation';
+import { ErrorBoundary } from 'react-error-boundary';
 
 interface RecentAttestationsViewProps {
   title: string;
+  pageSize?: number;
 }
 
-export function RecentAttestationsView({ title }: RecentAttestationsViewProps): JSX.Element {
-  const [attestations, setAttestations] = useState<ExtendedAttestation[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+function ErrorFallback({ error }: { error: Error }) {
+  return (
+    <div className="text-red-500 p-4 rounded-lg bg-red-50 border border-red-200">
+      <h2 className="text-xl font-bold mb-2">Something went wrong</h2>
+      <pre className="text-sm overflow-auto">{error.message}</pre>
+    </div>
+  );
+}
 
-  const parseDecodedData = (decodedDataJson: string): Record<string, string> => {
-    const parsedData: DecodedData[] = JSON.parse(decodedDataJson);
-    return parsedData.reduce((acc, item) => {
-      acc[item.name] = item.value.value;
-      return acc;
-    }, {} as Record<string, string>);
+export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestationsViewProps): React.ReactElement {
+  const [page, setPage] = useState(1);
+  const [error, setError] = useState<Error | null>(null);
+
+  const { loading, error: queryError, data } = useQuery(GET_RECENT_ATTESTATIONS, {
+    variables: {
+      take: pageSize,
+      skip: (page - 1) * pageSize,
+      attester: null
+    },
+    notifyOnNetworkStatusChange: true,
+    onError: (error) => {
+      console.error('[RecentAttestationsView] GraphQL Error:', error);
+      setError(error);
+    }
+  });
+
+  const content = () => {
+    // Handle initial loading state
+    if (loading && !data) {
+      return (
+        <div className="flex justify-center items-center h-64">
+          <Spinner />
+        </div>
+      );
+    }
+
+    // Handle error state
+    if (queryError || error) {
+      const errorMessage = queryError?.message || error?.message || 'An unknown error occurred';
+      return (
+        <div className="text-red-500 p-4 rounded-lg bg-red-50 border border-red-200">
+          <h2 className="text-xl font-bold mb-2">Error Loading Attestations</h2>
+          <pre className="text-sm overflow-auto">{errorMessage}</pre>
+        </div>
+      );
+    }
+
+    // Safely access data with fallbacks
+    const attestations = data?.attestations || [];
+    const totalCount = data?.attestationsCount || 0;
+    const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
+
+    return (
+      <>
+        {attestations.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="text-gray-500">No attestations found</p>
+          </div>
+        ) : (
+          <>
+            <div className="grid gap-4 mb-8">
+              {attestations.map((attestation: Attestation) => (
+                <div key={attestation.id} className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                  <p className="font-medium">Attester: {attestation.attester}</p>
+                  <p className="text-sm text-gray-600">
+                    Time: {new Date(attestation.time * 1000).toLocaleString()}
+                  </p>
+                  {attestation.decodedDataJson && (
+                    <pre className="text-sm bg-gray-50 p-2 mt-2 rounded overflow-auto">
+                      {(() => {
+                        try {
+                          const decodedData = JSON.parse(attestation.decodedDataJson) as AttestationData[];
+                          return JSON.stringify(decodedData, null, 2);
+                        } catch (e) {
+                          console.error('[RecentAttestationsView] JSON Parse Error:', e);
+                          return 'Invalid JSON data';
+                        }
+                      })()}
+                    </pre>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <div className="flex justify-center gap-2">
+              <button
+                onClick={() => setPage(p => Math.max(1, p - 1))}
+                disabled={page === 1 || loading}
+                className="px-4 py-2 border rounded disabled:opacity-50"
+              >
+                Previous
+              </button>
+              <span className="px-4 py-2">
+                Page {page} of {totalPages}
+              </span>
+              <button
+                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                disabled={page === totalPages || loading}
+                className="px-4 py-2 border rounded disabled:opacity-50"
+              >
+                Next
+              </button>
+            </div>
+          </>
+        )}
+      </>
+    );
   };
 
-  useEffect(() => {
-    const fetchAttestations = async (): Promise<void> => {
-      try {
-        const response = await fetch("https://sepolia.easscan.org/graphql", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            query: `
-              query GetAttestations {
-                attestations(
-                  where: {
-                    schemaId: {
-                      equals: "0x40e5abe23a3378a9a43b7e874c5cb8dfd4d6b0823501d317acee41e08d3af4dd"
-                    },
-                    attester: {
-                      equals: "0x0fB2FA8306F661E31C7BFE76a5fF3A3F85a9f9A2"
-                    }
-                  }
-                  orderBy: [{ time: desc }],
-                  take: 20
-                ) {
-                  attester
-                  decodedDataJson
-                  id
-                  time
-                }
-              }
-            `,
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch attestations");
-        }
-
-        const data = await response.json();
-        setAttestations(
-          data.data.attestations.map((attestation: AttestationWithDecodedData) => ({
-            ...attestation,
-            recipient: "",
-            refUID: "",
-            revocable: false,
-            revocationTime: "",
-            expirationTime: "",
-          })),
-        );
-      } catch (error) {
-        console.error("Error fetching attestations:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchAttestations();
-  }, []);
-
   return (
-    <>
-      {isLoading ? (
-        <LoadingWrapper>
-          <Spinner />
-        </LoadingWrapper>
-      ) : (
-        <>
-          <Title>{title}</Title>
-
-          <AttestationList>
-            {attestations.map((attestation: ExtendedAttestation) => {
-              const decodedData = parseDecodedData(attestation.decodedDataJson);
-              return (
-                <AttestationItem key={attestation.id}>
-                  <StatementText>{decodedData.requestedTextToVerify}</StatementText>
-                  <ValidityText>
-                    Validity: <span className="font-bold capitalize">{decodedData.validity}</span>
-                  </ValidityText>
-                  <CritiqueText>{decodedData.critique}</CritiqueText>
-                  <TimeText>Attested on: {new Date(parseInt(attestation.time) * 1000).toLocaleString()}</TimeText>
-                  <AttestationCard
-                    attestation={{
-                      id: attestation.id,
-                      attester: attestation.attester,
-                      recipient: attestation.recipient,
-                      refUID: attestation.refUID,
-                      revocable: attestation.revocable,
-                      revocationTime: attestation.revocationTime,
-                      expirationTime: attestation.expirationTime,
-                      data: attestation.data,
-                    }}
-                  />
-                </AttestationItem>
-              );
-            })}
-          </AttestationList>
-        </>
-      )}
-    </>
+    <div className="container mx-auto px-4">
+      <h1 className="text-3xl font-bold mb-8 text-center">{title}</h1>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        {content()}
+      </ErrorBoundary>
+    </div>
   );
 }

@@ -1,0 +1,12 @@
+yarn run v1.22.22
+$ next dev
+   ▲ Next.js 15.0.3
+   - Local:        http://localhost:3000
+   - Environments: .env.local, .env
+   - Experiments (use with caution):
+     · forceSwcTransforms
+
+ ✓ Starting...
+ ✓ Ready in 1555ms
+   Reload env: .env.local
+[?25h

@@ -2,7 +2,7 @@
 
 import React, { useCallback, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import Link, { LinkProps } from "next/link";
 import { usePathname } from "next/navigation";
 import tw from "tailwind-styled-components";
 import { Bars3Icon } from "@heroicons/react/24/outline";
@@ -10,137 +10,120 @@ import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaff
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 import { useChainId } from 'wagmi';
 
+interface NavLinkProps {
+  href: string;
+  children: React.ReactNode;
+  isActive?: boolean;
+  passHref?: boolean;
+}
+
+const NavLink: React.FC<NavLinkProps> = ({ href, children, isActive, passHref }) => (
+  <div className={`${isActive ? "bg-blue-600 shadow-md" : ""}`}>
+    <Link href={href} passHref={passHref} className={`
+      hover:bg-blue-500
+      hover:shadow-md
+      focus:!bg-blue-600
+      active:!text-white
+      py-1.5
+      px-3
+      text-sm
+      rounded-full
+      gap-2
+      grid
+      grid-flow-col
+    `}>
+      {children}
+    </Link>
+  </div>
+);
+
 type HeaderMenuLink = {
   label: string;
   href: string;
   icon?: React.ReactNode;
 };
 
-const NavBar = tw.div`
-  sticky
-  lg:static
-  top-0
-  navbar
-  bg-gradient-to-r
-  from-blue-900
-  to-blue-800
-  min-h-0
-  flex-shrink-0
-  justify-between
-  z-20
-  shadow-md
-  px-0
-  sm:px-2
-`;
+const NavBar = ({ children }: { children: React.ReactNode }) => (
+  <div className="sticky lg:static top-0 navbar bg-gradient-to-r from-blue-900 to-blue-800 min-h-0 flex-shrink-0 justify-between z-20 shadow-md px-0 sm:px-2">
+    {children}
+  </div>
+);
 
-const NavbarStart = tw.div`
-  navbar-start
-  w-auto
-  lg:w-1/2
-`;
+const NavbarStart = ({ children }: { children: React.ReactNode }) => (
+  <div className="navbar-start w-auto lg:w-1/2">
+    {children}
+  </div>
+);
 
-const DropdownContainer = tw.div`
-  lg:hidden
-  dropdown
-`;
+const DropdownContainer = React.forwardRef<HTMLDivElement, { children: React.ReactNode }>(
+  (props, ref) => (
+    <div ref={ref} className="lg:hidden dropdown">
+      {props.children}
+    </div>
+  )
+);
 
-const BurgerMenuButton = tw.label<{ $isOpen: boolean }>`
-  ml-1
-  btn
-  text-white
-  ${(p): string => (p.$isOpen ? "hover:bg-blue-600" : "hover:bg-blue-700")}
-`;
+const BurgerMenuButton = ({ isOpen, onClick, children }: { isOpen: boolean, onClick: () => void, children: React.ReactNode }) => (
+  <label
+    tabIndex={0}
+    className={`ml-1 btn text-white ${isOpen ? "hover:bg-blue-600" : "hover:bg-blue-700"}`}
+    onClick={onClick}
+  >
+    {children}
+  </label>
+);
 
-const DropdownMenu = tw.ul`
-  menu
-  menu-compact
-  dropdown-content
-  mt-3
-  p-2
-  shadow-lg
-  bg-blue-900
-  text-white
-  rounded-lg
-  w-52
-`;
+const DropdownMenu = ({ children, onClick }: { children: React.ReactNode, onClick: () => void }) => (
+  <ul
+    tabIndex={0}
+    className="menu menu-compact dropdown-content mt-3 p-2 shadow-lg bg-blue-900 text-white rounded-lg w-52"
+    onClick={onClick}
+  >
+    {children}
+  </ul>
+);
 
-const LogoLink = tw(Link)`
-  hidden
-  lg:flex
-  items-center
-  gap-2
-  ml-4
-  mr-6
-  shrink-0
-`;
+const LogoContainer = ({ children }: { children: React.ReactNode }) => (
+  <div className="flex relative w-24 h-12 overflow-hidden">
+    {children}
+  </div>
+);
 
-const LogoContainer = tw.div`
-  flex
-  relative
-  w-24
-  h-12
-  overflow-hidden
-`;
+const LogoText = ({ children }: { children: React.ReactNode }) => (
+  <div className="flex flex-col">
+    {children}
+  </div>
+);
 
-const LogoText = tw.div`
-  flex
-  flex-col
-`;
+const LogoTitle = ({ children }: { children: React.ReactNode }) => (
+  <span className="font-bold leading-tight">
+    {children}
+  </span>
+);
 
-const LogoTitle = tw.span`
-  font-bold
-  leading-tight
-`;
+const DesktopMenu = ({ children }: { children: React.ReactNode }) => (
+  <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">
+    {children}
+  </ul>
+);
 
-const DesktopMenu = tw.ul`
-  hidden
-  lg:flex
-  lg:flex-nowrap
-  menu
-  menu-horizontal
-  px-1
-  gap-2
-`;
+const NavbarCenter = ({ children }: { children?: React.ReactNode }) => (
+  <div className="navbar-center flex items-center justify-center">
+    {children}
+  </div>
+);
 
-const NavbarCenter = tw.div`
-  navbar-center
-  flex
-  items-center
-  justify-center
-`;
+const NavbarEnd = ({ children }: { children: React.ReactNode }) => (
+  <div className="navbar-end flex-grow mr-4">
+    {children}
+  </div>
+);
 
-const NavbarEnd = tw.div`
-  navbar-end
-  flex-grow
-  mr-4
-`;
-
-const ChainIdentifier = tw.div`
-  text-sm
-  font-bold
-  uppercase
-  text-white
-  bg-blue-500
-  hover:bg-blue-600
-  px-4
-  py-2
-  rounded-lg
-`;
-
-const MenuLink = tw(Link)<{ $isActive: boolean }>`
-  ${(p): string => (p.$isActive ? "bg-blue-600 shadow-md" : "")}
-  hover:bg-blue-500
-  hover:shadow-md
-  focus:!bg-blue-600
-  active:!text-white
-  py-1.5
-  px-3
-  text-sm
-  rounded-full
-  gap-2
-  grid
-  grid-flow-col
-`;
+const ChainIdentifier = ({ children }: { children: React.ReactNode }) => (
+  <div className="text-sm font-bold uppercase text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg">
+    {children}
+  </div>
+);
 
 export const menuLinks: HeaderMenuLink[] = [
   {
@@ -166,10 +149,10 @@ export const HeaderMenuLinks = (): JSX.Element => {
         const isActive = pathname === href;
         return (
           <li key={href}>
-            <MenuLink href={href} passHref $isActive={isActive}>
+            <NavLink href={href} isActive={isActive} passHref>
               {icon}
               <span>{label}</span>
-            </MenuLink>
+            </NavLink>
           </li>
         );
       })}
@@ -202,8 +185,7 @@ export const Header = (): JSX.Element => {
       <NavbarStart>
         <DropdownContainer ref={burgerMenuRef}>
           <BurgerMenuButton
-            tabIndex={0}
-            $isOpen={isDrawerOpen}
+            isOpen={isDrawerOpen}
             onClick={(): void => {
               setIsDrawerOpen((prevIsOpenState: boolean): boolean => !prevIsOpenState);
             }}
@@ -212,7 +194,6 @@ export const Header = (): JSX.Element => {
           </BurgerMenuButton>
           {isDrawerOpen && (
             <DropdownMenu
-              tabIndex={0}
               onClick={(): void => {
                 setIsDrawerOpen(false);
               }}
@@ -221,7 +202,7 @@ export const Header = (): JSX.Element => {
             </DropdownMenu>
           )}
         </DropdownContainer>
-        <LogoLink href="/" passHref>
+        <Link href="/" className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
           <LogoContainer>
             <Image alt="Mission Enrollment logo" className="cursor-pointer object-contain" fill src="/logo.png" />
           </LogoContainer>
@@ -229,7 +210,7 @@ export const Header = (): JSX.Element => {
             <LogoTitle>Mission Enrollment</LogoTitle>
             {/*<span className="text-xs">Ethereum dev stack</span>*/}
           </LogoText>
-        </LogoLink>
+        </Link>
         <DesktopMenu>
           <HeaderMenuLinks />
         </DesktopMenu>
