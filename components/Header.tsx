@@ -43,106 +43,87 @@ type HeaderMenuLink = {
   icon?: React.ReactNode;
 };
 
-const NavBar = tw.div`
-  sticky
-  lg:static
-  top-0
-  navbar
-  bg-gradient-to-r
-  from-blue-900
-  to-blue-800
-  min-h-0
-  flex-shrink-0
-  justify-between
-  z-20
-  shadow-md
-  px-0
-  sm:px-2
-`;
+const NavBar = ({ children }: { children: React.ReactNode }) => (
+  <div className="sticky lg:static top-0 navbar bg-gradient-to-r from-blue-900 to-blue-800 min-h-0 flex-shrink-0 justify-between z-20 shadow-md px-0 sm:px-2">
+    {children}
+  </div>
+);
 
-const NavbarStart = tw.div`
-  navbar-start
-  w-auto
-  lg:w-1/2
-`;
+const NavbarStart = ({ children }: { children: React.ReactNode }) => (
+  <div className="navbar-start w-auto lg:w-1/2">
+    {children}
+  </div>
+);
 
-const DropdownContainer = tw.div`
-  lg:hidden
-  dropdown
-`;
+const DropdownContainer = React.forwardRef<HTMLDivElement, { children: React.ReactNode }>(
+  (props, ref) => (
+    <div ref={ref} className="lg:hidden dropdown">
+      {props.children}
+    </div>
+  )
+);
 
-const BurgerMenuButton = tw.label<{ $isOpen: boolean }>`
-  ml-1
-  btn
-  text-white
-  ${(p: { $isOpen: boolean }): string => (p.$isOpen ? "hover:bg-blue-600" : "hover:bg-blue-700")}
-`;
+const BurgerMenuButton = ({ isOpen, onClick, children }: { isOpen: boolean, onClick: () => void, children: React.ReactNode }) => (
+  <label
+    tabIndex={0}
+    className={`ml-1 btn text-white ${isOpen ? "hover:bg-blue-600" : "hover:bg-blue-700"}`}
+    onClick={onClick}
+  >
+    {children}
+  </label>
+);
 
-const DropdownMenu = tw.ul`
-  menu
-  menu-compact
-  dropdown-content
-  mt-3
-  p-2
-  shadow-lg
-  bg-blue-900
-  text-white
-  rounded-lg
-  w-52
-`;
+const DropdownMenu = ({ children, onClick }: { children: React.ReactNode, onClick: () => void }) => (
+  <ul
+    tabIndex={0}
+    className="menu menu-compact dropdown-content mt-3 p-2 shadow-lg bg-blue-900 text-white rounded-lg w-52"
+    onClick={onClick}
+  >
+    {children}
+  </ul>
+);
 
-const LogoContainer = tw.div`
-  flex
-  relative
-  w-24
-  h-12
-  overflow-hidden
-`;
+const LogoContainer = ({ children }: { children: React.ReactNode }) => (
+  <div className="flex relative w-24 h-12 overflow-hidden">
+    {children}
+  </div>
+);
 
-const LogoText = tw.div`
-  flex
-  flex-col
-`;
+const LogoText = ({ children }: { children: React.ReactNode }) => (
+  <div className="flex flex-col">
+    {children}
+  </div>
+);
 
-const LogoTitle = tw.span`
-  font-bold
-  leading-tight
-`;
+const LogoTitle = ({ children }: { children: React.ReactNode }) => (
+  <span className="font-bold leading-tight">
+    {children}
+  </span>
+);
 
-const DesktopMenu = tw.ul`
-  hidden
-  lg:flex
-  lg:flex-nowrap
-  menu
-  menu-horizontal
-  px-1
-  gap-2
-`;
+const DesktopMenu = ({ children }: { children: React.ReactNode }) => (
+  <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">
+    {children}
+  </ul>
+);
 
-const NavbarCenter = tw.div`
-  navbar-center
-  flex
-  items-center
-  justify-center
-`;
+const NavbarCenter = ({ children }: { children: React.ReactNode }) => (
+  <div className="navbar-center flex items-center justify-center">
+    {children}
+  </div>
+);
 
-const NavbarEnd = tw.div`
-  navbar-end
-  flex-grow
-  mr-4
-`;
+const NavbarEnd = ({ children }: { children: React.ReactNode }) => (
+  <div className="navbar-end flex-grow mr-4">
+    {children}
+  </div>
+);
 
-const ChainIdentifier = tw.div`
-  text-sm
-  font-bold
-  uppercase
-  text-white
-  bg-blue-500
-  hover:bg-blue-600
-  px-4
-  py-2
-  rounded-lg
-`;
+const ChainIdentifier = ({ children }: { children: React.ReactNode }) => (
+  <div className="text-sm font-bold uppercase text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg">
+    {children}
+  </div>
+);
 
 export const menuLinks: HeaderMenuLink[] = [
   {
@@ -204,8 +185,7 @@ export const Header = (): JSX.Element => {
       <NavbarStart>
         <DropdownContainer ref={burgerMenuRef}>
           <BurgerMenuButton
-            tabIndex={0}
-            $isOpen={isDrawerOpen}
+            isOpen={isDrawerOpen}
             onClick={(): void => {
               setIsDrawerOpen((prevIsOpenState: boolean): boolean => !prevIsOpenState);
             }}
@@ -214,7 +194,6 @@ export const Header = (): JSX.Element => {
           </BurgerMenuButton>
           {isDrawerOpen && (
             <DropdownMenu
-              tabIndex={0}
               onClick={(): void => {
                 setIsDrawerOpen(false);
               }}
