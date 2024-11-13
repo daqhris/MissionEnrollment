@@ -19,14 +19,14 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }): React.Reac
     <html suppressHydrationWarning>
       <body>
         <ThemeProvider>
-          <ClientApolloProvider>
-            <ScaffoldEthAppWithProviders>
-              <StyledComponentsRegistry>
+          <ScaffoldEthAppWithProviders>
+            <StyledComponentsRegistry>
+              <ClientApolloProvider>
                 {children}
                 <Footer />
-              </StyledComponentsRegistry>
-            </ScaffoldEthAppWithProviders>
-          </ClientApolloProvider>
+              </ClientApolloProvider>
+            </StyledComponentsRegistry>
+          </ScaffoldEthAppWithProviders>
         </ThemeProvider>
       </body>
     </html>
