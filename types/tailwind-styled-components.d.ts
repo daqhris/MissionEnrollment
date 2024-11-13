@@ -21,10 +21,12 @@ declare module 'tailwind-styled-components' {
     input: TwElementFn;
     button: TwElementFn;
     span: TwElementFn;
-    a: TwElementFn;  // Add anchor element type
+    a: TwElementFn;
     [key: string]: TwElementFn;
   }
 
-  const tw: TwElements & TwElementFn;
+  type StyledComponent = <T>(Component: ComponentType<T>) => ComponentType<T & { className?: string }>;
+
+  const tw: TwElements & StyledComponent;
   export default tw;
 }
