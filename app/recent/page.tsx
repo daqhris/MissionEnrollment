@@ -3,6 +3,7 @@
 import React from 'react';
 import { RecentAttestationsView } from '../../components/RecentAttestationsView';
 import { ErrorBoundary } from 'react-error-boundary';
+import { ClientLayout } from '../../components/ClientLayout';
 
 function ErrorFallback({ error }: { error: Error }) {
   console.error('[RecentAttestationsPage] Error:', error);
@@ -18,16 +19,18 @@ export default function RecentAttestationsPage() {
   console.log('[RecentAttestationsPage] Rendering page');
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Recent Attestations</h1>
-      <ErrorBoundary
-        FallbackComponent={ErrorFallback}
-        onError={(error) => {
-          console.error('[RecentAttestationsPage] ErrorBoundary caught:', error);
-        }}
-      >
-        <RecentAttestationsView title="Recent Attestations" pageSize={20} />
-      </ErrorBoundary>
-    </div>
+    <ClientLayout>
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-8">Recent Attestations</h1>
+        <ErrorBoundary
+          FallbackComponent={ErrorFallback}
+          onError={(error) => {
+            console.error('[RecentAttestationsPage] ErrorBoundary caught:', error);
+          }}
+        >
+          <RecentAttestationsView title="Recent Attestations" pageSize={20} />
+        </ErrorBoundary>
+      </div>
+    </ClientLayout>
   );
 }
