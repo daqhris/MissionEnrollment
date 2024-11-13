@@ -56,6 +56,8 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 - Attestation: Ethereum Attestation Service (EAS) SDK v2.7.0 with role-based access
 - OnchainKit: Integrated for identity and wallet functionalities
 - Middleware: Custom implementation for POAP API request handling with rate limiting
+- GraphQL Integration: Apollo Client for querying attestation data from EAS GraphQL endpoint with pagination and caching
+- Recent Attestations: Paginated view of attestations with error handling and fallback UI
 
 ### Other Dev Tools
 
@@ -88,7 +90,6 @@ It is built as a web application with **Next.js** and **React**, and runs on top
   - `NEXT_PUBLIC_EAS_CONTRACT_ADDRESS`: Address of the EAS contract
   - `NEXT_PUBLIC_DEFAULT_CHAIN`: Chain ID (default: 8453 for Base)
   - `PRIVATE_KEY`: For contract deployment and testing
-- Note: Ensure that sensitive information such as private keys are securely managed and not included in public repositories. Use secure secrets management for deployment credentials.
 
 ### Installation
 
@@ -120,7 +121,7 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 ## Usage
 
-**Mission Enrollment** provides a streamlined, one-page application for people to enroll in advance of the _Zinneke Rescue Mission_.
+**Mission Enrollment** provides a streamlined, one-page application for people to enroll in advance of the **_Zinneke Rescue Mission_**.
 
 1. User connects their Ethereum wallet using the prioritized scaffold-eth connector and verifies their identity with .base.eth name verification.
 2. The application fetches and displays relevant POAPs, specifically ETHGlobal Brussels 2024.
@@ -189,12 +190,14 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
 - `EventAttendanceVerification.tsx`: This component verifies user attendance at events using POAPs, implementing a short delay animation and comprehensive error handling.
 - `OnchainAttestation.tsx`: This component manages the creation of onchain attestations on the Base Sepolia network. It integrates with the user's wallet using wagmi hooks and encodes POAP data for attestation.
 - `ContractUI.tsx`: This component provides the interface for attestation contract interactions, including network status, attestation creation, and history tracking.
+- `RecentAttestationsView.tsx`: Implements paginated view of attestations fetched via GraphQL from the EAS endpoint, featuring error boundaries and fallback UI for a smooth user experience.
+- `ClientApolloProvider.tsx`: Manages Apollo Client configuration for GraphQL integration, implementing caching policies and error handling for reliable data fetching.
 
 ## ETHGlobal Brussels 2024
 
 This web app includes a special feature that is dependent on participation in ETHGlobal Brussels 2024.
 Users are invited to verify ownership of an ETHGlobal-certified POAP, adding an extra layer of credibility to their enrollment attestations.
-The app builder and mission coordinator participated in this global hackathon when it was held for the first time in Belgium.
+The mission coordinator *daqhris.base.eth* participated in this global hackathon when it was held for the first time in Belgium.
 
 ## Deployed Contracts
 
@@ -206,13 +209,11 @@ The AttestationService contract has been deployed on the following networks:
 - POAP Contract: 0x22C1f6050E56d2876009903609a2cC3fEf83B415
 
 #### Proxy Contract Deployments
-Developer Address (0xF0bC5CC2B4866dAAeCb069430c60b24520077037):
+Developer Address (_mission-enrollment.base.eth_) 0xF0bC5CC2B4866dAAeCb069430c60b24520077037:
 - Proxy Implementation 1: [0x3a5b4651aae3f43ea4994d16c17c74ce012ce664](https://sepolia.basescan.org/address/0x3a5b4651aae3f43ea4994d16c17c74ce012ce664)
 - Proxy Implementation 2: [0x85a8c21e26695112b83c50d69eba08bfb533b0cb](https://sepolia.basescan.org/address/0x85a8c21e26695112b83c50d69eba08bfb533b0cb)
 
-For detailed information about the proxy pattern, schema, and EAS architecture, see the [EAS Architecture and Schema](#eas-architecture-and-schema) section above.
-
-Note: Contract addresses are maintained and updated regularly as the app is still under construction.
+*Note: Contract addresses are maintained and updated regularly as the app is still under construction.*
 
 ## External Resources
 
