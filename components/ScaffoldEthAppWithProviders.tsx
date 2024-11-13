@@ -57,32 +57,54 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
   const { resolvedTheme } = useTheme();
   const isDarkMode = resolvedTheme === "dark";
   const [mounted, setMounted] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     console.log('ScaffoldEthAppWithProviders mounting...');
     try {
-      console.log('Initializing basic provider setup...');
+      console.log('Initializing provider setup...');
+      if (!process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID) {
+        console.warn('Warning: NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID is not set');
+      }
       setMounted(true);
-      console.log('Component mounted successfully');
-    } catch (error) {
-      console.error('Error during initialization:', error);
+      console.log('Provider setup complete');
+    } catch (err) {
+      console.error('Error during provider initialization:', err);
+      setError(err as Error);
     }
     return () => {
       console.log('ScaffoldEthAppWithProviders unmounting...');
     };
   }, []);
 
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen p-4">
+        <div className="text-red-500 bg-red-50 p-4 rounded-lg">
+          <h2 className="text-xl font-bold mb-2">Provider Initialization Error</h2>
+          <pre className="text-sm">{error.message}</pre>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider
-          theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
-          avatar={BlockieAvatar as AvatarComponent}
-        >
-          <ProgressBar />
-          <ScaffoldEthApp>{children}</ScaffoldEthApp>
-        </RainbowKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <ErrorBoundary>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <ErrorBoundary>
+            <RainbowKitProvider
+              theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
+              avatar={BlockieAvatar as AvatarComponent}
+            >
+              <ErrorBoundary>
+                <ProgressBar />
+                <ScaffoldEthApp>{children}</ScaffoldEthApp>
+              </ErrorBoundary>
+            </RainbowKitProvider>
+          </ErrorBoundary>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </ErrorBoundary>
   );
 };
