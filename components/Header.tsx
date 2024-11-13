@@ -16,8 +16,8 @@ interface StyledLinkProps extends LinkProps {
   $isActive?: boolean;
 }
 
-const StyledLink = tw(Link)<StyledLinkProps>`
-  ${(p: { $isActive?: boolean }): string => (p.$isActive ? "bg-blue-600 shadow-md" : "")}
+const StyledLink = tw(Link)`
+  ${({ $isActive }: { $isActive?: boolean }) => $isActive ? "bg-blue-600 shadow-md" : ""}
 `;
 
 type HeaderMenuLink = {
@@ -137,7 +137,7 @@ const ChainIdentifier = tw.div`
   rounded-lg
 `;
 
-const MenuLink = tw(StyledLink)<{ $isActive: boolean }>`
+const MenuLink = tw(Link)`
   hover:bg-blue-500
   hover:shadow-md
   focus:!bg-blue-600
@@ -149,6 +149,7 @@ const MenuLink = tw(StyledLink)<{ $isActive: boolean }>`
   gap-2
   grid
   grid-flow-col
+  ${({ $isActive }: { $isActive: boolean }) => $isActive ? "bg-blue-600 shadow-md" : ""}
 `;
 
 export const menuLinks: HeaderMenuLink[] = [
