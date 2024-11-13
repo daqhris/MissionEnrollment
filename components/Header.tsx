@@ -107,7 +107,7 @@ const DesktopMenu = ({ children }: { children: React.ReactNode }) => (
   </ul>
 );
 
-const NavbarCenter = ({ children }: { children: React.ReactNode }) => (
+const NavbarCenter = ({ children }: { children?: React.ReactNode }) => (
   <div className="navbar-center flex items-center justify-center">
     {children}
   </div>
