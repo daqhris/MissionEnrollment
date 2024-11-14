@@ -5,7 +5,7 @@ export const GET_RECENT_ATTESTATIONS = gql`
     attestations(
       take: $take
       skip: $skip
-      orderBy: { time: DESC }
+      orderBy: { time: desc }
       where: { attester: { equals: $attester } }
     ) {
       id
