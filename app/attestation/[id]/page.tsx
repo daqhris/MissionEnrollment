@@ -1,9 +1,10 @@
 import React from 'react';
-import { ApolloProvider } from '@apollo/client';
-import { apolloClient } from '../../../services/apollo/apolloClient';
 import { GET_ATTESTATION_BY_ID, GET_RECENT_ATTESTATIONS } from '../../../graphql/queries';
 import { ClientAttestationView } from '../../../components/ClientAttestationView';
+import { ApolloWrapper } from '../../../components/ApolloWrapper';
+import { apolloClient } from '../../../services/apollo/apolloClient';
 
+// Generate static paths for recent attestations
 export async function generateStaticParams() {
   try {
     const { data } = await apolloClient.query({
@@ -24,10 +25,15 @@ export async function generateStaticParams() {
   }
 }
 
-export default function AttestationPage({ params }: { params: { id: string } }) {
+// Server component that wraps the client component
+export default async function AttestationPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   return (
-    <ApolloProvider client={apolloClient}>
+    <ApolloWrapper>
       <ClientAttestationView id={params.id} />
-    </ApolloProvider>
+    </ApolloWrapper>
   );
 }
