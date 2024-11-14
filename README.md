@@ -20,8 +20,8 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 ### 2. Event Attendance
 
-- Asks the user whether they attended the hackathon or not
-- Fetches and verifies Proof of Attendance Protocol (POAP) tokens
+- Asks the user whether they attended a hackathon or not
+- Fetches and verifies a Proof of Attendance Protocol (POAP) token
 - Features a short delay animation before revealing results
 - Sends requests to a POAP API endpoint for reliable POAP data retrieval
 - Filters specific POAPs related to ETHGlobal Brussels 2024
@@ -29,8 +29,8 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 ### 3. Enrollment Attestation
 
-- Utilizes Ethereum Attestation Service (EAS) for creating verifiable onchain records
-- Primarily supports attestations on Base Sepolia network
+- Utilizes Ethereum Attestation Service (EAS) for creating trustworthy onchain records
+- Primarily supports attestations on the Base Sepolia network
 - Includes comprehensive attestation data: user address, verified name, POAP data, and timestamp
 - Features attestation history tracking and display
 - Provides real-time network status and validation
@@ -40,11 +40,11 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 - Implements role-based access control for attestation creation
 - Provides functions for schema creation, attestation, and verification
 
-### 5. UI/UX Improvements
+### 5. Easy-peasy UI/UX
 
 - Responsive design with clear user feedback
 - Loading indicators and error messages for better user experience
-- Step-by-step guided process from identity verification to enrollment attestation
+- Step-by-step guided process from identity verification until enrollment attestation
 
 ## Technical Stack
 
@@ -121,12 +121,12 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 ## Usage
 
-**Mission Enrollment** provides a streamlined, one-page application for people to enroll in advance of the **_Zinneke Rescue Mission_**.
+**Mission Enrollment** provides a streamlined, one-page application for a select number of talented individuals to enroll in advance of the **_Zinneke Rescue Mission_**.
 
-1. User connects their Ethereum wallet using the prioritized scaffold-eth connector and verifies their identity with .base.eth name verification.
+1. User connects their Ethereum wallet using the prioritized scaffold-eth connector and verifies their identity with _.base.eth_ name verification.
 2. The application fetches and displays relevant POAPs, specifically ETHGlobal Brussels 2024.
 3. The EventAttendanceVerification component verifies event attendance through POAPs before proceeding to attestation.
-4. User creates an attestation on Base Sepolia network using EAS. All attestations can be verified on the [Base Network Explorer](https://sepolia.basescan.org/).
+4. User creates an attestation on the Base Sepolia network using EAS. All attestations can be verified on the public blockchain.
 
 ## API Routes
 
@@ -164,16 +164,6 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
   - Connects to Base's EAS contract at 0x4200000000000000000000000000000000000021
   - Implements role-based access control for attestation creation
 
-### Implementation Details
-- **Proxy Contracts** (Developer: 0xF0bC5CC2B4866dAAeCb069430c60b24520077037):
-  - 0x3a5b4651aae3f43ea4994d16c17c74ce012ce664
-  - 0x85a8c21e26695112b83c50d69eba08bfb533b0cb
-- **Features**:
-  - Schema creation and management
-  - Attestation creation with role validation
-  - POAP verification integration
-  - Attestation verification functions
-
 ### Resources and Contract Verification
 - [EAS Documentation](https://docs.attest.sh/)
 - [EAS SDK Reference](https://github.com/ethereum-attestation-service/eas-sdk)
@@ -197,7 +187,7 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
 
 This web app includes a special feature that is dependent on participation in ETHGlobal Brussels 2024.
 Users are invited to verify ownership of an ETHGlobal-certified POAP, adding an extra layer of credibility to their enrollment attestations.
-The mission coordinator *daqhris.base.eth* participated in this global hackathon when it was held for the first time in Belgium.
+The mission coordinator has participated in the global hackathon when it was held for the first time in Belgium.
 
 ## Deployed Contracts
 
@@ -208,12 +198,15 @@ The AttestationService contract has been deployed on the following networks:
 - Schema Registry: 0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0
 - POAP Contract: 0x22C1f6050E56d2876009903609a2cC3fEf83B415
 
+### Affiliated Wallet Addresses
+- __daqhris.base.eth__: 0xb5ee030c71e76c3e03b2a8d425dbb9b395037c82
+- __mission-enrollment.base.eth__: 0xF0bC5CC2B4866dAAeCb069430c60b24520077037
+
 #### Proxy Contract Deployments
-Developer Address (_mission-enrollment.base.eth_) 0xF0bC5CC2B4866dAAeCb069430c60b24520077037:
 - Proxy Implementation 1: [0x3a5b4651aae3f43ea4994d16c17c74ce012ce664](https://sepolia.basescan.org/address/0x3a5b4651aae3f43ea4994d16c17c74ce012ce664)
 - Proxy Implementation 2: [0x85a8c21e26695112b83c50d69eba08bfb533b0cb](https://sepolia.basescan.org/address/0x85a8c21e26695112b83c50d69eba08bfb533b0cb)
 
-*Note: Contract addresses are maintained and updated regularly as the app is still under construction.*
+_**Note**: Contract addresses are maintained and updated regularly as the app is still under construction._
 
 ## External Resources
 
@@ -226,9 +219,9 @@ Developer Address (_mission-enrollment.base.eth_) 0xF0bC5CC2B4866dAAeCb069430c60
 This project builds upon components from [Scaffold-ETH 2](https://github.com/scaffold-eth/scaffold-eth-2) and leverages open-source protocols for blockchain functionality.
 If necessary, users should verify the authenticity of mission enrollments through additional public means.
 
-The creation of this dApp was initiated by **daqhris.eth** during a virtual hackathon: [ETHGlobal Superhack 2024](https://ethglobal.com/events/superhack2024).
-It became possible thanks to the help and collaboration of **Devin**, the world's first AI software engineer from [Cognition.AI](https://www.cognition.ai/).
+The creation of this dApp was initiated by **daqhris** during a virtual hackathon: [ETHGlobal Superhack 2024](https://ethglobal.com/events/superhack2024).
+It is built thanks to the help and collaboration of **Devin**, the world's first AI software engineer from [Cognition.AI](https://www.cognition.ai/).
 
 **Hackathon Submission**: [ethglobal.com/showcase/missionenrollment-i4fkr](https://ethglobal.com/showcase/missionenrollment-i4fkr)
 
-**Recent Video Preview**: https://mission-enrollment.daqhris.com/Preview-MissionEnrollment-WebApp.mp4
+**Video Preview**: https://mission-enrollment.daqhris.com/Preview-MissionEnrollment-WebApp.mp4
