@@ -25,13 +25,12 @@ export async function generateStaticParams() {
   }
 }
 
-type Props = {
-  params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
-
 // Server component that wraps the client component
-export default function AttestationPage({ params }: Props) {
+export default function AttestationPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   return (
     <ApolloWrapper>
       <ClientAttestationView id={params.id} />
