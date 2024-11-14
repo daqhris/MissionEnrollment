@@ -2,7 +2,7 @@
 
 **An enrollment tool for a collaborative mission on the Superchain.**
 
-[![Mission Enrollment Logo](./public/logo.png)](https://mission-enrollment.vercel.app/)
+<img src="https://raw.githubusercontent.com/daqhris/MissionEnrollment/master/public/logo.png" alt="Mission Enrollment Logo" width="250" height="250">
 
 This web app allows the enrollment of its connected user for a up-coming onchain mission.
 Its use requires the verification of an onchain name, a token from an in-person event, and an attestation signed by the mission coordinator on the **Base** blockchain.
