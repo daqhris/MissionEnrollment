@@ -1,12 +1,11 @@
 import { gql } from "@apollo/client";
 
 export const GET_RECENT_ATTESTATIONS = gql`
-  query GetRecentAttestations($take: Int!, $skip: Int, $attester: String) {
+  query GetRecentAttestations($take: Int!, $skip: Int) {
     attestations(
       take: $take
       skip: $skip
       orderBy: { time: desc }
-      where: { attester: { equals: $attester } }
     ) {
       id
       attester

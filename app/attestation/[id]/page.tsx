@@ -11,8 +11,7 @@ export async function generateStaticParams() {
       query: GET_RECENT_ATTESTATIONS,
       variables: {
         take: 100, // Pre-generate paths for the 100 most recent attestations
-        skip: 0,
-        attester: null // Allow attestations from all attesters
+        skip: 0
       },
     });
 
@@ -26,7 +25,7 @@ export async function generateStaticParams() {
 }
 
 // Server component that wraps the client component
-export default function AttestationPage({
+export default async function AttestationPage({
   params,
 }: {
   params: { id: string };
