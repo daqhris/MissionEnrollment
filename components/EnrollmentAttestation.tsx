@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAccount, useChainId, usePublicClient } from 'wagmi';
 import { EAS, SchemaEncoder, type AttestationRequest } from "@ethereum-attestation-service/eas-sdk";
 import { ethers } from 'ethers';
-import { Card, CardContent, Typography, Button, CircularProgress, Box } from '@mui/material';
+import { Card, CardContent, Typography, Button, CircularProgress, Box, Link } from '@mui/material';
 import NetworkSwitchButton from './NetworkSwitchButton';
 import { BASE_SEPOLIA_CHAIN_ID, EAS_CONTRACT_ADDRESS, SCHEMA_UID } from '../utils/constants';
 
@@ -24,6 +24,12 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [transactionHash, setTransactionHash] = useState<string | null>(null);
+  const [previewData, setPreviewData] = useState<{
+    userAddress: string;
+    verifiedName: string;
+    poapVerified: boolean;
+    timestamp: number;
+  } | null>(null);
 
   const handleAttestationError = (err: Error) => {
     console.error('Attestation error:', {
@@ -144,24 +150,65 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
         <Typography variant="h5" gutterBottom>
           Create Enrollment Attestation
         </Typography>
+
+        {/* Preview Section */}
+        {previewData && (
+          <Box sx={{ mb: 3, p: 2, bgcolor: 'background.paper', borderRadius: 1 }}>
+            <Typography variant="h6" gutterBottom>Attestation Preview</Typography>
+            <Typography variant="body2">User Address: {previewData.userAddress}</Typography>
+            <Typography variant="body2">Verified Name: {previewData.verifiedName}</Typography>
+            <Typography variant="body2">POAP Verified: {previewData.poapVerified ? 'Yes' : 'No'}</Typography>
+            <Typography variant="body2">Timestamp: {new Date(previewData.timestamp * 1000).toLocaleString()}</Typography>
+          </Box>
+        )}
+
         {chainId !== BASE_SEPOLIA_CHAIN_ID && (
           <Box sx={{ mb: 2 }}>
             <NetworkSwitchButton targetChainId={BASE_SEPOLIA_CHAIN_ID} />
           </Box>
         )}
+
         {error && (
           <Typography color="error" sx={{ mb: 2 }}>
             {error}
           </Typography>
         )}
+
+        {/* Preview Button */}
+        <Button
+          variant="outlined"
+          onClick={() => setPreviewData({
+            userAddress: address || '',
+            verifiedName,
+            poapVerified,
+            timestamp: Math.floor(Date.now() / 1000)
+          })}
+          disabled={!address}
+          sx={{ mr: 2 }}
+        >
+          Preview Attestation
+        </Button>
+
+        {/* Create Attestation Button */}
         <Button
           variant="contained"
           onClick={createAttestation}
-          disabled={loading || chainId !== BASE_SEPOLIA_CHAIN_ID}
+          disabled={loading || chainId !== BASE_SEPOLIA_CHAIN_ID || !previewData}
           sx={{ mt: 2 }}
         >
           {loading ? <CircularProgress size={24} /> : 'Create Attestation'}
         </Button>
+
+        {/* Transaction Hash Display */}
+        {transactionHash && (
+          <Box sx={{ mt: 2 }}>
+            <Typography variant="body2">
+              Transaction Hash: <Link href={`https://sepolia.basescan.org/tx/${transactionHash}`} target="_blank" rel="noopener">
+                {transactionHash}
+              </Link>
+            </Typography>
+          </Box>
+        )}
       </CardContent>
     </Card>
   );
