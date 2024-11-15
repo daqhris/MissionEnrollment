@@ -65,10 +65,12 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
       const eas = new EAS(EAS_CONTRACT_ADDRESS);
 
       // Create Schema Encoder instance
-      const schemaEncoder = new SchemaEncoder("string name, bool poapVerified");
+      const schemaEncoder = new SchemaEncoder("address userAddress,string verifiedName,bool poapVerified,uint256 timestamp");
       const encodedData = schemaEncoder.encodeData([
-        { name: "name", value: verifiedName, type: "string" },
-        { name: "poapVerified", value: poapVerified, type: "bool" }
+        { name: "userAddress", value: address, type: "address" },
+        { name: "verifiedName", value: verifiedName, type: "string" },
+        { name: "poapVerified", value: poapVerified, type: "bool" },
+        { name: "timestamp", value: Math.floor(Date.now() / 1000), type: "uint256" }
       ]);
 
       // Prepare the attestation request

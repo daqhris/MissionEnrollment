@@ -14,6 +14,6 @@ export interface CustomSigner {
 }
 
 export const EAS_CONTRACT_ADDRESS: Record<string, `0x${string}`> = {
-  base: "0x4200000000000000000000000000000000000021" as `0x${string}`,
-  optimism: "0x4200000000000000000000000000000000000020" as `0x${string}`
+  base: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e" as `0x${string}`,
+  optimism: "0xC2679fBD37d54388Ce493F1DB75320D236e1815e" as `0x${string}`
 };
