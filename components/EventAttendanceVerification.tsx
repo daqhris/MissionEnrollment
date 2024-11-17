@@ -197,7 +197,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                   <div className="space-y-2">
                     <p className="text-base font-semibold">{poapDetails.event.name}</p>
                     <div className="flex flex-col text-sm opacity-75">
-                      <p>🎭 Role: {poapDetails.event.name.replace('ETHGlobal Brussels ', '')}</p>
+                      <p>🎭 Role: {poapDetails.event.name.replace('ETHGlobal Brussels 2024', '')}</p>
                       <p>📅 Date: {new Date(poapDetails.event.start_date).toLocaleDateString()}</p>
                       <p>📍 Venue: {EVENT_VENUE}</p>
                       <p>🎫 Token ID: {poapDetails.tokenId}</p>
@@ -212,7 +212,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
             className={`btn ${verificationStatus === 'success' ? 'btn-primary' : 'btn-disabled'} mt-4 w-full`}
             disabled={verificationStatus !== 'success'}
           >
-            Continue Enrollment
+            CONTINUE
           </button>
         </>
       )}

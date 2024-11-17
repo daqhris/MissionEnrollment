@@ -256,7 +256,7 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
     <Card>
       <CardContent>
         <Typography variant="h5" gutterBottom>
-          Create Enrollment Attestation
+          Enrollment Attestation
         </Typography>
 
         {!address && (
@@ -273,9 +273,9 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
           <Box sx={{ mb: 3, p: 2, bgcolor: 'background.paper', borderRadius: 1 }}>
             <Typography variant="h6" gutterBottom>Attestation Preview</Typography>
             <Typography variant="body2">User Address: {previewData?.userAddress}</Typography>
-            <Typography variant="body2">Verified Name: {previewData?.verifiedName}</Typography>
-            <Typography variant="body2">POAP Verified: {previewData?.poapVerified ? 'Yes' : 'No'}</Typography>
-            <Typography variant="body2">Timestamp: {new Date(previewData?.timestamp * 1000).toLocaleString()}</Typography>
+            <Typography variant="body2">Onchain Name: {previewData?.verifiedName}</Typography>
+            <Typography variant="body2">Proof Verification: {previewData?.poapVerified ? 'Yes' : 'No'}</Typography>
+            <Typography variant="body2">Enrollment Timestamp: {new Date(previewData?.timestamp * 1000).toLocaleString()}</Typography>
           </Box>
         )}
 
