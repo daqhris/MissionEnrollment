@@ -72,7 +72,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
         // Combine verified name and POAP info for attestation
         const eventInfo: EventInfo = {
           role,
-          date: ethGlobalBrusselsPoap.event.start_date,
+          date: ethGlobalBrusselsPoap.event.end_date || ethGlobalBrusselsPoap.event.start_date,
           venue: EVENT_VENUE,
           verifiedName: verifiedName,
           tokenId: ethGlobalBrusselsPoap.tokenId
@@ -198,7 +198,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                     <p className="text-base font-semibold">{poapDetails.event.name}</p>
                     <div className="flex flex-col text-sm opacity-75">
                       <p>🎭 Role: {poapDetails.event.name.replace('ETHGlobal Brussels 2024', '')}</p>
-                      <p>📅 Date: {new Date(poapDetails.event.start_date).toLocaleDateString()}</p>
+                      <p>📅 Date: {new Date(poapDetails.event.end_date || poapDetails.event.start_date).toLocaleDateString()}</p>
                       <p>📍 Venue: {EVENT_VENUE}</p>
                       <p>🎫 Token ID: {poapDetails.tokenId}</p>
                     </div>
