@@ -183,7 +183,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
               <div className="space-y-4">
                 <div>
                   <p className="font-bold text-lg">🎉 Event attendance verified!</p>
-                  <p className="text-sm opacity-75">Your POAP confirms your participation at ETHGlobal Brussels</p>
+                  <p className="text-sm opacity-75">Your POAP confirms your participation at a hackathon in Brussels hosted by ETHGlobal</p>
                 </div>
                 <div className="flex items-center bg-base-200 rounded-lg p-4">
                   <Image
@@ -195,7 +195,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                     onError={handleImageError}
                   />
                   <div className="space-y-2">
-                    <p className="text-base font-semibold">{poapDetails.event.name}</p>
+                    <p className="text-base font-semibold">ETHGlobal Brussels 2024</p>
                     <div className="flex flex-col text-sm opacity-75">
                       <p>🎭 Role: {poapDetails.event.name.replace('ETHGlobal Brussels 2024', '')}</p>
                       <p>📅 Date: {new Date(poapDetails.event.end_date || poapDetails.event.start_date).toLocaleDateString()}</p>
