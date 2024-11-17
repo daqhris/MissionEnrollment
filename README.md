@@ -224,4 +224,4 @@ It is built thanks to the help and collaboration of **Devin**, the world's first
 
 **Hackathon Submission**: [ethglobal.com/showcase/missionenrollment-i4fkr](https://ethglobal.com/showcase/missionenrollment-i4fkr)
 
-**Short Demo Video** (Nov 17): https://mission-enrollment.daqhris.com/Preview-MissionEnrollment-WebApp.mp4
+**Short Demo Video** _(November 17)_: [mission-enrollment.daqhris.com/Preview-MissionEnrollment-WebApp](https://mission-enrollment.daqhris.com/Preview-MissionEnrollment-WebApp.mp4)
