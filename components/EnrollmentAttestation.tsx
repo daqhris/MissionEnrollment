@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import { useAccount, useChainId, useWalletClient, usePublicClient } from 'wagmi';
 import { ConnectWallet } from '@coinbase/onchainkit/wallet';
-import { EAS, SchemaEncoder, type AttestationRequest } from "@ethereum-attestation-service/eas-sdk";
-import { Interface } from '@ethersproject/abi';
+import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { Card, CardContent, Typography, Button, CircularProgress, Box, Link } from '@mui/material';
 import NetworkSwitchButton from './NetworkSwitchButton';
 import { BASE_SEPOLIA_CHAIN_ID, EAS_CONTRACT_ADDRESS, SCHEMA_UID } from '../utils/constants';
-import { BrowserProvider, JsonRpcSigner } from 'ethers';
+import {
+  BrowserProvider,
+  Contract,
+  type Log,
+  type TransactionResponse,
+  type TransactionReceipt
+} from 'ethers';
 
 interface EnrollmentAttestationProps {
   verifiedName: string;
@@ -19,20 +24,23 @@ type AttestationError = {
   code?: number;
 };
 
-interface TransactionReceipt {
-  transactionHash: string;
-  logs: Array<{
-    topics: string[];
-    data: string;
-    blockNumber: number;
-    blockHash: string;
-    transactionIndex: number;
-    address: string;
-    logIndex: number;
-  }>;
-  blockNumber: number;
-  blockHash: string;
-  status: number;
+interface SchemaData {
+  userAddress: string;
+  verifiedName: string;
+  poapVerified: boolean;
+  timestamp: number;
+}
+
+interface AttestationData {
+  recipient: string;
+  expirationTime: bigint;
+  revocable: boolean;
+  refUID: string;
+  data: string;
+}
+
+interface AttestationTransaction extends TransactionResponse {
+  wait(): Promise<TransactionReceipt>;
 }
 
 export default function EnrollmentAttestation({ verifiedName, poapVerified, onAttestationComplete }: EnrollmentAttestationProps) {
@@ -137,67 +145,94 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
       ]);
 
       // Prepare the attestation request
-      const attestationRequest: AttestationRequest = {
-        schema: SCHEMA_UID,
-        data: {
-          recipient: address,
-          expirationTime: BigInt(0),
-          revocable: true,
-          data: encodedData,
-        },
+      const attestationData: AttestationData = {
+        recipient: address,
+        expirationTime: BigInt(0),
+        revocable: true,
+        refUID: '0x0000000000000000000000000000000000000000000000000000000000000000',
+        data: encodedData
       };
 
-      // Create the attestation
-      console.log('Creating attestation with request:', attestationRequest);
-      const tx = await eas.attest(attestationRequest);
-      console.log('Transaction sent:', tx);
+      console.log('Creating attestation with data:', attestationData);
 
-      // Wait for transaction confirmation and handle the EAS transaction receipt
-      const receipt = (await tx.wait()) as unknown as TransactionReceipt;
+      // Submit the attestation
+      console.log('Submitting attestation with schema:', SCHEMA_UID);
+      console.log('Attestation data:', attestationData);
+
+      // Cast the transaction to unknown first, then to AttestationTransaction
+      const rawTransaction = await eas.attest({
+        schema: SCHEMA_UID,
+        data: attestationData
+      });
+
+      const transaction = rawTransaction as unknown as AttestationTransaction;
+      console.log('Transaction submitted:', transaction);
+
+      // Wait for the transaction to be mined
+      console.log('Waiting for transaction confirmation...');
+      const receipt = await transaction.wait();
       console.log('Transaction confirmed:', receipt);
 
-      if (receipt.transactionHash) {
-        setTransactionHash(receipt.transactionHash);
+      if (!receipt || !receipt.logs) {
+        console.error('Invalid transaction receipt:', receipt);
+        throw new Error('Invalid transaction receipt');
       }
 
-      // Parse logs if available
-      if (receipt.logs && receipt.logs.length > 0) {
-        const iface = new Interface([
-          "event AttestationCreated(address indexed creator, bytes32 indexed uid)"
-        ]);
+      // Set transaction hash
+      setTransactionHash(receipt.hash);
 
-        const attestEvent = receipt.logs
-          .map((log) => {
-            try {
-              return iface.parseLog({
-                topics: log.topics,
-                data: log.data
-              });
-            } catch (e) {
-              console.error('Error parsing log:', e);
-              return null;
-            }
-          })
-          .find((event) => event && event.name === 'AttestationCreated');
+      // Get the transaction logs
+      const logs = receipt.logs;
+      console.log('Processing transaction logs:', logs);
 
-        if (attestEvent?.args?.uid) {
-          console.log('Attestation created:', {
-            creator: attestEvent.args.creator,
-            uid: attestEvent.args.uid
-          });
-          onAttestationComplete(attestEvent.args.uid);
+      // The AttestationCreated event topic
+      const ATTEST_CREATED_TOPIC = '0x28710dfecab43d1e29e02aa56b2e1e610c0bae19135c9cf7a83a1adb5103e18d';
+
+      // Find the attestation event log
+      const attestationLog = logs.find((log: Log) => {
+        if (!log?.topics?.[0]) {
+          console.error('Invalid log format:', log);
+          return false;
         }
+        try {
+          return log.topics[0].toLowerCase() === ATTEST_CREATED_TOPIC.toLowerCase();
+        } catch (e) {
+          console.error('Error processing log:', e);
+          return false;
+        }
+      });
+
+      if (!attestationLog?.topics?.[2]) {
+        console.error('No attestation UID found in logs');
+        throw new Error('Unable to find attestation UID in transaction logs');
       }
 
-      setLoading(false);
+      const uid = attestationLog.topics[2];
+      console.log('Found attestation UID:', uid);
 
+      // Verify the attestation exists
+      try {
+        console.log('Verifying attestation...');
+        const attestation = await eas.getAttestation(uid);
+
+        if (!attestation) {
+          console.error('Attestation verification failed');
+          throw new Error('Attestation verification failed');
+        }
+
+        console.log('Attestation verified:', attestation);
+        onAttestationComplete(uid);
+        setLoading(false);
+      } catch (verifyError) {
+        console.error('Error verifying attestation:', verifyError);
+        throw new Error('Failed to verify attestation');
+      }
     } catch (err: any) {
       console.error('Error creating attestation:', err);
       handleAttestationError(err);
       setLoading(false);
     }
   };
-
   return (
     <Card>
       <CardContent>
@@ -218,10 +253,10 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
         {previewData && (
           <Box sx={{ mb: 3, p: 2, bgcolor: 'background.paper', borderRadius: 1 }}>
             <Typography variant="h6" gutterBottom>Attestation Preview</Typography>
-            <Typography variant="body2">User Address: {previewData.userAddress}</Typography>
-            <Typography variant="body2">Verified Name: {previewData.verifiedName}</Typography>
-            <Typography variant="body2">POAP Verified: {previewData.poapVerified ? 'Yes' : 'No'}</Typography>
-            <Typography variant="body2">Timestamp: {new Date(previewData.timestamp * 1000).toLocaleString()}</Typography>
+            <Typography variant="body2">User Address: {previewData?.userAddress}</Typography>
+            <Typography variant="body2">Verified Name: {previewData?.verifiedName}</Typography>
+            <Typography variant="body2">POAP Verified: {previewData?.poapVerified ? 'Yes' : 'No'}</Typography>
+            <Typography variant="body2">Timestamp: {new Date(previewData?.timestamp * 1000).toLocaleString()}</Typography>
           </Box>
         )}
 
@@ -241,12 +276,16 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
         {address && (
           <Button
             variant="outlined"
-            onClick={() => setPreviewData({
-              userAddress: address,
-              verifiedName,
-              poapVerified,
-              timestamp: Math.floor(Date.now() / 1000)
-            })}
+            onClick={() => {
+              if (address) {
+                setPreviewData({
+                  userAddress: address,
+                  verifiedName,
+                  poapVerified,
+                  timestamp: Math.floor(Date.now() / 1000)
+                });
+              }
+            }}
             disabled={loading}
             sx={{ mr: 2 }}
           >
