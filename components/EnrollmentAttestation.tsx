@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import { useAccount, useChainId, usePublicClient } from 'wagmi';
+import { useAccount, useChainId, useWalletClient, usePublicClient } from 'wagmi';
+import { ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { EAS, SchemaEncoder, type AttestationRequest } from "@ethereum-attestation-service/eas-sdk";
-import { Contract } from 'ethers';
-import { Web3Provider } from '@ethersproject/providers';
 import { Interface } from '@ethersproject/abi';
-import { TransactionReceipt } from '@ethersproject/abstract-provider';
 import { Card, CardContent, Typography, Button, CircularProgress, Box, Link } from '@mui/material';
 import NetworkSwitchButton from './NetworkSwitchButton';
 import { BASE_SEPOLIA_CHAIN_ID, EAS_CONTRACT_ADDRESS, SCHEMA_UID } from '../utils/constants';
+import { BrowserProvider, JsonRpcSigner } from 'ethers';
 
 interface EnrollmentAttestationProps {
   verifiedName: string;
@@ -20,10 +19,27 @@ type AttestationError = {
   code?: number;
 };
 
+interface TransactionReceipt {
+  transactionHash: string;
+  logs: Array<{
+    topics: string[];
+    data: string;
+    blockNumber: number;
+    blockHash: string;
+    transactionIndex: number;
+    address: string;
+    logIndex: number;
+  }>;
+  blockNumber: number;
+  blockHash: string;
+  status: number;
+}
+
 export default function EnrollmentAttestation({ verifiedName, poapVerified, onAttestationComplete }: EnrollmentAttestationProps) {
   const { address } = useAccount();
   const chainId = useChainId();
   const publicClient = usePublicClient();
+  const { data: walletClient } = useWalletClient();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [transactionHash, setTransactionHash] = useState<string | null>(null);
@@ -53,6 +69,22 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
     setLoading(false);
   };
 
+  const handleNetworkSwitch = async () => {
+    try {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: `0x${BASE_SEPOLIA_CHAIN_ID.toString(16)}` }],
+      });
+    } catch (switchError: any) {
+      // Handle the case where the chain hasn't been added to MetaMask
+      if (switchError.code === 4902) {
+        handleAttestationError(new Error('Please add Base Sepolia network to your wallet'));
+      } else {
+        handleAttestationError(switchError);
+      }
+    }
+  };
+
   const createAttestation = async () => {
     if (!address || !previewData) {
       setError("Please connect your wallet and preview the attestation first");
@@ -74,15 +106,26 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
       setError(null);
       setTransactionHash(null);
 
-      // Initialize provider and signer
-      await publicClient.transport.request({ method: 'eth_requestAccounts' });
-      const provider = new Web3Provider(window.ethereum as any);
-      const signer = provider.getSigner();
-
       // Initialize EAS with the correct contract address
       const eas = new EAS(EAS_CONTRACT_ADDRESS);
-      // @ts-ignore - Types mismatch between ethers v5 and EAS SDK
+
+      // Ensure wallet is connected
+      if (!walletClient) throw new Error("Wallet client not available");
+      if (!address) throw new Error("Wallet not connected");
+
+      // Create an Ethers v6 provider and signer
+      const provider = new BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+
+      // Connect the signer to EAS
       await eas.connect(signer);
+
+      // Ensure we're on the correct network
+      const network = await provider.getNetwork();
+      if (network.chainId !== BigInt(BASE_SEPOLIA_CHAIN_ID)) {
+        await handleNetworkSwitch();
+        return; // Exit and let the user try again after network switch
+      }
 
       // Create Schema Encoder instance and encode data
       const schemaEncoder = new SchemaEncoder("address userAddress,string verifiedName,bool poapVerified,uint256 timestamp");
@@ -109,37 +152,43 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
       const tx = await eas.attest(attestationRequest);
       console.log('Transaction sent:', tx);
 
-      // Wait for transaction confirmation and cast to correct type
-      const receipt = await tx.wait() as unknown as TransactionReceipt;
+      // Wait for transaction confirmation and handle the EAS transaction receipt
+      const receipt = (await tx.wait()) as unknown as TransactionReceipt;
       console.log('Transaction confirmed:', receipt);
-
-      // Get the AttestationCreated event
-      const iface = new Interface([
-        "event AttestationCreated(address indexed creator, bytes32 indexed uid)"
-      ]);
-
-      if (receipt.logs) {
-        const attestEvent = receipt.logs
-          .map((log: { topics: string[], data: string }) => {
-            try {
-              return iface.parseLog(log);
-            } catch (e) {
-              return null;
-            }
-          })
-          .find((event: { name: string; args: any } | null) => event && event.name === 'AttestationCreated');
-
-        if (attestEvent) {
-          console.log('Attestation created:', {
-            creator: attestEvent.args.creator,
-            uid: attestEvent.args.uid
-          });
-        }
-      }
 
       if (receipt.transactionHash) {
         setTransactionHash(receipt.transactionHash);
       }
+
+      // Parse logs if available
+      if (receipt.logs && receipt.logs.length > 0) {
+        const iface = new Interface([
+          "event AttestationCreated(address indexed creator, bytes32 indexed uid)"
+        ]);
+
+        const attestEvent = receipt.logs
+          .map((log) => {
+            try {
+              return iface.parseLog({
+                topics: log.topics,
+                data: log.data
+              });
+            } catch (e) {
+              console.error('Error parsing log:', e);
+              return null;
+            }
+          })
+          .find((event) => event && event.name === 'AttestationCreated');
+
+        if (attestEvent?.args?.uid) {
+          console.log('Attestation created:', {
+            creator: attestEvent.args.creator,
+            uid: attestEvent.args.uid
+          });
+          onAttestationComplete(attestEvent.args.uid);
+        }
+      }
+
       setLoading(false);
 
     } catch (err: any) {
@@ -156,6 +205,15 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
           Create Enrollment Attestation
         </Typography>
 
+        {!address && (
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="body2" sx={{ mb: 1 }}>
+              Please connect your wallet to continue
+            </Typography>
+            <ConnectWallet />
+          </Box>
+        )}
+
         {/* Preview Section */}
         {previewData && (
           <Box sx={{ mb: 3, p: 2, bgcolor: 'background.paper', borderRadius: 1 }}>
@@ -167,7 +225,7 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
           </Box>
         )}
 
-        {chainId !== BASE_SEPOLIA_CHAIN_ID && (
+        {chainId !== BASE_SEPOLIA_CHAIN_ID && address && (
           <Box sx={{ mb: 2 }}>
             <NetworkSwitchButton targetChainId={BASE_SEPOLIA_CHAIN_ID} />
           </Box>
@@ -180,29 +238,33 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
         )}
 
         {/* Preview Button */}
-        <Button
-          variant="outlined"
-          onClick={() => setPreviewData({
-            userAddress: address || '',
-            verifiedName,
-            poapVerified,
-            timestamp: Math.floor(Date.now() / 1000)
-          })}
-          disabled={!address}
-          sx={{ mr: 2 }}
-        >
-          Preview Attestation
-        </Button>
+        {address && (
+          <Button
+            variant="outlined"
+            onClick={() => setPreviewData({
+              userAddress: address,
+              verifiedName,
+              poapVerified,
+              timestamp: Math.floor(Date.now() / 1000)
+            })}
+            disabled={loading}
+            sx={{ mr: 2 }}
+          >
+            Preview Attestation
+          </Button>
+        )}
 
         {/* Create Attestation Button */}
-        <Button
-          variant="contained"
-          onClick={createAttestation}
-          disabled={loading || chainId !== BASE_SEPOLIA_CHAIN_ID || !previewData}
-          sx={{ mt: 2 }}
-        >
-          {loading ? <CircularProgress size={24} /> : 'Create Attestation'}
-        </Button>
+        {address && previewData && (
+          <Button
+            variant="contained"
+            onClick={createAttestation}
+            disabled={loading || chainId !== BASE_SEPOLIA_CHAIN_ID}
+            sx={{ mt: 2 }}
+          >
+            {loading ? <CircularProgress size={24} /> : 'Create Attestation'}
+          </Button>
+        )}
 
         {/* Transaction Hash Display */}
         {transactionHash && (
