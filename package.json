@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.11.10",
-    "@coinbase/onchainkit": "^0.35.2",
+    "@coinbase/onchainkit": "0.35.5",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@ensdomains/ensjs": "^3.7.0",

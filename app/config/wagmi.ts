@@ -6,7 +6,6 @@ import {
   metaMaskWallet,
   rainbowWallet,
 } from '@rainbow-me/rainbowkit/wallets';
-import { useMemo } from 'react';
 import { createConfig, http } from 'wagmi';
 import { type Chain, base } from '@wagmi/chains';
 
@@ -43,54 +42,46 @@ const baseSepolia: Chain = {
 const NEXT_PUBLIC_WC_PROJECT_ID = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
 const NEXT_PUBLIC_ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY;
 
-export function useWagmiConfig() {
-  const projectId = NEXT_PUBLIC_WC_PROJECT_ID ?? '';
-
-  if (!projectId) {
-    const providerErrMessage =
-      'To connect to all Wallets you need to provide a NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID env variable';
-    throw new Error(providerErrMessage);
-  }
-
-  return useMemo(() => {
-    const connectors = connectorsForWallets(
-      [
-        {
-          groupName: 'Recommended Wallet',
-          wallets: [coinbaseWallet],
-        },
-        {
-          groupName: 'Other Wallets',
-          wallets: [rainbowWallet, metaMaskWallet],
-        },
-      ],
-      {
-        appName: 'Mission Enrollment',
-        projectId,
-      },
-    );
-
-    // Create wagmi config with properly typed chains array
-    const config = createConfig({
-      chains: [base, baseSepolia],
-      transports: {
-        [base.id]: http(
-          NEXT_PUBLIC_ALCHEMY_API_KEY
-            ? `https://base-mainnet.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`
-            : 'https://mainnet.base.org'
-        ),
-        [baseSepolia.id]: http(
-          NEXT_PUBLIC_ALCHEMY_API_KEY
-            ? `https://base-sepolia.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`
-            : 'https://sepolia.base.org'
-        ),
-      },
-      connectors,
-    });
-
-    return config;
-  }, [projectId]);
+if (!NEXT_PUBLIC_WC_PROJECT_ID) {
+  throw new Error(
+    'To connect to all Wallets you need to provide a NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID env variable'
+  );
 }
+
+if (!NEXT_PUBLIC_ALCHEMY_API_KEY) {
+  throw new Error('NEXT_PUBLIC_ALCHEMY_API_KEY is required for RPC provider configuration');
+}
+
+const connectors = connectorsForWallets(
+  [
+    {
+      groupName: 'Recommended Wallet',
+      wallets: [coinbaseWallet],
+    },
+    {
+      groupName: 'Other Wallets',
+      wallets: [rainbowWallet, metaMaskWallet],
+    },
+  ],
+  {
+    appName: 'Mission Enrollment',
+    projectId: NEXT_PUBLIC_WC_PROJECT_ID,
+  },
+);
+
+// Create and export wagmi config
+export const config = createConfig({
+  chains: [base, baseSepolia],
+  transports: {
+    [base.id]: http(
+      `https://base-mainnet.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`
+    ),
+    [baseSepolia.id]: http(
+      `https://base-sepolia.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`
+    ),
+  },
+  connectors,
+});
 
 // Export chain IDs for easy reference
 export const SUPPORTED_CHAINS = {
@@ -99,3 +90,22 @@ export const SUPPORTED_CHAINS = {
 };
 
 export const DEFAULT_CHAIN = base;
+
+// Export helper for network switching
+export async function switchToNetwork(chainId: number) {
+  if (typeof window === 'undefined' || !window.ethereum) {
+    throw new Error('No ethereum provider found');
+  }
+
+  try {
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: `0x${chainId.toString(16)}` }],
+    });
+  } catch (error) {
+    throw new Error(`Failed to switch network: ${error}`);
+  }
+}
+
+// Export Base Sepolia chain configuration
+export { baseSepolia };
