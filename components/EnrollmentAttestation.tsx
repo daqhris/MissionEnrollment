@@ -8,10 +8,16 @@ import { BASE_SEPOLIA_CHAIN_ID, EAS_CONTRACT_ADDRESS, SCHEMA_UID } from '../util
 import {
   BrowserProvider,
   Contract,
+  Interface,
   type Log,
   type TransactionResponse,
   type TransactionReceipt
 } from 'ethers';
+
+// Initialize ethers Interface for EAS events
+const easInterface = new Interface([
+  'event Attested(address indexed recipient, address indexed attester, bytes32 indexed uid, bytes32 schema)',
+]);
 
 interface EnrollmentAttestationProps {
   verifiedName: string;
@@ -185,47 +191,60 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
       const logs = receipt.logs;
       console.log('Processing transaction logs:', logs);
 
-      // The AttestationCreated event topic
-      const ATTEST_CREATED_TOPIC = '0x28710dfecab43d1e29e02aa56b2e1e610c0bae19135c9cf7a83a1adb5103e18d';
-
-      // Find the attestation event log
+      // Find and parse the attestation event log
       const attestationLog = logs.find((log: Log) => {
         if (!log?.topics?.[0]) {
           console.error('Invalid log format:', log);
           return false;
         }
         try {
-          return log.topics[0].toLowerCase() === ATTEST_CREATED_TOPIC.toLowerCase();
+          const event = easInterface.getEvent('Attested');
+          if (!event) {
+            console.error('Failed to get Attested event from interface');
+            return false;
+          }
+          return log.topics[0].toLowerCase() === event.topicHash.toLowerCase();
         } catch (e) {
           console.error('Error processing log:', e);
           return false;
         }
       });
 
-      if (!attestationLog?.topics?.[2]) {
-        console.error('No attestation UID found in logs');
-        throw new Error('Unable to find attestation UID in transaction logs');
+      if (!attestationLog) {
+        console.error('No attestation event found in logs:', logs);
+        throw new Error('Unable to find attestation event in transaction logs');
       }
 
-      const uid = attestationLog.topics[2];
-      console.log('Found attestation UID:', uid);
-
-      // Verify the attestation exists
       try {
-        console.log('Verifying attestation...');
-        const attestation = await eas.getAttestation(uid);
+        // Parse the event using ethers Interface
+        const parsedLog = easInterface.parseLog({
+          topics: attestationLog.topics as string[],
+          data: attestationLog.data
+        });
 
-        if (!attestation) {
-          console.error('Attestation verification failed');
-          throw new Error('Attestation verification failed');
+        if (!parsedLog || !parsedLog.args) {
+          throw new Error('Failed to parse attestation event');
         }
 
+        const uid = parsedLog.args.uid;
+        if (!uid) {
+          throw new Error('No UID found in parsed event');
+        }
+        console.log('Successfully parsed attestation event. UID:', uid);
+
+        // Verify the attestation exists
+        const attestation = await eas.getAttestation(uid);
+        if (!attestation) {
+          throw new Error('Attestation verification failed');
+        }
         console.log('Attestation verified:', attestation);
+
         onAttestationComplete(uid);
         setLoading(false);
-      } catch (verifyError) {
-        console.error('Error verifying attestation:', verifyError);
-        throw new Error('Failed to verify attestation');
+        return uid;
+      } catch (error) {
+        console.error('Error parsing attestation event:', error);
+        throw new Error('Failed to parse attestation event. Please check the transaction logs.');
       }
     } catch (err: any) {
       console.error('Error creating attestation:', err);
