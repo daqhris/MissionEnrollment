@@ -8,6 +8,14 @@ import { Footer } from "~~/components/Footer";
 import "~~/styles/globals.css";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 import { ClientApolloProvider } from "~~/components/ClientApolloProvider";
+import { Viewport } from 'next';
+
+export const viewport: Viewport = {
+  themeColor: '#1F2937',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+};
 
 export const metadata = getMetadata({
   title: "Mission Enrollment",
