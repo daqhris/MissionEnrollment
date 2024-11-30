@@ -11,7 +11,6 @@ import { ClientApolloProvider } from "~~/components/ClientApolloProvider";
 import { Viewport } from 'next';
 
 export const viewport: Viewport = {
-  themeColor: '#1F2937',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
