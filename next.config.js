@@ -11,6 +11,20 @@ const nextConfig = {
   webpack: (config, { isServer }) => {
     config.resolve.fallback = { fs: false, net: false, tls: false };
     config.externals.push("pino-pretty", "lokijs", "encoding");
+
+    // Exclude MetaMask SDK and related files from being processed
+    config.module.rules.push({
+      test: /\.(d\.ts|map)$/,
+      include: /node_modules\/@metamask\/sdk/,
+      use: 'null-loader',
+    });
+
+    // Also exclude the MetaMask SDK from being bundled
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@metamask/sdk': false,
+    };
+
     return config;
   },
   images: {

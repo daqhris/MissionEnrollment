@@ -4,7 +4,6 @@ import {
   rainbowWallet,
   walletConnectWallet,
   coinbaseWallet,
-  metaMaskWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || "";
@@ -16,8 +15,10 @@ export const connectors = connectorsForWallets(
       wallets: [
         injectedWallet,
         rainbowWallet,
-        metaMaskWallet,
-        coinbaseWallet,
+        coinbaseWallet({
+          projectId,
+          appName: "MissionEnrollment",
+        }),
       ],
     },
     {
