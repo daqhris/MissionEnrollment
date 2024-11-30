@@ -8,9 +8,24 @@ const nextConfig = {
     ignoreDuringBuilds: true,
     dirs: ['pages', 'components', 'lib', 'app', 'hooks', 'utils'],
   },
-  webpack: config => {
+  webpack: (config, { isServer }) => {
     config.resolve.fallback = { fs: false, net: false, tls: false };
     config.externals.push("pino-pretty", "lokijs", "encoding");
+
+    // Handle source map files
+    config.module.rules.push({
+      test: /\.map$/,
+      use: 'ignore-loader',
+      include: /node_modules\/@metamask\/sdk/,
+    });
+
+    // Ignore TypeScript declaration map files
+    config.module.rules.push({
+      test: /\.d\.ts\.map$/,
+      use: 'ignore-loader',
+      include: /node_modules\/@metamask\/sdk/,
+    });
+
     return config;
   },
   images: {
