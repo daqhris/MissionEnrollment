@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.11.10",
-    "@coinbase/onchainkit": "0.35.5",
+    "@coinbase/onchainkit": "^0.35.8",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@ensdomains/ensjs": "^3.7.0",
@@ -87,7 +87,7 @@
     "@types/eslint": "^9.6.1",
     "@types/jest": "^29.5.14",
     "@types/mocha": "^10.0.9",
-    "@types/node": "^22.9.0",
+    "@types/node": "^22.10.1",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/react-toastify": "^4.1.0",
