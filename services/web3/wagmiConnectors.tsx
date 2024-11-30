@@ -5,6 +5,7 @@ import {
   metaMaskWallet,
   coinbaseWallet,
   walletConnectWallet,
+  coinbaseSmartWallet,
 } from '@rainbow-me/rainbowkit/wallets';
 import { base } from 'viem/chains';
 import scaffoldConfig from "~~/scaffold.config";
@@ -19,12 +20,16 @@ export const connectors = connectorsForWallets(
         injectedWallet,
         rainbowWallet,
         metaMaskWallet,
+        coinbaseWallet,
+        coinbaseSmartWallet({
+          projectId: walletConnectProjectId,
+          appName: 'MissionEnrollment',
+        }),
       ],
     },
     {
       groupName: 'Other',
       wallets: [
-        coinbaseWallet,
         walletConnectWallet,
       ],
     },

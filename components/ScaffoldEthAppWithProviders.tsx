@@ -7,6 +7,7 @@ import { useTheme } from "next-themes";
 import { Toaster } from "react-hot-toast";
 import { WagmiProvider } from "wagmi";
 import { OnchainKitProvider } from '@coinbase/onchainkit';
+import { base } from 'viem/chains';
 import { Footer } from "~~/components/Footer";
 import { Header } from "~~/components/Header";
 import { BlockieAvatar } from "~~/components/scaffold-eth";
@@ -65,7 +66,7 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
           <ProgressBar />
           <OnchainKitProvider
             apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY || ''}
-            chain="base"
+            chain={base}
           >
             <RainbowKitProvider
               avatar={BlockieAvatar}
