@@ -64,8 +64,8 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
         <QueryClientProvider client={queryClient}>
           <ProgressBar />
           <OnchainKitProvider
-            onchainKitApiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY || ''}
-            network="base-sepolia"
+            apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY || ''}
+            chain="base"
           >
             <RainbowKitProvider
               avatar={BlockieAvatar}

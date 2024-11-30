@@ -7,13 +7,12 @@ import {
   rainbowWallet,
 } from '@rainbow-me/rainbowkit/wallets';
 import { createConfig, http } from 'wagmi';
-import { type Chain, base } from '@wagmi/chains';
+import { base, Chain } from 'wagmi/chains';
 
 // Define Base Sepolia chain following wagmi's chain structure
 const baseSepolia: Chain = {
   id: 84532,
   name: 'Base Sepolia',
-  network: 'base-sepolia',
   nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
   rpcUrls: {
     default: { http: ['https://sepolia.base.org'] },
@@ -52,22 +51,27 @@ if (!NEXT_PUBLIC_ALCHEMY_API_KEY) {
   throw new Error('NEXT_PUBLIC_ALCHEMY_API_KEY is required for RPC provider configuration');
 }
 
-const connectors = connectorsForWallets(
-  [
-    {
-      groupName: 'Recommended Wallet',
-      wallets: [coinbaseWallet],
-    },
-    {
-      groupName: 'Other Wallets',
-      wallets: [rainbowWallet, metaMaskWallet],
-    },
-  ],
+const connectors = connectorsForWallets([
   {
-    appName: 'Mission Enrollment',
-    projectId: NEXT_PUBLIC_WC_PROJECT_ID,
+    groupName: 'Recommended Wallet',
+    wallets: [
+      coinbaseWallet({
+        appName: 'Mission Enrollment',
+        projectId: NEXT_PUBLIC_WC_PROJECT_ID,
+      }),
+    ],
   },
-);
+  {
+    groupName: 'Other Wallets',
+    wallets: [
+      rainbowWallet({ projectId: NEXT_PUBLIC_WC_PROJECT_ID }),
+      metaMaskWallet({ projectId: NEXT_PUBLIC_WC_PROJECT_ID }),
+    ],
+  },
+], {
+  appName: 'Mission Enrollment',
+  projectId: NEXT_PUBLIC_WC_PROJECT_ID,
+});
 
 // Create and export wagmi config
 export const config = createConfig({
