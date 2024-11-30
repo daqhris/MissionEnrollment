@@ -1,7 +1,6 @@
 'use client';
 
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
-import { base, baseSepolia } from 'viem/chains';
 import { http } from 'viem';
 import { NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID, NEXT_PUBLIC_ALCHEMY_API_KEY } from './env';
 import {
@@ -10,6 +9,7 @@ import {
   metaMaskWallet,
   walletConnectWallet,
 } from '@rainbow-me/rainbowkit/wallets';
+import { baseMainnet, baseSepoliaChain } from './chains';
 
 // Validate required environment variables during client-side execution
 if (typeof window !== 'undefined') {
@@ -26,10 +26,10 @@ if (typeof window !== 'undefined') {
 export const config = getDefaultConfig({
   appName: 'Mission Enrollment',
   projectId: NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || '',
-  chains: [base, baseSepolia] as const,
+  chains: [baseMainnet, baseSepoliaChain] as const,
   transports: {
-    [base.id]: http(`https://base-mainnet.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`),
-    [baseSepolia.id]: http(`https://base-sepolia.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`),
+    [baseMainnet.id]: http(`https://base-mainnet.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`),
+    [baseSepoliaChain.id]: http(`https://base-sepolia.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`),
   },
   ssr: true,
   wallets: [
@@ -55,14 +55,14 @@ export const config = getDefaultConfig({
 
 // Export chain IDs for easy reference
 export const SUPPORTED_CHAINS = {
-  BASE_MAINNET: base.id, // 8453
-  BASE_SEPOLIA: baseSepolia.id, // 84532
-};
+  BASE_MAINNET: baseMainnet.id,
+  BASE_SEPOLIA: baseSepoliaChain.id,
+} as const;
 
-export const DEFAULT_CHAIN = base;
+export const DEFAULT_CHAIN = baseMainnet;
 
-// Export helper for network switching
-export async function switchToNetwork(chainId: number) {
+// Export helper for network switching with type safety
+export async function switchToNetwork(chainId: (typeof SUPPORTED_CHAINS)[keyof typeof SUPPORTED_CHAINS]) {
   if (typeof window === 'undefined' || !window.ethereum) {
     return;
   }
@@ -77,4 +77,4 @@ export async function switchToNetwork(chainId: number) {
   }
 }
 
-export { baseSepolia };
+export { baseSepoliaChain };

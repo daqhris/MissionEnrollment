@@ -2,26 +2,35 @@
 
 import { type Chain } from 'viem';
 import { base, baseSepolia } from 'viem/chains';
+import { NEXT_PUBLIC_ALCHEMY_API_KEY } from './env';
 
-// Extend the base chain with our custom RPC URL while maintaining the Chain type
+// Extend the base chain with Alchemy RPC URL while maintaining the Chain type
 export const baseMainnet = {
   ...base,
   rpcUrls: {
+    ...base.rpcUrls,
     default: {
-      http: [process.env.NEXT_PUBLIC_BASE_MAINNET_RPC_URL || base.rpcUrls.default.http[0]],
+      http: [`https://base-mainnet.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`],
+    },
+    public: {
+      http: [base.rpcUrls.default.http[0]],
     },
   },
-} as Chain;
+} as const satisfies Chain;
 
-// Extend the baseSepolia chain with our custom RPC URL while maintaining the Chain type
+// Extend the baseSepolia chain with Alchemy RPC URL while maintaining the Chain type
 export const baseSepoliaChain = {
   ...baseSepolia,
   rpcUrls: {
+    ...baseSepolia.rpcUrls,
     default: {
-      http: [process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL || baseSepolia.rpcUrls.default.http[0]],
+      http: [`https://base-sepolia.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`],
+    },
+    public: {
+      http: [baseSepolia.rpcUrls.default.http[0]],
     },
   },
-} as Chain;
+} as const satisfies Chain;
 
 // Export the chains array for wagmi configuration
 export const chains = [baseMainnet, baseSepoliaChain] as const;
