@@ -1,92 +1,79 @@
 'use client';
 
-import { connectorsForWallets } from '@rainbow-me/rainbowkit';
+import { getDefaultConfig } from '@rainbow-me/rainbowkit';
+import { base } from 'wagmi/chains';
+import { http } from 'viem';
 import {
   coinbaseWallet,
+  injectedWallet,
   metaMaskWallet,
-  rainbowWallet,
+  walletConnectWallet,
 } from '@rainbow-me/rainbowkit/wallets';
-import { createConfig, http } from 'wagmi';
-import { type Chain, base } from '@wagmi/chains';
 
-// Define Base Sepolia chain following wagmi's chain structure
-const baseSepolia: Chain = {
+const NEXT_PUBLIC_WC_PROJECT_ID = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
+const NEXT_PUBLIC_ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY;
+
+if (!NEXT_PUBLIC_WC_PROJECT_ID) {
+  throw new Error('NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID is required');
+}
+
+if (!NEXT_PUBLIC_ALCHEMY_API_KEY) {
+  throw new Error('NEXT_PUBLIC_ALCHEMY_API_KEY is required');
+}
+
+// Define Base Sepolia chain configuration
+const baseSepolia = {
   id: 84532,
   name: 'Base Sepolia',
   network: 'base-sepolia',
   nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
   rpcUrls: {
-    default: { http: ['https://sepolia.base.org'] },
-    public: { http: ['https://sepolia.base.org'] },
+    default: { http: [`https://base-sepolia.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`] },
+    public: { http: [`https://base-sepolia.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`] },
   },
   blockExplorers: {
-    default: {
-      name: 'BaseScan',
-      url: 'https://sepolia.basescan.org',
-    },
-    etherscan: {
-      name: 'BaseScan',
-      url: 'https://sepolia.basescan.org',
-    },
-  },
-  contracts: {
-    multicall3: {
-      address: '0xca11bde05977b3631167028862be2a173976ca11' as `0x${string}`,
-      blockCreated: 1059647,
-    },
+    default: { name: 'BaseScan', url: 'https://sepolia.basescan.org' },
   },
   testnet: true,
-};
+} as const;
 
-// Environment variables are handled through next.config.js
-const NEXT_PUBLIC_WC_PROJECT_ID = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
-const NEXT_PUBLIC_ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY;
+const chains = [base, baseSepolia] as const;
 
-if (!NEXT_PUBLIC_WC_PROJECT_ID) {
-  throw new Error(
-    'To connect to all Wallets you need to provide a NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID env variable'
-  );
-}
-
-if (!NEXT_PUBLIC_ALCHEMY_API_KEY) {
-  throw new Error('NEXT_PUBLIC_ALCHEMY_API_KEY is required for RPC provider configuration');
-}
-
-const connectors = connectorsForWallets(
-  [
-    {
-      groupName: 'Recommended Wallets',
-      wallets: [
-        coinbaseWallet({
-          chains: [base, baseSepolia],
-          projectId: NEXT_PUBLIC_WC_PROJECT_ID,
-          appName: 'Mission Enrollment',
-        }),
-      ],
-    },
-    {
-      groupName: 'Other Wallets',
-      wallets: [rainbowWallet, metaMaskWallet],
-    },
-  ],
+// Configure wallet groups with Coinbase Smart Wallet as a recommended option
+const walletGroups = [
   {
-    appName: 'Mission Enrollment',
-    projectId: NEXT_PUBLIC_WC_PROJECT_ID,
+    groupName: 'Recommended',
+    wallets: [
+      coinbaseWallet({
+        appName: 'Mission Enrollment',
+      })
+    ]
   },
-);
+  {
+    groupName: 'Other',
+    wallets: [
+      injectedWallet(),
+      metaMaskWallet({
+        projectId: NEXT_PUBLIC_WC_PROJECT_ID,
+      }),
+      walletConnectWallet({
+        projectId: NEXT_PUBLIC_WC_PROJECT_ID,
+      })
+    ]
+  }
+];
 
-// Create and export wagmi config
-export const config = createConfig({
-  chains: [base, baseSepolia],
+// Create and export wagmi config using RainbowKit's getDefaultConfig
+export const config = getDefaultConfig({
+  appName: 'Mission Enrollment',
+  projectId: NEXT_PUBLIC_WC_PROJECT_ID,
+  chains,
   transports: {
-    [base.id]: http(
-      `https://base-mainnet.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`
-    ),
-    [baseSepolia.id]: http(
-      `https://base-sepolia.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`
-    ),
+    [base.id]: http(`https://base-mainnet.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`),
+    [baseSepolia.id]: http(`https://base-sepolia.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`),
   },
-  connectors,
+  ssr: true,
+  wallets: walletGroups,
 });
 
 // Export chain IDs for easy reference
