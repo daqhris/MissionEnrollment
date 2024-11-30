@@ -8,7 +8,6 @@ import {
 } from '@rainbow-me/rainbowkit/wallets';
 import { createConfig, http } from 'wagmi';
 import { type Chain, base } from '@wagmi/chains';
-import { coinbaseSmartWallet } from '@coinbase/onchainkit/connectors';
 
 // Define Base Sepolia chain following wagmi's chain structure
 const baseSepolia: Chain = {
@@ -58,12 +57,11 @@ const connectors = connectorsForWallets(
     {
       groupName: 'Recommended Wallets',
       wallets: [
-        coinbaseSmartWallet({
+        coinbaseWallet({
           chains: [base, baseSepolia],
           projectId: NEXT_PUBLIC_WC_PROJECT_ID,
           appName: 'Mission Enrollment',
         }),
-        coinbaseWallet,
       ],
     },
     {
