@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAccount, useChainId, useWalletClient, usePublicClient } from 'wagmi';
-import { ConnectWallet } from '@coinbase/onchainkit/wallet';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { Card, CardContent, Typography, Button, CircularProgress, Box, Link } from '@mui/material';
 import NetworkSwitchButton from './NetworkSwitchButton';
@@ -264,7 +264,7 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
             <Typography variant="body2" sx={{ mb: 1 }}>
               Please connect your wallet to continue
             </Typography>
-            <ConnectWallet />
+            <ConnectButton />
           </Box>
         )}
 
@@ -272,18 +272,20 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
         {previewData && (
           <Box sx={{ mb: 3, p: 2, bgcolor: 'background.paper', borderRadius: 1 }}>
             <Typography variant="h6" gutterBottom>Attestation Preview</Typography>
-            <Typography variant="h7" gutterBottom>Identity Check: OK</Typography>
+            <Typography variant="h6" gutterBottom>Identity Check: OK</Typography>
             <Typography variant="body2">User Address: {previewData?.userAddress}</Typography>
             <Typography variant="body2">Public Identity: {previewData?.verifiedName}</Typography>
             <Typography variant="body2">Proof Verification: Basename Protocol</Typography>
-            <Typography variant="h7" gutterBottom>Event Attendance: OK</Typography>
+
+            <Typography variant="h6" gutterBottom>Event Attendance: OK</Typography>
             <Typography variant="body2">In-person Event: ETHGlobal Brussels 2024</Typography>
             <Typography variant="body2">Event Type: International Hackathon</Typography>
             <Typography variant="body2">Assigned Role: Hacker</Typography>
-            <Typography variant="body2">Proof Verification: POAP Protocol</Typography>
-            <Typography variant="h7" gutterBottom>Early Registration: OK</Typography>
+
+            <Typography variant="h6" gutterBottom>Early Registration: OK</Typography>
             <Typography variant="body2">Collaborative Mission: Zinneke Rescue Mission</Typography>
             <Typography variant="body2">Enrollment Timestamp: {new Date(previewData?.timestamp * 1000).toLocaleString()}</Typography>
+            <Typography variant="body2">Official Attester: mission-enrollment.base.eth</Typography>
             <Typography variant="body2">Official Attester: mission-enrollment.base.eth</Typography>
             <Typography variant="body2">Proof Verification: EAS Protocol</Typography>
           </Box>

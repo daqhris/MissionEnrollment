@@ -25,7 +25,6 @@ export const getMetadata = ({
     generator: "Next.js",
     keywords: ["blockchain", "attestation", "enrollment", "Base", "POAP", "verification"],
     referrer: "origin-when-cross-origin",
-    themeColor: "#1E40AF",
     manifest: "/manifest.json",
     icons: {
       icon: [
@@ -63,11 +62,6 @@ export const getMetadata = ({
           alt: "Mission Enrollment Preview"
         }
       ]
-    },
-    viewport: {
-      width: "device-width",
-      initialScale: 1,
-      maximumScale: 1
     }
   };
 };

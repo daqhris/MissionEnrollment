@@ -11,6 +11,15 @@ const nextConfig = {
   webpack: config => {
     config.resolve.fallback = { fs: false, net: false, tls: false };
     config.externals.push("pino-pretty", "lokijs", "encoding");
+    config.module = config.module || {};
+    config.module.rules = config.module.rules || [];
+
+    // Skip parsing of problematic MetaMask SDK files
+    config.module.noParse = [
+      /\.(map|d\.ts|d\.ts\.map)$/,
+      /node_modules\/@metamask\/sdk\/.*\.(js|ts|map)$/
+    ];
+
     return config;
   },
   images: {
