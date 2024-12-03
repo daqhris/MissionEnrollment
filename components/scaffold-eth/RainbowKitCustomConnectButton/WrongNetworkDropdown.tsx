@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeftOnRectangleIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { NetworkOptions } from "./NetworkOptions";
-import { getTargetNetworks } from "~~/utils/scaffold-eth";
+import { getTargetNetworks } from "../../../utils/scaffold-eth";
 
 // Remove global declaration to avoid conflicts with existing types
 

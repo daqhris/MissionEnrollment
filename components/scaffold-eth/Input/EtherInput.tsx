@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
 import { ArrowsRightLeftIcon } from "@heroicons/react/24/outline";
-import type { CommonInputProps } from "~~/components/scaffold-eth";
-import { InputBase, SIGNED_NUMBER_REGEX } from "~~/components/scaffold-eth";
-import { useDisplayUsdMode } from "~~/hooks/scaffold-eth/useDisplayUsdMode";
-import { useGlobalState } from "~~/services/store/store";
+import type { CommonInputProps } from "../index";
+import { InputBase } from "./InputBase";
+import { SIGNED_NUMBER_REGEX } from "./utils";
+import { useDisplayUsdMode } from "../../../hooks/scaffold-eth/useDisplayUsdMode";
+import { useGlobalState } from "../../../services/store/store";
 
 const MAX_DECIMALS_USD = 2;
 

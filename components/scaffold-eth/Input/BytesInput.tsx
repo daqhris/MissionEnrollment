@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { bytesToString, isHex, toBytes, toHex } from "viem";
-import type { CommonInputProps } from "~~/components/scaffold-eth";
-import { InputBase } from "~~/components/scaffold-eth";
+import type { CommonInputProps } from "../index";
+import { InputBase } from "./InputBase";
 
 export const BytesInput = ({ value, onChange, name, placeholder, disabled }: CommonInputProps<string>): JSX.Element => {
   const convertStringToBytes = useCallback((): void => {

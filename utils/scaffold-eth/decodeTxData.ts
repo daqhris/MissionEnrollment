@@ -3,7 +3,7 @@ import type { GenericContractsDeclaration } from "./contract";
 import { decodeFunctionData, getAbiItem } from "viem";
 import type { Abi, AbiFunction } from "viem";
 import { hardhat } from "viem/chains";
-import contractData from "~~/contracts/deployedContracts";
+import contractData from "../../contracts/deployedContracts";
 
 type ContractsInterfaces = Record<string, Abi>;
 type TransactionType = TransactionWithFunction | null;

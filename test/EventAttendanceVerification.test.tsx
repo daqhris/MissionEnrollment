@@ -2,8 +2,8 @@ import React from 'react';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import EventAttendanceVerification from '../components/EventAttendanceVerification';
-import { mockPoapsResponse, mockValidWalletAddresses, mockEventInfo, POAPEvent, EventInfo } from './mocks/poapData';
-import { fetchPoaps } from '../utils/fetchPoapsUtil';
+import { mockPoapsResponse, mockValidWalletAddresses, mockEventInfo, EventInfo } from './mocks/poapData';
+import { fetchPoaps, POAPEvent } from '../utils/fetchPoapsUtil';
 
 // Mock fetchPoaps function
 jest.mock('../utils/fetchPoapsUtil');
@@ -106,7 +106,7 @@ describe('EventAttendanceVerification Component', () => {
       date: expect.any(String),
       venue: expect.any(String),
       verifiedName: mockVerifiedName,
-      tokenId: mockPoap.token_id
+      tokenId: mockPoap.tokenId
     }));
   });
 

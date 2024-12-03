@@ -2,8 +2,8 @@ import { useTargetNetwork } from "./useTargetNetwork";
 import { getContract, PublicClient, WalletClient } from "viem";
 import type { Address, Chain } from "viem";
 import { usePublicClient, useWalletClient } from "wagmi";
-import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
-import type { Contract, ContractName } from "~~/utils/scaffold-eth/contract";
+import { useDeployedContractInfo } from "./";
+import type { Contract, ContractName } from "../../utils/scaffold-eth/contract";
 
 /**
  * Gets a viem instance of the contract present in deployedContracts.ts or externalContracts.ts corresponding to

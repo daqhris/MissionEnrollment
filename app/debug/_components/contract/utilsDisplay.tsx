@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import { formatEther, isAddress, isHex } from "viem";
 import type { Log, TransactionBase, TransactionReceipt } from "viem";
 import { ArrowsRightLeftIcon } from "@heroicons/react/24/solid";
-import { Address } from "~~/components/scaffold-eth";
-import { replacer } from "~~/utils/scaffold-eth/common";
+import { Address } from "../../../components/scaffold-eth";
+import { replacer } from "../../../utils/scaffold-eth/common";
 
 export type DisplayContent =
   | string

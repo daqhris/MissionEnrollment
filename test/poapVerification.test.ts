@@ -57,7 +57,7 @@ describe('POAP Verification', () => {
         date: ethGlobalBrusselsPoap.event.start_date,
         venue: EVENT_VENUE,
         verifiedName,
-        tokenId: ethGlobalBrusselsPoap.token_id
+        tokenId: ethGlobalBrusselsPoap.tokenId
       };
 
       expect(eventInfo).toMatchObject({

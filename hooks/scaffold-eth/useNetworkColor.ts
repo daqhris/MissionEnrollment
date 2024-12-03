@@ -1,6 +1,6 @@
 import { useTargetNetwork } from "./useTargetNetwork";
 import { useEffect, useState } from "react";
-import type { ChainWithAttributes } from "~~/utils/scaffold-eth/networks";
+import type { ChainWithAttributes } from "../../utils/scaffold-eth/networks";
 
 export const DEFAULT_NETWORK_COLOR: readonly [string, string] = ["#666666", "#bbbbbb"] as const;
 

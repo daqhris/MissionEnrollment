@@ -12,9 +12,9 @@ import {
   InputBase,
   IntegerInput,
   IntegerVariant,
-} from "~~/components/scaffold-eth";
-import type { CommonInputProps } from "~~/components/scaffold-eth";
-import type { AbiParameterTuple } from "~~/utils/scaffold-eth/contract";
+} from "../../../components/scaffold-eth";
+import type { CommonInputProps } from "../../../components/scaffold-eth";
+import type { AbiParameterTuple } from "../../../utils/scaffold-eth/contract";
 
 interface ContractInputProps {
   setForm: Dispatch<SetStateAction<Record<string, unknown>>>;

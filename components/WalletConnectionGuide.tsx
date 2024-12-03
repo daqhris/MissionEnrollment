@@ -1,5 +1,5 @@
 import React from 'react';
-import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
+import { RainbowKitCustomConnectButton } from "./scaffold-eth";
 
 interface WalletConnectionGuideProps {
   theme: string;

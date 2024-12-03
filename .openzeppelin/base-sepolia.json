@@ -30,6 +30,11 @@
       "address": "0x85A8C21e26695112B83C50d69EbA08Bfb533B0cb",
       "txHash": "0xbb637c213c91bada85d45a69ce0511db6dafaa51dcef8b54d8a7fb83e8fca395",
       "kind": "uups"
+    },
+    {
+      "address": "0x60Ed99B474C0F02649C4038684A7C3FfF5EEe53D",
+      "txHash": "0x06f634191fe3bae997ddec6298658bd13f7ec154ca70c2b142786f0228b63392",
+      "kind": "uups"
     }
   ],
   "impls": {
@@ -184,6 +189,203 @@
             }
           ]
         }
+      }
+    },
+    "192e752a6825603fdbaf294b9a1ca661183b01b7f99d8db4a83641b99484e4fe": {
+      "address": "0x793182B0552d59C74D08B464b98bF0285091cF87",
+      "txHash": "0xa9db5624a1c817548cb95c7ce0c53bba40c9ce2c15b1caba5732237060143f1a",
+      "layout": {
+        "solcVersion": "0.8.20",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:68"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)1089_storage)",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:62"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "AccessControlUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol:260"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC1967UpgradeUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/ERC1967/ERC1967UpgradeUpgradeable.sol:169"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "UUPSUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol:111"
+          },
+          {
+            "label": "eas",
+            "offset": 0,
+            "slot": "251",
+            "type": "t_contract(IEAS)931",
+            "contract": "AttestationService",
+            "src": "contracts/AttestationService.sol:13"
+          },
+          {
+            "label": "schemaRegistry",
+            "offset": 0,
+            "slot": "252",
+            "type": "t_contract(ISchemaRegistry)984",
+            "contract": "AttestationService",
+            "src": "contracts/AttestationService.sol:14"
+          },
+          {
+            "label": "easStruct",
+            "offset": 0,
+            "slot": "253",
+            "type": "t_struct(EAS)4520_storage",
+            "contract": "AttestationService",
+            "src": "contracts/AttestationService.sol:15"
+          },
+          {
+            "label": "_missionEnrollmentSchema",
+            "offset": 0,
+            "slot": "255",
+            "type": "t_bytes32",
+            "contract": "AttestationService",
+            "src": "contracts/AttestationService.sol:17"
+          },
+          {
+            "label": "approvedAttestationCreators",
+            "offset": 0,
+            "slot": "256",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "AttestationService",
+            "src": "contracts/AttestationService.sol:21"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IEAS)931": {
+            "label": "contract IEAS",
+            "numberOfBytes": "20"
+          },
+          "t_contract(ISchemaRegistry)984": {
+            "label": "contract ISchemaRegistry",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)1089_storage)": {
+            "label": "mapping(bytes32 => struct AccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(EAS)4520_storage": {
+            "label": "struct AttestationUtils.EAS",
+            "members": [
+              {
+                "label": "eas",
+                "type": "t_contract(IEAS)931",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "schemaRegistry",
+                "type": "t_contract(ISchemaRegistry)984",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(RoleData)1089_storage": {
+            "label": "struct AccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        },
+        "namespaces": {}
       }
     }
   }

@@ -7,7 +7,7 @@ import {
   walletConnectWallet,
 } from '@rainbow-me/rainbowkit/wallets';
 import { base } from 'viem/chains';
-import scaffoldConfig from "~~/scaffold.config";
+import scaffoldConfig from "../../scaffold.config";
 
 const { walletConnectProjectId } = scaffoldConfig;
 

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import type { CommonInputProps } from "~~/components/scaffold-eth";
-import { InputBase, IntegerVariant, isValidInteger } from "~~/components/scaffold-eth";
+import type { CommonInputProps } from "../index";
+import { InputBase } from "./InputBase";
+import { IntegerVariant, isValidInteger } from "./utils";
 
 type IntegerInputProps = CommonInputProps<string | bigint> & {
   variant?: IntegerVariant;
