@@ -149,13 +149,19 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 The attestation system leverages the Ethereum Attestation Service (EAS) infrastructure with the following components:
 
 ### Schema Details
-- **Schema Structure**: `address userAddress,string verifiedName,bool poapVerified,uint256 timestamp`
+- **Schema Structure**: `address userAddress,string verifiedName,string proofMethod,string eventName,string eventType,string assignedRole,string missionName,uint256 timestamp,address attester,string proofProtocol`
 - **Schema UID**: 0x46a1e77e9f1d74c8c60c8d8bd8129947b3c5f4d3e6e9497ae2e4701dd8e2c401
 - **Fields**:
   - `userAddress`: Ethereum address of the enrolled user
   - `verifiedName`: User's verified Basename or ENS name
-  - `poapVerified`: Boolean indicating POAP verification status
+  - `proofMethod`: Method used for verification (e.g., "POAP")
+  - `eventName`: Name of the verified event (e.g., "ETHGlobal Brussels 2024")
+  - `eventType`: Type of event attended (e.g., "Hackathon")
+  - `assignedRole`: Role assigned at the event (dynamically extracted from POAP)
+  - `missionName`: Name of the mission being enrolled for
   - `timestamp`: Unix timestamp of attestation creation
+  - `attester`: Address of the attestation creator
+  - `proofProtocol`: Protocol used for proof (e.g., "POAP")
 
 ### Contract Architecture
 - **Proxy Pattern**: UUPS (Universal Upgradeable Proxy Standard)
