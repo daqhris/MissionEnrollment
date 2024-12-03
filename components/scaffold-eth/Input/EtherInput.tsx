@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import { ArrowsRightLeftIcon } from "@heroicons/react/24/outline";
 import type { CommonInputProps } from "../index";
-import { InputBase, SIGNED_NUMBER_REGEX } from "./InputBase";
+import { InputBase } from "./InputBase";
+import { SIGNED_NUMBER_REGEX } from "./utils";
 import { useDisplayUsdMode } from "../../../hooks/scaffold-eth/useDisplayUsdMode";
 import { useGlobalState } from "../../../services/store/store";
 

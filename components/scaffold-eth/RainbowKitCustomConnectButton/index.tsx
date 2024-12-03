@@ -8,8 +8,8 @@ import { Balance } from "../Balance";
 import { AddressInfoDropdown } from "./AddressInfoDropdown";
 import { AddressQRCodeModal } from "./AddressQRCodeModal";
 import { WrongNetworkDropdown } from "./WrongNetworkDropdown";
-import { useNetworkColor, useTargetNetwork } from "../../hooks/scaffold-eth";
-import { getBlockExplorerAddressLink } from "../../utils/scaffold-eth";
+import { useNetworkColor, useTargetNetwork } from "../../../hooks/scaffold-eth";
+import { getBlockExplorerAddressLink } from "../../../utils/scaffold-eth";
 
 /**
  * Custom Connect Button (watch balance + custom design)

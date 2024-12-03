@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { CommonInputProps } from "../index";
-import { InputBase, IntegerVariant, isValidInteger } from "./InputBase";
+import { InputBase } from "./InputBase";
+import { IntegerVariant, isValidInteger } from "./utils";
 
 type IntegerInputProps = CommonInputProps<string | bigint> & {
   variant?: IntegerVariant;
