@@ -3,7 +3,13 @@
 import React, { useState } from 'react';
 import { useChainId, useSwitchChain } from 'wagmi';
 import { Box, Button, Typography, CircularProgress } from '@mui/material';
-import { NETWORK_CONFIG, getNetworkName, isCorrectNetwork, MISSION_ENROLLMENT_BASE_ETH_ADDRESS } from '../utils/constants';
+import {
+  NETWORK_CONFIG,
+  getNetworkName,
+  isCorrectNetwork,
+  EAS_CONTRACT_ADDRESS_SEPOLIA,
+  EAS_CONTRACT_ADDRESS_BASE
+} from '../utils/constants';
 import { base, baseSepolia } from 'viem/chains';
 
 interface NetworkSwitchButtonProps {
@@ -35,62 +41,49 @@ const NetworkSwitchButton: React.FC<NetworkSwitchButtonProps> = ({
         throw new Error('No Web3 provider detected');
       }
 
-      // Get contract code at address to verify it exists
+      // Get contract code at network-specific EAS contract address
+      const contractAddress = targetChainId === baseSepolia.id
+        ? EAS_CONTRACT_ADDRESS_SEPOLIA
+        : EAS_CONTRACT_ADDRESS_BASE;
+
       const code = await provider.request({
         method: 'eth_getCode',
-        params: [MISSION_ENROLLMENT_BASE_ETH_ADDRESS, 'latest']
+        params: [contractAddress, 'latest']
       });
 
       return code !== '0x' && code !== '0x0';
     } catch (error) {
       console.error('Contract verification failed:', error);
+      if (error.message?.includes('eth_getCode')) {
+        throw new Error('Unable to verify EAS contract. Please check your connection and try again.');
+      }
       return false;
     } finally {
       setIsVerifyingContract(false);
     }
   };
 
-  const handleNetworkSwitch = async (): Promise<void> => {
+  const handleSwitchNetwork = async () => {
+    setIsLoading(true);
+    setError(null);
     try {
-      setError(null);
-      setIsLoading(true);
-
-      // Check if wallet is connected before attempting switch
-      if (!window.ethereum) {
-        throw new Error('No wallet detected. Please install a Web3 wallet.');
+      const isContractVerified = await verifyContractConnection();
+      if (!isContractVerified) {
+        throw new Error(`Unable to verify EAS contract on ${getNetworkName(targetChainId)}. Please ensure you have the correct network configuration.`);
       }
 
       await switchChain({ chainId: targetChainId });
-
-      // Add delay to allow chain switch to complete
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // Verify the switch was successful
-      const currentChain = await window.ethereum.request({ method: 'eth_chainId' });
-      if (parseInt(currentChain, 16) !== targetChainId) {
-        throw new Error('Network switch failed. Please try again.');
-      }
-
-      // Verify contract connection if switching for attestation
-      if (action === 'attestation') {
-        const isContractValid = await verifyContractConnection();
-        if (!isContractValid) {
-          throw new Error('Unable to verify contract on Base Sepolia. Please try again.');
-        }
-      }
-
-      if (onSuccess) {
-        onSuccess();
-      }
+      onSuccess?.();
     } catch (error: any) {
-      console.error('Failed to switch network:', error);
-      const errorMessage = error.code === 4902
-        ? `Please add ${getNetworkName(targetChainId)} to your wallet`
-        : error.message || 'Failed to switch network. Please try again.';
+      console.error('Network switch error:', error);
+      const errorMessage = error.message?.includes('user rejected')
+        ? 'Network switch was rejected. Please try again.'
+        : error.message?.includes('verify EAS contract')
+          ? error.message
+          : `Failed to switch to ${getNetworkName(targetChainId)}. Please try again.`;
+
       setError(errorMessage);
-      if (onError) {
-        onError(new Error(errorMessage));
-      }
+      onError?.(new Error(errorMessage));
     } finally {
       setIsLoading(false);
     }
@@ -105,7 +98,7 @@ const NetworkSwitchButton: React.FC<NetworkSwitchButtonProps> = ({
       ) : (
         <>
           <Button
-            onClick={handleNetworkSwitch}
+            onClick={handleSwitchNetwork}
             variant="contained"
             color={targetChainId === base.id ? "primary" : "warning"}
             disabled={isLoading}

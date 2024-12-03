@@ -4,13 +4,13 @@ import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { Card, CardContent, Typography, Button, CircularProgress, Box } from '@mui/material';
 import NetworkSwitchButton from './NetworkSwitchButton';
 import {
-  EAS_CONTRACT_ADDRESS,
+  EAS_CONTRACT_ADDRESS_SEPOLIA,
   SCHEMA_UID,
-  MISSION_ENROLLMENT_BASE_ETH_ADDRESS
+  MISSION_ENROLLMENT_BASE_ETH_ADDRESS,
+  getRequiredNetwork
 } from '../utils/constants';
 import { SCHEMA_ENCODING } from '../types/attestation';
 import { getPOAPRole } from '../utils/poap';
-import { getRequiredNetwork } from '../config/networks';
 import { BrowserProvider } from 'ethers';
 
 interface EnrollmentAttestationProps {
@@ -99,7 +99,7 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
     try {
       const provider = new BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      const eas = new EAS(EAS_CONTRACT_ADDRESS);
+      const eas = new EAS(EAS_CONTRACT_ADDRESS_SEPOLIA);
       await eas.connect(signer);
 
       const schemaEncoder = new SchemaEncoder(SCHEMA_ENCODING);
