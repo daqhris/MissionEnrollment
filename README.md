@@ -123,10 +123,10 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 **Mission Enrollment** provides a streamlined, one-page application for a select number of talented individuals to enroll in advance of the **_Zinneke Rescue Mission_**.
 
-1. User connects their Ethereum wallet using the prioritized scaffold-eth connector and verifies their identity with _.base.eth_ name verification.
-2. The application fetches and displays relevant POAPs, specifically ETHGlobal Brussels 2024.
-3. The EventAttendanceVerification component verifies event attendance through POAPs before proceeding to attestation.
-4. User creates an attestation on the Base Sepolia network using EAS. All attestations can be verified on the public blockchain.
+1. User connects their Ethereum wallet using the prioritized scaffold-eth connector and verifies their identity with Basename or ENS name verification.
+2. The application fetches and displays relevant POAPs, specifically ETHGlobal Brussels 2024, extracting role information dynamically.
+3. The EventAttendanceVerification component verifies event attendance and role through POAPs before proceeding to attestation.
+4. User creates an attestation on the Base Sepolia network using EAS, with automatic network switching if needed. The attestation includes the user's address, verified name, POAP verification status, and timestamp. All attestations can be verified on the public blockchain.
 
 ## API Routes
 
@@ -140,8 +140,8 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 ## Smart Contract Functions
 
-1. `createMissionEnrollmentSchema()`: Creates the schema for mission enrollment attestations
-2. `createMissionEnrollmentAttestation(address recipient, uint256 tokenId)`: Creates an attestation for a user
+1. `createMissionEnrollmentSchema()`: Creates the schema for mission enrollment attestations with fields for user address, verified name, POAP verification status, and timestamp
+2. `createMissionEnrollmentAttestation(address userAddress, string verifiedName, bool poapVerified)`: Creates an attestation for a user with their verified information and POAP status
 3. `verifyAttestation(bytes32 attestationId)`: Verifies the validity of an attestation
 
 ## EAS Architecture and Schema
@@ -149,11 +149,20 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 The attestation system leverages the Ethereum Attestation Service (EAS) infrastructure with the following components:
 
 ### Schema Details
-- **Schema Structure**: `string name, bool poapVerified`
-- **Schema UID**: 0x46a1e77e9f1d74c8c60c8d8bd8129947b3c5f4d3e6e9497ae2e4701dd8e2c401
+- **Schema Structure**: `address userAddress,string verifiedName,string proofMethod,string eventName,string eventType,string assignedRole,string missionName,uint256 timestamp,address attester,string proofProtocol`
+- **Schema UID**: 0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd
+- **View on EAS Explorer**: [Base Sepolia Schema](https://base-sepolia.easscan.org/schema/view/0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd)
 - **Fields**:
-  - `name`: User's verified Basename or ENS name
-  - `poapVerified`: Boolean indicating POAP verification status
+  - `userAddress`: Ethereum address of the enrolled user
+  - `verifiedName`: User's verified Basename or ENS name
+  - `proofMethod`: Method used for verification (e.g., "POAP")
+  - `eventName`: Name of the verified event (e.g., "ETHGlobal Brussels 2024")
+  - `eventType`: Type of event attended (e.g., "Hackathon")
+  - `assignedRole`: Role assigned at the event (dynamically extracted from POAP)
+  - `missionName`: Name of the mission being enrolled for
+  - `timestamp`: Unix timestamp of attestation creation
+  - `attester`: Address of the attestation creator
+  - `proofProtocol`: Protocol used for proof (e.g., "POAP")
 
 ### Contract Architecture
 - **Proxy Pattern**: UUPS (Universal Upgradeable Proxy Standard)
@@ -177,8 +186,8 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
 ## Frontend Components
 
 - `IdentityVerification.tsx`: This component handles user identity verification by validating Basenames. It ensures that users are properly authenticated before proceeding with event attendance.
-- `EventAttendanceVerification.tsx`: This component verifies user attendance at events using POAPs, implementing a short delay animation and comprehensive error handling.
-- `OnchainAttestation.tsx`: This component manages the creation of onchain attestations on the Base Sepolia network. It integrates with the user's wallet using wagmi hooks and encodes POAP data for attestation.
+- `EventAttendanceVerification.tsx`: This component verifies user attendance at events using POAPs, implementing a short delay animation and comprehensive error handling. It dynamically extracts role information from POAP data for attestation purposes.
+- `EnrollmentAttestation.tsx`: This component manages the creation of onchain attestations on the Base Sepolia network. It handles automatic network switching, integrates with the user's wallet using wagmi hooks, and encodes user data including address, verified name, POAP verification status, and timestamp for attestation.
 - `ContractUI.tsx`: This component provides the interface for attestation contract interactions, including network status, attestation creation, and history tracking.
 - `RecentAttestationsView.tsx`: Implements paginated view of attestations fetched via GraphQL from the EAS endpoint, featuring error boundaries and fallback UI for a smooth user experience.
 - `ClientApolloProvider.tsx`: Manages Apollo Client configuration for GraphQL integration, implementing caching policies and error handling for reliable data fetching.
