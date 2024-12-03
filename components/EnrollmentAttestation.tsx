@@ -69,7 +69,8 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
     console.error('Attestation error:', {
       message: error.message,
       code: (error as any).code,
-      details: error
+      details: error,
+      stack: error.stack
     });
 
     if (error.code === 4001) {
@@ -82,7 +83,7 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
       setError(`Please switch to ${getRequiredNetwork('attestation').name} to create attestations`);
     } else if (error.message?.includes('invalid signer')) {
       setError('Invalid signer. Please check your wallet connection.');
-    } else if (error.message?.includes('user rejected')) {
+    } else if (error.message?.includes('user rejected') || error.message?.includes('User rejected')) {
       setError('Transaction was rejected. Please try again.');
     } else {
       setError(`Failed to create attestation: ${error.message || 'Unknown error'}`);
@@ -90,17 +91,58 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
     setLoading(false);
   };
 
+  const handleNetworkSwitch = async () => {
+    try {
+      console.log('Initiating network switch to Base Sepolia...');
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: `0x${BASE_SEPOLIA_CHAIN_ID.toString(16)}` }],
+      });
+      console.log('Network switch request sent successfully');
+      // Add delay to allow network switch to complete
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    } catch (switchError: any) {
+      console.error('Network switch error:', switchError);
+      handleError(switchError);
+    }
+  };
+
   const createAttestation = async () => {
+    console.log('Starting attestation creation...', {
+      address,
+      chainId,
+      hasPreviewData: !!previewData,
+      currentNetwork: chainId
+    });
+
     if (!previewData) return;
 
-    setLoading(true);
-    setError(null);
-
     try {
+      setLoading(true);
+      setError(null);
+
+      console.log('Initializing EAS with contract address:', EAS_CONTRACT_ADDRESS_SEPOLIA);
+      const eas = new EAS(EAS_CONTRACT_ADDRESS_SEPOLIA);
+
+      console.log('Creating provider and signer...');
       const provider = new BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      const eas = new EAS(EAS_CONTRACT_ADDRESS_SEPOLIA);
+
+      console.log('Connecting signer to EAS...');
       await eas.connect(signer);
+
+      console.log('Checking network...');
+      const network = await provider.getNetwork();
+      if (network.chainId !== BigInt(BASE_SEPOLIA_CHAIN_ID)) {
+        console.log('Network mismatch, initiating switch...');
+        await handleNetworkSwitch();
+        // Wait for network switch and verify
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        const newNetwork = await provider.getNetwork();
+        if (newNetwork.chainId !== BigInt(BASE_SEPOLIA_CHAIN_ID)) {
+          throw new Error('Network switch failed or was cancelled');
+        }
+      }
 
       const schemaEncoder = new SchemaEncoder(SCHEMA_ENCODING);
       const encodedData = schemaEncoder.encodeData([
@@ -227,7 +269,7 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
                 onClick={createAttestation}
                 disabled={loading || !previewData}
               >
-                Create Attestation
+                {chainId !== BASE_SEPOLIA_CHAIN_ID ? 'Switch to Base Sepolia First' : 'Create Attestation'}
               </Button>
               <NetworkSwitchButton
                 targetChainId={getRequiredNetwork('attestation').id}
