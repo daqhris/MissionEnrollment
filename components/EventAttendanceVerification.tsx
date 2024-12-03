@@ -9,6 +9,7 @@ interface POAPEvent {
     name: string;
     image_url: string;
     start_date: string;
+    end_date?: string;  // Make end_date optional since it might not always be present
   };
   tokenId: string;
 }
@@ -129,24 +130,24 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
               className="btn btn-outline"
               onClick={() => handleAttendanceResponse(false)}
             >
-              No, I didn't attend
-            </button>
+                No, I did not attend
+              </button>
+            </div>
           </div>
-        </div>
-      ) : attendedEvent === false ? (
-        <div className="alert alert-info">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <div>
-            <p>Thank you for your honesty!</p>
-            <p className="text-sm">The enrollment process requires in-person attendance at ETHGlobal Brussels. We hope to see you at future events!</p>
+        ) : attendedEvent === false ? (
+          <div className="alert alert-info">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <div>
+              <p>Thank you for your honesty!</p>
+              <p className="text-sm">The enrollment process requires in-person attendance at ETHGlobal Brussels. We hope to see you at future events!</p>
+            </div>
           </div>
-        </div>
-      ) : (
-        <>
-          <p className="text-base-content/70 mb-4">
-            Hello {verifiedName}, we're checking your attendance at ETHGlobal Brussels.
+        ) : (
+          <>
+            <p className="text-base-content/70 mb-4">
+              Hello {verifiedName}, we are checking your attendance at ETHGlobal Brussels.
           </p>
 
           {isVerifying && (

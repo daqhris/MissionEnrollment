@@ -6,9 +6,9 @@ import type { Address, SendTransactionParameters } from "viem";
 import { hardhat } from "viem/chains";
 import { usePublicClient } from "wagmi";
 import { BanknotesIcon } from "@heroicons/react/24/outline";
-import { Address as AddressComponent, AddressInput, Balance, EtherInput } from "~~/components/scaffold-eth";
-import { useTransactor } from "~~/hooks/scaffold-eth";
-import { notification } from "~~/utils/scaffold-eth";
+import { Address as AddressComponent, AddressInput, Balance, EtherInput } from "./";
+import { useTransactor } from "../../hooks/scaffold-eth";
+import { notification } from "../../utils/scaffold-eth";
 
 // TODO: Import POAP API client and necessary types
 // import { POAPClient } from '@poap/poap-eth';

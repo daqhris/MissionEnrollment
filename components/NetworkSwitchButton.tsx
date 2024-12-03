@@ -1,27 +1,92 @@
+'use client';
+
 import React, { useState } from 'react';
 import { useChainId, useSwitchChain } from 'wagmi';
-import { SUPPORTED_CHAINS, baseSepolia } from '../app/config/wagmi';
+import { Box, Button, Typography, CircularProgress } from '@mui/material';
+import { NETWORK_CONFIG, getNetworkName, isCorrectNetwork, MISSION_ENROLLMENT_BASE_ETH_ADDRESS } from '../utils/constants';
+import { base, baseSepolia } from 'viem/chains';
 
 interface NetworkSwitchButtonProps {
   className?: string;
   onError?: (error: Error) => void;
+  onSuccess?: () => void;
   targetChainId: number;
+  action: 'verification' | 'attestation';
 }
 
-const NetworkSwitchButton = ({ className = '', onError, targetChainId }: NetworkSwitchButtonProps): JSX.Element => {
+const NetworkSwitchButton: React.FC<NetworkSwitchButtonProps> = ({
+  className = '',
+  onError,
+  onSuccess,
+  targetChainId,
+  action
+}) => {
   const chainId = useChainId();
   const { switchChain } = useSwitchChain();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isVerifyingContract, setIsVerifyingContract] = useState(false);
+
+  const verifyContractConnection = async (): Promise<boolean> => {
+    try {
+      setIsVerifyingContract(true);
+      const provider = window.ethereum;
+      if (!provider) {
+        throw new Error('No Web3 provider detected');
+      }
+
+      // Get contract code at address to verify it exists
+      const code = await provider.request({
+        method: 'eth_getCode',
+        params: [MISSION_ENROLLMENT_BASE_ETH_ADDRESS, 'latest']
+      });
+
+      return code !== '0x' && code !== '0x0';
+    } catch (error) {
+      console.error('Contract verification failed:', error);
+      return false;
+    } finally {
+      setIsVerifyingContract(false);
+    }
+  };
 
   const handleNetworkSwitch = async (): Promise<void> => {
     try {
       setError(null);
       setIsLoading(true);
+
+      // Check if wallet is connected before attempting switch
+      if (!window.ethereum) {
+        throw new Error('No wallet detected. Please install a Web3 wallet.');
+      }
+
       await switchChain({ chainId: targetChainId });
+
+      // Add delay to allow chain switch to complete
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Verify the switch was successful
+      const currentChain = await window.ethereum.request({ method: 'eth_chainId' });
+      if (parseInt(currentChain, 16) !== targetChainId) {
+        throw new Error('Network switch failed. Please try again.');
+      }
+
+      // Verify contract connection if switching for attestation
+      if (action === 'attestation') {
+        const isContractValid = await verifyContractConnection();
+        if (!isContractValid) {
+          throw new Error('Unable to verify contract on Base Sepolia. Please try again.');
+        }
+      }
+
+      if (onSuccess) {
+        onSuccess();
+      }
     } catch (error: any) {
       console.error('Failed to switch network:', error);
-      const errorMessage = error.message || 'Failed to switch network. Please try again.';
+      const errorMessage = error.code === 4902
+        ? `Please add ${getNetworkName(targetChainId)} to your wallet`
+        : error.message || 'Failed to switch network. Please try again.';
       setError(errorMessage);
       if (onError) {
         onError(new Error(errorMessage));
@@ -31,34 +96,39 @@ const NetworkSwitchButton = ({ className = '', onError, targetChainId }: Network
     }
   };
 
-  if (chainId === targetChainId) {
-    return (
-      <div className={`flex flex-col items-center gap-2 ${className}`}>
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-green-500" />
-          <span className="text-sm text-green-500">Connected to Base Sepolia</span>
-        </div>
-        <span className="text-xs text-gray-500">Ready to create attestation</span>
-      </div>
-    );
-  }
-
   return (
-    <div className={`flex flex-col items-center gap-2 ${className}`}>
-      <button
-        onClick={handleNetworkSwitch}
-        className="flex items-center gap-2 px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition-colors"
-        type="button"
-        disabled={isLoading}
-      >
-        <div className="w-2 h-2 rounded-full bg-white" />
-        <span>{isLoading ? 'Switching...' : 'Switch to Base Sepolia'}</span>
-      </button>
-      {error && (
-        <span className="text-xs text-red-500">{error}</span>
+    <Box className={className} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+      {isVerifyingContract ? (
+        <Typography variant="body2" color="info.main">
+          Verifying contract connection...
+        </Typography>
+      ) : (
+        <>
+          <Button
+            onClick={handleNetworkSwitch}
+            variant="contained"
+            color={targetChainId === base.id ? "primary" : "warning"}
+            disabled={isLoading}
+            startIcon={isLoading ? <CircularProgress size={20} /> :
+              <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'warning.main' }} />}
+          >
+            {isLoading
+              ? 'Switching Network...'
+              : `Switch to ${getNetworkName(targetChainId)}`}
+          </Button>
+          {error && (
+            <Typography variant="caption" color="error" sx={{ textAlign: 'center', maxWidth: '80%', mt: 1 }}>
+              {error}
+            </Typography>
+          )}
+          <Typography variant="caption" color="text.secondary">
+            {targetChainId === base.id
+              ? '⚠️ Base mainnet required for identity verification'
+              : '⚠️ Base Sepolia required for creating attestation'}
+          </Typography>
+        </>
       )}
-      <span className="text-xs text-gray-500">Required for creating attestation</span>
-    </div>
+    </Box>
   );
 };
 

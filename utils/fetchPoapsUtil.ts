@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-interface POAPEvent {
+export interface POAPEvent {
   event: {
     id: number;
     name: string;

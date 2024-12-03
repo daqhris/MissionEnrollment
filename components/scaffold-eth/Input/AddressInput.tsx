@@ -5,13 +5,19 @@ import type { Address } from "viem";
 import { isAddress } from "viem";
 import { normalize } from "viem/ens";
 import { useEnsAddress, useEnsAvatar, useEnsName } from "wagmi";
-import type { CommonInputProps } from "~~/components/scaffold-eth";
-import { InputBase, isENS } from "~~/components/scaffold-eth";
+import type { CommonInputProps } from "..";
+import { InputBase } from "..";
 
 interface AddressInputProps extends CommonInputProps<Address | string | undefined> {
   value: Address | string | undefined;
   onChange: (newValue: Address | string | undefined) => void;
+  name?: string;
+  placeholder?: string;
+  disabled?: boolean;
 }
+
+// Removed unused isENS import and using direct check
+const isEnsName = (value: string) => value.endsWith(".eth");
 
 /**
  * Address input with ENS name resolution
