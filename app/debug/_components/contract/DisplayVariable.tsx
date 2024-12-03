@@ -8,8 +8,8 @@ import type { Abi, AbiFunction } from "abitype";
 import { type Address } from "viem";
 import { useContractRead } from "wagmi";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import { useAnimationConfig } from "~~/hooks/scaffold-eth";
-import { getParsedError, notification } from "~~/utils/scaffold-eth";
+import { useAnimationConfig } from "../../../hooks/scaffold-eth";
+import { getParsedError, notification } from "../../../utils/scaffold-eth";
 
 interface DisplayVariableProps {
   contractAddress: Address;

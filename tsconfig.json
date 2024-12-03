@@ -18,6 +18,10 @@
     "isolatedModules": true,
     "incremental": true,
     "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "~~/*": ["./*"]
+    },
     "plugins": [
       {
         "name": "next"

@@ -1,13 +1,13 @@
 import React from "react";
 import "@rainbow-me/rainbowkit/styles.css";
 import "@coinbase/onchainkit/styles.css";
-import StyledComponentsRegistry from "~~/app/registry";
-import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
-import { ThemeProvider } from "~~/components/ThemeProvider";
-import { Footer } from "~~/components/Footer";
-import "~~/styles/globals.css";
-import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
-import { ClientApolloProvider } from "~~/components/ClientApolloProvider";
+import StyledComponentsRegistry from "./registry";
+import { ScaffoldEthAppWithProviders } from "../components/ScaffoldEthAppWithProviders";
+import { ThemeProvider } from "../components/ThemeProvider";
+import { Footer } from "../components/Footer";
+import "../styles/globals.css";
+import { getMetadata } from "../utils/scaffold-eth/getMetadata";
+import { ClientApolloProvider } from "../components/ClientApolloProvider";
 import { Viewport } from 'next';
 
 export const viewport: Viewport = {

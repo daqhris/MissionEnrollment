@@ -6,7 +6,7 @@ import type { Address, SendTransactionParameters } from "viem";
 import { hardhat } from "viem/chains";
 import { usePublicClient } from "wagmi";
 import { BanknotesIcon } from "@heroicons/react/24/outline";
-import { Address as AddressComponent, AddressInput, Balance, EtherInput } from "./";
+import { Address as AddressComponent, AddressInput, Balance, EtherInput } from "./index";
 import { useTransactor } from "../../hooks/scaffold-eth";
 import { notification } from "../../utils/scaffold-eth";
 

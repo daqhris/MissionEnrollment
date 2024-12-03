@@ -3,8 +3,8 @@ import { useTargetNetwork } from "./useTargetNetwork";
 import type { Abi, Log, Address } from "viem";
 import { createPublicClient, http } from 'viem';
 import { watchContractEvent } from 'viem/actions';
-import { addIndexedArgsToEvent, useDeployedContractInfo } from "~~/hooks/scaffold-eth";
-import type { ContractName, UseScaffoldEventConfig } from "~~/utils/scaffold-eth/contract";
+import { addIndexedArgsToEvent, useDeployedContractInfo } from "./";
+import type { ContractName, UseScaffoldEventConfig } from "../../utils/scaffold-eth/contract";
 
 // TODO: Import POAP API client and necessary types
 // import { POAPClient } from '@poap/poap-eth-sdk';

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { ArrowsRightLeftIcon } from "@heroicons/react/24/solid";
-import { useNetworkColor } from "../hooks/scaffold-eth";
-import { getTargetNetworks } from "../utils/scaffold-eth";
-import type { ChainWithAttributes } from "../utils/scaffold-eth/networks";
+import { useNetworkColor } from "../../../hooks/scaffold-eth";
+import { getTargetNetworks } from "../../../utils/scaffold-eth";
+import type { ChainWithAttributes } from "../../../utils/scaffold-eth/networks";
 
 const allowedNetworks: ChainWithAttributes[] = getTargetNetworks();
 

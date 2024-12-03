@@ -27,9 +27,9 @@ import type { ReadContractParameters, WatchContractEventParameters } from "wagmi
 
 type UseContractReadConfig = ReadContractParameters;
 type UseContractEventConfig = WatchContractEventParameters;
-import deployedContractsData from "~~/contracts/deployedContracts";
-import externalContractsData from "~~/contracts/externalContracts";
-import scaffoldConfig from "~~/scaffold.config";
+import deployedContractsData from "../../contracts/deployedContracts";
+import externalContractsData from "../../contracts/externalContracts";
+import scaffoldConfig from "../../scaffold.config";
 
 type AddExternalFlag<T> = {
   [ChainId in keyof T]: {

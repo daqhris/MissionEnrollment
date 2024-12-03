@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Address as AddressType } from "viem";
-import { Address } from "..";
+import { Address } from "../";
 import dynamic from 'next/dynamic';
 
 const QRCodeSVG = dynamic(() => import('qrcode.react').then(mod => mod.QRCodeSVG), { ssr: false });

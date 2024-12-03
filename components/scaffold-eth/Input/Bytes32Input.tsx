@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { hexToString, isHex, stringToHex } from "viem";
-import type { CommonInputProps } from "..";
-import { InputBase } from "..";
+import type { CommonInputProps } from "../index";
+import { InputBase } from "./InputBase";
 
 export const Bytes32Input = ({ value, onChange, name, placeholder, disabled }: CommonInputProps<string>): JSX.Element => {
   const convertStringToBytes32 = useCallback((): void => {

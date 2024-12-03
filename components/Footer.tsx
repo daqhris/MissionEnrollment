@@ -5,36 +5,36 @@ import Link from "next/link";
 import tw from "tailwind-styled-components";
 import { hardhat } from "viem/chains";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { Faucet } from "~~/components/scaffold-eth";
-import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
+import { Faucet } from "./scaffold-eth";
+import { useTargetNetwork } from "../hooks/scaffold-eth/useTargetNetwork";
 import { ExternalLinkIcon } from "./ExternalLinkIcon";
 
 const FooterContainer = tw.div`
-  min-h-0 
-  py-5 
-  px-1 
-  mb-11 
+  min-h-0
+  py-5
+  px-1
+  mb-11
   lg:mb-0
 `;
 
 const FixedBottomBar = tw.div`
-  fixed 
-  flex 
-  justify-between 
-  items-center 
-  w-full 
-  z-10 
-  p-4 
-  bottom-0 
-  left-0 
+  fixed
+  flex
+  justify-between
+  items-center
+  w-full
+  z-10
+  p-4
+  bottom-0
+  left-0
   pointer-events-none
 `;
 
 const LeftSection = tw.div`
-  flex 
-  flex-col 
-  md:flex-row 
-  gap-2 
+  flex
+  flex-col
+  md:flex-row
+  gap-2
   pointer-events-auto
 `;
 
@@ -51,17 +51,17 @@ const FooterContent = tw.div`
 `;
 
 const FooterMenu = tw.ul`
-  menu 
-  menu-horizontal 
+  menu
+  menu-horizontal
   w-full
 `;
 
 const FooterLinks = tw.div`
-  flex 
-  justify-center 
-  items-center 
-  gap-2 
-  text-sm 
+  flex
+  justify-center
+  items-center
+  gap-2
+  text-sm
   w-full
 `;
 

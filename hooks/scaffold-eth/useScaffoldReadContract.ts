@@ -2,7 +2,7 @@ import { useReadContract, type UseReadContractParameters } from 'wagmi';
 import type { Address, Abi } from 'viem';
 import { useDeployedContractInfo } from './useDeployedContractInfo';
 import { useTargetNetwork } from './useTargetNetwork';
-import type { ContractName, UseScaffoldReadConfig } from '~~/utils/scaffold-eth/contract';
+import type { ContractName, UseScaffoldReadConfig } from '../../utils/scaffold-eth/contract';
 
 type CustomUseReadContractParameters = Omit<UseReadContractParameters, 'address'> & {
   address?: Address;

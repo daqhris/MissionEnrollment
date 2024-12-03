@@ -1,6 +1,6 @@
 import type { Chain } from "viem";
 import { base } from "viem/chains";
-import scaffoldConfig from "~~/scaffold.config";
+import scaffoldConfig from "../../scaffold.config";
 
 type ChainAttributes = {
   color: string | [string, string];

@@ -3,7 +3,7 @@ import { getDefaultWallets } from '@rainbow-me/rainbowkit';
 import { createConfig } from 'wagmi';
 import { base, baseSepolia, sepolia, optimism } from 'viem/chains';
 import { http } from 'viem';
-import scaffoldConfig from "~~/scaffold.config";
+import scaffoldConfig from "../../scaffold.config";
 
 const { walletConnectProjectId } = scaffoldConfig;
 

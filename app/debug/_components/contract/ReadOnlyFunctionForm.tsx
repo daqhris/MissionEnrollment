@@ -11,11 +11,11 @@ import {
   getFunctionInputKey,
   getInitialFormState,
   getParsedContractFunctionArgs,
-} from "~~/app/debug/_components/contract";
-import { displayTxResult } from "~~/app/debug/_components/contract/utilsDisplay";
-import type { DisplayContent } from "~~/app/debug/_components/contract/utilsDisplay";
-import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
-import { getParsedError, notification } from "~~/utils/scaffold-eth";
+} from "./";
+import { displayTxResult } from "./utilsDisplay";
+import type { DisplayContent } from "./utilsDisplay";
+import { useTargetNetwork } from "../../../hooks/scaffold-eth/useTargetNetwork";
+import { getParsedError, notification } from "../../../utils/scaffold-eth";
 
 type ReadOnlyFunctionFormProps = {
   contractAddress: Hex;

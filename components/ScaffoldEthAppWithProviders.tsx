@@ -11,12 +11,12 @@ import { useTheme } from "next-themes";
 import { Toaster } from "react-hot-toast";
 import { WagmiProvider } from "wagmi";
 import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { BlockieAvatar } from "~~/components/scaffold-eth";
-import { ProgressBar } from "~~/components/scaffold-eth/ProgressBar";
-import { useInitializeNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
-import { config } from "~~/app/config/wagmi";
-import ErrorBoundary from "~~/components/ErrorBoundary";
-import { NEXT_PUBLIC_ONCHAINKIT_API_KEY } from "~~/app/config/env";
+import { BlockieAvatar } from "./scaffold-eth";
+import { ProgressBar } from "./scaffold-eth/ProgressBar";
+import { useInitializeNativeCurrencyPrice } from "../hooks/scaffold-eth";
+import { config } from "../app/config/wagmi";
+import ErrorBoundary from "./ErrorBoundary";
+import { NEXT_PUBLIC_ONCHAINKIT_API_KEY } from "../app/config/env";
 
 import "@rainbow-me/rainbowkit/styles.css";
 import "@coinbase/onchainkit/styles.css";

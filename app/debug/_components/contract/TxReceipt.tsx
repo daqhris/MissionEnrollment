@@ -3,8 +3,8 @@ import type { DisplayContent } from "./utilsDisplay";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import type { TransactionReceipt, Transaction } from "viem";
 import { CheckCircleIcon, DocumentDuplicateIcon } from "@heroicons/react/24/outline";
-import { ObjectFieldDisplay } from "~~/app/debug/_components/contract";
-import { replacer } from "~~/utils/scaffold-eth/common";
+import { ObjectFieldDisplay } from "./";
+import { replacer } from "../../../utils/scaffold-eth/common";
 
 type TxResultType = TransactionReceipt | Transaction;
 

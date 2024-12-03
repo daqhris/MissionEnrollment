@@ -5,13 +5,13 @@ import type { Abi, AbiEvent, ExtractAbiEventNames } from "abitype";
 import type { BlockNumber, GetLogsParameters, Log, PublicClient } from "viem";
 import { useBlockNumber, usePublicClient } from "wagmi";
 import type { Config } from "wagmi";
-import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
+import { useDeployedContractInfo } from "./";
 import type {
   ContractAbi,
   ContractName,
   UseScaffoldEventHistoryConfig,
   UseScaffoldEventHistoryData,
-} from "~~/utils/scaffold-eth/contract";
+} from "../../utils/scaffold-eth/contract";
 
 // import { POAPClient, POAPEvent } from '@poap/poap-eth';
 
