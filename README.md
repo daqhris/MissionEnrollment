@@ -150,7 +150,8 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
 
 ### Schema Details
 - **Schema Structure**: `address userAddress,string verifiedName,string proofMethod,string eventName,string eventType,string assignedRole,string missionName,uint256 timestamp,address attester,string proofProtocol`
-- **Schema UID**: 0x46a1e77e9f1d74c8c60c8d8bd8129947b3c5f4d3e6e9497ae2e4701dd8e2c401
+- **Schema UID**: 0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd
+- **View on EAS Explorer**: [Base Sepolia Schema](https://base-sepolia.easscan.org/schema/view/0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd)
 - **Fields**:
   - `userAddress`: Ethereum address of the enrolled user
   - `verifiedName`: User's verified Basename or ENS name
