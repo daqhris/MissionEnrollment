@@ -41,22 +41,26 @@ const NetworkSwitchButton: React.FC<NetworkSwitchButtonProps> = ({
         throw new Error('No Web3 provider detected');
       }
 
-      // Get contract code at network-specific EAS contract address
+      // Get contract code at network-specific EAS contract address for Base Sepolia or Base
       const contractAddress = targetChainId === baseSepolia.id
-        ? EAS_CONTRACT_ADDRESS_SEPOLIA
-        : EAS_CONTRACT_ADDRESS_BASE;
+        ? EAS_CONTRACT_ADDRESS_SEPOLIA  // Base Sepolia EAS contract
+        : EAS_CONTRACT_ADDRESS_BASE;    // Base mainnet EAS contract
 
+      // Verify contract exists on the network
       const code = await provider.request({
         method: 'eth_getCode',
         params: [contractAddress, 'latest']
       });
 
-      return code !== '0x' && code !== '0x0';
+      // Check if contract exists (has code)
+      if (!code || code === '0x' || code === '0x0') {
+        console.error(`No contract code found at ${contractAddress} on ${getNetworkName(targetChainId)}`);
+        return false;
+      }
+
+      return true;
     } catch (error) {
       console.error('Contract verification failed:', error);
-      if (error.message?.includes('eth_getCode')) {
-        throw new Error('Unable to verify EAS contract. Please check your connection and try again.');
-      }
       return false;
     } finally {
       setIsVerifyingContract(false);
@@ -67,12 +71,18 @@ const NetworkSwitchButton: React.FC<NetworkSwitchButtonProps> = ({
     setIsLoading(true);
     setError(null);
     try {
+      // First switch the network
+      await switchChain({ chainId: targetChainId });
+
+      // Add a small delay to ensure provider is ready after network switch
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Then verify the contract on the new network
       const isContractVerified = await verifyContractConnection();
       if (!isContractVerified) {
         throw new Error(`Unable to verify EAS contract on ${getNetworkName(targetChainId)}. Please ensure you have the correct network configuration.`);
       }
 
-      await switchChain({ chainId: targetChainId });
       onSuccess?.();
     } catch (error: any) {
       console.error('Network switch error:', error);
