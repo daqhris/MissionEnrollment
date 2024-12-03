@@ -1,8 +1,56 @@
+import { base, baseSepolia } from 'viem/chains';
+
 // Network constants
-export const BASE_SEPOLIA_CHAIN_ID = 84532;
+export const BASE_SEPOLIA_CHAIN_ID = baseSepolia.id;
+export const BASE_MAINNET_CHAIN_ID = base.id;
 
-// EAS contract constants
-export const EAS_CONTRACT_ADDRESS = '0xC2679fBD37d54388Ce493F1DB75320D236e1815e';
-export const SCHEMA_UID = '0x46a1e77e9f1d74c8c60c8d8bd8129947b3c5f4d3e6e9497ae2e4701dd8e2c401';
+// Contract addresses
+export const MISSION_ENROLLMENT_BASE_ETH_ADDRESS = '0xF0bC5CC2B4866dAAeCb069430c60b24520077037';
+export const EAS_CONTRACT_ADDRESS_BASE = '0x4200000000000000000000000000000000000021';
+export const EAS_CONTRACT_ADDRESS_SEPOLIA = '0xC2679fBD37d54388Ce493F1DB75320D236e1815e'; // Base Sepolia EAS address
+export const EAS_CONTRACT_ADDRESS = EAS_CONTRACT_ADDRESS_SEPOLIA; // Default to Sepolia for attestations
+export const ATTESTATION_SERVICE_ADDRESS = '0x60Ed99B474C0F02649C4038684A7C3FfF5EEe53D';
 
-// Other blockchain-related constants can be added here
+// Schema Configuration
+export const SCHEMA_UID = '0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd';
+export const SCHEMA_ENCODING = "address userAddress,string verifiedName,string proofMethod,string eventName,string eventType,string assignedRole,string missionName,uint256 timestamp,address attester,string proofProtocol";
+
+// Network Configuration
+export const NETWORK_CONFIG: Record<number, {
+  name: string;
+  chainId: number;
+  isTestnet: boolean;
+  rpcUrl: string;
+  blockExplorer: string;
+}> = {
+  [base.id]: {
+    name: 'Base',
+    chainId: base.id,
+    isTestnet: false,
+    rpcUrl: base.rpcUrls.default.http[0],
+    blockExplorer: base.blockExplorers.default.url
+  },
+  [baseSepolia.id]: {
+    name: 'Base Sepolia',
+    chainId: baseSepolia.id,
+    isTestnet: true,
+    rpcUrl: baseSepolia.rpcUrls.default.http[0],
+    blockExplorer: baseSepolia.blockExplorers.default.url
+  }
+};
+
+// API Endpoints
+export const POAP_API_URL = "https://api.poap.tech";
+
+// Helper Functions
+export const getNetworkName = (chainId: number): string => {
+  return NETWORK_CONFIG[chainId]?.name || 'Unknown Network';
+};
+
+export const isCorrectNetwork = (chainId: number, action: 'verification' | 'attestation'): boolean => {
+  return action === 'verification' ? chainId === base.id : chainId === baseSepolia.id;
+};
+
+export const getRequiredNetwork = (action: 'verification' | 'attestation') => {
+  return action === 'verification' ? base : baseSepolia;
+};

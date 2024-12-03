@@ -1,12 +1,4 @@
-export interface POAPEvent {
-  event: {
-    id: number;
-    name: string;
-    image_url: string;
-    start_date: string;
-  };
-  tokenId: string;
-}
+import { POAPEvent } from '../../utils/fetchPoapsUtil';
 
 export interface EventInfo {
   role: string;
@@ -27,7 +19,10 @@ export const mockPoapsResponse: POAPEvent[] = [
       id: 123456,
       name: "ETHGlobal Brussels Hacker",
       image_url: "https://assets.poap.xyz/ethglobal-brussels-2024-hacker-2024-logo.png",
-      start_date: "2024-02-17"
+      event_url: "https://ethglobal.com/events/brussels",
+      start_date: "2024-02-17",
+      end_date: "2024-02-18",
+      description: "ETHGlobal Brussels 2024 Hacker POAP"
     },
     tokenId: "7890123"
   },
@@ -36,7 +31,10 @@ export const mockPoapsResponse: POAPEvent[] = [
       id: 123457,
       name: "ETHGlobal Brussels Speaker",
       image_url: "https://assets.poap.xyz/ethglobal-brussels-2024-speaker-2024-logo.png",
-      start_date: "2024-02-17"
+      event_url: "https://ethglobal.com/events/brussels",
+      start_date: "2024-02-17",
+      end_date: "2024-02-18",
+      description: "ETHGlobal Brussels 2024 Speaker POAP"
     },
     tokenId: "7890124"
   },
@@ -45,7 +43,10 @@ export const mockPoapsResponse: POAPEvent[] = [
       id: 123458,
       name: "Some Other Event",
       image_url: "https://assets.poap.xyz/other-event-2024-logo.png",
-      start_date: "2024-02-17"
+      event_url: "https://example.com/event",
+      start_date: "2024-02-17",
+      end_date: "2024-02-18",
+      description: "Some Other Event POAP"
     },
     tokenId: "7890125"
   }

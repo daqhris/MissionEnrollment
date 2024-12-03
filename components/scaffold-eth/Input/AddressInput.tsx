@@ -5,8 +5,8 @@ import type { Address } from "viem";
 import { isAddress } from "viem";
 import { normalize } from "viem/ens";
 import { useEnsAddress, useEnsAvatar, useEnsName } from "wagmi";
-import type { CommonInputProps } from "~~/components/scaffold-eth";
-import { InputBase, isENS } from "~~/components/scaffold-eth";
+import type { CommonInputProps } from "../index";
+import { InputBase, isENS } from "./InputBase";
 
 interface AddressInputProps extends CommonInputProps<Address | string | undefined> {
   value: Address | string | undefined;

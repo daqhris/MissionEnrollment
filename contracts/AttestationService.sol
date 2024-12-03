@@ -16,7 +16,7 @@ contract AttestationService is Initializable, AccessControlUpgradeable, UUPSUpgr
 
     bytes32 private _missionEnrollmentSchema;
     bytes32 public constant ATTESTATION_CREATOR_ROLE = keccak256("ATTESTATION_CREATOR_ROLE");
-    address private constant MISSION_ENROLLMENT_DAQHRIS_ETH_ADDRESS = 0xF0bC5CC2B4866dAAeCb069430c60b24520077037;
+    address private constant MISSION_ENROLLMENT_BASE_ETH_ADDRESS = 0xF0bC5CC2B4866dAAeCb069430c60b24520077037;
 
     mapping(address => bool) private approvedAttestationCreators;
 
@@ -36,10 +36,13 @@ contract AttestationService is Initializable, AccessControlUpgradeable, UUPSUpgr
         eas = IEAS(_eas);
         schemaRegistry = ISchemaRegistry(_schemaRegistry);
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        approvedAttestationCreators[MISSION_ENROLLMENT_DAQHRIS_ETH_ADDRESS] = true;
+        approvedAttestationCreators[MISSION_ENROLLMENT_BASE_ETH_ADDRESS] = true;
+
+        // Call createMissionEnrollmentSchema directly since msg.sender has admin role
+        createMissionEnrollmentSchema();
     }
 
-    function createMissionEnrollmentSchema() external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function createMissionEnrollmentSchema() public onlyRole(DEFAULT_ADMIN_ROLE) {
         require(_missionEnrollmentSchema == bytes32(0), "Schema already created");
         AttestationUtils.EAS memory easInstance = AttestationUtils.EAS(eas, schemaRegistry);
         _missionEnrollmentSchema = AttestationUtils.createMissionEnrollmentSchema(easInstance);
@@ -57,13 +60,24 @@ contract AttestationService is Initializable, AccessControlUpgradeable, UUPSUpgr
             schemaRegistry: schemaRegistry
         });
 
-        bytes memory data = abi.encode(recipient, tokenId, block.timestamp, msg.sender);
+        bytes memory data = abi.encode(
+            recipient,                   // userAddress
+            "",                         // verifiedName (empty string, will be set by frontend)
+            "Basename Protocol",        // proofMethod
+            "ETHGlobal Brussels 2024", // eventName
+            "International Hackathon", // eventType
+            "",                       // assignedRole (dynamic, from POAP)
+            "Zinneke Rescue Mission", // missionName
+            block.timestamp,          // timestamp
+            MISSION_ENROLLMENT_BASE_ETH_ADDRESS, // attester
+            "EAS Protocol"           // proofProtocol
+        );
         bytes32 attestationId = AttestationUtils.submitAttestation(
             easInstance,
             _missionEnrollmentSchema,
             recipient,
             tokenId,
-            data
+            bytes(data)  // Explicit conversion to bytes
         );
 
         emit AttestationCreated(attestationId, recipient, msg.sender);
@@ -81,7 +95,7 @@ contract AttestationService is Initializable, AccessControlUpgradeable, UUPSUpgr
     }
 
     function revokeAttestationCreatorRole(address account) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        require(account != MISSION_ENROLLMENT_DAQHRIS_ETH_ADDRESS, "Cannot revoke role from main attestation creator");
+        require(account != MISSION_ENROLLMENT_BASE_ETH_ADDRESS, "Cannot revoke role from main attestation creator");
         approvedAttestationCreators[account] = false;
     }
 

@@ -3,8 +3,8 @@ import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { parseEther, type TransactionReceipt } from "viem";
 import { useTargetNetwork } from "./useTargetNetwork";
 import { useDeployedContractInfo } from "./useDeployedContractInfo";
-import { getBlockExplorerTxLink, notification } from "~~/utils/scaffold-eth";
-import { ContractAbi, ContractName } from "~~/utils/scaffold-eth/contract";
+import { getBlockExplorerTxLink, notification } from "../../utils/scaffold-eth";
+import { ContractAbi, ContractName } from "../../utils/scaffold-eth/contract";
 
 export type UseScaffoldWriteContractConfig<
   TContractName extends ContractName,

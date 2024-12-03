@@ -2,9 +2,9 @@ import { getPublicClient } from "@wagmi/core";
 import type { Hash, SendTransactionParameters, WalletClient as VWalletClient, PublicClient } from "viem";
 import { useWalletClient } from "wagmi";
 import type { Config } from "wagmi";
-import { wagmiConfig } from "~~/services/web3/wagmiConfig";
-import { getBlockExplorerTxLink, getParsedError, notification } from "~~/utils/scaffold-eth";
-import type { TransactorFuncOptions } from "~~/utils/scaffold-eth/contract";
+import { wagmiConfig } from "../../services/web3/wagmiConfig";
+import { getBlockExplorerTxLink, getParsedError, notification } from "../../utils/scaffold-eth";
+import type { TransactorFuncOptions } from "../../utils/scaffold-eth/contract";
 import { ReactNode } from "react";
 
 type TransactionFunc = (

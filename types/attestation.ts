@@ -1,3 +1,18 @@
+export interface SchemaData {
+  userAddress: string;      // address - wallet address
+  verifiedName: string;     // string - verified name from Basename
+  proofMethod: string;      // string - "Basename Protocol"
+  eventName: string;        // string - "ETHGlobal Brussels 2024"
+  eventType: string;        // string - "International Hackathon"
+  assignedRole: string;     // string - dynamic role from POAP
+  missionName: string;      // string - "Zinneke Rescue Mission"
+  timestamp: number;        // uint256 - block timestamp
+  attester: string;         // address - MISSION_ENROLLMENT_BASE_ETH_ADDRESS
+  proofProtocol: string;    // string - "EAS Protocol"
+}
+
+export const SCHEMA_ENCODING = "address userAddress,string verifiedName,string proofMethod,string eventName,string eventType,string assignedRole,string missionName,uint256 timestamp,address attester,string proofProtocol";
+
 export interface Attestation {
   id: string;
   attester: string;

@@ -2,6 +2,7 @@
 
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
 import { http } from 'viem';
+import { base, baseSepolia } from 'viem/chains';
 import { NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID, NEXT_PUBLIC_ALCHEMY_API_KEY } from './env';
 import {
   coinbaseWallet,
@@ -9,7 +10,13 @@ import {
   metaMaskWallet,
   walletConnectWallet,
 } from '@rainbow-me/rainbowkit/wallets';
-import { baseMainnet, baseSepoliaChain } from './chains';
+
+// Type declaration for ethereum provider
+declare global {
+  interface Window {
+    ethereum?: any; // Using any to avoid conflicts with cbw-sdk
+  }
+}
 
 // Validate required environment variables during client-side execution
 if (typeof window !== 'undefined') {
@@ -26,10 +33,10 @@ if (typeof window !== 'undefined') {
 export const config = getDefaultConfig({
   appName: 'Mission Enrollment',
   projectId: NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || '',
-  chains: [baseMainnet, baseSepoliaChain] as const,
+  chains: [base, baseSepolia] as const,
   transports: {
-    [baseMainnet.id]: http(`https://base-mainnet.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`),
-    [baseSepoliaChain.id]: http(`https://base-sepolia.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`),
+    [base.id]: http(`https://base-mainnet.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`),
+    [baseSepolia.id]: http(`https://base-sepolia.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`),
   },
   ssr: true,
   wallets: [
@@ -55,11 +62,11 @@ export const config = getDefaultConfig({
 
 // Export chain IDs for easy reference
 export const SUPPORTED_CHAINS = {
-  BASE_MAINNET: baseMainnet.id,
-  BASE_SEPOLIA: baseSepoliaChain.id,
+  BASE_MAINNET: base.id,
+  BASE_SEPOLIA: baseSepolia.id,
 } as const;
 
-export const DEFAULT_CHAIN = baseMainnet;
+export const DEFAULT_CHAIN = base;
 
 // Export helper for network switching with type safety
 export async function switchToNetwork(chainId: (typeof SUPPORTED_CHAINS)[keyof typeof SUPPORTED_CHAINS]) {
@@ -77,4 +84,4 @@ export async function switchToNetwork(chainId: (typeof SUPPORTED_CHAINS)[keyof t
   }
 }
 
-export { baseSepoliaChain };
+export { baseSepolia };

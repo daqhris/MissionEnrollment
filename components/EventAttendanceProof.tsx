@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import { fetchAndVerifyPOAPs, POAPEvent } from "../utils/poapUtils";
 
@@ -34,9 +34,9 @@ const EventAttendanceProof: React.FC<EventAttendanceProofProps> = ({ onVerified,
     if (progress === 100) {
       verifyPOAPs();
     }
-  }, [progress]);
+  }, [progress, verifyPOAPs]);
 
-  const verifyPOAPs = async () => {
+  const verifyPOAPs = useCallback(async () => {
     if (!userAddress) {
       setError("Please connect your wallet to verify attendance.");
       toast.error("Please connect your wallet to verify attendance.");
@@ -79,7 +79,7 @@ const EventAttendanceProof: React.FC<EventAttendanceProofProps> = ({ onVerified,
       setVerificationStarted(false);
       setProgress(0);
     }
-  };
+  }, [userAddress, onVerified, setPoaps]);
 
   const startVerification = () => {
     setVerificationStarted(true);
