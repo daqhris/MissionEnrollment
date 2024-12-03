@@ -68,15 +68,18 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
     console.error('Attestation error:', {
       message: err.message,
       code: (err as any).code,
-      chainId
+      chainId,
+      stack: err.stack
     });
 
     let errorMessage = 'Failed to create attestation. Please try again.';
 
     if (err.message.includes('invalid signer')) {
       errorMessage = 'Invalid signer. Please check your wallet connection.';
-    } else if (err.message.includes('user rejected')) {
+    } else if (err.message.includes('user rejected') || err.message.includes('User rejected')) {
       errorMessage = 'Transaction was rejected. Please try again.';
+    } else if (err.message.includes('network')) {
+      errorMessage = 'Network error. Please ensure you are connected to Base Sepolia.';
     }
 
     setError(errorMessage);
@@ -85,12 +88,16 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
 
   const handleNetworkSwitch = async () => {
     try {
+      console.log('Initiating network switch to Base Sepolia...');
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: `0x${BASE_SEPOLIA_CHAIN_ID.toString(16)}` }],
       });
+      console.log('Network switch request sent successfully');
+      // Add delay to allow network switch to complete
+      await new Promise(resolve => setTimeout(resolve, 1000));
     } catch (switchError: any) {
-      // Handle the case where the chain hasn't been added to MetaMask
+      console.error('Network switch error:', switchError);
       if (switchError.code === 4902) {
         handleAttestationError(new Error('Please add Base Sepolia network to your wallet'));
       } else {
@@ -100,17 +107,28 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
   };
 
   const createAttestation = async () => {
+    console.log('Starting attestation creation...', {
+      address,
+      chainId,
+      hasPreviewData: !!previewData,
+      hasPublicClient: !!publicClient,
+      currentNetwork: chainId
+    });
+
     if (!address || !previewData) {
+      console.log('Validation failed: missing address or preview data');
       setError("Please connect your wallet and preview the attestation first");
       return;
     }
 
     if (!publicClient) {
+      console.log('Validation failed: no public client available');
       setError("Web3 provider not available");
       return;
     }
 
     if (chainId !== BASE_SEPOLIA_CHAIN_ID) {
+      console.log('Validation failed: incorrect network');
       setError("Please switch to Base Sepolia network");
       return;
     }
@@ -120,25 +138,32 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
       setError(null);
       setTransactionHash(null);
 
-      // Initialize EAS with the correct contract address
+      console.log('Initializing EAS with contract address:', EAS_CONTRACT_ADDRESS);
       const eas = new EAS(EAS_CONTRACT_ADDRESS);
 
-      // Ensure wallet is connected
-      if (!walletClient) throw new Error("Wallet client not available");
-      if (!address) throw new Error("Wallet not connected");
+      if (!walletClient) {
+        console.log('Error: Wallet client not available');
+        throw new Error("Wallet client not available");
+      }
 
-      // Create an Ethers v6 provider and signer
+      console.log('Creating provider and signer...');
       const provider = new BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
 
-      // Connect the signer to EAS
+      console.log('Connecting signer to EAS...');
       await eas.connect(signer);
 
-      // Ensure we're on the correct network
+      console.log('Checking network...');
       const network = await provider.getNetwork();
       if (network.chainId !== BigInt(BASE_SEPOLIA_CHAIN_ID)) {
+        console.log('Network mismatch, initiating switch...');
         await handleNetworkSwitch();
-        return; // Exit and let the user try again after network switch
+        // Wait for network switch and verify
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        const newNetwork = await provider.getNetwork();
+        if (newNetwork.chainId !== BigInt(BASE_SEPOLIA_CHAIN_ID)) {
+          throw new Error('Network switch failed or was cancelled');
+        }
       }
 
       // Create Schema Encoder instance and encode data
@@ -332,7 +357,9 @@ export default function EnrollmentAttestation({ verifiedName, poapVerified, onAt
             disabled={loading || chainId !== BASE_SEPOLIA_CHAIN_ID}
             sx={{ mt: 2 }}
           >
-            {loading ? <CircularProgress size={24} /> : 'Create Attestation'}
+            {loading ? <CircularProgress size={24} /> :
+             chainId !== BASE_SEPOLIA_CHAIN_ID ? 'Switch to Base Sepolia First' :
+             'Create Attestation'}
           </Button>
         )}
 
