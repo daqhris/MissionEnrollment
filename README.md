@@ -31,20 +31,9 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 - Utilizes Ethereum Attestation Service (EAS) for creating trustworthy onchain records
 - Primarily supports attestations on the Base Sepolia network
-- Includes comprehensive attestation data: user address, verified name, POAP data, and timestamp
+- Includes comprehensive attestation data
 - Features attestation history tracking and display
 - Provides real-time network status and validation
-
-### 4. Smart Contract
-
-- Implements role-based access control for attestation creation
-- Provides functions for schema creation, attestation, and verification
-
-### 5. Easy-peasy UI/UX
-
-- Responsive design with clear user feedback
-- Loading indicators and error messages for better user experience
-- Step-by-step guided process from identity verification until enrollment attestation
 
 ## Technical Stack
 
@@ -61,11 +50,11 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 ### Other Dev Tools
 
-- **State Management**: React Query (with singleton QueryClient instance)
-- **Wallet Login**: Wagmi, prioritized Scaffold-ETH connector
+- **State Management**: React Query
+- **Wallet Login**: RainbowKit
 - **Styling**: Tailwind CSS, daisy UI
 - **Type Checking**: TypeScript
-- **Code Quality**: ESLint, comprehensive test suite with Jest
+- **Code Quality**: ESLint, Jest
 
 ## Screenshots
 
@@ -80,7 +69,7 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 - Node.js (v20 or later)
 - Yarn
-- An Ethereum wallet
+- An Ethereum wallet (recommended: Coinbase Wallet)
 - Environment Variables:
   - `NEXT_PUBLIC_ONCHAINKIT_API_KEY`: API key for OnchainKit integration
   - `NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID`: Project ID for WalletConnect
@@ -89,7 +78,6 @@ It is built as a web application with **Next.js** and **React**, and runs on top
   - `NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL`: RPC URL for Base Sepolia network
   - `NEXT_PUBLIC_EAS_CONTRACT_ADDRESS`: Address of the EAS contract
   - `NEXT_PUBLIC_DEFAULT_CHAIN`: Chain ID (default: 8453 for Base)
-  - `PRIVATE_KEY`: For contract deployment and testing
 
 ### Installation
 
@@ -126,7 +114,7 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 1. User connects their Ethereum wallet using the prioritized scaffold-eth connector and verifies their identity with Basename or ENS name verification.
 2. The application fetches and displays relevant POAPs, specifically ETHGlobal Brussels 2024, extracting role information dynamically.
 3. The EventAttendanceVerification component verifies event attendance and role through POAPs before proceeding to attestation.
-4. User creates an attestation on the Base Sepolia network using EAS, with automatic network switching if needed. The attestation includes the user's address, verified name, POAP verification status, and timestamp. All attestations can be verified on the public blockchain.
+4. User creates an attestation on the Base Sepolia network using EAS, with blockchain network switching if needed.
 
 ## API Routes
 
@@ -136,12 +124,12 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 `POAPVerification.sol`: Integrates with the POAP protocol for verifying real-life event attendance.
 
-`AttestationService.sol`: This contract implements onchain attestation using the Ethereum Attestation Service (EAS). It features role-based access control, with specific roles for attestation creators and administrators. The contract uses a custom schema for mission enrollment attestations, which includes the user's name and POAP verification status. The contract follows the UUPS (Universal Upgradeable Proxy Standard) pattern for upgradability while maintaining contract state and addresses. Integration with EAS is handled through the official EAS SDK v2.7.0.
+`AttestationService.sol`: This contract implements an onchain attestation using the Ethereum Attestation Service (EAS). Integration with EAS is handled through the official EAS SDK v2.7.0.
 
 ## Smart Contract Functions
 
-1. `createMissionEnrollmentSchema()`: Creates the schema for mission enrollment attestations with fields for user address, verified name, POAP verification status, and timestamp
-2. `createMissionEnrollmentAttestation(address userAddress, string verifiedName, bool poapVerified)`: Creates an attestation for a user with their verified information and POAP status
+1. `createMissionEnrollmentSchema()`: Creates the schema for enrollment attestations with 10 fields
+2. `createMissionEnrollmentAttestation()`: Creates an attestation for a user with their bits of information
 3. `verifyAttestation(bytes32 attestationId)`: Verifies the validity of an attestation
 
 ## EAS Architecture and Schema
@@ -173,16 +161,13 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
   - Connects to Base's EAS contract at 0x4200000000000000000000000000000000000021
   - Implements role-based access control for attestation creation
 
-### Resources and Contract Verification
+### Onchain Attestation Resources
 - [EAS Documentation](https://docs.attest.sh/)
 - [EAS SDK Reference](https://github.com/ethereum-attestation-service/eas-sdk)
 - [Base Network EAS Guide](https://docs.base.org/guides/attestation-service)
 - [Base Sepolia Explorer](https://sepolia.basescan.org/)
-- Contract Verification:
-  - [EAS Contract on Base Sepolia](https://sepolia.basescan.org/address/0x4200000000000000000000000000000000000021)
-  - [Schema Registry on Base Sepolia](https://sepolia.basescan.org/address/0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0)
-  - [POAP Contract on Base Sepolia](https://sepolia.basescan.org/address/0x22C1f6050E56d2876009903609a2cC3fEf83B415)
-
+- [EAS Contract on Base Sepolia](https://sepolia.basescan.org/address/0x4200000000000000000000000000000000000021)
+  
 ## Frontend Components
 
 - `IdentityVerification.tsx`: This component handles user identity verification by validating Basenames. It ensures that users are properly authenticated before proceeding with event attendance.
@@ -194,26 +179,13 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
 
 ## ETHGlobal Brussels 2024
 
-This web app includes a special feature that is dependent on participation in ETHGlobal Brussels 2024.
+This web app includes a special feature that is dependent on in-person participation at ETHGlobal Brussels 2024.
 Users are invited to verify ownership of an ETHGlobal-certified POAP, adding an extra layer of credibility to their enrollment attestations.
 The mission coordinator has participated in the global hackathon when it was held for the first time in Belgium.
-
-## Deployed Contracts
-
-The AttestationService contract has been deployed on the following networks:
-
-### Base Sepolia
-- EAS Contract: 0x4200000000000000000000000000000000000021
-- Schema Registry: 0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0
-- POAP Contract: 0x22C1f6050E56d2876009903609a2cC3fEf83B415
 
 ### Affiliated Wallet Addresses
 - __daqhris.base.eth__: 0xb5ee030c71e76c3e03b2a8d425dbb9b395037c82
 - __mission-enrollment.base.eth__: 0xF0bC5CC2B4866dAAeCb069430c60b24520077037
-
-#### Proxy Contract Deployments
-- Proxy Implementation 1: [0x3a5b4651aae3f43ea4994d16c17c74ce012ce664](https://sepolia.basescan.org/address/0x3a5b4651aae3f43ea4994d16c17c74ce012ce664)
-- Proxy Implementation 2: [0x85a8c21e26695112b83c50d69eba08bfb533b0cb](https://sepolia.basescan.org/address/0x85a8c21e26695112b83c50d69eba08bfb533b0cb)
 
 _**Note**: Contract addresses are maintained and updated regularly as the app is still under construction._
 
