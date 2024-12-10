@@ -43,3 +43,4 @@ IMPLEMENTATION_PLAN.md
 # development logs
 server.log
 *.log
+proxy-logs.txt
