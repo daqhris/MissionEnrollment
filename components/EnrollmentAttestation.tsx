@@ -12,7 +12,7 @@ import {
 } from '../utils/constants';
 import { SCHEMA_ENCODING } from '../types/attestation';
 import { getPOAPRole } from '../utils/poap';
-import { BrowserProvider } from 'ethers';
+import { BrowserProvider, TransactionReceipt, Log, Interface } from 'ethers';
 
 interface EnrollmentAttestationProps {
   verifiedName: string;
@@ -89,6 +89,10 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
       setError('Invalid signer. Please check your wallet connection.');
     } else if (error.message?.includes('user rejected') || error.message?.includes('User rejected')) {
       setError('Transaction was rejected. Please try again.');
+    } else if (error.message?.includes('transaction failed')) {
+      setError('Transaction failed. Please check your wallet and try again.');
+    } else if (error.message?.includes('event not found')) {
+      setError('Attestation creation failed. Please try again.');
     } else {
       setError(`Failed to create attestation: ${error.message || 'Unknown error'}`);
     }
@@ -171,8 +175,36 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
         },
       });
 
+      console.log('Waiting for transaction confirmation...');
+      const receipt = await tx.wait();
+
+      if (!receipt || typeof receipt === 'string') {
+        throw new Error('Invalid transaction receipt');
+      }
+
+      // Check for AttestationCreated event using EAS contract events
+      const attestedEvent = (receipt as TransactionReceipt).logs
+        .map((log: Log) => {
+          try {
+            return {
+              parsed: eas.contract.interface.parseLog(log),
+              raw: log
+            };
+          } catch {
+            return null;
+          }
+        })
+        .find(event => event?.parsed?.name === 'Attested');
+
+      if (!attestedEvent) {
+        throw new Error('Attestation event not found in transaction receipt');
+      }
+
+      console.log('Parsed attestation event:', attestedEvent.parsed);
+      console.log('Raw attestation event:', attestedEvent.raw);
+      console.log('Attestation created successfully:', receipt);
       setLoading(false);
-      return tx;
+      return receipt;
     } catch (err: any) {
       console.error('Error creating attestation:', err);
       handleError(err);
@@ -287,7 +319,11 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
                   chainId !== BASE_SEPOLIA_CHAIN_ID
                 }
               >
-                {chainId !== BASE_SEPOLIA_CHAIN_ID ? 'Switch to Base Sepolia First' : 'Create Attestation'}
+                {loading ? (
+                  <CircularProgress size={24} />
+                ) : (
+                  'Create Attestation'
+                )}
               </Button>
               <NetworkSwitchButton
                 targetChainId={getRequiredNetwork('attestation').id}
