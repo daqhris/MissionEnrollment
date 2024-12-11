@@ -10,6 +10,7 @@ import { useDeployedContractInfo, useNetworkColor } from "../../hooks/scaffold-e
 import { useTargetNetwork } from "../../hooks/scaffold-eth/useTargetNetwork";
 import type { ContractName } from "../../utils/scaffold-eth/contract";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
+import { BASE_SEPOLIA_CHAIN_ID } from "../../../../utils/constants";
 import { useAccount } from 'wagmi';
 import { JsonRpcProvider, Wallet } from 'ethers';
 type ContractUIProps = {
@@ -19,7 +20,6 @@ type ContractUIProps = {
 
 const EAS_CONTRACT_ADDRESS = '0xC2679fBD37d54388Ce493F1DB75320D236e1815e';
 const SCHEMA_UID = '0x46a1e77e9f1d74c8c60c8d8bd8129947b3c5f4d3e6e9497ae2e4701dd8e2c401';
-const BASE_SEPOLIA_CHAIN_ID = 84532;
 const ATTESTATION_SCHEMA = "address userAddress,string verifiedName,bool poapVerified,uint256 timestamp";
 
 /**
