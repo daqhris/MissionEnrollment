@@ -7,7 +7,8 @@ import {
   EAS_CONTRACT_ADDRESS_SEPOLIA,
   SCHEMA_UID,
   MISSION_ENROLLMENT_BASE_ETH_ADDRESS,
-  getRequiredNetwork
+  getRequiredNetwork,
+  BASE_SEPOLIA_CHAIN_ID
 } from '../utils/constants';
 import { SCHEMA_ENCODING } from '../types/attestation';
 import { getPOAPRole } from '../utils/poap';
