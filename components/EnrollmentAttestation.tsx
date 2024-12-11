@@ -70,6 +70,15 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
   }, [address, verifiedName]);
 
   const handleError = (error: any) => {
+    // Add receipt-specific error logging
+    if (error.message?.includes('receipt')) {
+      console.error('Receipt validation error:', {
+        errorType: error.constructor.name,
+        message: error.message,
+        code: error.code,
+        details: error
+      });
+    }
     console.error('Attestation error:', {
       message: error.message,
       code: (error as any).code,
@@ -178,8 +187,13 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
       console.log('Waiting for transaction confirmation...');
       const receipt = await tx.wait();
 
-      if (!receipt || typeof receipt === 'string') {
-        throw new Error('Invalid transaction receipt');
+      // Add detailed receipt logging
+      console.log('Receipt type:', typeof receipt);
+      console.log('Receipt structure:', JSON.stringify(receipt, null, 2));
+
+      // ethers v6 TransactionReceipt is always an object
+      if (!receipt || !receipt.blockNumber || !receipt.hash) {
+        throw new Error('Invalid transaction receipt: missing required fields');
       }
 
       // Check for AttestationCreated event using EAS contract events
