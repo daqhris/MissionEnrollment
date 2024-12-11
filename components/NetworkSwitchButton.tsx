@@ -83,7 +83,9 @@ const NetworkSwitchButton: React.FC<NetworkSwitchButtonProps> = ({
         throw new Error(`Unable to verify EAS contract on ${getNetworkName(targetChainId)}. Please ensure you have the correct network configuration.`);
       }
 
+      // Force UI refresh by triggering state updates
       onSuccess?.();
+      window.dispatchEvent(new Event('networkChanged'));
     } catch (error: any) {
       console.error('Network switch error:', error);
       const errorMessage = error.message?.includes('user rejected')
