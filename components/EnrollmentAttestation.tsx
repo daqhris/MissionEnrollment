@@ -45,6 +45,7 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
     }
 
     try {
+      setLoading(true);  // Add loading state
       const role = await getPOAPRole(address);
       const timestamp = Math.floor(Date.now() / 1000);
 
@@ -60,9 +61,11 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
         attester: MISSION_ENROLLMENT_BASE_ETH_ADDRESS,
         proofProtocol: "EAS Protocol"
       });
+      setLoading(false);  // Clear loading state
     } catch (error) {
       console.error('Error initializing preview data:', error);
       setError('Failed to initialize preview data. Please try again.');
+      setLoading(false);  // Clear loading state on error
     }
   }, [address, verifiedName]);
 
@@ -177,24 +180,33 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
     }
   };
 
+  const checkNetworkAndContract = useCallback(async () => {
+    if (!address) return;
+
+    const currentChain = chainId;
+    const requiredChain = getRequiredNetwork('attestation').id;  // Changed from 'verification' to 'attestation'
+
+    if (currentChain !== requiredChain) {
+      setError(`Please connect to Base Sepolia for attestation creation`);
+      return;
+    }
+
+    setError(null);
+    await initializePreviewData();
+  }, [address, chainId, initializePreviewData]);
+
   useEffect(() => {
-    const checkNetworkAndContract = async () => {
-      if (!address) return;
+    checkNetworkAndContract();
+  }, [address, chainId, checkNetworkAndContract]);
 
-      const currentChain = chainId;
-      const requiredChain = getRequiredNetwork('verification').id;
-
-      if (currentChain !== requiredChain) {
-        setError(`Please connect to Base mainnet for identity verification`);
-        return;
-      }
-
-      setError(null);
-      await initializePreviewData();
+  useEffect(() => {
+    const handleNetworkChange = () => {
+      checkNetworkAndContract();
     };
 
-    checkNetworkAndContract();
-  }, [address, chainId, initializePreviewData]);
+    window.addEventListener('networkChanged', handleNetworkChange);
+    return () => window.removeEventListener('networkChanged', handleNetworkChange);
+  }, [checkNetworkAndContract]);
 
   return (
     <Card>
@@ -268,7 +280,12 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
                 variant="contained"
                 color="primary"
                 onClick={createAttestation}
-                disabled={loading || !previewData}
+                disabled={
+                  !address ||
+                  !previewData ||
+                  loading ||
+                  chainId !== BASE_SEPOLIA_CHAIN_ID
+                }
               >
                 {chainId !== BASE_SEPOLIA_CHAIN_ID ? 'Switch to Base Sepolia First' : 'Create Attestation'}
               </Button>
