@@ -71,13 +71,12 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
 
   const handleError = (error: any) => {
     // Add receipt-specific error logging
-    if (error.message?.includes('receipt')) {
-      console.error('Receipt validation error:', {
+    if (error.message?.includes('receipt') || error.message?.includes('attestation')) {
+      console.error('Receipt/Attestation validation error:', {
         errorType: error.constructor.name,
         message: error.message,
         code: error.code,
         details: error,
-        receipt: error.receipt || null,
         stack: error.stack
       });
     }
@@ -102,8 +101,8 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
       setError('Transaction was rejected. Please try again.');
     } else if (error.message?.includes('transaction failed')) {
       setError('Transaction failed. Please check your wallet and try again.');
-    } else if (error.message?.includes('event not found')) {
-      setError('Attestation creation failed. Please try again.');
+    } else if (error.message?.includes('attestation UID')) {
+      setError('Failed to get attestation ID. Please try again.');
     } else {
       setError(`Failed to create attestation: ${error.message || 'Unknown error'}`);
     }
@@ -187,46 +186,25 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
       });
 
       console.log('Waiting for transaction confirmation...');
-      // First wait for transaction to be mined
-      await tx.wait();
+      const attestationUID = await tx.wait();
 
-      // Then get full receipt from provider
-      const receipt = await provider.getTransactionReceipt(tx.hash);
-
-      // Add detailed receipt logging
-      console.log('Receipt type:', typeof receipt);
-      console.log('Receipt structure:', JSON.stringify(receipt, null, 2));
-
-      if (!receipt) {
-        throw new Error('Failed to get transaction receipt');
+      if (!attestationUID) {
+        console.error('Failed to get attestation UID');
+        throw new Error('Failed to get attestation UID from transaction');
       }
 
-      // Check for AttestationCreated event using EAS contract events
-      const attestedEvent = receipt.logs
-        .map((log: Log) => {
-          try {
-            return {
-              parsed: eas.contract.interface.parseLog(log),
-              raw: log
-            };
-          } catch {
-            return null;
-          }
-        })
-        .find(event => event?.parsed?.name === 'Attested');
-
-      if (!attestedEvent) {
-        throw new Error('Attestation event not found in transaction receipt');
-      }
-
-      console.log('Parsed attestation event:', attestedEvent.parsed);
-      console.log('Raw attestation event:', attestedEvent.raw);
-      console.log('Attestation created successfully:', receipt);
+      console.log('Attestation created successfully:', attestationUID);
       setLoading(false);
-      return receipt;
+      return attestationUID;
     } catch (err: any) {
-      console.error('Error creating attestation:', err);
+      console.error('Error creating attestation:', {
+        error: err,
+        code: err.code,
+        message: err.message,
+        stack: err.stack
+      });
       handleError(err);
+      setLoading(false);
       return null;
     }
   };
