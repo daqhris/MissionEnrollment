@@ -33,7 +33,7 @@ jobs:
       NEXT_PUBLIC_ONCHAINKIT_API_KEY: ${{ secrets.NEXT_PUBLIC_ONCHAINKIT_API_KEY }}
       NEXT_PUBLIC_POAP_API_KEY: ${{ secrets.NEXT_PUBLIC_POAP_API_KEY }}
       NEXT_PUBLIC_IGNORE_BUILD_ERROR: "true"
-      NODE_VERSION: "20"
+      NODE_VERSION: "18"
       GITHUB_PAGES: "true"
       CUSTOM_DOMAIN: "true"
     steps:
