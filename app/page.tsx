@@ -9,6 +9,7 @@ import { getName } from '@coinbase/onchainkit/identity';
 import { RainbowKitCustomConnectButton } from '../components/scaffold-eth';
 import EventAttendanceVerification from '../components/EventAttendanceVerification';
 import EnrollmentAttestation from '../components/EnrollmentAttestation';
+import { Logo } from '../components/Logo';
 
 // Type definitions
 interface EnrollmentAttestationProps {
@@ -114,7 +115,9 @@ export default function Home() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-4xl font-bold mb-6">Mission Enrollment</h1>
+      <div className="flex items-center justify-between mb-8">
+        <Logo />
+      </div>
       <div className="bg-base-100 p-6 rounded-lg shadow-lg">
         <div className="space-y-4">
           <div className="card">
@@ -122,9 +125,14 @@ export default function Home() {
               {!isConnected && (
                 <>
                   <h2 className="text-2xl font-bold mb-4">Start Registration</h2>
-                  <p className="text-base-content/70 text-center mb-8">
-                    Please connect your wallet to start enrolling for the mission
-                  </p>
+                  <div className="space-y-4 mb-8">
+                    <p className="text-base-content/70 text-center">
+                      Welcome to Mission Enrollment! This platform helps verify your ETHGlobal Brussels attendance and creates an on-chain attestation of your participation.
+                    </p>
+                    <p className="text-base-content/70 text-center">
+                      Please connect your wallet to begin the verification process.
+                    </p>
+                  </div>
                   <div className="flex justify-center">
                     <RainbowKitCustomConnectButton />
                   </div>
