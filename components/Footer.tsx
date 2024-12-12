@@ -65,21 +65,6 @@ const FooterLinks = tw.div`
   w-full
 `;
 
-// const LinkItem = tw.div`
-//   text-center
-// `;
-//
-// const ExternalLink = tw.a`
-//   link
-// `;
-//
-// const BuidlGuidlLink = tw.a`
-//   flex
-//   justify-center
-//   items-center
-//   gap-1
-// `;
-
 export const Footer = (): JSX.Element => {
   const { targetNetwork } = useTargetNetwork();
   const isLocalNetwork = targetNetwork.id === hardhat.id;
@@ -125,6 +110,15 @@ export const Footer = (): JSX.Element => {
             </div>
             <div className="flex items-center gap-4">
               <Link
+                href="https://sepolia.easscan.org/attestation/search"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent-content hover:text-accent text-sm flex items-center"
+              >
+                View Attestations
+                <ExternalLinkIcon />
+              </Link>
+              <Link
                 href="https://ethglobal.com/showcase/missionenrollment-i4fkr"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -149,27 +143,6 @@ export const Footer = (): JSX.Element => {
       <FooterContent>
         <FooterMenu>
           <FooterLinks>
-            {/*<LinkItem>*/}
-            {/*  <ExternalLink href="https://github.com/scaffold-eth/se-2" target="_blank" rel="noreferrer">*/}
-            {/*    Fork me*/}
-            {/*  </ExternalLink>*/}
-            {/*</LinkItem>*/}
-            {/*<span>·</span>*/}
-            {/*<div className="flex justify-center items-center gap-2">*/}
-            {/*  <p className="m-0 text-center">*/}
-            {/*    Built with <HeartIcon className="inline-block h-4 w-4" /> at*/}
-            {/*  </p>*/}
-            {/*  <BuidlGuidlLink href="https://buidlguidl.com/" target="_blank" rel="noreferrer">*/}
-            {/*    <BuidlGuidlLogo className="w-3 h-5 pb-1" />*/}
-            {/*    <span className="link">BuidlGuidl</span>*/}
-            {/*  </BuidlGuidlLink>*/}
-            {/*</div>*/}
-            {/*<span>·</span>*/}
-            {/*<LinkItem>*/}
-            {/*  <ExternalLink href="https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA" target="_blank" rel="noreferrer">*/}
-            {/*    Support*/}
-            {/*  </ExternalLink>*/}
-            {/*</LinkItem>*/}
           </FooterLinks>
         </FooterMenu>
       </FooterContent>
