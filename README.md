@@ -1,11 +1,12 @@
 # Mission Enrollment
 
-**An enrollment tool for a collaborative mission on the Superchain.**
+**An enrollment tool for a collaborative artistic mission (Zinneke Rescue Mission) on the Base blockchain (later on the Superchain).**  
+_a blockchain app being openly built by a human and a non-human since summer 2024_
 
 <img src="https://raw.githubusercontent.com/daqhris/MissionEnrollment/master/public/logo.png" alt="Mission Enrollment Logo" width="250" height="250">
 
-This web app allows the enrollment of its connected user for a up-coming onchain mission.
-Its use requires the verification of an onchain name, a token from an in-person event, and an attestation signed by the mission coordinator on the **Base** blockchain.
+This app facilitates the enrollment of its connected user for an up-coming onchain mission.
+Its use requires the verification of a name on a blockchain, a token from an in-person event, and an attestation signed by the mission coordinator on the **Base** blockchain.
 
 This project implements a transparent process reliant on 3 steps of control and validation: identity check, event attendance, and enrollment attestation.
 It is built as a web application with **Next.js** and **React**, and runs on top of smart contracts integrating blockchain protocols: **Basename (ENS)**, **Proof of Attendance Protocol (POAP)** and **Ethereum Attestation Service (EAS)**.
@@ -15,22 +16,22 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 ### 1. Identity Check
 
 - Supports name submission and real-time Basenames resolution
-- Displays an avatar and a connected wallet address with OnchainKit from Coinbase
+- Displays an avatar and a connected wallet address
 - Robust error handling for invalid inputs
 
 ### 2. Event Attendance
 
-- Asks the user whether they attended a hackathon or not
+- Asks the user whether or not they attended an international hackathon
 - Fetches and verifies a Proof of Attendance Protocol (POAP) token
 - Features a short delay animation before revealing results
-- Sends requests to a POAP API endpoint for reliable POAP data retrieval
+- Sends requests to an API endpoint for reliable data retrieval
 - Filters specific POAPs related to ETHGlobal Brussels 2024
 - Displays POAP data including event name, date, role and image
 
 ### 3. Enrollment Attestation
 
-- Utilizes Ethereum Attestation Service (EAS) for creating trustworthy onchain records
-- Primarily supports attestations on the Base Sepolia network
+- Utilizes Ethereum Attestation Service (EAS) to create onchain attestations
+- Currently supports attestations on the Base Sepolia network
 - Includes comprehensive attestation data
 - Features attestation history tracking and display
 - Provides real-time network status and validation
@@ -41,17 +42,16 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 - Blockchain Interaction: ethers.js, wagmi, viem
 - Basename/ENS Integration: user name resolution via ethers.js with two-step verification
 - POAP API: Custom API route with caching, rate limiting, and a delay implementation
-- Smart Contracts: Solidity with OpenZeppelin libraries (UUPS proxy pattern)
-- Attestation: Ethereum Attestation Service (EAS) SDK v2.7.0 with role-based access
-- OnchainKit: Integrated for identity and wallet functionalities
 - Middleware: Custom implementation for POAP API request handling with rate limiting
+- Attestation: Ethereum Attestation Service (EAS) SDK v2.7.0 with role-based access
+- OnchainKit (Coinbase): Integrated for identity and wallet functionalities
 - GraphQL Integration: Apollo Client for querying attestation data from EAS GraphQL endpoint with pagination and caching
 - Recent Attestations: Paginated view of attestations with error handling and fallback UI
 
 ### Other Dev Tools
 
 - **State Management**: React Query
-- **Wallet Login**: RainbowKit
+- **Wallet Login**: RainbowKit (Recommended: Coinbase Wallet)
 - **Styling**: Tailwind CSS, daisy UI
 - **Type Checking**: TypeScript
 - **Code Quality**: ESLint, Jest
@@ -111,9 +111,9 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 **Mission Enrollment** provides a streamlined, one-page application for a select number of talented individuals to enroll in advance of the **_Zinneke Rescue Mission_**.
 
-1. User connects their Ethereum wallet using the prioritized scaffold-eth connector and verifies their identity with Basename or ENS name verification.
+1. User connects their Ethereum wallet using the wallet connector and verifies their identity with Basename or ENS name.
 2. The application fetches and displays relevant POAPs, specifically ETHGlobal Brussels 2024, extracting role information dynamically.
-3. The EventAttendanceVerification component verifies event attendance and role through POAPs before proceeding to attestation.
+3. Its interface's second stage leads to verification of event attendance and role through POAPs before proceeding to attestation.
 4. User creates an attestation on the Base Sepolia network using EAS, with blockchain network switching if needed.
 
 ## API Routes
@@ -124,13 +124,13 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 `POAPVerification.sol`: Integrates with the POAP protocol for verifying real-life event attendance.
 
-`AttestationService.sol`: This contract implements an onchain attestation using the Ethereum Attestation Service (EAS). Integration with EAS is handled through the official EAS SDK v2.7.0.
+`AttestationService.sol`: This contract implements an onchain attestation using the Ethereum Attestation Service (EAS) through the official EAS SDK v2.7.0.
 
 ## Smart Contract Functions
 
 1. `createMissionEnrollmentSchema()`: Creates the schema for enrollment attestations with 10 fields
-2. `createMissionEnrollmentAttestation()`: Creates an attestation for a user with their bits of information
-3. `verifyAttestation(bytes32 attestationId)`: Verifies the validity of an attestation
+2. `createMissionEnrollmentAttestation()`: Creates an attestation for a user with associated information
+3. `verifyAttestation(bytes32 attestationId)`: Verifies the validity of an onchain attestation
 
 ## EAS Architecture and Schema
 
@@ -139,7 +139,7 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
 ### Schema Details
 - **Schema Structure**: `address userAddress,string verifiedName,string proofMethod,string eventName,string eventType,string assignedRole,string missionName,uint256 timestamp,address attester,string proofProtocol`
 - **Schema UID**: 0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd
-- **View on EAS Explorer**: [Base Sepolia Schema](https://base-sepolia.easscan.org/schema/view/0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd)
+- **View Attestations on EAS Explorer**: [Base Sepolia Schema #910](https://base-sepolia.easscan.org/schema/view/0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd)
 - **Fields**:
   - `userAddress`: Ethereum address of the enrolled user
   - `verifiedName`: User's verified Basename or ENS name
@@ -201,7 +201,7 @@ This project builds upon components from [Scaffold-ETH 2](https://github.com/sca
 If necessary, users should verify the authenticity of mission enrollments through additional public means.
 
 The creation of this dApp was initiated by **daqhris** during a virtual hackathon: [ETHGlobal Superhack 2024](https://ethglobal.com/events/superhack2024).
-It is built thanks to the help and collaboration of **Devin**, the world's first AI software engineer from [Cognition.AI](https://www.cognition.ai/).
+It is built thanks to the assistance and collaboration of **Devin**, the world's first AI software engineer from [Cognition.AI](https://www.cognition.ai/).
 
 **Hackathon Submission**: [ethglobal.com/showcase/missionenrollment-i4fkr](https://ethglobal.com/showcase/missionenrollment-i4fkr)
 
