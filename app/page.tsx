@@ -127,10 +127,7 @@ export default function Home() {
                   <h2 className="text-2xl font-bold mb-4">Start Registration</h2>
                   <div className="space-y-4 mb-8">
                     <p className="text-base-content/70 text-center">
-                      Welcome to Mission Enrollment! This platform helps verify your ETHGlobal Brussels attendance and creates an on-chain attestation of your participation.
-                    </p>
-                    <p className="text-base-content/70 text-center">
-                      Please connect your wallet to begin the verification process.
+                      An enrollment tool for an up-coming collaborative artistic mission on the Base blockchain.
                     </p>
                   </div>
                   <div className="flex justify-center">
