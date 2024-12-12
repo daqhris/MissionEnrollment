@@ -1,7 +1,7 @@
 # Mission Enrollment
 
 **An enrollment tool for a collaborative artistic mission (Zinneke Rescue Mission) on the Base blockchain (later on the Superchain).**
-_a blockchain app being openly built by a human and a non-human since summer 2024_
+_A blockchain app being openly built by a human and a non-human since summer 2024._
 
 <img src="https://raw.githubusercontent.com/daqhris/MissionEnrollment/master/public/logo.png" alt="Mission Enrollment Logo" width="250" height="250">
 

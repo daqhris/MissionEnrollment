@@ -104,7 +104,7 @@ export default function Home() {
       } else {
         console.log('Name verification failed');
         setVerificationStatus('error');
-        setError('The provided name does not match your onchain basename identity');
+        setError('The provided name does not match your onchain identity');
       }
     } catch (error) {
       console.error('Error during name verification:', error);
@@ -127,8 +127,9 @@ export default function Home() {
                   <h2 className="text-2xl font-bold mb-4">Start Registration</h2>
                   <div className="space-y-4 mb-8">
                     <p className="text-base-content/70 text-center">
-                      An enrollment tool for an up-coming collaborative artistic mission on the Base blockchain.
+                      An enrollment tool for a collaborative artistic mission on the BASE blockchain.
                     </p>
+                    <p className="text-base-content/70 text-center"><em>Openly built by a human and a non-human since summer 2024.</em></p>
                   </div>
                   <div className="flex justify-center">
                     <RainbowKitCustomConnectButton />

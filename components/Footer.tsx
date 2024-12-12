@@ -110,12 +110,12 @@ export const Footer = (): JSX.Element => {
             </div>
             <div className="flex items-center gap-4">
               <Link
-                href="https://sepolia.easscan.org/attestation/search"
+                href="https://base-sepolia.easscan.org/attestations/forSchema/0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-accent-content hover:text-accent text-sm flex items-center"
               >
-                View Attestations
+                In-Test Attestations
                 <ExternalLinkIcon />
               </Link>
               <Link
