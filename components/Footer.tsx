@@ -97,7 +97,7 @@ export const Footer = (): JSX.Element => {
               >
                 daqhris
               </Link>
-              <span className="text-base-content">and</span>
+              <span className="text-base-content">&</span>
               <Link
                 href="https://devin.ai"
                 target="_blank"
@@ -115,7 +115,7 @@ export const Footer = (): JSX.Element => {
                 rel="noopener noreferrer"
                 className="text-accent-content hover:text-accent text-sm flex items-center"
               >
-                In-Test Attestations
+                Attest In-Test
                 <ExternalLinkIcon />
               </Link>
               <Link
@@ -124,7 +124,7 @@ export const Footer = (): JSX.Element => {
                 rel="noopener noreferrer"
                 className="text-accent-content hover:text-accent text-sm flex items-center"
               >
-                ETHGlobal Showcase
+                ETHGlobal '24
                 <ExternalLinkIcon />
               </Link>
               <Link
