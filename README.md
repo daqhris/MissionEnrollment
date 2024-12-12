@@ -1,6 +1,6 @@
 # Mission Enrollment
 
-**An enrollment tool for a collaborative artistic mission (Zinneke Rescue Mission) on the Base blockchain (later on the Superchain).**  
+**An enrollment tool for a collaborative artistic mission (Zinneke Rescue Mission) on the Base blockchain (later on the Superchain).**
 _a blockchain app being openly built by a human and a non-human since summer 2024_
 
 <img src="https://raw.githubusercontent.com/daqhris/MissionEnrollment/master/public/logo.png" alt="Mission Enrollment Logo" width="250" height="250">
@@ -11,30 +11,22 @@ Its use requires the verification of a name on a blockchain, a token from an in-
 This project implements a transparent process reliant on 3 steps of control and validation: identity check, event attendance, and enrollment attestation.
 It is built as a web application with **Next.js** and **React**, and runs on top of smart contracts integrating blockchain protocols: **Basename (ENS)**, **Proof of Attendance Protocol (POAP)** and **Ethereum Attestation Service (EAS)**.
 
-## Key Stages
+## Project Structure
 
-### 1. Identity Check
-
-- Supports name submission and real-time Basenames resolution
-- Displays an avatar and a connected wallet address
-- Robust error handling for invalid inputs
-
-### 2. Event Attendance
-
-- Asks the user whether or not they attended an international hackathon
-- Fetches and verifies a Proof of Attendance Protocol (POAP) token
-- Features a short delay animation before revealing results
-- Sends requests to an API endpoint for reliable data retrieval
-- Filters specific POAPs related to ETHGlobal Brussels 2024
-- Displays POAP data including event name, date, role and image
-
-### 3. Enrollment Attestation
-
-- Utilizes Ethereum Attestation Service (EAS) to create onchain attestations
-- Currently supports attestations on the Base Sepolia network
-- Includes comprehensive attestation data
-- Features attestation history tracking and display
-- Provides real-time network status and validation
+### Directory Organization
+```
+/
+├── app/                    # Next.js app router pages and configuration
+│   ├── config/            # Web3 and chain configurations
+│   └── providers/         # React context providers
+├── components/            # React components
+├── services/             # Core services
+│   ├── apollo/           # GraphQL client
+│   ├── store/            # State management
+│   └── web3/            # Blockchain connectivity
+├── utils/               # Utility functions
+└── types/              # TypeScript definitions
+```
 
 ## Technical Stack
 
@@ -47,6 +39,21 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 - OnchainKit (Coinbase): Integrated for identity and wallet functionalities
 - GraphQL Integration: Apollo Client for querying attestation data from EAS GraphQL endpoint with pagination and caching
 - Recent Attestations: Paginated view of attestations with error handling and fallback UI
+
+### State Management
+The application uses a multi-layered state management approach:
+- Zustand stores for:
+  - Global state (network, currency prices)
+  - Verification state (user input, verification status)
+- Apollo Client for GraphQL state
+- React Query for data fetching
+
+### Testing Infrastructure
+The project includes comprehensive testing setup:
+- Jest for unit testing
+- React Testing Library for component tests
+- Contract testing via Hardhat
+- End-to-end testing capabilities
 
 ### Other Dev Tools
 
@@ -122,8 +129,6 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 
 ## Smart Contracts
 
-`POAPVerification.sol`: Integrates with the POAP protocol for verifying real-life event attendance.
-
 `AttestationService.sol`: This contract implements an onchain attestation using the Ethereum Attestation Service (EAS) through the official EAS SDK v2.7.0.
 
 ## Smart Contract Functions
@@ -167,15 +172,68 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
 - [Base Network EAS Guide](https://docs.base.org/guides/attestation-service)
 - [Base Sepolia Explorer](https://sepolia.basescan.org/)
 - [EAS Contract on Base Sepolia](https://sepolia.basescan.org/address/0x4200000000000000000000000000000000000021)
-  
+
 ## Frontend Components
 
-- `IdentityVerification.tsx`: This component handles user identity verification by validating Basenames. It ensures that users are properly authenticated before proceeding with event attendance.
-- `EventAttendanceVerification.tsx`: This component verifies user attendance at events using POAPs, implementing a short delay animation and comprehensive error handling. It dynamically extracts role information from POAP data for attestation purposes.
-- `EnrollmentAttestation.tsx`: This component manages the creation of onchain attestations on the Base Sepolia network. It handles automatic network switching, integrates with the user's wallet using wagmi hooks, and encodes user data including address, verified name, POAP verification status, and timestamp for attestation.
-- `ContractUI.tsx`: This component provides the interface for attestation contract interactions, including network status, attestation creation, and history tracking.
-- `RecentAttestationsView.tsx`: Implements paginated view of attestations fetched via GraphQL from the EAS endpoint, featuring error boundaries and fallback UI for a smooth user experience.
-- `ClientApolloProvider.tsx`: Manages Apollo Client configuration for GraphQL integration, implementing caching policies and error handling for reliable data fetching.
+### Core Components
+- `IdentityVerification.tsx`: Handles user identity verification through Basenames
+  - Implements error boundaries and fallback UI
+  - Manages loading states and animations
+  - Real-time Basename resolution with caching
+  - Wallet connection state management
+  - Network status monitoring
+
+- `EventAttendanceVerification.tsx`: Manages POAP verification
+  - Dynamic role extraction from POAP data
+  - Animated verification process with loading states
+  - Comprehensive error handling with retries
+  - API request management and rate limiting
+  - POAP token filtering and validation
+
+- `EnrollmentAttestation.tsx`: Handles attestation creation
+  - Automatic network switching logic
+  - Transaction status management and monitoring
+  - Data encoding for EAS attestations
+  - Wallet integration via wagmi hooks
+  - Error recovery mechanisms
+  - Gas estimation and optimization
+
+- `ContractUI.tsx`: Contract interaction interface
+  - Network status monitoring
+  - Transaction history tracking
+  - Gas estimation and optimization
+  - Error boundary implementation
+  - Fallback UI components
+
+- `RecentAttestationsView.tsx`: Attestation history display
+  - Paginated GraphQL queries with Apollo Client
+  - Error boundary implementation
+  - Fallback UI components
+  - Caching strategy integration
+  - Optimistic UI updates
+
+### Technical Implementation
+
+#### Apollo Client Configuration
+- Custom caching strategies for attestation data
+- Error handling middleware with retries
+- Query result normalization
+- Optimistic UI updates
+- Real-time data synchronization
+
+#### Network Management
+- Automatic chain switching (Base/Base Sepolia)
+- Network status monitoring and recovery
+- Transaction confirmation handling
+- Gas price optimization
+- Error recovery mechanisms
+
+#### Wallet Integration
+- Multiple wallet support (MetaMask, WalletConnect, Coinbase)
+- Connection state management
+- Transaction signing flow
+- Account change handling
+- Network synchronization
 
 ## ETHGlobal Brussels 2024
 
