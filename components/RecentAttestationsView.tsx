@@ -7,6 +7,8 @@ import { Spinner } from './assets/Spinner';
 import { Attestation, AttestationData } from '../types/attestation';
 import { ErrorBoundary } from 'react-error-boundary';
 import { SCHEMA_UID } from '../utils/constants';
+import { BaseNameDisplay } from './BaseNameDisplay';
+import { formatAttestationData, getFieldLabel } from '../utils/formatting';
 
 interface RecentAttestationsViewProps {
   title: string;
@@ -40,7 +42,6 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
   });
 
   const content = () => {
-    // Handle initial loading state
     if (loading && !data) {
       return (
         <div className="flex justify-center items-center h-64">
@@ -49,7 +50,6 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
       );
     }
 
-    // Handle error state
     if (queryError || error) {
       const errorMessage = queryError?.message || error?.message || 'An unknown error occurred';
       console.error('[RecentAttestationsView] Error fetching attestations:', errorMessage);
@@ -62,7 +62,6 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
       );
     }
 
-    // Safely access data with fallbacks
     const attestations = data?.attestations || [];
     const totalCount = data?.attestationsCount || 0;
     const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
@@ -78,22 +77,47 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
             <div className="grid gap-4 mb-8">
               {attestations.map((attestation: Attestation) => (
                 <div key={attestation.id} className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                  <p className="font-medium">Attester: {attestation.attester}</p>
-                  <p className="text-sm text-gray-600">
-                    Time: {new Date(attestation.time * 1000).toLocaleString()}
-                  </p>
+                  <div className="flex justify-between items-center mb-2">
+                    <p className="text-sm text-gray-600">
+                      Time: {new Date(attestation.time * 1000).toLocaleString()}
+                    </p>
+                    <a
+                      href={`https://base-sepolia.easscan.org/attestation/view/${attestation.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-800 text-sm"
+                    >
+                      View on EAS ↗
+                    </a>
+                  </div>
                   {attestation.decodedDataJson && (
-                    <pre className="text-sm bg-gray-50 p-2 mt-2 rounded overflow-auto">
+                    <div className="mt-2 space-y-2">
                       {(() => {
                         try {
                           const decodedData = JSON.parse(attestation.decodedDataJson) as AttestationData[];
-                          return JSON.stringify(decodedData, null, 2);
+                          const formattedData = formatAttestationData(decodedData);
+                          return Object.entries(formattedData).map(([key, value], index) => {
+                            if (key.toLowerCase() === 'attester' || key.toLowerCase() === 'useraddress') return null;
+
+                            return (
+                              <div key={index} className="bg-gray-50 p-2 rounded flex justify-between items-center">
+                                <span className="font-medium">{getFieldLabel(key)}</span>
+                                <span className="text-gray-700 break-all">
+                                  {key.toLowerCase() === 'timestamp' ? (
+                                    new Date(Number(value) * 1000).toLocaleString()
+                                  ) : (
+                                    String(value)
+                                  )}
+                                </span>
+                              </div>
+                            );
+                          }).filter(Boolean);
                         } catch (e) {
                           console.error('[RecentAttestationsView] JSON Parse Error:', e);
-                          return 'Invalid JSON data';
+                          return <p className="text-red-500">Invalid JSON data</p>;
                         }
                       })()}
-                    </pre>
+                    </div>
                   )}
                 </div>
               ))}

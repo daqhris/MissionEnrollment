@@ -10,16 +10,14 @@ export async function getBaseName(address: string): Promise<string> {
       return '';
     }
 
-    return `${name}.base.eth`;
+    return name; // getName from OnchainKit already includes .base.eth suffix
   } catch (error) {
-    // Return empty string if no basename is found or contract call fails
     console.error('Error retrieving Base name:', error);
     return '';
   }
 }
 
 export async function verifyBaseName(address: string, providedName: string): Promise<boolean> {
-  // First check Base name
   if (providedName.endsWith('.base.eth')) {
     const baseName = await getBaseName(address);
     if (baseName) {
@@ -29,7 +27,6 @@ export async function verifyBaseName(address: string, providedName: string): Pro
     }
   }
 
-  // If no Base name matches, fallback to ENS
   try {
     const ensName = await getEnsName(address);
     if (ensName) {
