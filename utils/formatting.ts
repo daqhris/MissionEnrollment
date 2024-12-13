@@ -32,12 +32,42 @@ export function formatAttestationData(decodedData: any[]): Partial<SchemaData> {
   const formattedData: Partial<SchemaData> = {};
 
   decodedData.forEach(field => {
-    const key = field.value.name.toLowerCase() as keyof SchemaData;
+    const rawKey = field.value.name.toLowerCase();
+    const keyMap: Record<string, keyof SchemaData> = {
+      'useraddress': 'userAddress',
+      'verifiedname': 'verifiedName',
+      'proofmethod': 'proofMethod',
+      'eventname': 'eventName',
+      'eventtype': 'eventType',
+      'assignedrole': 'assignedRole',
+      'missionname': 'missionName',
+      'timestamp': 'timestamp',
+      'attester': 'attester',
+      'proofprotocol': 'proofProtocol'
+    };
+
+    const key = keyMap[rawKey];
+    if (!key) return;
+
     const value = field.value.value;
-    if (typeof value === 'object' && 'hex' in value) {
-      (formattedData as any)[key] = value.hex;
-    } else {
-      (formattedData as any)[key] = value;
+
+    try {
+      if (typeof value === 'object' && 'hex' in value) {
+        if (key === 'userAddress' || key === 'attester') {
+          formattedData[key] = value.hex.toLowerCase();
+        } else {
+          formattedData[key] = value.hex;
+        }
+      } else if (key === 'timestamp') {
+        const timestamp = Number(value);
+        if (!isNaN(timestamp)) {
+          formattedData[key] = timestamp;
+        }
+      } else {
+        formattedData[key] = String(value).trim();
+      }
+    } catch (error) {
+      console.error(`Error formatting field ${key}:`, error);
     }
   });
 

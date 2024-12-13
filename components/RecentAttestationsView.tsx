@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_RECENT_ATTESTATIONS } from '../graphql/queries';
 import { Spinner } from './assets/Spinner';
@@ -24,7 +24,20 @@ function ErrorFallback({ error }: { error: Error }) {
   );
 }
 
-export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestationsViewProps): React.ReactElement {
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      div: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
+      span: React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
+      a: React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>;
+      button: React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
+      h1: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>;
+      p: React.DetailedHTMLProps<React.HTMLAttributes<HTMLParagraphElement>, HTMLParagraphElement>;
+    }
+  }
+}
+
+const RecentAttestationsView: FC<RecentAttestationsViewProps> = ({ title, pageSize = 20 }) => {
   const [page, setPage] = useState(1);
   const [error, setError] = useState<Error | null>(null);
 
@@ -97,32 +110,48 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
                           const decodedData = JSON.parse(attestation.decodedDataJson) as AttestationData[];
                           const formattedData = formatAttestationData(decodedData);
                           const displayOrder = [
-                            'userAddress',
-                            'verifiedName',
-                            'proofMethod',
-                            'eventName',
-                            'eventType',
-                            'assignedRole',
-                            'poapProof',
-                            'missionName',
-                            'attester',
-                            'proofProtocol'
+                            'userAddress',      // Address: 0xb5ee...
+                            'verifiedName',     // Name: daqhris.base.eth
+                            'proofMethod',      // Proof: Basename
+                            'eventName',        // Event: ETHGlobal Brussels 2024
+                            'eventType',        // Type: International Hackathon
+                            'assignedRole',     // Role: Hacker
+                            'proofProtocol',    // Proof: POAP
+                            'missionName',      // Mission: Zinneke Rescue Mission
+                            'attester',         // Attester: mission-enrollment.base.eth
+                            'proofProtocol'     // Proof: EAS
                           ];
 
-                          return displayOrder.map(key => {
-                            if (!formattedData[key as keyof typeof formattedData] && key !== 'poapProof') return null;
+                          // Add timestamp at the end if available
+                          if (formattedData.timestamp) {
+                            displayOrder.push('timestamp');
+                          }
+
+                          return displayOrder.map((key, index) => {
+                            if (formattedData[key as keyof typeof formattedData] === undefined) return null;
 
                             let displayValue = formattedData[key as keyof typeof formattedData];
-                            if (key === 'attester') {
+                            let label = getFieldLabel(key);
+
+                            // Custom display formatting
+                            if (key === 'proofProtocol') {
+                              if (index === displayOrder.length - 1) {
+                                label = 'Proof';
+                                displayValue = 'EAS';
+                              } else if (index === 6) {
+                                label = 'Proof';
+                                displayValue = 'POAP';
+                              }
+                            } else if (key === 'proofMethod') {
+                              label = 'Proof';
+                              displayValue = 'Basename';
+                            } else if (key === 'attester') {
                               displayValue = 'mission-enrollment.base.eth';
-                            }
-                            if (key === 'poapProof') {
-                              displayValue = 'POAP';
                             }
 
                             return (
-                              <div key={key} className="bg-red-50 hover:bg-red-100 p-2 rounded flex justify-between items-center transition-colors duration-200">
-                                <span className="font-semibold text-gray-900">{getFieldLabel(key)}</span>
+                              <div key={`${key}-${index}`} className="bg-red-50 hover:bg-red-100 p-2 rounded flex justify-between items-center transition-colors duration-200">
+                                <span className="font-semibold text-gray-900">{label}</span>
                                 <span className="text-gray-800 break-all">{displayValue}</span>
                               </div>
                             );
@@ -172,3 +201,5 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
     </div>
   );
 }
+
+export default RecentAttestationsView;
