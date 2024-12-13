@@ -78,9 +78,6 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
               {attestations.map((attestation: Attestation) => (
                 <div key={attestation.id} className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-red-100/80">
                   <div className="flex justify-between items-center mb-2">
-                    <p className="text-sm text-gray-600">
-                      Time: {new Date(attestation.time * 1000).toLocaleString()}
-                    </p>
                     <a
                       href={`https://base-sepolia.easscan.org/attestation/view/${attestation.id}`}
                       target="_blank"
@@ -96,19 +93,35 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
                         try {
                           const decodedData = JSON.parse(attestation.decodedDataJson) as AttestationData[];
                           const formattedData = formatAttestationData(decodedData);
-                          return Object.entries(formattedData).map(([key, value], index) => {
-                            if (key.toLowerCase() === 'attester' || key.toLowerCase() === 'useraddress') return null;
+                          const displayOrder = [
+                            'userAddress',
+                            'verifiedName',
+                            'proofMethod',
+                            'eventName',
+                            'eventType',
+                            'assignedRole',
+                            'poapProof',
+                            'missionName',
+                            'attester',
+                            'proofProtocol'
+                          ];
+
+                          return displayOrder.map(key => {
+                            if (key === 'timestamp') return null;
+                            if (!formattedData[key as keyof typeof formattedData] && key !== 'poapProof') return null;
+
+                            let displayValue = formattedData[key as keyof typeof formattedData];
+                            if (key === 'attester') {
+                              displayValue = 'mission-enrollment.base.eth';
+                            }
+                            if (key === 'poapProof') {
+                              displayValue = 'POAP';
+                            }
 
                             return (
-                              <div key={index} className="bg-red-50 hover:bg-red-100 p-2 rounded flex justify-between items-center transition-colors duration-200">
+                              <div key={key} className="bg-red-50 hover:bg-red-100 p-2 rounded flex justify-between items-center transition-colors duration-200">
                                 <span className="font-semibold text-gray-900">{getFieldLabel(key)}</span>
-                                <span className="text-gray-800 break-all">
-                                  {key.toLowerCase() === 'timestamp' ? (
-                                    new Date(Number(value) * 1000).toLocaleString()
-                                  ) : (
-                                    String(value)
-                                  )}
-                                </span>
+                                <span className="text-gray-800 break-all">{displayValue}</span>
                               </div>
                             );
                           }).filter(Boolean);

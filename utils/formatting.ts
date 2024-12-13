@@ -14,16 +14,16 @@ export function formatAttestationValue(field: { name: string; value: any }) {
 
 export function getFieldLabel(name: string): string {
   const labels: Record<string, string> = {
-    userAddress: 'User Address',
-    verifiedName: 'Verified Name',
-    proofMethod: 'Proof Method',
-    eventName: 'Event Name',
-    eventType: 'Event Type',
+    userAddress: 'Address',
+    verifiedName: 'Name',
+    proofMethod: 'Proof',
+    eventName: 'Event',
+    eventType: 'Type',
     assignedRole: 'Role',
     missionName: 'Mission',
-    timestamp: 'Time',
     attester: 'Attester',
-    proofProtocol: 'Protocol'
+    proofProtocol: 'Proof',
+    poapProof: 'Proof'
   };
   return labels[name] || name;
 }
