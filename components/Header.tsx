@@ -201,7 +201,7 @@ export const Header = (): JSX.Element => {
             <Image alt="Mission Enrollment logo" className="cursor-pointer object-contain" fill src="/logo.png" />
           </LogoContainer>
           <LogoText>
-            <LogoTitle>Mission Enrollment</LogoTitle>
+            <LogoTitle>mission-enrollment.base.eth</LogoTitle>
             {/*<span className="text-xs">Ethereum dev stack</span>*/}
           </LogoText>
         </Link>
