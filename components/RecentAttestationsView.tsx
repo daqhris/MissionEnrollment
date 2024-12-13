@@ -76,7 +76,7 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
           <>
             <div className="grid gap-4 mb-8">
               {attestations.map((attestation: Attestation) => (
-                <div key={attestation.id} className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                <div key={attestation.id} className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-red-100/80">
                   <div className="flex justify-between items-center mb-2">
                     <p className="text-sm text-gray-600">
                       Time: {new Date(attestation.time * 1000).toLocaleString()}
@@ -100,9 +100,9 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
                             if (key.toLowerCase() === 'attester' || key.toLowerCase() === 'useraddress') return null;
 
                             return (
-                              <div key={index} className="bg-gray-50 p-2 rounded flex justify-between items-center">
-                                <span className="font-medium">{getFieldLabel(key)}</span>
-                                <span className="text-gray-700 break-all">
+                              <div key={index} className="bg-red-50 hover:bg-red-100 p-2 rounded flex justify-between items-center transition-colors duration-200">
+                                <span className="font-semibold text-gray-900">{getFieldLabel(key)}</span>
+                                <span className="text-gray-800 break-all">
                                   {key.toLowerCase() === 'timestamp' ? (
                                     new Date(Number(value) * 1000).toLocaleString()
                                   ) : (
