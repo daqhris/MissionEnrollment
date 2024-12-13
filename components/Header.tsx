@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useCallback, useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Bars3Icon } from "@heroicons/react/24/outline";
@@ -82,7 +81,7 @@ const DropdownMenu = ({ children, onClick }: { children: React.ReactNode, onClic
 );
 
 const LogoContainer = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex relative w-24 h-12 overflow-hidden">
+  <div className="flex relative items-center justify-center w-12 h-12">
     {children}
   </div>
 );
@@ -198,7 +197,7 @@ export const Header = (): JSX.Element => {
         </DropdownContainer>
         <Link href="/" className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
           <LogoContainer>
-            <Image alt="Mission Enrollment logo" className="cursor-pointer object-contain" fill src="/logo.png" />
+            <span className="text-2xl" role="img" aria-label="First place medal">🥇</span>
           </LogoContainer>
           <LogoText>
             <LogoTitle>mission-enrollment.base.eth</LogoTitle>
