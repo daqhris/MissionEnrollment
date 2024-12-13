@@ -78,7 +78,9 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
               {attestations.map((attestation: Attestation) => (
                 <div key={attestation.id} className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-red-100/80">
                   <div className="flex justify-between items-center mb-2">
-                    <div className="flex-1"></div>
+                    <div className="text-gray-600 text-sm">
+                      {new Date(attestation.time * 1000).toLocaleString()}
+                    </div>
                     <a
                       href={`https://base-sepolia.easscan.org/attestation/view/${attestation.id}`}
                       target="_blank"
@@ -108,7 +110,6 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
                           ];
 
                           return displayOrder.map(key => {
-                            if (key === 'timestamp') return null;
                             if (!formattedData[key as keyof typeof formattedData] && key !== 'poapProof') return null;
 
                             let displayValue = formattedData[key as keyof typeof formattedData];
