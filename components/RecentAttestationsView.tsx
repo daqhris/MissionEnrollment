@@ -116,7 +116,6 @@ const RecentAttestationsView: FC<RecentAttestationsViewProps> = ({ title, pageSi
                             'eventName',        // Event: ETHGlobal Brussels 2024
                             'eventType',        // Type: International Hackathon
                             'assignedRole',     // Role: Hacker
-                            'poapProof',        // Proof: POAP
                             'missionName',      // Mission: Zinneke Rescue Mission
                             'attester',         // Attester: mission-enrollment.base.eth
                             'proofProtocol'     // Proof: EAS
@@ -136,13 +135,8 @@ const RecentAttestationsView: FC<RecentAttestationsViewProps> = ({ title, pageSi
 
                             // Custom display formatting
                             if (key === 'proofProtocol') {
-                              if (index === displayOrder.length - 1) {
-                                label = 'Proof';
-                                displayValue = 'EAS';
-                              } else if (index === 6) {
-                                label = 'Proof';
-                                displayValue = 'POAP';
-                              }
+                              label = 'Proof';
+                              displayValue = 'EAS';
                             } else if (key === 'proofMethod') {
                               label = 'Proof';
                               displayValue = 'Basename';

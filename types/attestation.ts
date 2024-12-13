@@ -9,10 +9,9 @@ export interface SchemaData {
   timestamp: number;        // uint256 - block timestamp
   attester: string;         // address - MISSION_ENROLLMENT_BASE_ETH_ADDRESS
   proofProtocol: string;    // string - "EAS Protocol"
-  poapProof: string;       // string - "POAP"
 }
 
-export const SCHEMA_ENCODING = "address userAddress,string verifiedName,string proofMethod,string eventName,string eventType,string assignedRole,string missionName,uint256 timestamp,address attester,string proofProtocol,string poapProof";
+export const SCHEMA_ENCODING = "address userAddress,string verifiedName,string proofMethod,string eventName,string eventType,string assignedRole,string missionName,uint256 timestamp,address attester,string proofProtocol";
 
 export interface Attestation {
   id: string;

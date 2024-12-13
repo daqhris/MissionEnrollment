@@ -22,8 +22,7 @@ export function getFieldLabel(name: string): string {
     assignedRole: 'Role',
     missionName: 'Mission',
     attester: 'Attester',
-    proofProtocol: 'Proof',
-    poapProof: 'Proof'
+    proofProtocol: 'Proof'
   };
   return labels[name] || name;
 }
@@ -43,8 +42,7 @@ export function formatAttestationData(decodedData: any[]): Partial<SchemaData> {
       'missionname': 'missionName',
       'timestamp': 'timestamp',
       'attester': 'attester',
-      'proofprotocol': 'proofProtocol',
-      'poapproof': 'poapProof'
+      'proofprotocol': 'proofProtocol'
     };
 
     const key = keyMap[rawKey];
