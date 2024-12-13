@@ -6,6 +6,7 @@ import { GET_RECENT_ATTESTATIONS } from '../graphql/queries';
 import { Spinner } from './assets/Spinner';
 import { Attestation, AttestationData } from '../types/attestation';
 import { ErrorBoundary } from 'react-error-boundary';
+import { SCHEMA_UID } from '../utils/constants';
 
 interface RecentAttestationsViewProps {
   title: string;
@@ -29,7 +30,7 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
     variables: {
       take: pageSize,
       skip: (page - 1) * pageSize,
-      attester: null
+      schemaId: SCHEMA_UID
     },
     notifyOnNetworkStatusChange: true,
     onError: (error) => {
@@ -51,9 +52,11 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
     // Handle error state
     if (queryError || error) {
       const errorMessage = queryError?.message || error?.message || 'An unknown error occurred';
+      console.error('[RecentAttestationsView] Error fetching attestations:', errorMessage);
       return (
-        <div className="text-red-500 p-4 rounded-lg bg-red-50 border border-red-200">
+        <div className="text-red-500 p-4 rounded-lg bg-red-50 border border-red-200 alert alert-error">
           <h2 className="text-xl font-bold mb-2">Error Loading Attestations</h2>
+          <p>Error loading attestations for schema {SCHEMA_UID}</p>
           <pre className="text-sm overflow-auto">{errorMessage}</pre>
         </div>
       );
