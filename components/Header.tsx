@@ -132,10 +132,6 @@ export const menuLinks: HeaderMenuLink[] = [
     label: "Recent",
     href: "/recent",
   },
-  {
-    label: "Attestations",
-    href: "/attestations",
-  },
 ];
 
 export const HeaderMenuLinks = (): JSX.Element => {
