@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
+import { baseSepolia } from 'viem/chains';
 import { GET_RECENT_ATTESTATIONS } from '../graphql/queries';
 import { Spinner } from './assets/Spinner';
 import { Attestation, AttestationData } from '../types/attestation';
@@ -77,10 +78,19 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
             <div className="grid gap-4 mb-8">
               {attestations.map((attestation: Attestation) => (
                 <div key={attestation.id} className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                  <BaseNameDisplay address={attestation.attester} />
-                  <p className="text-sm text-gray-600">
-                    Time: {new Date(attestation.time * 1000).toLocaleString()}
-                  </p>
+                  <div className="flex justify-between items-center mb-2">
+                    <p className="text-sm text-gray-600">
+                      Time: {new Date(attestation.time * 1000).toLocaleString()}
+                    </p>
+                    <a
+                      href={`${baseSepolia.blockExplorers.default.url}/tx/${attestation.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-800 text-sm"
+                    >
+                      View Transaction ↗
+                    </a>
+                  </div>
                   {attestation.decodedDataJson && (
                     <div className="mt-2 space-y-2">
                       {(() => {
@@ -88,15 +98,13 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
                           const decodedData = JSON.parse(attestation.decodedDataJson) as AttestationData[];
                           const formattedData = formatAttestationData(decodedData);
                           return Object.entries(formattedData).map(([key, value], index) => {
-                            if (key.toLowerCase() === 'attester') return null;
+                            if (key.toLowerCase() === 'attester' || key.toLowerCase() === 'useraddress') return null;
 
                             return (
                               <div key={index} className="bg-gray-50 p-2 rounded flex justify-between items-center">
                                 <span className="font-medium">{getFieldLabel(key)}</span>
                                 <span className="text-gray-700 break-all">
-                                  {key.toLowerCase() === 'useraddress' ? (
-                                    <BaseNameDisplay address={String(value)} />
-                                  ) : key.toLowerCase() === 'timestamp' ? (
+                                  {key.toLowerCase() === 'timestamp' ? (
                                     new Date(Number(value) * 1000).toLocaleString()
                                   ) : (
                                     String(value)
