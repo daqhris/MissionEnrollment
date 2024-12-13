@@ -108,11 +108,6 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
                             'proofProtocol'     // Proof: EAS
                           ];
 
-                          // Add timestamp at the end if available
-                          if (formattedData.timestamp) {
-                            displayOrder.push('timestamp');
-                          }
-
                           return displayOrder.map((key, index) => {
                             const value = formattedData[key as keyof typeof formattedData];
                             if (value === undefined || value === null) return null;
