@@ -3,6 +3,7 @@ import { useAccount, useChainId } from 'wagmi';
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { Card, CardContent, Typography, Button, CircularProgress, Box } from '@mui/material';
 import NetworkSwitchButton from './NetworkSwitchButton';
+import { notification } from "../utils/scaffold-eth";
 import {
   EAS_CONTRACT_ADDRESS_SEPOLIA,
   SCHEMA_UID,
@@ -88,22 +89,33 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
     });
 
     if (error.code === 4001) {
+      notification.error('Transaction rejected by user');
       setError('Transaction rejected by user');
     } else if (error.code === 4902) {
-      setError(`Please add ${getRequiredNetwork('attestation').name} to your wallet`);
+      const networkName = getRequiredNetwork('attestation').name;
+      notification.error(`Please add ${networkName} to your wallet`);
+      setError(`Please add ${networkName} to your wallet`);
     } else if (error.code === -32603) {
+      notification.error('Internal JSON-RPC error. Please check your wallet connection');
       setError('Internal JSON-RPC error. Please check your wallet connection');
     } else if (error.message?.includes('network')) {
-      setError(`Please switch to ${getRequiredNetwork('attestation').name} to create attestations`);
+      const networkName = getRequiredNetwork('attestation').name;
+      notification.error(`Please switch to ${networkName} to create attestations`);
+      setError(`Please switch to ${networkName} to create attestations`);
     } else if (error.message?.includes('invalid signer')) {
+      notification.error('Invalid signer. Please check your wallet connection.');
       setError('Invalid signer. Please check your wallet connection.');
     } else if (error.message?.includes('user rejected') || error.message?.includes('User rejected')) {
+      notification.error('Transaction was rejected. Please try again.');
       setError('Transaction was rejected. Please try again.');
     } else if (error.message?.includes('transaction failed')) {
+      notification.error('Transaction failed. Please check your wallet and try again.');
       setError('Transaction failed. Please check your wallet and try again.');
     } else if (error.message?.includes('attestation UID')) {
+      notification.error('Failed to get attestation ID. Please try again.');
       setError('Failed to get attestation ID. Please try again.');
     } else {
+      notification.error(`Failed to create attestation: ${error.message || 'Unknown error'}`);
       setError(`Failed to create attestation: ${error.message || 'Unknown error'}`);
     }
     setLoading(false);
@@ -111,11 +123,13 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
 
   const handleNetworkSwitch = async () => {
     try {
+      notification.info("Switching to Base Sepolia network...");
       console.log('Initiating network switch to Base Sepolia...');
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: `0x${BASE_SEPOLIA_CHAIN_ID.toString(16)}` }],
       });
+      notification.success("Successfully switched to Base Sepolia");
       console.log('Network switch request sent successfully');
       // Add delay to allow network switch to complete
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -126,6 +140,7 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
   };
 
   const createAttestation = async () => {
+    let notificationId = null;
     console.log('Starting attestation creation...', {
       address,
       chainId,
@@ -139,6 +154,7 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
       setLoading(true);
       setError(null);
 
+      notificationId = notification.loading("Preparing attestation...");
       console.log('Initializing EAS with contract address:', EAS_CONTRACT_ADDRESS_SEPOLIA);
       const eas = new EAS(EAS_CONTRACT_ADDRESS_SEPOLIA);
 
@@ -152,6 +168,7 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
       console.log('Checking network...');
       const network = await provider.getNetwork();
       if (network.chainId !== BigInt(BASE_SEPOLIA_CHAIN_ID)) {
+        notification.remove(notificationId);
         console.log('Network mismatch, initiating switch...');
         await handleNetworkSwitch();
         // Wait for network switch and verify
@@ -160,6 +177,7 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
         if (newNetwork.chainId !== BigInt(BASE_SEPOLIA_CHAIN_ID)) {
           throw new Error('Network switch failed or was cancelled');
         }
+        notificationId = notification.loading("Preparing attestation...");
       }
 
       const schemaEncoder = new SchemaEncoder(SCHEMA_ENCODING);
@@ -176,6 +194,8 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
         { name: "proofProtocol", value: previewData.proofProtocol, type: "string" }
       ]);
 
+      notification.remove(notificationId);
+      notificationId = notification.loading("Please sign the transaction to create attestation...");
       const tx = await eas.attest({
         schema: SCHEMA_UID,
         data: {
@@ -185,6 +205,8 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
         },
       });
 
+      notification.remove(notificationId);
+      notificationId = notification.loading("Waiting for transaction confirmation...");
       console.log('Waiting for transaction confirmation...');
       const attestationUID = await tx.wait();
 
@@ -193,6 +215,8 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
         throw new Error('Failed to get attestation UID from transaction');
       }
 
+      notification.remove(notificationId);
+      notification.success("🎉 Attestation created successfully!");
       console.log('Attestation created successfully:', attestationUID);
       setLoading(false);
       return attestationUID;
@@ -203,6 +227,9 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
         message: err.message,
         stack: err.stack
       });
+      if (notificationId) {
+        notification.remove(notificationId);
+      }
       handleError(err);
       setLoading(false);
       return null;
