@@ -3,6 +3,7 @@ import { GET_ATTESTATION_BY_ID, GET_RECENT_ATTESTATIONS } from '../../../graphql
 import { ClientAttestationView } from '../../../components/ClientAttestationView';
 import { ApolloWrapper } from '../../../components/ApolloWrapper';
 import { apolloClient } from '../../../services/apollo/apolloClient';
+import { SCHEMA_UID } from '../../../utils/constants';
 
 // Generate static paths for recent attestations
 export async function generateStaticParams() {
@@ -11,7 +12,8 @@ export async function generateStaticParams() {
       query: GET_RECENT_ATTESTATIONS,
       variables: {
         take: 100, // Pre-generate paths for the 100 most recent attestations
-        skip: 0
+        skip: 0,
+        schemaId: SCHEMA_UID
       },
     });
 
