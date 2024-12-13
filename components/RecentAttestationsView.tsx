@@ -78,9 +78,9 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
               {attestations.map((attestation: Attestation) => (
                 <div key={attestation.id} className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-red-100/80">
                   <div className="flex justify-between items-center mb-2">
-                    <p className="text-sm text-gray-600">
-                      Time: {new Date(attestation.time * 1000).toLocaleString()}
-                    </p>
+                    <div className="text-gray-600 text-sm">
+                      {new Date(attestation.time * 1000).toLocaleString()}
+                    </div>
                     <a
                       href={`https://base-sepolia.easscan.org/attestation/view/${attestation.id}`}
                       target="_blank"
@@ -96,19 +96,45 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
                         try {
                           const decodedData = JSON.parse(attestation.decodedDataJson) as AttestationData[];
                           const formattedData = formatAttestationData(decodedData);
-                          return Object.entries(formattedData).map(([key, value], index) => {
-                            if (key.toLowerCase() === 'attester' || key.toLowerCase() === 'useraddress') return null;
+                          const displayOrder = [
+                            'userAddress',      // Address: 0xb5ee...
+                            'verifiedName',     // Name: daqhris.base.eth
+                            'proofMethod',      // Proof: Basename
+                            'eventName',        // Event: ETHGlobal Brussels 2024
+                            'eventType',        // Type: International Hackathon
+                            'assignedRole',     // Role: Hacker
+                            'missionName',      // Mission: Zinneke Rescue Mission
+                            'attester',         // Attester: mission-enrollment.base.eth
+                            'proofProtocol'     // Proof: EAS
+                          ];
+
+                          return displayOrder.map((key, index) => {
+                            const value = formattedData[key as keyof typeof formattedData];
+                            if (value === undefined || value === null) return null;
+
+                            let displayValue = value;
+                            let label = getFieldLabel(key);
+
+                            // Custom display formatting
+                            if (key === 'proofProtocol') {
+                              label = 'Proof';
+                              displayValue = 'EAS';
+                            } else if (key === 'proofMethod') {
+                              label = 'Proof';
+                              displayValue = 'Basename';
+                            } else if (key === 'attester') {
+                              displayValue = 'mission-enrollment.base.eth';
+                            } else if (key === 'userAddress' || key === 'attester') {
+                              // Truncate long addresses for better display
+                              displayValue = typeof displayValue === 'string' ?
+                                `${displayValue.slice(0, 6)}...${displayValue.slice(-4)}` :
+                                displayValue;
+                            }
 
                             return (
-                              <div key={index} className="bg-red-50 hover:bg-red-100 p-2 rounded flex justify-between items-center transition-colors duration-200">
-                                <span className="font-semibold text-gray-900">{getFieldLabel(key)}</span>
-                                <span className="text-gray-800 break-all">
-                                  {key.toLowerCase() === 'timestamp' ? (
-                                    new Date(Number(value) * 1000).toLocaleString()
-                                  ) : (
-                                    String(value)
-                                  )}
-                                </span>
+                              <div key={`${key}-${index}`} className="bg-red-50 hover:bg-red-100 p-2 rounded flex justify-between items-center transition-colors duration-200">
+                                <span className="font-semibold text-gray-900">{label}</span>
+                                <span className="text-gray-800 break-all">{displayValue}</span>
                               </div>
                             );
                           }).filter(Boolean);
