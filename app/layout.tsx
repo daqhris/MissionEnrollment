@@ -5,6 +5,7 @@ import StyledComponentsRegistry from "./registry";
 import { ScaffoldEthAppWithProviders } from "../components/ScaffoldEthAppWithProviders";
 import { ThemeProvider } from "../components/ThemeProvider";
 import { Footer } from "../components/Footer";
+import { Header } from "../components/Header";
 import "../styles/globals.css";
 import { getMetadata } from "../utils/scaffold-eth/getMetadata";
 import { ClientApolloProvider } from "../components/ClientApolloProvider";
@@ -29,6 +30,7 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }): React.Reac
           <ScaffoldEthAppWithProviders>
             <StyledComponentsRegistry>
               <ClientApolloProvider>
+                <Header />
                 {children}
                 <Footer />
               </ClientApolloProvider>
