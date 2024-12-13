@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { baseSepolia } from 'viem/chains';
 import { GET_RECENT_ATTESTATIONS } from '../graphql/queries';
 import { Spinner } from './assets/Spinner';
 import { Attestation, AttestationData } from '../types/attestation';
@@ -83,12 +82,12 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
                       Time: {new Date(attestation.time * 1000).toLocaleString()}
                     </p>
                     <a
-                      href={`${baseSepolia.blockExplorers.default.url}/tx/${attestation.id}`}
+                      href={`https://base-sepolia.easscan.org/attestation/view/${attestation.id}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:text-blue-800 text-sm"
                     >
-                      View Transaction ↗
+                      View on EAS ↗
                     </a>
                   </div>
                   {attestation.decodedDataJson && (
