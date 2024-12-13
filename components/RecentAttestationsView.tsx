@@ -116,7 +116,7 @@ const RecentAttestationsView: FC<RecentAttestationsViewProps> = ({ title, pageSi
                             'eventName',        // Event: ETHGlobal Brussels 2024
                             'eventType',        // Type: International Hackathon
                             'assignedRole',     // Role: Hacker
-                            'proofProtocol',    // Proof: POAP
+                            'poapProof',        // Proof: POAP
                             'missionName',      // Mission: Zinneke Rescue Mission
                             'attester',         // Attester: mission-enrollment.base.eth
                             'proofProtocol'     // Proof: EAS
@@ -128,9 +128,10 @@ const RecentAttestationsView: FC<RecentAttestationsViewProps> = ({ title, pageSi
                           }
 
                           return displayOrder.map((key, index) => {
-                            if (formattedData[key as keyof typeof formattedData] === undefined) return null;
+                            const value = formattedData[key as keyof typeof formattedData];
+                            if (value === undefined || value === null) return null;
 
-                            let displayValue = formattedData[key as keyof typeof formattedData];
+                            let displayValue = value;
                             let label = getFieldLabel(key);
 
                             // Custom display formatting
@@ -147,6 +148,11 @@ const RecentAttestationsView: FC<RecentAttestationsViewProps> = ({ title, pageSi
                               displayValue = 'Basename';
                             } else if (key === 'attester') {
                               displayValue = 'mission-enrollment.base.eth';
+                            } else if (key === 'userAddress' || key === 'attester') {
+                              // Truncate long addresses for better display
+                              displayValue = typeof displayValue === 'string' ?
+                                `${displayValue.slice(0, 6)}...${displayValue.slice(-4)}` :
+                                displayValue;
                             }
 
                             return (

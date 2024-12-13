@@ -43,7 +43,8 @@ export function formatAttestationData(decodedData: any[]): Partial<SchemaData> {
       'missionname': 'missionName',
       'timestamp': 'timestamp',
       'attester': 'attester',
-      'proofprotocol': 'proofProtocol'
+      'proofprotocol': 'proofProtocol',
+      'poapproof': 'poapProof'
     };
 
     const key = keyMap[rawKey];
