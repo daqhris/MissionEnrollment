@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, FC } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_RECENT_ATTESTATIONS } from '../graphql/queries';
 import { Spinner } from './assets/Spinner';
@@ -24,20 +24,7 @@ function ErrorFallback({ error }: { error: Error }) {
   );
 }
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      div: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
-      span: React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
-      a: React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>;
-      button: React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
-      h1: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>;
-      p: React.DetailedHTMLProps<React.HTMLAttributes<HTMLParagraphElement>, HTMLParagraphElement>;
-    }
-  }
-}
-
-const RecentAttestationsView: FC<RecentAttestationsViewProps> = ({ title, pageSize = 20 }) => {
+export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestationsViewProps): React.ReactElement {
   const [page, setPage] = useState(1);
   const [error, setError] = useState<Error | null>(null);
 
@@ -201,5 +188,3 @@ const RecentAttestationsView: FC<RecentAttestationsViewProps> = ({ title, pageSi
     </div>
   );
 }
-
-export default RecentAttestationsView;
