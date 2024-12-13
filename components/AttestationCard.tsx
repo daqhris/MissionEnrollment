@@ -6,7 +6,7 @@ const Card = tw.div`
   mt-6
   rounded-lg
   overflow-hidden
-  bg-white
+  bg-gray-50
   shadow-md
 `;
 
@@ -40,7 +40,7 @@ const Label = tw.p`
 const Value = tw.p`
   text-sm
   break-all
-  bg-gray-100
+  bg-gray-200
   p-2
   rounded
   text-gray-800

@@ -61,7 +61,7 @@ const FooterLinks = tw.div`
   justify-center
   items-center
   gap-2
-  text-sm
+  text-xs
   w-full
 `;
 
@@ -113,7 +113,7 @@ export const Footer = (): JSX.Element => {
                 href="https://base-sepolia.easscan.org/attestations/forSchema/0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent-content hover:text-accent text-sm flex items-center"
+                className="text-accent-content hover:text-accent text-xs flex items-center"
               >
                 Attest In-Test
                 <ExternalLinkIcon />
@@ -122,7 +122,7 @@ export const Footer = (): JSX.Element => {
                 href="https://ethglobal.com/showcase/missionenrollment-i4fkr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent-content hover:text-accent text-sm flex items-center"
+                className="text-accent-content hover:text-accent text-xs flex items-center"
               >
                 ETHGlobal '24
                 <ExternalLinkIcon />
@@ -131,7 +131,7 @@ export const Footer = (): JSX.Element => {
                 href="https://github.com/daqhris/MissionEnrollment"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent-content hover:text-accent text-sm flex items-center"
+                className="text-accent-content hover:text-accent text-xs flex items-center"
               >
                 GitHub
                 <ExternalLinkIcon />

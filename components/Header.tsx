@@ -183,7 +183,10 @@ export const Header = (): JSX.Element => {
               setIsDrawerOpen((prevIsOpenState: boolean): boolean => !prevIsOpenState);
             }}
           >
-            <Bars3Icon className="h-1/2" />
+            <>
+              <Bars3Icon className="h-1/2" />
+              <span className="ml-2" role="img" aria-label="First place medal">🥇</span>
+            </>
           </BurgerMenuButton>
           {isDrawerOpen && (
             <DropdownMenu
