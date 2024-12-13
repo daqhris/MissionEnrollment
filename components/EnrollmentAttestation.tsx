@@ -265,9 +265,13 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
   }, [checkNetworkAndContract]);
 
   return (
-    <Card>
+    <Card sx={{
+      backgroundColor: 'rgba(239, 68, 68, 0.1)',
+      borderRadius: '0.5rem',
+      transition: 'box-shadow 0.2s'
+    }}>
       <CardContent>
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="h5" gutterBottom sx={{ color: 'rgb(17, 24, 39)', fontWeight: 600 }}>
           Mission Enrollment Attestation
         </Typography>
 
@@ -283,50 +287,74 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
           </Box>
         ) : (
           <>
-            <Box mb={2}>
-              <Typography variant="h6" gutterBottom>
+            <Box mb={2} sx={{
+              backgroundColor: 'rgb(254, 242, 242)',
+              padding: '0.5rem',
+              borderRadius: '0.375rem',
+              '&:hover': {
+                backgroundColor: 'rgb(254, 226, 226)',
+                transition: 'background-color 200ms'
+              }
+            }}>
+              <Typography variant="h6" gutterBottom sx={{ color: 'rgb(17, 24, 39)', fontWeight: 600 }}>
                 Identity Check
               </Typography>
-              <Typography>
+              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 User Address: {previewData?.userAddress || 'Not connected'}
               </Typography>
-              <Typography>
+              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Public Identity: {previewData?.verifiedName || 'Not verified'}
               </Typography>
-              <Typography>
+              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Proof Verification Method: {previewData?.proofMethod}
               </Typography>
             </Box>
 
-            <Box mb={2}>
-              <Typography variant="h6" gutterBottom>
+            <Box mb={2} sx={{
+              backgroundColor: 'rgb(254, 242, 242)',
+              padding: '0.5rem',
+              borderRadius: '0.375rem',
+              '&:hover': {
+                backgroundColor: 'rgb(254, 226, 226)',
+                transition: 'background-color 200ms'
+              }
+            }}>
+              <Typography variant="h6" gutterBottom sx={{ color: 'rgb(17, 24, 39)', fontWeight: 600 }}>
                 Event Attendance
               </Typography>
-              <Typography>
+              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Event Name: {previewData?.eventName}
               </Typography>
-              <Typography>
+              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Event Type: {previewData?.eventType}
               </Typography>
-              <Typography>
+              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Assigned Role: {previewData?.assignedRole || 'Not verified'}
               </Typography>
             </Box>
 
-            <Box mb={2}>
-              <Typography variant="h6" gutterBottom>
+            <Box mb={2} sx={{
+              backgroundColor: 'rgb(254, 242, 242)',
+              padding: '0.5rem',
+              borderRadius: '0.375rem',
+              '&:hover': {
+                backgroundColor: 'rgb(254, 226, 226)',
+                transition: 'background-color 200ms'
+              }
+            }}>
+              <Typography variant="h6" gutterBottom sx={{ color: 'rgb(17, 24, 39)', fontWeight: 600 }}>
                 Early Registration
               </Typography>
-              <Typography>
+              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Collaborative Mission: {previewData?.missionName}
               </Typography>
-              <Typography>
+              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Enrollment Timestamp: {previewData?.timestamp ? new Date(previewData.timestamp).toLocaleString() : 'Not set'}
               </Typography>
-              <Typography>
+              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Official Attester: {previewData?.attester}
               </Typography>
-              <Typography>
+              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Proof Verification: {previewData?.proofProtocol}
               </Typography>
             </Box>
