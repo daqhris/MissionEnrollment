@@ -14,7 +14,7 @@ function ErrorFallback({ error }: { error: Error }) {
   );
 }
 
-export default function RecentAttestationsLayout({
+export default function EnrollmentsLayout({
   children,
 }: {
   children: React.ReactNode;

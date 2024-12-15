@@ -2,15 +2,15 @@
 
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_RECENT_ATTESTATIONS } from '../graphql/queries';
+import { GET_ENROLLMENTS } from '../graphql/queries';
 import { Spinner } from './assets/Spinner';
 import { Attestation, AttestationData } from '../types/attestation';
 import { ErrorBoundary } from 'react-error-boundary';
-import { SCHEMA_UID } from '../utils/constants';
-import { BaseNameDisplay } from './BaseNameDisplay';
+import { formatDistanceToNow } from 'date-fns';
+import { SCHEMA_UID as SCHEMA_ID } from '../utils/constants';
 import { formatAttestationData, getFieldLabel } from '../utils/formatting';
 
-interface RecentAttestationsViewProps {
+interface EnrollmentsViewProps {
   title: string;
   pageSize?: number;
 }
@@ -24,22 +24,31 @@ function ErrorFallback({ error }: { error: Error }) {
   );
 }
 
-export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestationsViewProps): React.ReactElement {
+export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps): React.ReactElement {
   const [page, setPage] = useState(1);
   const [error, setError] = useState<Error | null>(null);
 
-  const { loading, error: queryError, data } = useQuery(GET_RECENT_ATTESTATIONS, {
+  const { loading, error: queryError, data, fetchMore } = useQuery(GET_ENROLLMENTS, {
     variables: {
       take: pageSize,
       skip: (page - 1) * pageSize,
-      schemaId: SCHEMA_UID
+      schemaId: SCHEMA_ID
     },
     notifyOnNetworkStatusChange: true,
     onError: (error) => {
-      console.error('[RecentAttestationsView] GraphQL Error:', error);
+      console.error('[EnrollmentsView] GraphQL Error:', error);
       setError(error);
     }
   });
+
+  const handlePageChange = async (newPage: number) => {
+    setPage(newPage);
+    await fetchMore({
+      variables: {
+        skip: (newPage - 1) * pageSize,
+      },
+    });
+  };
 
   const content = () => {
     if (loading && !data) {
@@ -52,11 +61,11 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
 
     if (queryError || error) {
       const errorMessage = queryError?.message || error?.message || 'An unknown error occurred';
-      console.error('[RecentAttestationsView] Error fetching attestations:', errorMessage);
+      console.error('[EnrollmentsView] Error fetching attestations:', errorMessage);
       return (
         <div className="text-red-500 p-4 rounded-lg bg-red-50 border border-red-200 alert alert-error">
-          <h2 className="text-xl font-bold mb-2">Error Loading Attestations</h2>
-          <p>Error loading attestations for schema {SCHEMA_UID}</p>
+          <h2 className="text-xl font-bold mb-2">Error Loading Enrollments</h2>
+          <p>Error loading enrollments for schema {SCHEMA_ID}</p>
           <pre className="text-sm overflow-auto">{errorMessage}</pre>
         </div>
       );
@@ -70,7 +79,7 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
       <>
         {attestations.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-gray-500">No attestations found</p>
+            <p className="text-gray-500">No enrollments found</p>
           </div>
         ) : (
           <>
@@ -79,17 +88,19 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
                 <div key={attestation.id} className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-red-100/80">
                   <div className="flex justify-between items-center mb-2">
                     <div className="text-gray-600 text-sm">
-                      {new Date(attestation.time * 1000).toLocaleString()}
+                      {formatDistanceToNow(new Date(attestation.time * 1000), { addSuffix: true })}
                     </div>
                     <a
                       href={`https://base-sepolia.easscan.org/attestation/view/${attestation.id}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:text-blue-800 text-sm"
+                      onClick={(e) => e.stopPropagation()}
                     >
                       View on EAS ↗
                     </a>
                   </div>
+
                   {attestation.decodedDataJson && (
                     <div className="mt-2 space-y-2">
                       {(() => {
@@ -125,7 +136,6 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
                             } else if (key === 'attester') {
                               displayValue = 'mission-enrollment.base.eth';
                             } else if (key === 'userAddress' || key === 'attester') {
-                              // Truncate long addresses for better display
                               displayValue = typeof displayValue === 'string' ?
                                 `${displayValue.slice(0, 6)}...${displayValue.slice(-4)}` :
                                 displayValue;
@@ -139,7 +149,7 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
                             );
                           }).filter(Boolean);
                         } catch (e) {
-                          console.error('[RecentAttestationsView] JSON Parse Error:', e);
+                          console.error('[EnrollmentsView] JSON Parse Error:', e);
                           return <p className="text-red-500">Invalid JSON data</p>;
                         }
                       })()}
@@ -151,9 +161,9 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
 
             <div className="flex justify-center gap-2">
               <button
-                onClick={() => setPage(p => Math.max(1, p - 1))}
+                onClick={() => handlePageChange(Math.max(1, page - 1))}
                 disabled={page === 1 || loading}
-                className="px-4 py-2 border rounded disabled:opacity-50"
+                className="px-4 py-2 border rounded disabled:opacity-50 hover:bg-gray-50"
               >
                 Previous
               </button>
@@ -161,9 +171,9 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
                 Page {page} of {totalPages}
               </span>
               <button
-                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                onClick={() => handlePageChange(Math.min(totalPages, page + 1))}
                 disabled={page === totalPages || loading}
-                className="px-4 py-2 border rounded disabled:opacity-50"
+                className="px-4 py-2 border rounded disabled:opacity-50 hover:bg-gray-50"
               >
                 Next
               </button>
@@ -176,7 +186,7 @@ export function RecentAttestationsView({ title, pageSize = 20 }: RecentAttestati
 
   return (
     <div className="container mx-auto px-4">
-      <h1 className="text-3xl font-bold mb-8 text-center">{title}</h1>
+      <h1 className="text-3xl font-bold mb-8 text-center text-[#957777]">{title}</h1>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         {content()}
       </ErrorBoundary>

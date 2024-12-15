@@ -93,7 +93,7 @@ const LogoText = ({ children }: { children: React.ReactNode }) => (
 );
 
 const LogoTitle = ({ children }: { children: React.ReactNode }) => (
-  <span className="font-bold leading-tight">
+  <span className="font-bold leading-tight text-[#957777]">
     {children}
   </span>
 );
@@ -128,8 +128,12 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/",
   },
   {
-    label: "Recent",
-    href: "/recent",
+    label: "Enrollments",
+    href: "/enrollments",
+  },
+  {
+    label: "Preview",
+    href: "/preview",
   },
 ];
 
