@@ -379,9 +379,6 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
                 )}
               </Button>
             </Box>
-            <Typography variant="caption" color="textSecondary" align="center" display="block" sx={{ mt: 1 }}>
-              Base Sepolia required for attestation creation
-            </Typography>
           </>
         )}
       </CardContent>
