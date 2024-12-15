@@ -1,33 +1,27 @@
 import { useState } from 'react';
-import { getAccount, getPublicClient, switchChain } from 'wagmi/actions';
-import { type Chain } from 'viem';
-import { config, getRequiredNetwork } from '../utils/wagmi';
-import type { EthereumProvider } from '../types/ethereum';
+import { useAccount, useConfig } from 'wagmi';
+import { switchNetwork } from 'wagmi/actions';
+import { getRequiredNetwork } from '../utils/constants';
 
 export const useNetworkSwitch = (action: 'verification' | 'attestation') => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [networkSwitched, setNetworkSwitched] = useState(false);
-  const [attestationField, setAttestationField] = useState<string>('');
 
-  const publicClient = getPublicClient(config);
-  const account = getAccount(config);
+  const { chain } = useAccount();
+  const config = useConfig();
+  const chainId = chain?.id;
+
   const targetNetwork = getRequiredNetwork(action);
 
-  const handleNetworkSwitch = async (): Promise<boolean> => {
+  const handleNetworkSwitch = async () => {
     setIsLoading(true);
     setError(null);
 
     try {
-      if (!account.address) {
-        throw new Error('No wallet connected');
-      }
-
-      await switchChain(config, {
-        chainId: targetNetwork.id
-      });
-
+      await switchNetwork(config, { chainId: targetNetwork.id });
       const provider = window.ethereum;
+
       if (!provider) {
         throw new Error('No Web3 provider detected');
       }
@@ -41,13 +35,10 @@ export const useNetworkSwitch = (action: 'verification' | 'attestation') => {
       }
 
       setNetworkSwitched(true);
-      // Clear attestation field before switch, it will be filled after in the component
-      setAttestationField('');
       setIsLoading(false);
       return true;
-    } catch (err: any) {
-      const errorMessage = err?.message || 'Failed to switch network';
-      setError(errorMessage);
+    } catch (error: any) {
+      setError(error?.message || 'Failed to switch network');
       setIsLoading(false);
       return false;
     }
@@ -59,8 +50,6 @@ export const useNetworkSwitch = (action: 'verification' | 'attestation') => {
     networkSwitched,
     handleNetworkSwitch,
     targetNetwork,
-    currentChainId: publicClient?.chain?.id,
-    attestationField,
-    setAttestationField
+    chainId
   };
 };
