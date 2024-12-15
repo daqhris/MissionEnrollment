@@ -1,22 +1,26 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { base } from 'viem/chains';
 import { type Chain } from 'viem';
-import { Avatar } from '@coinbase/onchainkit/identity';
+import { base } from 'viem/chains';
 import { useAccount } from 'wagmi';
-import { getName } from '@coinbase/onchainkit/identity';
+import { Avatar, getName } from '@coinbase/onchainkit/identity';
 import { RainbowKitCustomConnectButton } from '../components/scaffold-eth';
 import EventAttendanceVerification from '../components/EventAttendanceVerification';
 import EnrollmentAttestation from '../components/EnrollmentAttestation';
+import { SuccessAttestation } from '../components/SuccessAttestation';
 import { Logo } from '../components/Logo';
 
-// Type definitions
-interface EnrollmentAttestationProps {
+// Type definitions for component state
+interface EventInfo {
+  role: string;
+  date: string;
+  venue: string;
   verifiedName: string;
-  poapVerified: boolean;
-  onAttestationComplete: (attestationId: string) => void;
+  tokenId: string;
 }
+
+// Type for verification status
 type VerificationStatus = 'idle' | 'loading' | 'success' | 'error';
 
 interface POAPEventInfo {
@@ -25,44 +29,6 @@ interface POAPEventInfo {
   role: string;
   date: string;
   venue: string;
-}
-
-interface SuccessAttestationProps {
-  attestationId: string;
-  verifiedName: string;
-  role: string;
-}
-
-function SuccessAttestation({ attestationId, verifiedName, role }: SuccessAttestationProps) {
-  return (
-    <div className="mt-8">
-      <h2 className="text-2xl font-bold mb-4">Mission Enrollment Complete</h2>
-      <div className="card bg-success/10 shadow-lg">
-        <div className="card-body">
-          <div className="alert alert-success">
-            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span>Congratulations! Your enrollment has been recorded on Base Sepolia.</span>
-          </div>
-
-          <div className="mt-4">
-            <p className="text-lg mb-2">Enrolled as: <span className="font-semibold">{verifiedName}</span></p>
-            <p className="text-lg mb-4">Role: <span className="font-semibold">{role}</span></p>
-            <p className="text-sm text-base-content/70 mb-2">Attestation ID: {attestationId}</p>
-            <a
-              href={`https://base-sepolia.easscan.org/attestation/view/${attestationId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-primary"
-            >
-              View on EAS Explorer
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
 }
 
 export default function Home() {
@@ -96,9 +62,10 @@ export default function Home() {
         console.log('Fetching onchain name for address:', address);
         // Ensure we're using Base mainnet for initial user experience
         console.log('Using Base mainnet for name verification:', base);
+        // Cast base chain to match getName's expected type signature
         const name = await getName({
           address: address,
-          chain: base as Chain | undefined
+          chain: base as any // Temporarily use any to bridge the two viem versions
         });
         console.log('Fetched onchain name:', name);
         setOnchainName(name);

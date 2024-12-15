@@ -19,6 +19,7 @@ interface EnrollmentAttestationProps {
   verifiedName: string;
   poapVerified: boolean;
   onAttestationComplete: (attestationId: string) => void;
+  attestationId?: string | null;
 }
 
 interface PreviewData {
@@ -34,7 +35,12 @@ interface PreviewData {
   proofProtocol: string;
 }
 
-export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttestationProps) {
+export default function EnrollmentAttestation({
+  verifiedName,
+  poapVerified,
+  onAttestationComplete,
+  attestationId
+}: EnrollmentAttestationProps) {
   const { address } = useAccount();
   const chainId = useChainId();
   const [loading, setLoading] = useState(false);
@@ -131,51 +137,25 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
     setLoading(false);
   };
 
-  const createAttestation = async () => {
-    let notificationId: string | null = null;
-    console.log('Starting attestation creation...', {
-      address,
-      chainId,
-      hasPreviewData: !!previewData,
-      currentNetwork: chainId
-    });
-
-    if (!previewData) return;
+  const createAttestation = useCallback(async () => {
+    if (!address || !previewData) return;
 
     try {
       setLoading(true);
       setError(null);
 
-      // Switch network if needed
-      if (chainId !== BASE_SEPOLIA_CHAIN_ID) {
-        const success = await handleNetworkSwitch();
-        if (!success) {
-          throw new Error('Failed to switch network');
-        }
+      // Switch to Base Sepolia network if needed
+      const switchResult = await handleNetworkSwitch();
+      if (!switchResult) {
+        setLoading(false);
+        return;
       }
 
-      notificationId = notification.loading("Preparing attestation...") as string;
-      console.log('Initializing EAS with contract address:', EAS_CONTRACT_ADDRESS_SEPOLIA);
+      // Initialize EAS
       const eas = new EAS(EAS_CONTRACT_ADDRESS_SEPOLIA);
-
-      console.log('Creating provider and signer...');
       const provider = new BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-
-      console.log('Connecting signer to EAS...');
-      await eas.connect(signer);
-
-      console.log('Checking network...');
-      const network = await provider.getNetwork();
-      if (network.chainId !== BigInt(BASE_SEPOLIA_CHAIN_ID)) {
-        if (notificationId) notification.remove(notificationId);
-        console.log('Network mismatch, initiating switch...');
-        const success = await handleNetworkSwitch();
-        if (!success) {
-          throw new Error('Network switch failed or was cancelled');
-        }
-        notificationId = notification.loading("Preparing attestation...") as string;
-      }
+      eas.connect(signer);
 
       const schemaEncoder = new SchemaEncoder(SCHEMA_ENCODING);
       const encodedData = schemaEncoder.encodeData([
@@ -191,47 +171,26 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
         { name: "proofProtocol", value: previewData.proofProtocol, type: "string" }
       ]);
 
-      if (notificationId) notification.remove(notificationId);
-      notificationId = notification.loading("Please sign the transaction to create attestation...") as string;
       const tx = await eas.attest({
         schema: SCHEMA_UID,
         data: {
-          recipient: previewData.userAddress,
+          recipient: address,
+          revocable: true,
           data: encodedData,
-          value: BigInt(0),
         },
       });
 
-      if (notificationId) notification.remove(notificationId);
-      notificationId = notification.loading("Waiting for transaction confirmation...") as string;
-      console.log('Waiting for transaction confirmation...');
-      const attestationUID = await tx.wait();
+      const newAttestationId = await tx.wait();
+      console.log("New attestation created with ID: ", newAttestationId);
 
-      if (!attestationUID) {
-        console.error('Failed to get attestation UID');
-        throw new Error('Failed to get attestation UID from transaction');
-      }
-
-      if (notificationId) notification.remove(notificationId);
-      notification.success("🎉 Attestation created successfully!");
-      console.log('Attestation created successfully:', attestationUID);
+      notification.success("Successfully created attestation!");
+      onAttestationComplete(newAttestationId);
       setLoading(false);
-      return attestationUID;
-    } catch (err: any) {
-      console.error('Error creating attestation:', {
-        error: err,
-        code: err.code,
-        message: err.message,
-        stack: err.stack
-      });
-      if (notificationId) {
-        notification.remove(notificationId);
-      }
+    } catch (err) {
       handleError(err);
       setLoading(false);
-      return null;
     }
-  };
+  }, [address, previewData, handleNetworkSwitch, onAttestationComplete]);
 
   const checkNetworkAndContract = useCallback(async () => {
     if (!address) return;
@@ -367,7 +326,7 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
                 variant="contained"
                 color="primary"
                 onClick={createAttestation}
-                disabled={!address || !previewData || loading || isNetworkSwitching || networkSwitched}
+                disabled={!address || !previewData || loading || isNetworkSwitching || networkSwitched || !!attestationId}
                 sx={{ width: '100%' }}
               >
                 {loading ? (
@@ -376,6 +335,8 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
                   'Switching Network...'
                 ) : networkSwitched ? (
                   'Network Switched'
+                ) : attestationId ? (
+                  'Attestation Created'
                 ) : (
                   'Create Attestation'
                 )}
