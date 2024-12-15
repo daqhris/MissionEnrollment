@@ -128,8 +128,12 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/",
   },
   {
-    label: "Recent",
-    href: "/recent",
+    label: "Enrollments",
+    href: "/enrollments",
+  },
+  {
+    label: "Preview",
+    href: "/preview",
   },
 ];
 

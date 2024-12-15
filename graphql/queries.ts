@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
-export const GET_RECENT_ATTESTATIONS = gql`
-  query GetRecentAttestations($take: Int!, $skip: Int, $schemaId: String!) {
+export const GET_ENROLLMENTS = gql`
+  query GetEnrollments($take: Int!, $skip: Int, $schemaId: String!) {
     attestations(
       take: $take
       skip: $skip

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { RecentAttestationsView } from '../../components/RecentAttestationsView';
+import { EnrollmentsView } from '../../components/EnrollmentsView';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ClientLayout } from '../../components/ClientLayout';
 
@@ -28,7 +28,7 @@ export default function EnrollmentsPage() {
             console.error('[EnrollmentsPage] ErrorBoundary caught:', error);
           }}
         >
-          <RecentAttestationsView title="Onchain Attestations" pageSize={20} />
+          <EnrollmentsView title="Onchain Attestations" pageSize={20} />
         </ErrorBoundary>
       </div>
     </ClientLayout>
