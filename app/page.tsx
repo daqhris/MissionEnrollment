@@ -204,7 +204,7 @@ export default function Home() {
                   )}
 
                   {showEventAttendance && verifiedName && (
-                    <div>
+                    <div className="mt-4">
                       <EventAttendanceVerification
                         address={address || ''}
                         verifiedName={verifiedName}
