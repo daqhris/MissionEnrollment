@@ -124,7 +124,7 @@ export default function Home() {
             <div className="card-body">
               {!isConnected && (
                 <>
-                  <h2 className="text-2xl font-bold mb-4">Start Registration</h2>
+                  <h2 className="text-2xl font-bold mb-4 text-[#957777]">Start Registration</h2>
                   <div className="space-y-4 mb-8">
                     <p className="text-base-content/70 text-center">
                       An enrollment tool for a collaborative artistic mission on the BASE blockchain.

@@ -271,8 +271,8 @@ export default function EnrollmentAttestation({ verifiedName }: EnrollmentAttest
       transition: 'box-shadow 0.2s'
     }}>
       <CardContent>
-        <Typography variant="h5" gutterBottom sx={{ color: 'rgb(17, 24, 39)', fontWeight: 600 }}>
-          Mission Enrollment Attestation
+        <Typography variant="h5" gutterBottom sx={{ color: '#957777', fontWeight: 600 }}>
+          Enrollment Attestation
         </Typography>
 
         {error && (
