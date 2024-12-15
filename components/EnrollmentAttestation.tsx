@@ -17,6 +17,8 @@ import { useNetworkSwitch } from '../hooks/useNetworkSwitch';
 
 interface EnrollmentAttestationProps {
   verifiedName: string;
+  poapVerified: boolean;
+  onAttestationComplete: (attestationId: string) => void;
 }
 
 interface PreviewData {
