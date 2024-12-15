@@ -20,6 +20,9 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 │   ├── config/            # Web3 and chain configurations
 │   └── providers/         # React context providers
 ├── components/            # React components
+│   ├── SuccessAttestation.tsx    # Final success screen
+│   ├── EventAttendanceVerification.tsx    # Event attendance verification
+│   ├── EnrollmentAttestation.tsx    # Attestation creation
 ├── services/             # Core services
 │   ├── apollo/           # GraphQL client
 │   ├── store/            # State management
@@ -28,10 +31,18 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 └── types/              # TypeScript definitions
 ```
 
+## Custom Hooks
+
+### useNetworkSwitch
+Custom hook for handling network switching between Base and Base Sepolia networks:
+- Manages network switching state
+- Handles network switching errors
+- Provides network status information
+
 ## Technical Stack
 
-- Frontend: React with Next.js (Node.js v20)
-- Blockchain Interaction: ethers.js, wagmi, viem
+- Frontend: React with Next.js (Node.js v18)
+- Blockchain Interaction: ethers.js, wagmi v2, viem/chains
 - Basename/ENS Integration: user name resolution via ethers.js with two-step verification
 - POAP API: Custom API route with caching, rate limiting, and a delay implementation
 - Middleware: Custom implementation for POAP API request handling with rate limiting
@@ -69,12 +80,13 @@ The project includes comprehensive testing setup:
 |:---:|:---:|:---:|:---:|:---:|:---:|
 | Enrollment-Step0 | Enrollment-Step1 | Enrollment-Pause1 | Enrollment-Step2 | Enrollment-Pause2 | Enrollment-Step3 |
 
+**Note:** A success screen is displayed after successful attestation creation, showing attestation details and providing a link to view it on EAS Explorer.
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v20 or later)
+- Node.js (v18 or later)
 - Yarn
 - An Ethereum wallet (recommended: Coinbase Wallet)
 - Environment Variables:
@@ -121,7 +133,8 @@ The project includes comprehensive testing setup:
 1. User connects their Ethereum wallet using the wallet connector and verifies their identity with Basename or ENS name.
 2. The application fetches and displays relevant POAPs, specifically ETHGlobal Brussels 2024, extracting role information dynamically.
 3. Its interface's second stage leads to verification of event attendance and role through POAPs before proceeding to attestation.
-4. User creates an attestation on the Base Sepolia network using EAS, with blockchain network switching if needed.
+4. User creates an attestation on the Base Sepolia network using EAS, with automatic network switching if needed.
+5. Upon successful attestation creation, a success screen is displayed with attestation details and a link to view it on EAS Explorer.
 
 ## API Routes
 
@@ -198,28 +211,15 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
   - Error recovery mechanisms
   - Gas estimation and optimization
 
-- `ContractUI.tsx`: Contract interaction interface
-  - Network status monitoring
-  - Transaction history tracking
-  - Gas estimation and optimization
-  - Error boundary implementation
-  - Fallback UI components
-
-- `RecentAttestationsView.tsx`: Attestation history display
-  - Paginated GraphQL queries with Apollo Client
-  - Error boundary implementation
-  - Fallback UI components
-  - Caching strategy integration
-  - Optimistic UI updates
+- `SuccessAttestation.tsx`: Final success screen component
+  - Displays attestation creation confirmation
+  - Shows attestation details and transaction status
+  - Provides EAS Explorer link for verification
+  - Implements error boundaries and fallback UI
+  - Manages component state and animations
+  - Handles network-specific functionality
 
 ### Technical Implementation
-
-#### Apollo Client Configuration
-- Custom caching strategies for attestation data
-- Error handling middleware with retries
-- Query result normalization
-- Optimistic UI updates
-- Real-time data synchronization
 
 #### Network Management
 - Automatic chain switching (Base/Base Sepolia)
@@ -227,6 +227,8 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
 - Transaction confirmation handling
 - Gas price optimization
 - Error recovery mechanisms
+
+
 
 #### Wallet Integration
 - Multiple wallet support (MetaMask, WalletConnect, Coinbase)
