@@ -114,7 +114,7 @@ export default function Home() {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-8">
       <div className="flex items-center justify-between mb-8">
         <Logo />
       </div>
