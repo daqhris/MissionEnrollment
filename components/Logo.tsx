@@ -12,7 +12,7 @@ export const Logo: React.FC = () => (
       height={32}
       priority
     />
-    <span className="font-bold text-xl">Mission Enrollment</span>
+    <span className="font-bold text-xl text-[#957777]">Mission Enrollment</span>
   </div>
 );
 
