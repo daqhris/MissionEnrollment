@@ -190,8 +190,8 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                   <Image
                     src={imageLoadError ? "/placeholder-poap.png" : poapDetails.event.image_url}
                     alt={poapDetails.event.name}
-                    width={64}
-                    height={64}
+                    width={128}
+                    height={128}
                     className="rounded-full mr-4 border-4 border-primary"
                     onError={handleImageError}
                   />
