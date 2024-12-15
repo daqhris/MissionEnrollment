@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { fetchPoaps } from '../utils/fetchPoapsUtil';
 import { ETH_GLOBAL_BRUSSELS_EVENT_NAMES, EVENT_VENUE } from '../utils/eventConstants';
+import { useNetworkSwitch } from '../hooks/useNetworkSwitch';
 
 interface POAPEvent {
   event: {
@@ -40,6 +41,14 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
   const [imageLoadError, setImageLoadError] = useState(false);
   const [hasAnswered, setHasAnswered] = useState<boolean>(false);
   const [attendedEvent, setAttendedEvent] = useState<boolean | null>(null);
+
+  const {
+    isLoading: isNetworkSwitching,
+    error: networkError,
+    networkSwitched,
+    handleNetworkSwitch,
+    targetNetwork
+  } = useNetworkSwitch('attestation');
 
   const verifyEventAttendance = async () => {
     if (!address) return;
@@ -209,12 +218,35 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
             </div>
           )}
 
-          <button
-            className={`btn ${verificationStatus === 'success' ? 'btn-primary' : 'btn-disabled'} mt-4 w-full`}
-            disabled={verificationStatus !== 'success'}
-          >
-            CONTINUE
-          </button>
+          <div className="mt-4">
+            <button
+              className={`btn w-full ${networkSwitched ? 'btn-disabled' : 'btn-primary'}`}
+              onClick={async () => {
+                const success = await handleNetworkSwitch();
+                if (success) {
+                  onVerified(true, poapDetails ? {
+                    role: poapDetails.event.name.replace('ETHGlobal Brussels ', '').trim(),
+                    date: poapDetails.event.end_date || poapDetails.event.start_date,
+                    venue: EVENT_VENUE,
+                    verifiedName: verifiedName,
+                    tokenId: poapDetails.tokenId
+                  } : undefined);
+                }
+              }}
+              disabled={networkSwitched || verificationStatus !== 'success'}
+            >
+              {isNetworkSwitching ? 'Switching Network...' :
+               networkSwitched ? 'Network Switched' : 'Switch to Base Sepolia'}
+            </button>
+            <p className="text-sm text-center mt-2 text-base-content/70">
+              Base Sepolia required for attestation creation
+            </p>
+            {networkError && (
+              <p className="text-sm text-center mt-2 text-error">
+                {networkError}
+              </p>
+            )}
+          </div>
         </>
       )}
     </div>
