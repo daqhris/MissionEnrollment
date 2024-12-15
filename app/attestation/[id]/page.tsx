@@ -1,5 +1,5 @@
 import React from 'react';
-import { GET_ATTESTATION_BY_ID, GET_RECENT_ATTESTATIONS } from '../../../graphql/queries';
+import { GET_ATTESTATION_BY_ID, GET_ENROLLMENTS } from '../../../graphql/queries';
 import { ClientAttestationView } from '../../../components/ClientAttestationView';
 import { ApolloWrapper } from '../../../components/ApolloWrapper';
 import { apolloClient } from '../../../services/apollo/apolloClient';
@@ -9,7 +9,7 @@ import { SCHEMA_UID } from '../../../utils/constants';
 export async function generateStaticParams() {
   try {
     const { data } = await apolloClient.query({
-      query: GET_RECENT_ATTESTATIONS,
+      query: GET_ENROLLMENTS,
       variables: {
         take: 100, // Pre-generate paths for the 100 most recent attestations
         skip: 0,
