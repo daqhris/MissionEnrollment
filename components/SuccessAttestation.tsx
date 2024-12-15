@@ -21,7 +21,7 @@ export function SuccessAttestation({ attestationId, verifiedName, role }: Succes
 
           <div className="mt-4">
             <p className="text-lg mb-2">Registered for the upcoming <span className="font-semibold">Zinneke Rescue Mission</span> as: <span className="font-semibold">{verifiedName}</span></p>
-            <p className="text-lg mb-4">In honor of your hackathon skills demonstrated in Brussels (Europe) as: <span className="font-semibold">{role}</span></p>
+            <p className="text-lg mb-4">In honor of your hackathon skills demonstrated in Brussels as: <span className="font-semibold">{role}</span></p>
             <p className="text-sm text-base-content/70 mb-2">Attestation ID: {attestationId}</p>
             <a
               href={`https://base-sepolia.easscan.org/attestation/view/${attestationId}`}
