@@ -122,137 +122,139 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
   };
 
   return (
-    <div className="card-body">
-      <h2 className="text-2xl font-bold mb-4">Event Attendance</h2>
+    <div className="card">
+      <div className="card-body">
+        <h2 className="text-2xl font-bold mb-4">Event Attendance</h2>
 
-      {!hasAnswered ? (
-        <div className="text-center">
-          <p className="text-base-content/70 mb-6">
-            Hello {verifiedName}, did you attend ETHGlobal Brussels in person?
-          </p>
-          <div className="flex justify-center gap-4">
-            <button
-              className={`btn btn-primary ${attestationId ? 'btn-disabled opacity-50' : ''}`}
-              onClick={() => handleAttendanceResponse(true)}
-              disabled={!!attestationId}
-            >
-              Yes, I attended
-            </button>
-            <button
-              className={`btn btn-outline ${attestationId ? 'btn-disabled opacity-50' : ''}`}
-              onClick={() => handleAttendanceResponse(false)}
-              disabled={!!attestationId}
-            >
-              No, I did not attend
-            </button>
-          </div>
-        </div>
-      ) : attendedEvent === false ? (
-        <div className="alert alert-info">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <div>
-            <p>Thank you for your honesty!</p>
-            <p className="text-sm">The enrollment process requires in-person attendance at ETHGlobal Brussels. We hope to see you at future events!</p>
-          </div>
-        </div>
-      ) : (
-        <>
-          <p className="text-base-content/70 mb-4">
-            Hello {verifiedName}, we are checking your attendance at ETHGlobal Brussels.
-          </p>
-
-          {isVerifying && (
-            <div className="flex flex-col items-center justify-center p-8 space-y-4">
-              <div className="relative">
-                <span className="loading loading-spinner loading-lg"></span>
-                <span className="loading loading-ring loading-lg absolute inset-0 animate-ping"></span>
-              </div>
-              <p className="text-base-content/70 animate-pulse text-lg font-semibold">
-                🎭 Verifying your attendance...
-              </p>
-              <div className="flex flex-col items-center space-y-2 text-sm text-base-content/50">
-                <p className="animate-bounce">🔍 Searching POAPs on Gnosis Chain</p>
-                <p className="animate-pulse">🎪 Looking for ETHGlobal Brussels badges</p>
-                <p>🎯 Matching your wallet address</p>
-              </div>
+        {!hasAnswered ? (
+          <div className="text-center">
+            <p className="text-base-content/70 mb-6">
+              Hello {verifiedName}, did you attend ETHGlobal Brussels in person?
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                className={`btn btn-primary ${attestationId ? 'btn-disabled opacity-50' : ''}`}
+                onClick={() => handleAttendanceResponse(true)}
+                disabled={!!attestationId}
+              >
+                Yes, I attended
+              </button>
+              <button
+                className={`btn btn-outline ${attestationId ? 'btn-disabled opacity-50' : ''}`}
+                onClick={() => handleAttendanceResponse(false)}
+                disabled={!!attestationId}
+              >
+                No, I did not attend
+              </button>
             </div>
-          )}
-
-          {error && (
-            <div className="alert alert-error mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span>{error}</span>
+          </div>
+        ) : attendedEvent === false ? (
+          <div className="alert alert-info">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <div>
+              <p>Thank you for your honesty!</p>
+              <p className="text-sm">The enrollment process requires in-person attendance at ETHGlobal Brussels. We hope to see you at future events!</p>
             </div>
-          )}
+          </div>
+        ) : (
+          <>
+            <p className="text-base-content/70 mb-4">
+              Hello {verifiedName}, we are checking your attendance at ETHGlobal Brussels.
+            </p>
 
-          {verificationStatus === 'success' && poapDetails && (
-            <div className="alert alert-success mb-4 transition-all duration-500 ease-in-out transform">
-              <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <div className="space-y-4">
-                <div>
-                  <p className="font-bold text-lg">🎉 Event attendance verified!</p>
-                  <p className="text-sm opacity-75">Your POAP confirms your participation at a hackathon in Brussels hosted by ETHGlobal</p>
+            {isVerifying && (
+              <div className="flex flex-col items-center justify-center p-8 space-y-4">
+                <div className="relative">
+                  <span className="loading loading-spinner loading-lg"></span>
+                  <span className="loading loading-ring loading-lg absolute inset-0 animate-ping"></span>
                 </div>
-                <div className="flex items-center bg-base-200 rounded-lg p-4">
-                  <Image
-                    src={imageLoadError ? "/placeholder-poap.png" : poapDetails?.event?.image_url}
-                    alt={poapDetails?.event?.name || 'POAP Image'}
-                    width={128}
-                    height={128}
-                    className="rounded-full mr-4 border-4 border-primary"
-                    onError={handleImageError}
-                  />
-                  <div className="space-y-2">
-                    <p className="text-base font-semibold">ETHGlobal Brussels 2024</p>
-                    <div className="flex flex-col text-sm opacity-75">
-                      <p>🎭 Role: {poapDetails?.event?.name?.replace('ETHGlobal Brussels 2024', '') || 'Attendee'}</p>
-                      <p>📅 Date: {new Date(poapDetails?.event?.end_date || poapDetails?.event?.start_date || Date.now()).toLocaleDateString()}</p>
-                      <p>📍 Venue: {EVENT_VENUE}</p>
-                      <p>🎫 Token ID: {poapDetails?.tokenId || 'N/A'}</p>
+                <p className="text-base-content/70 animate-pulse text-lg font-semibold">
+                  🎭 Verifying your attendance...
+                </p>
+                <div className="flex flex-col items-center space-y-2 text-sm text-base-content/50">
+                  <p className="animate-bounce">🔍 Searching POAPs on Gnosis Chain</p>
+                  <p className="animate-pulse">🎪 Looking for ETHGlobal Brussels badges</p>
+                  <p>🎯 Matching your wallet address</p>
+                </div>
+              </div>
+            )}
+
+            {error && (
+              <div className="alert alert-error mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>{error}</span>
+              </div>
+            )}
+
+            {verificationStatus === 'success' && poapDetails && (
+              <div className="alert alert-success mb-4 transition-all duration-500 ease-in-out transform">
+                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div className="space-y-4">
+                  <div>
+                    <p className="font-bold text-lg">🎉 Event attendance verified!</p>
+                    <p className="text-sm opacity-75">Your POAP confirms your participation at a hackathon in Brussels hosted by ETHGlobal</p>
+                  </div>
+                  <div className="flex items-center bg-base-200 rounded-lg p-4">
+                    <Image
+                      src={imageLoadError ? "/placeholder-poap.png" : poapDetails?.event?.image_url}
+                      alt={poapDetails?.event?.name || 'POAP Image'}
+                      width={128}
+                      height={128}
+                      className="rounded-full mr-4 border-4 border-primary"
+                      onError={handleImageError}
+                    />
+                    <div className="space-y-2">
+                      <p className="text-base font-semibold">ETHGlobal Brussels 2024</p>
+                      <div className="flex flex-col text-sm opacity-75">
+                        <p>🎭 Role: {poapDetails?.event?.name?.replace('ETHGlobal Brussels 2024', '') || 'Attendee'}</p>
+                        <p>📅 Date: {new Date(poapDetails?.event?.end_date || poapDetails?.event?.start_date || Date.now()).toLocaleDateString()}</p>
+                        <p>📍 Venue: {EVENT_VENUE}</p>
+                        <p>🎫 Token ID: {poapDetails?.tokenId || 'N/A'}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
-
-          <div className="mt-4">
-            <button
-              className={`btn w-full ${networkSwitched || attestationId ? 'btn-disabled opacity-50' : 'btn-primary'}`}
-              onClick={async () => {
-                const success = await handleNetworkSwitch();
-                if (success) {
-                  onVerified(true, poapDetails ? {
-                    role: poapDetails.event.name.replace('ETHGlobal Brussels ', '').trim(),
-                    date: poapDetails.event.end_date || poapDetails.event.start_date,
-                    venue: EVENT_VENUE,
-                    verifiedName: verifiedName,
-                    tokenId: poapDetails.tokenId
-                  } : undefined);
-                }
-              }}
-              disabled={networkSwitched || verificationStatus !== 'success' || !!attestationId}
-            >
-              {isNetworkSwitching ? 'Switching Network...' :
-               networkSwitched ? 'Network Switched' : 'Switch to Base Sepolia'}
-            </button>
-            <p className="text-sm text-center mt-2 text-base-content/70">
-              Base Sepolia required for attestation creation
-            </p>
-            {networkError && (
-              <p className="text-sm text-center mt-2 text-error">
-                {networkError}
-              </p>
             )}
-          </div>
-        </>
-      )}
+
+            <div className="mt-4">
+              <button
+                className={`btn w-full ${networkSwitched || attestationId ? 'btn-disabled opacity-50' : 'btn-primary'}`}
+                onClick={async () => {
+                  const success = await handleNetworkSwitch();
+                  if (success) {
+                    onVerified(true, poapDetails ? {
+                      role: poapDetails.event.name.replace('ETHGlobal Brussels ', '').trim(),
+                      date: poapDetails.event.end_date || poapDetails.event.start_date,
+                      venue: EVENT_VENUE,
+                      verifiedName: verifiedName,
+                      tokenId: poapDetails.tokenId
+                    } : undefined);
+                  }
+                }}
+                disabled={networkSwitched || verificationStatus !== 'success' || !!attestationId}
+              >
+                {isNetworkSwitching ? 'Switching Network...' :
+                 networkSwitched ? 'Network Switched' : 'Switch to Base Sepolia'}
+              </button>
+              <p className="text-sm text-center mt-2 text-base-content/70">
+                Base Sepolia required for attestation creation
+              </p>
+              {networkError && (
+                <p className="text-sm text-center mt-2 text-error">
+                  {networkError}
+                </p>
+              )}
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };
