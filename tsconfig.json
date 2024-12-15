@@ -31,9 +31,11 @@
   "include": [
     "./app",
     "./components",
+    "./hooks",
     "./scripts",
     "./test",
     "./types",
+    "./utils",
     ".next/types/**/*.ts"
   ],
   "files": [
