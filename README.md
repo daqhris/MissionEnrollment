@@ -86,7 +86,7 @@ The project includes comprehensive testing setup:
 
 ### Prerequisites
 
-- Node.js (v20 or later)
+- Node.js (v18 or later)
 - Yarn
 - An Ethereum wallet (recommended: Coinbase Wallet)
 - Environment Variables:
@@ -211,28 +211,15 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
   - Error recovery mechanisms
   - Gas estimation and optimization
 
-- `ContractUI.tsx`: Contract interaction interface
-  - Network status monitoring
-  - Transaction history tracking
-  - Gas estimation and optimization
-  - Error boundary implementation
-  - Fallback UI components
-
-- `RecentAttestationsView.tsx`: Attestation history display
-  - Paginated GraphQL queries with Apollo Client
-  - Error boundary implementation
-  - Fallback UI components
-  - Caching strategy integration
-  - Optimistic UI updates
+- `SuccessAttestation.tsx`: Final success screen component
+  - Displays attestation creation confirmation
+  - Shows attestation details and transaction status
+  - Provides EAS Explorer link for verification
+  - Implements error boundaries and fallback UI
+  - Manages component state and animations
+  - Handles network-specific functionality
 
 ### Technical Implementation
-
-#### Apollo Client Configuration
-- Custom caching strategies for attestation data
-- Error handling middleware with retries
-- Query result normalization
-- Optimistic UI updates
-- Real-time data synchronization
 
 #### Network Management
 - Automatic chain switching (Base/Base Sepolia)
@@ -240,6 +227,8 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
 - Transaction confirmation handling
 - Gas price optimization
 - Error recovery mechanisms
+
+
 
 #### Wallet Integration
 - Multiple wallet support (MetaMask, WalletConnect, Coinbase)
