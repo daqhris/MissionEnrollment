@@ -3,20 +3,24 @@
 import { useState, useEffect } from 'react';
 import { type Chain } from 'viem';
 import { base } from 'viem/chains';
-import { Avatar } from '@coinbase/onchainkit/identity';
 import { useAccount } from 'wagmi';
-import { getName } from '@coinbase/onchainkit/identity';
+import { Avatar, getName } from '@coinbase/onchainkit/identity';
 import { RainbowKitCustomConnectButton } from '../components/scaffold-eth';
 import EventAttendanceVerification from '../components/EventAttendanceVerification';
 import EnrollmentAttestation from '../components/EnrollmentAttestation';
+import { SuccessAttestation } from '../components/SuccessAttestation';
 import { Logo } from '../components/Logo';
 
-// Type definitions
-interface EnrollmentAttestationProps {
+// Type definitions for component state
+interface EventInfo {
+  role: string;
+  date: string;
+  venue: string;
   verifiedName: string;
-  poapVerified: boolean;
-  onAttestationComplete: (attestationId: string) => void;
+  tokenId: string;
 }
+
+// Type for verification status
 type VerificationStatus = 'idle' | 'loading' | 'success' | 'error';
 
 interface POAPEventInfo {
@@ -37,6 +41,7 @@ export default function Home() {
   const [showEventAttendance, setShowEventAttendance] = useState(false);
   const [showAttestation, setShowAttestation] = useState(false);
   const [eventAttendanceVerified, setEventAttendanceVerified] = useState(false);
+  const [attestationId, setAttestationId] = useState<string | null>(null);
   const [eventInfo, setEventInfo] = useState<{
     role: string;
     date: string;
@@ -57,9 +62,10 @@ export default function Home() {
         console.log('Fetching onchain name for address:', address);
         // Ensure we're using Base mainnet for initial user experience
         console.log('Using Base mainnet for name verification:', base);
+        // Cast base chain to match getName's expected type signature
         const name = await getName({
           address: address,
-          chain: base
+          chain: base as any // Temporarily use any to bridge the two viem versions
         });
         console.log('Fetched onchain name:', name);
         setOnchainName(name);
@@ -171,8 +177,9 @@ export default function Home() {
                     <span className="ml-2 text-base-content/70">.base.eth</span>
                   </div>
                   <button
-                    className="btn btn-primary"
+                    className={`btn btn-primary ${attestationId ? 'btn-disabled opacity-50' : ''}`}
                     onClick={handleNameSubmit}
+                    disabled={!!attestationId}
                   >
                     REPLY
                   </button>
@@ -188,8 +195,9 @@ export default function Home() {
 
                   {verificationStatus === 'success' && !showEventAttendance && (
                     <button
-                      className="btn btn-secondary mt-4"
+                      className={`btn btn-secondary mt-4 ${attestationId ? 'btn-disabled opacity-50' : ''}`}
                       onClick={() => setShowEventAttendance(true)}
+                      disabled={!!attestationId}
                     >
                       NEXT
                     </button>
@@ -200,6 +208,7 @@ export default function Home() {
                       <EventAttendanceVerification
                         address={address || ''}
                         verifiedName={verifiedName}
+                        attestationId={attestationId}
                         onVerified={(hasAttended: boolean, info?: {
                           role: string;
                           date: string;
@@ -224,11 +233,19 @@ export default function Home() {
                         poapVerified={eventAttendanceVerified}
                         onAttestationComplete={(attestationId: string) => {
                           console.log('Attestation created:', attestationId);
+                          setAttestationId(attestationId);
                           setShowAttestation(false);
-                          setEventInfo(null);
                         }}
                       />
                     </div>
+                  )}
+
+                  {attestationId && eventInfo && (
+                    <SuccessAttestation
+                      attestationId={attestationId}
+                      verifiedName={eventInfo.verifiedName}
+                      role={eventInfo.role}
+                    />
                   )}
                 </>
               )}

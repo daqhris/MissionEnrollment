@@ -27,12 +27,14 @@ interface EventAttendanceVerificationProps {
   address: string;
   verifiedName: string;
   onVerified: (hasAttended: boolean, eventInfo?: EventInfo) => void;
+  attestationId?: string | null;
 }
 
 const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = ({
   address,
   verifiedName,
-  onVerified
+  onVerified,
+  attestationId
 }) => {
   const [isVerifying, setIsVerifying] = useState<boolean>(false);
   const [verificationStatus, setVerificationStatus] = useState<'none' | 'success' | 'error'>('none');
@@ -130,33 +132,35 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
           </p>
           <div className="flex justify-center gap-4">
             <button
-              className="btn btn-primary"
+              className={`btn btn-primary ${attestationId ? 'btn-disabled opacity-50' : ''}`}
               onClick={() => handleAttendanceResponse(true)}
+              disabled={!!attestationId}
             >
               Yes, I attended
             </button>
             <button
-              className="btn btn-outline"
+              className={`btn btn-outline ${attestationId ? 'btn-disabled opacity-50' : ''}`}
               onClick={() => handleAttendanceResponse(false)}
+              disabled={!!attestationId}
             >
-                No, I did not attend
-              </button>
-            </div>
+              No, I did not attend
+            </button>
           </div>
-        ) : attendedEvent === false ? (
-          <div className="alert alert-info">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            <div>
-              <p>Thank you for your honesty!</p>
-              <p className="text-sm">The enrollment process requires in-person attendance at ETHGlobal Brussels. We hope to see you at future events!</p>
-            </div>
+        </div>
+      ) : attendedEvent === false ? (
+        <div className="alert alert-info">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current shrink-0 w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <div>
+            <p>Thank you for your honesty!</p>
+            <p className="text-sm">The enrollment process requires in-person attendance at ETHGlobal Brussels. We hope to see you at future events!</p>
           </div>
-        ) : (
-          <>
-            <p className="text-base-content/70 mb-4">
-              Hello {verifiedName}, we are checking your attendance at ETHGlobal Brussels.
+        </div>
+      ) : (
+        <>
+          <p className="text-base-content/70 mb-4">
+            Hello {verifiedName}, we are checking your attendance at ETHGlobal Brussels.
           </p>
 
           {isVerifying && (
@@ -197,8 +201,8 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                 </div>
                 <div className="flex items-center bg-base-200 rounded-lg p-4">
                   <Image
-                    src={imageLoadError ? "/placeholder-poap.png" : poapDetails.event.image_url}
-                    alt={poapDetails.event.name}
+                    src={imageLoadError ? "/placeholder-poap.png" : poapDetails?.event?.image_url}
+                    alt={poapDetails?.event?.name || 'POAP Image'}
                     width={128}
                     height={128}
                     className="rounded-full mr-4 border-4 border-primary"
@@ -207,10 +211,10 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                   <div className="space-y-2">
                     <p className="text-base font-semibold">ETHGlobal Brussels 2024</p>
                     <div className="flex flex-col text-sm opacity-75">
-                      <p>🎭 Role: {poapDetails.event.name.replace('ETHGlobal Brussels 2024', '')}</p>
-                      <p>📅 Date: {new Date(poapDetails.event.end_date || poapDetails.event.start_date).toLocaleDateString()}</p>
+                      <p>🎭 Role: {poapDetails?.event?.name?.replace('ETHGlobal Brussels 2024', '') || 'Attendee'}</p>
+                      <p>📅 Date: {new Date(poapDetails?.event?.end_date || poapDetails?.event?.start_date || Date.now()).toLocaleDateString()}</p>
                       <p>📍 Venue: {EVENT_VENUE}</p>
-                      <p>🎫 Token ID: {poapDetails.tokenId}</p>
+                      <p>🎫 Token ID: {poapDetails?.tokenId || 'N/A'}</p>
                     </div>
                   </div>
                 </div>
@@ -220,7 +224,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
 
           <div className="mt-4">
             <button
-              className={`btn w-full ${networkSwitched ? 'btn-disabled' : 'btn-primary'}`}
+              className={`btn w-full ${networkSwitched || attestationId ? 'btn-disabled opacity-50' : 'btn-primary'}`}
               onClick={async () => {
                 const success = await handleNetworkSwitch();
                 if (success) {
@@ -233,7 +237,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                   } : undefined);
                 }
               }}
-              disabled={networkSwitched || verificationStatus !== 'success'}
+              disabled={networkSwitched || verificationStatus !== 'success' || !!attestationId}
             >
               {isNetworkSwitching ? 'Switching Network...' :
                networkSwitched ? 'Network Switched' : 'Switch to Base Sepolia'}
