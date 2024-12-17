@@ -67,21 +67,26 @@ export default function AboutPage(): ReactNode {
               <h2 className="text-2xl font-semibold mb-4">Created By</h2>
               <p>Mission Enrollment is a collaborative effort between human and artificial intelligence:</p>
               <ul className="list-disc pl-6 mt-2">
-                <li><strong>Human Author:</strong> Chris-Armel Iradukunda - Project architect and blockchain developer</li>
+                <li><strong>Human Author:</strong> <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer">daqhris.base.eth</a> - Project architect and blockchain developer</li>
                 <li><strong>AI Contributor:</strong> Devin from Cognition Labs - Assisted in development and implementation</li>
               </ul>
               <p className="mt-4">This unique collaboration showcases how human creativity and AI capabilities can work together to preserve cultural heritage through blockchain technology.</p>
+              <p className="mt-2">Onchain attestations by <a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer">mission-enrollment.base.eth</a></p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">Project Logos</h2>
+              <h2 className="text-2xl font-semibold mb-4">Artistic Projects</h2>
               <div className="flex flex-col md:flex-row gap-8">
                 <div className="flex flex-col items-center">
-                  <Image src="/logo.png" alt="Mission Enrollment Logo" width={128} height={128} />
+                  <a href="https://github.com/daqhris/MissionEnrollment" target="_blank" rel="noopener noreferrer">
+                    <Image src="/logo.png" alt="Mission Enrollment Logo" width={128} height={128} />
+                  </a>
                   <p className="mt-2 text-center">Mission Enrollment</p>
                 </div>
                 <div className="flex flex-col items-center">
-                  <div className="w-32 h-32 bg-gray-200 flex items-center justify-center text-gray-500">Coming Soon</div>
+                  <a href="https://ethglobal.com/showcase/zinnekerescuemission-9fwjf" target="_blank" rel="noopener noreferrer">
+                    <div className="w-32 h-32 bg-gray-200 flex items-center justify-center text-gray-500">Coming Soon</div>
+                  </a>
                   <p className="mt-2 text-center">Zinneke Rescue Mission</p>
                 </div>
               </div>
