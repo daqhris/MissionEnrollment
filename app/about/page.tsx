@@ -65,12 +65,12 @@ export default function AboutPage(): ReactNode {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">Created By</h2>
-              <p>Mission Enrollment is the not-yet-ripe fruit of a collaborative effort of a human and a non-human:</p>
+              <p>Mission Enrollment is the not-yet-ripe fruit of a collaborative effort by a human and a non-human:</p>
               <ul className="list-disc pl-6 mt-2">
                 <li><strong>Human Author:</strong> <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer">daqhris.base.eth</a> - Project architect and blockchain developer</li>
                 <li><strong>AI Contributor:</strong> Devin from Cognition Labs - Assisted in development and implementation</li>
               </ul>
-              <p className="mt-4">This unique collaboration showcases how human creativity and AI capabilities can work together to preserve cultural heritage.</p>
+              <p className="mt-4">This unique initiative showcases how human creativity and AI capabilities can work together to preserve cultural heritage.</p>
               <p className="mt-2">Enrollments attested onchain by <a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer">mission-enrollment.base.eth</a></p>
             </section>
 
