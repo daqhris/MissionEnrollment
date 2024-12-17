@@ -49,7 +49,7 @@ export default function AboutPage(): ReactNode {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">Our Story</h2>
-              <p>Born at ETHGlobal Brussels 2024, this project draws inspiration from the city's unique heritage. The Zinneke—Brussels' resilient mixed-breed dogs that once roamed the banks of the Senne River—symbolize the diverse community we're building. We're using innovative technology to share and preserve memories of the Zinneke Parade, a celebration of Brussels' cultural diversity.</p>
+              <p>Born at ETHGlobal Brussels 2024, the collaborative mission draws inspiration from the city's unique heritage. The Zinneke—Brussels' resilient mixed-breed dogs that once roamed the banks of the Senne River—symbolize the diverse community we're building. We're using innovative technology to share and preserve memories of the Zinneke Parade, a celebration of Brussels' cultural diversity.</p>
             </section>
 
             <section className="mb-8">
@@ -57,7 +57,7 @@ export default function AboutPage(): ReactNode {
               <p>Your journey begins here with three simple steps:</p>
               <ul className="list-disc pl-6">
                 <li>Submit your public name during an identity check</li>
-                <li>Confirm your in-person participation in an international blockchain event</li>
+                <li>Confirm your participation in an international blockchain conference</li>
                 <li>Receive an enrollment attestation on BASE Sepolia blockchain</li>
               </ul>
               <p className="mt-4">Once enrolled, you'll be ready to join the upcoming Zinneke Rescue Mission.</p>
@@ -65,12 +65,12 @@ export default function AboutPage(): ReactNode {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">Created By</h2>
-              <p>Mission Enrollment is a collaborative effort between human and artificial intelligence:</p>
+              <p>Mission Enrollment is the not-yet-ripe fruit of a collaborative effort of a human and a non-human:</p>
               <ul className="list-disc pl-6 mt-2">
                 <li><strong>Human Author:</strong> <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer">daqhris.base.eth</a> - Project architect and blockchain developer</li>
                 <li><strong>AI Contributor:</strong> Devin from Cognition Labs - Assisted in development and implementation</li>
               </ul>
-              <p className="mt-4">This unique collaboration showcases how human creativity and AI capabilities can work together to preserve cultural heritage through blockchain technology.</p>
+              <p className="mt-4">This unique collaboration showcases how human creativity and AI capabilities can work together to preserve cultural heritage.</p>
               <p className="mt-2">Enrollments attested onchain by <a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer">mission-enrollment.base.eth</a></p>
             </section>
 
