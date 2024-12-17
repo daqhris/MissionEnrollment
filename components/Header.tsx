@@ -135,6 +135,10 @@ export const menuLinks: HeaderMenuLink[] = [
     label: "Preview",
     href: "/preview",
   },
+  {
+    label: "About",
+    href: "/about",
+  },
 ];
 
 export const HeaderMenuLinks = (): JSX.Element => {
