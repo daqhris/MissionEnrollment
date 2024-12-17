@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { ClientLayout } from '../../components/ClientLayout';
 import type { ReactNode } from 'react';
 
@@ -60,6 +61,30 @@ export default function AboutPage(): ReactNode {
                 <li>Receive your mission enrollment attestation</li>
               </ul>
               <p className="mt-4">Once enrolled, you'll be ready to join the upcoming Zinneke Rescue Mission, where we'll work together to preserve parade memories through innovative blockchain technology.</p>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold mb-4">Created By</h2>
+              <p>Mission Enrollment is a collaborative effort between human and artificial intelligence:</p>
+              <ul className="list-disc pl-6 mt-2">
+                <li><strong>Human Author:</strong> Chris-Armel Iradukunda - Project architect and blockchain developer</li>
+                <li><strong>AI Contributor:</strong> Devin from Cognition Labs - Assisted in development and implementation</li>
+              </ul>
+              <p className="mt-4">This unique collaboration showcases how human creativity and AI capabilities can work together to preserve cultural heritage through blockchain technology.</p>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold mb-4">Project Logos</h2>
+              <div className="flex flex-col md:flex-row gap-8">
+                <div className="flex flex-col items-center">
+                  <Image src="/logo.png" alt="Mission Enrollment Logo" width={128} height={128} />
+                  <p className="mt-2 text-center">Mission Enrollment</p>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="w-32 h-32 bg-gray-200 flex items-center justify-center text-gray-500">Coming Soon</div>
+                  <p className="mt-2 text-center">Zinneke Rescue Mission</p>
+                </div>
+              </div>
             </section>
 
             {lastCommit && (
