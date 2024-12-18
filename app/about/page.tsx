@@ -49,7 +49,7 @@ export default function AboutPage(): ReactNode {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">Our Story</h2>
-              <p>Born at ETHGlobal Brussels 2024, the collaborative mission draws inspiration from the city's unique heritage. The Zinneke—Brussels' resilient mixed-breed dogs that once roamed the banks of the Senne River—symbolize the diverse community we're building. We're using innovative technology to share and preserve memories of the Zinneke Parade, a celebration of Brussels' cultural diversity.</p>
+              <p>Born at <a href="https://ethglobal.com/events/brussels" target="_blank" rel="noopener noreferrer">ETHGlobal Brussels</a> in 2024, our collaborative rescue mission draws inspiration from the city's unique heritage. The Zinneke—Brussels' resilient mixed-breed dogs that once roamed the banks of the Senne River—symbolize the diverse community we're building. We're using innovative technology to share and preserve memories of the <a href="https://www.zinneke.org/nl/album-photo/zinneke-parade-2024-2/" target="_blank" rel="noopener noreferrer">Zinneke Parade</a> with its legendary after-party and the <a href="https://kfda.be/en/festivals/2024-edition/programme/nightlife-2024/" target="_blank" rel="noopener noreferrer">closing night of Kunstenfestivaldesarts</a>, as <a href="https://github.com/daqhris/ZinnekeRescueMission?tab=readme-ov-file#rescue-strategy-onchain-postcards" target="_blank" rel="noopener noreferrer"><strong>onchain postcards</strong></a>, in celebration of Brussels' cultural diversity.</p>
             </section>
 
             <section className="mb-8">
