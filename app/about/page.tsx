@@ -40,11 +40,11 @@ export default function AboutPage(): ReactNode {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">A Gateway to Zinneke Rescue Mission</h2>
-              <p>Mission Enrollment serves as the gateway to an extraordinary journey: the Zinneke Rescue Mission. Just as the Senne River shaped Brussels' history through its floods, creating the story of the Zinneke—the city's beloved mixed-breed dogs—we now face a new mission to preserve digital souvenirs of the 2024 Zinneke Parade.</p>
+              <p><a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer">Mission Enrollment</a> serves as the gateway to an extraordinary journey: the <a href="https://github.com/daqhris/ZinnekeRescueMission" target="_blank" rel="noopener noreferrer">Zinneke Rescue Mission</a>. Just as the Senne River shaped Brussels' history through its floods, creating the story of the Zinneke—the city's beloved mixed-breed dogs—we now face a new mission to preserve digital souvenirs of the <a href="https://www.brussels.be/zinneke-parade" target="_blank" rel="noopener noreferrer">2024 Zinneke Parade</a>.</p>
 
-              <p className="mt-4">This enrollment tool is your first step in joining a collaborative artistic endeavor. Like the historical Zinneke that brought character to Brussels, we're bringing together diverse participants—starting with the innovative minds from a global blockchain hackathon held in Brussels—to help preserve parade memories through blockchain technology.</p>
+              <p className="mt-4">This enrollment tool is your first step in joining a collaborative artistic endeavor. Like the historical <a href="https://www.zinneke.org/" target="_blank" rel="noopener noreferrer">Zinneke</a> that brought character to Brussels, we're bringing together diverse participants—starting with the innovative minds from a global blockchain hackathon held in Brussels—to help preserve parade memories through blockchain technology.</p>
 
-              <p className="mt-4">The journey unfolds in two chapters: first, Mission Enrollment validates and welcomes friends and collaborators; then, the Zinneke Rescue Mission will launch to safeguard cultural memories from the summer floods. Together, we're writing a new chapter in Brussels' rich history of community and resilience.</p>
+              <p className="mt-4">The journey unfolds in two chapters: first, <strong>Mission Enrollment</strong> validates and welcomes friends and collaborators; then, the <strong>Zinneke Rescue Mission</strong> will launch to safeguard cultural souvenirs from the summer floods. Together, we're writing a new chapter in Brussels' rich history of community and resilience.</p>
             </section>
 
             <section className="mb-8">
