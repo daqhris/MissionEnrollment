@@ -1,5 +1,5 @@
 export default function PreviewPage() {
-  const videoTimestamp = "December 13"; // From git commit
+  const videoTimestamp = "December 18"; // From git commit
 
   return (
     <div className="container mx-auto px-4 py-8">
