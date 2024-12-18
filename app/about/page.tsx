@@ -57,7 +57,7 @@ export default function AboutPage(): ReactNode {
               <p>Your journey begins here with three simple steps:</p>
               <ul className="list-disc pl-6">
                 <li>Submit your public name during an identity check</li>
-                <li>Confirm your participation in an international blockchain conference</li>
+                <li>Confirm your participation to an international blockchain conference</li>
                 <li>Receive an enrollment attestation on BASE Sepolia blockchain</li>
               </ul>
               <p className="mt-4">Once enrolled, you'll be ready to join the upcoming Zinneke Rescue Mission.</p>
@@ -70,9 +70,9 @@ export default function AboutPage(): ReactNode {
                 <li><strong>Human Author:</strong> <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer">daqhris.base.eth</a> - Project architect and blockchain developer</li>
                 <li><strong>AI Contributor:</strong> Devin from Cognition Labs - Assisted in development and implementation</li>
               </ul>
-              <p className="mt-4">This blockchain-based project showcases how human creativity and AI capabilities can work together to preserve the cultural heritage of a European city festival.</p>
+              <p className="mt-2">This blockchain-based project showcases how human creativity and AI capabilities can work together to preserve the cultural heritage of a European city festival.</p>
               <p className="mt-2">Enrollments made possible by an in-test attestation from <a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer"><strong>mission-enrollment.base.eth</strong></a>.</p>
-              <p className="mt-2">Open-source verification protocols: <a href="https://github.com/base-org/basenames" target="_blank" rel="noopener noreferrer">Basenames</a> (ENS), <a href="https://github.com/poap-xyz/poap.js" target="_blank" rel="noopener noreferrer">Proof of Attendance Protocol</a> (POAP) and <a href="https://github.com/ethereum-attestation-service/eas-sdk" target="_blank" rel="noopener noreferrer">Ethereum Attestation Service</a> (EAS).</p>
+              <p className="mt-2">Verification via open-source protocols: <a href="https://github.com/base-org/basenames" target="_blank" rel="noopener noreferrer">Basenames</a> (ENS), <a href="https://github.com/poap-xyz/poap.js" target="_blank" rel="noopener noreferrer">Proof of Attendance Protocol</a> (POAP) and <a href="https://github.com/ethereum-attestation-service/eas-sdk" target="_blank" rel="noopener noreferrer">Ethereum Attestation Service</a> (EAS).</p>
             </section>
 
             <section className="mb-8">
