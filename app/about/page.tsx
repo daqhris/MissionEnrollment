@@ -71,7 +71,8 @@ export default function AboutPage(): ReactNode {
                 <li><strong>AI Contributor:</strong> Devin from Cognition Labs - Assisted in development and implementation</li>
               </ul>
               <p className="mt-4">This unique initiative showcases how human creativity and AI capabilities can work together to preserve cultural heritage.</p>
-              <p className="mt-2">Enrollments attested onchain by <a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer">mission-enrollment.base.eth</a></p>
+              <p className="mt-2">Enrollments attested onchain by <a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer">mission-enrollment.base.eth</a>.</p>
+              <p className="mt-2">Verification methods: <a href="https://www.base.org/names" target="_blank" rel="noopener noreferrer">Basenames</a> (ENS), <a href="https://poap.xyz/" target="_blank" rel="noopener noreferrer">Proof of Attendance Protocol</a> (POAP) and <a href="https://attest.org/" target="_blank" rel="noopener noreferrer">Ethereum Attestation Service</a> (EAS).</p>
             </section>
 
             <section className="mb-8">
