@@ -49,7 +49,7 @@ export default function AboutPage(): ReactNode {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">Our Story</h2>
-              <p>Born at <a href="https://ethglobal.com/events/brussels" target="_blank" rel="noopener noreferrer">ETHGlobal Brussels</a> in 2024, our collaborative rescue mission draws inspiration from the city's unique heritage. The Zinneke—Brussels' resilient mixed-breed dogs that once roamed the banks of the Senne River—symbolize the diverse community we're building. We're using innovative technology to share and preserve memories of the <a href="https://www.zinneke.org/nl/album-photo/zinneke-parade-2024-2/" target="_blank" rel="noopener noreferrer">Zinneke Parade</a> with its legendary after-party and the <a href="https://kfda.be/en/festivals/2024-edition/programme/nightlife-2024/" target="_blank" rel="noopener noreferrer">closing night of Kunstenfestivaldesarts</a>, as <a href="https://github.com/daqhris/ZinnekeRescueMission?tab=readme-ov-file#rescue-strategy-onchain-postcards" target="_blank" rel="noopener noreferrer"><strong>onchain postcards</strong></a>, in celebration of Brussels' cultural diversity.</p>
+              <p>Born at <a href="https://ethglobal.com/events/brussels" target="_blank" rel="noopener noreferrer">ETHGlobal Brussels</a> during the summer of 2024, our collaborative rescue mission draws inspiration from the city's unique heritage. The Zinneke—Brussels' resilient mixed-breed dogs that once roamed the banks of the Senne River—symbolize the diverse community we're building. We're using innovative technology to share and preserve memories of the <a href="https://www.zinneke.org/nl/album-photo/zinneke-parade-2024-2/" target="_blank" rel="noopener noreferrer">Zinneke Parade</a> with its legendary after-party and the <a href="https://kfda.be/en/festivals/2024-edition/programme/nightlife-2024/" target="_blank" rel="noopener noreferrer">closing night of Kunstenfestivaldesarts</a>, as <a href="https://github.com/daqhris/ZinnekeRescueMission?tab=readme-ov-file#rescue-strategy-onchain-postcards" target="_blank" rel="noopener noreferrer"><strong>onchain postcards</strong></a>, in celebration of Brussels' cultural diversity.</p>
             </section>
 
             <section className="mb-8">
@@ -57,7 +57,7 @@ export default function AboutPage(): ReactNode {
               <p>Your journey begins here with three simple steps:</p>
               <ul className="list-disc pl-6">
                 <li>Submit your public name during an identity check</li>
-                <li>Confirm your participation to an international blockchain conference</li>
+                <li>Confirm your attendance at an international blockchain conference</li>
                 <li>Receive an enrollment attestation on BASE Sepolia blockchain</li>
               </ul>
               <p className="mt-4">Once enrolled, you'll be ready to join the upcoming Zinneke Rescue Mission.</p>
@@ -65,14 +65,14 @@ export default function AboutPage(): ReactNode {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">Created By</h2>
-              <p>Mission Enrollment is the not-yet-ripe fruit of a collaborative effort by a human and a non-human:</p>
+              <p>Mission Enrollment is the not-yet-ripe artistic fruit of a coding collaboration, openly carried out by a human and a non-human, on GitHhub:</p>
               <ul className="list-disc pl-6 mt-2">
                 <li><strong>Human Author:</strong> <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer">daqhris.base.eth</a> - Project architect and blockchain developer</li>
-                <li><strong>AI Contributor:</strong> Devin from Cognition Labs - Assisted in development and implementation</li>
+                <li><strong>AI Contributor:</strong> <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer">Devin</a> from <a href="https://cognition.ai/" target="_blank" rel="noopener noreferrer">Cognition Labs</a> - Assisted in development and implementation</li>
               </ul>
-              <p className="mt-2">This blockchain-based project showcases how human creativity and AI capabilities can work together to preserve the cultural heritage of a European city festival.</p>
-              <p className="mt-2">Enrollments made possible by an in-test attestation from <a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer"><strong>mission-enrollment.base.eth</strong></a>.</p>
-              <p className="mt-2">Verification via open-source protocols: <a href="https://github.com/base-org/basenames" target="_blank" rel="noopener noreferrer">Basenames</a> (ENS), <a href="https://github.com/poap-xyz/poap.js" target="_blank" rel="noopener noreferrer">Proof of Attendance Protocol</a> (POAP) and <a href="https://github.com/ethereum-attestation-service/eas-sdk" target="_blank" rel="noopener noreferrer">Ethereum Attestation Service</a> (EAS).</p>
+              <p className="mt-4">This blockchain-based project showcases how human creativity and AI capabilities can work together to preserve the cultural heritage of a European city festival.</p>
+              <p className="mt-2">Enrollments are registered by in-test attestations linked to <a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer"><strong>mission-enrollment.base.eth</strong></a>.</p>
+              <p className="mt-2">Verification through three <strong>open-source protocols</strong>: <a href="https://github.com/base-org/basenames" target="_blank" rel="noopener noreferrer">Basenames</a> (ENS), <a href="https://github.com/poap-xyz/poap.js" target="_blank" rel="noopener noreferrer">Proof of Attendance Protocol</a> (POAP) and <a href="https://github.com/ethereum-attestation-service/eas-sdk" target="_blank" rel="noopener noreferrer">Ethereum Attestation Service</a> (EAS).</p>
             </section>
 
             <section className="mb-8">
