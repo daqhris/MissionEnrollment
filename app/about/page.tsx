@@ -56,7 +56,7 @@ export default function AboutPage(): ReactNode {
               <h2 className="text-2xl font-semibold mb-4">How It Works</h2>
               <p>Your journey begins here with three simple steps:</p>
               <ul className="list-disc pl-6">
-                <li>Submit your public name during an identity check</li>
+                <li>Submit your onchain name during an identity check</li>
                 <li>Confirm your attendance at an international blockchain conference</li>
                 <li>Receive an enrollment attestation on BASE Sepolia blockchain</li>
               </ul>
@@ -65,7 +65,7 @@ export default function AboutPage(): ReactNode {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">Created By</h2>
-              <p>Mission Enrollment is a not-yet-ripe artistic fruit of a coding collaboration, openly carried out by a human and a non-human, coworking by way of <a href="https://git-scm.com/book/en/v2" target="_blank" rel="noopener noreferrer"><strong>public <code>GIT</code> commits</strong></a> in the landscape of cyberspace:</p>
+              <p>Mission Enrollment is the not-yet-ripe artistic fruit of a coding collaboration, openly carried out by a human and a non-human, coworking by way of <a href="https://git-scm.com/book/en/v2" target="_blank" rel="noopener noreferrer"><strong>public <code>GIT</code> commits</strong></a> in the landscape of cyberspace:</p>
               <ul className="list-disc pl-6 mt-2">
                 <li><strong>Human Author:</strong> <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer">daqhris.base.eth</a> - Project architect and blockchain developer</li>
                 <li><strong>AI Contributor:</strong> <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer">Devin</a> from <a href="https://cognition.ai/" target="_blank" rel="noopener noreferrer">Cognition Labs</a> - Assisted in development and implementation</li>
