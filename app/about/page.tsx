@@ -75,23 +75,29 @@ export default function AboutPage(): ReactNode {
               <p className="mt-2">Verifications are reliant on three <strong>open-source protocols</strong>: <a href="https://github.com/base-org/basenames" target="_blank" rel="noopener noreferrer">Basenames</a> (ENS), <a href="https://github.com/poap-xyz/poap.js" target="_blank" rel="noopener noreferrer">Proof of Attendance Protocol</a> (POAP) and <a href="https://github.com/ethereum-attestation-service/eas-sdk" target="_blank" rel="noopener noreferrer">Ethereum Attestation Service</a> (EAS).</p>
 
               <div className="mt-4 p-4 border rounded">
-                <h3 className="text-lg font-semibold">Collaborative Milestone - "Pair Extraordinaire"</h3>
+                <div className="flex items-center gap-4">
+                  <h3 className="text-lg font-semibold flex-grow">Collaborative Milestone - "Pair Extraordinaire"</h3>
+                  <Image
+                    src="/pair-extraordinaire.png"
+                    alt="Pair Extraordinaire Achievement Badge"
+                    width={48}
+                    height={48}
+                    className="flex-shrink-0"
+                  />
+                </div>
                 <p className="mt-2">
                   On <strong>December 12, 2024</strong>, this project earned the{' '}
                   <a href="https://github.com/daqhris?achievement=pair-extraordinaire&tab=achievements" target="_blank" rel="noopener noreferrer">
                     "Pair Extraordinaire"
-                  </a> achievement on GitHub following the merge of Git commit <code>429f7e4</code>, providing a verifiable timestamp of our{' '}
+                  </a> achievement on GitHub following the merge of{' '}
+                  <a href="https://github.com/daqhris/MissionEnrollment/pull/177" target="_blank" rel="noopener noreferrer">
+                    PR #177
+                  </a> (commit{' '}
+                  <a href="https://github.com/daqhris/MissionEnrollment/commit/429f7e4" target="_blank" rel="noopener noreferrer">
+                    <code>429f7e4</code>
+                  </a>), providing a verifiable timestamp of our{' '}
                   <strong>human–AI co-authorship</strong>.
                 </p>
-                <div className="mt-2 flex justify-center">
-                  <Image
-                    src="/pair-extraordinaire.png"
-                    alt="Pair Extraordinaire Achievement Badge"
-                    width={64}
-                    height={64}
-                    className="mt-2"
-                  />
-                </div>
               </div>
             </section>
 
