@@ -74,15 +74,13 @@ export default function AboutPage(): ReactNode {
               <p className="mt-2">Enrollments are registered by in-test attestations linked to <a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer"><strong>mission-enrollment.base.eth</strong></a>.</p>
               <p className="mt-2">Verifications are reliant on three <strong>open-source protocols</strong>: <a href="https://github.com/base-org/basenames" target="_blank" rel="noopener noreferrer">Basenames</a> (ENS), <a href="https://github.com/poap-xyz/poap.js" target="_blank" rel="noopener noreferrer">Proof of Attendance Protocol</a> (POAP) and <a href="https://github.com/ethereum-attestation-service/eas-sdk" target="_blank" rel="noopener noreferrer">Ethereum Attestation Service</a> (EAS).</p>
 
-              <div className="mt-4 p-4 border rounded bg-gray-50">
+              <div className="mt-4 p-4 border rounded">
                 <h3 className="text-lg font-semibold">Collaborative Milestone - "Pair Extraordinaire"</h3>
                 <p className="mt-2">
                   On <strong>December 12, 2024</strong>, this project earned the{' '}
                   <a href="https://github.com/daqhris?achievement=pair-extraordinaire&tab=achievements" target="_blank" rel="noopener noreferrer">
                     "Pair Extraordinaire"
-                  </a> achievement following{' '}
-                  <a href="https://github.com/daqhris/MissionEnrollment/pull/177" target="_blank" rel="noopener noreferrer">PR #177</a>.
-                  The final commit (<code>429f7e4</code>) was merged at 12:47&nbsp;UTC, providing a verifiable timestamp of our{' '}
+                  </a> achievement on GitHub following the merge of Git commit <code>429f7e4</code>, providing a verifiable timestamp of our{' '}
                   <strong>human–AI co-authorship</strong>.
                 </p>
                 <div className="mt-2 flex justify-center">
