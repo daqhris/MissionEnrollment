@@ -87,8 +87,8 @@ export default function AboutPage(): ReactNode {
                   On <strong>December 12, 2024</strong>, <code>daqhris</code> earned the{' '}
                   <a href="https://github.com/daqhris?achievement=pair-extraordinaire&tab=achievements" target="_blank" rel="noopener noreferrer">
                     'Pair Extraordinaire'
-                  </a> achievement on <a href="https://github.com/daqhris/MissionEnrollment/pull/177" target="_blank" rel="noopener noreferrer">GitHub</a> following the <code>GIT</code> commit{' '}
-                  <a href="https://github.com/daqhris/MissionEnrollment/commit/429f7e4" target="_blank" rel="noopener noreferrer"><code>429f7e4</code></a> which awards an independent record of <strong>human–AI co-authorship</strong> to this project.
+                  </a> achievement on <a href="https://github.com/daqhris/MissionEnrollment/pull/177" target="_blank" rel="noopener noreferrer">GitHub</a>, following the <code>GIT</code> commit{' '}
+                  <a href="https://github.com/daqhris/MissionEnrollment/commit/429f7e4" target="_blank" rel="noopener noreferrer"><code>429f7e4</code></a>, which awarded an independent record of <strong>human-nonhuman co-authorship</strong> to the project.
                 </p>
               </div>
             </section>
