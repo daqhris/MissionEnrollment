@@ -37,10 +37,9 @@ export default function AboutPage(): ReactNode {
         <div className="container mx-auto px-4 py-8">
           <div className="prose max-w-none">
             <h1 className="text-4xl font-bold mb-8">About: Mission Enrollment</h1>
-
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">The Gateway to The Zinneke Rescue Mission</h2>
-              <p><a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer"><strong>Mission Enrollment</strong></a> serves as the gateway to an extraordinary journey: the <a href="https://github.com/daqhris/ZinnekeRescueMission" target="_blank" rel="noopener noreferrer"><strong>Zinneke Rescue Mission</strong></a>.</br> 
+              <p><a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer"><strong>Mission Enrollment</strong></a> serves as the gateway to an extraordinary journey: the <a href="https://github.com/daqhris/ZinnekeRescueMission" target="_blank" rel="noopener noreferrer"><strong>Zinneke Rescue Mission</strong></a>.<br> 
               Just as the Senne River shaped Brussels' history through its floods more than once—creating the story of the Zinneke—the city's beloved mixed-breed dogs—we are now gathering to share and spread digital souvenirs of the <a href="https://www.brussels.be/zinneke-parade" target="_blank" rel="noopener noreferrer">2024 Zinneke Parade</a>.</p>
 
               <p className="mt-4">This enrollment tool is your first step in joining a collaborative and artistic endeavor. Like the historical <a href="https://www.zinneke.org/" target="_blank" rel="noopener noreferrer">Zinneke</a> that brought character to Brussels, we're bringing together diverse participants—starting with the innovative minds from a global blockchain hackathon held in Brussels—to preserve parade memories through blockchain technology.</p>
