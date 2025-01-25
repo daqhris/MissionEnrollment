@@ -43,7 +43,7 @@ export default function AboutPage(): ReactNode {
 
               <p className="mt-4">This enrollment tool is your first step in joining a collaborative and artistic endeavor. Like the historical <a href="https://www.zinneke.org/" target="_blank" rel="noopener noreferrer">Zinneke</a> that brought character to Brussels, we're bringing together diverse participants—starting with the innovative minds from a global blockchain hackathon held in Brussels—to preserve parade memories through blockchain technology.</p>
 
-              <p className="mt-4">The journey unfolds into 2 chapters: first, <strong>Mission Enrollment</strong> validates and welcomes friends and collaborators; then, the <strong>Zinneke Rescue Mission</strong> will launch to safeguard cultural souvenirs salvaged from the 2024 summer floodwaters. Together, we're writing a new chapter in Brussels' rich history of community and resilience.</p>
+              <p className="mt-4">The journey unfolds into 2 chapters: <em>first</em>, <strong>Mission Enrollment</strong> validates and welcomes friends and collaborators; <em>second</em>, the <strong>Zinneke Rescue Mission</strong> will launch to safeguard cultural souvenirs salvaged from the 2024 summer floodwaters. Together, we're writing a new chapter in Brussels' rich history of community and resilience.</p>
             </section>
 
             <section className="mb-8">
@@ -64,7 +64,7 @@ export default function AboutPage(): ReactNode {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">Co-Created By</h2>
-              <p>Mission Enrollment is the not-yet-ripe artistic fruit of a coding collaboration that is being openly carried out by a human and a non-human co-working by way of <a href="https://git-scm.com/book/en/v2" target="_blank" rel="noopener noreferrer"><strong>public <code>GIT</code> commits</strong></a> in the landscape of cyberspace:</p>
+              <p>Mission Enrollment is the not-yet-ripe artistic fruit of a coding collaboration that's being openly carried out by a human and a non-human who are co-working via <a href="https://git-scm.com/book/en/v2" target="_blank" rel="noopener noreferrer"><strong>public <code>GIT</code> commits</strong></a> in the landscape of cyberspace:</p>
               <ul className="list-disc pl-6 mt-2">
                 <li><strong>Human Author:</strong> <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer">daqhris.base.eth</a> - Project architect and blockchain developer</li>
                 <li><strong>AI Contributor:</strong> <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer">Devin</a> from <a href="https://cognition.ai/" target="_blank" rel="noopener noreferrer">Cognition Labs</a> - Assisted in development and implementation</li>
