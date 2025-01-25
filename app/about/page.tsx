@@ -70,9 +70,9 @@ export default function AboutPage(): ReactNode {
                 <li><strong>Human Author:</strong> <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer">daqhris.base.eth</a> - Project architect and blockchain developer</li>
                 <li><strong>AI Contributor:</strong> <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer">Devin</a> from <a href="https://cognition.ai/" target="_blank" rel="noopener noreferrer">Cognition Labs</a> - Assisted in development and implementation</li>
               </ul>
-              <p className="mt-4">This project showcases how human creativity and AI capabilities can come together to preserve the cultural heritage of a European city festival in a post-human era.</p>
+              <p className="mt-4">This project enables human creativity and AI capabilities to can come together for the preservation of the cultural heritage of a European city festival in a post-human era.</p>
               <p className="mt-2">Enrollments are registered by in-test attestations linked to <a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer"><strong>mission-enrollment.base.eth</strong></a>.</p>
-              <p className="mt-2">Verifications are reliant on three <strong>open-source protocols</strong>: <a href="https://github.com/base-org/basenames" target="_blank" rel="noopener noreferrer">Basenames</a> (ENS), <a href="https://github.com/poap-xyz/poap.js" target="_blank" rel="noopener noreferrer">Proof of Attendance Protocol</a> (POAP) and <a href="https://github.com/ethereum-attestation-service/eas-sdk" target="_blank" rel="noopener noreferrer">Ethereum Attestation Service</a> (EAS).</p>
+              <p className="mt-2">Verifications are reliant on 3 <strong>open-source protocols</strong>: <a href="https://github.com/base-org/basenames" target="_blank" rel="noopener noreferrer">Basenames</a> (ENS), <a href="https://github.com/poap-xyz/poap.js" target="_blank" rel="noopener noreferrer">Proof of Attendance Protocol</a> (POAP) and <a href="https://github.com/ethereum-attestation-service/eas-sdk" target="_blank" rel="noopener noreferrer">Ethereum Attestation Service</a> (EAS).</p>
 
               <div className="mt-4 p-4 border rounded">
                 <div className="flex items-center gap-4">
@@ -86,11 +86,11 @@ export default function AboutPage(): ReactNode {
                   />
                 </div>
                 <p className="mt-2">
-                  On <strong>December 12, 2024</strong>, this project earned the{' '}
+                  On <strong>December 12, 2024</strong>, <code>daqhris</code> earned the{' '}
                   <a href="https://github.com/daqhris?achievement=pair-extraordinaire&tab=achievements" target="_blank" rel="noopener noreferrer">
                     "Pair Extraordinaire"
                   </a> achievement on <a href="https://github.com/daqhris/MissionEnrollment/pull/177" target="_blank" rel="noopener noreferrer">GitHub</a> following the <code>GIT</code> commit{' '}
-                  <a href="https://github.com/daqhris/MissionEnrollment/commit/429f7e4" target="_blank" rel="noopener noreferrer"><code>429f7e4</code></a>, providing a time-based record of our{' '}
+                  <a href="https://github.com/daqhris/MissionEnrollment/commit/429f7e4" target="_blank" rel="noopener noreferrer"><code>429f7e4</code></a>, providing a independent record of {' '}
                   <strong>human–AI co-authorship</strong>.
                 </p>
               </div>
