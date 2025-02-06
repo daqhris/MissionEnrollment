@@ -76,7 +76,7 @@ The project includes comprehensive testing setup:
 
 ## Screenshots
 
-| [![Step 0: Initial Screen](./public/Enrollment-Step0.png)](./public/Enrollment-Step0.png) | [![Step 1: Identity Check](./public/Enrollment-Step1.PNG)](./public/Enrollment-Step1.PNG) | [![Pause 1: Loading](./public/Enrollment-Pause1.PNG)](./public/Enrollment-Pause1.PNG) | [![Step 2: Event Attendance](./public/Enrollment-Step2.PNG)](./public/Enrollment-Step2.PNG) | [![Pause 2: Loading](./public/Enrollment-Pause2.PNG)](./public/Enrollment-Pause2.PNG) | [![Step 3: Attestation](./public/Enrollment-Step3.PNG)](./public/Enrollment-Step3.PNG) |
+| [![Step 0: Initial Screen](./public/Enrollment-Step0.PNG)](./public/Enrollment-Step0.PNG) | [![Step 1: Identity Check](./public/Enrollment-Step1.PNG)](./public/Enrollment-Step1.PNG) | [![Pause 1: Loading](./public/Enrollment-Pause1.PNG)](./public/Enrollment-Pause1.PNG) | [![Step 2: Event Attendance](./public/Enrollment-Step2.PNG)](./public/Enrollment-Step2.PNG) | [![Pause 2: Loading](./public/Enrollment-Pause2.PNG)](./public/Enrollment-Pause2.PNG) | [![Step 3: Attestation](./public/Enrollment-Step3.PNG)](./public/Enrollment-Step3.PNG) |
 |:---:|:---:|:---:|:---:|:---:|:---:|
 | Enrollment-Step0 | Enrollment-Step1 | Enrollment-Pause1 | Enrollment-Step2 | Enrollment-Pause2 | Enrollment-Step3 |
 
