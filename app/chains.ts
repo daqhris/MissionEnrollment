@@ -7,10 +7,10 @@ export const baseSepoliaChain: Chain = {
   rpcUrls: {
     ...baseSepolia.rpcUrls,
     default: {
-      http: [`https://base-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`]
+      http: [process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL || '']
     },
     public: {
-      http: ['https://sepolia.base.org']
+      http: [process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL || '']
     }
   }
 }

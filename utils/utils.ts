@@ -5,7 +5,7 @@ BigInt.prototype.toJSON = function (): string {
   return this.toString();
 };
 
-const baseURL = "https://sepolia.easscan.org";
+const baseURL = process.env.NEXT_PUBLIC_EAS_EXPLORER_URL || '';
 
 export async function submitSignedAttestation(pkg: Attestation): Promise<StoreIPFSActionReturn> {
   const data: StoreAttestationRequest = {
