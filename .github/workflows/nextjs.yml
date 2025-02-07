@@ -31,6 +31,7 @@ jobs:
       contents: read
       pages: write
       id-token: write
+      actions: read
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID }}
@@ -64,7 +65,7 @@ jobs:
         uses: actions/configure-pages@v4
         with:
           static_site_generator: next
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3.0.1
         with:
           path: ./out
