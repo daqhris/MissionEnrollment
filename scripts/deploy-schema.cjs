@@ -46,7 +46,7 @@ async function main() {
 
   // Verify on Blockscout
   console.log("Verify contract on Blockscout at:");
-  console.log(`https://base-sepolia.blockscout.com/address/${contractAddress}`);
+  console.log(`${process.env.NEXT_PUBLIC_BLOCKSCOUT_URL}/address/${contractAddress}`);
 
   // Save contract address and schema UID for frontend
   console.log("\nAdd these values to your frontend configuration:");

@@ -1,7 +1,7 @@
 import { JsonRpcProvider, Contract } from 'ethers';
 import NodeCache from "node-cache";
 
-const POAP_CONTRACT_ADDRESS = "0x22C1f6050E56d2876009903609a2cC3fEf83B415";
+const POAP_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_POAP_CONTRACT_ADDRESS || '';
 
 // ETHGlobal Brussels 2024 POAP event IDs
 const ETHGLOBAL_BRUSSELS_2024_EVENT_IDS = ["176334", "176328", "176329", "176330", "176331", "176332"];

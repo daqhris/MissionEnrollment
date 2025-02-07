@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const app = express();
 
-const POAP_API_URL = "https://api.poap.tech";
+const POAP_API_URL = process.env.NEXT_PUBLIC_POAP_API_URL || '';
 const PORT = process.env.PROXY_PORT || 3001;
 
 // Function to log to file

@@ -14,7 +14,10 @@ async function main() {
     const wallet = new ethers.Wallet(process.env.DEPLOYER_PRIVATE_KEY, provider);
 
     // Initialize SchemaRegistry with the correct address for Base Sepolia
-    const schemaRegistryAddress = "0x54f0e66D5A04702F5Df9BAe330295a11bD862c81";
+    const schemaRegistryAddress = process.env.NEXT_PUBLIC_SCHEMA_REGISTRY_ADDRESS || '';
+    if (!schemaRegistryAddress) {
+        throw new Error("Missing NEXT_PUBLIC_SCHEMA_REGISTRY_ADDRESS environment variable");
+    }
     const schemaRegistry = new SchemaRegistry(schemaRegistryAddress);
     const connectedRegistry = schemaRegistry.connect(wallet);
 
@@ -44,7 +47,7 @@ async function main() {
 
         console.log("\nSchema registration successful!");
         console.log("Schema UID:", schemaUID);
-        console.log("View on EAS Explorer:", `https://base-sepolia.easscan.org/schema/view/${schemaUID}`);
+        console.log("View on EAS Explorer:", `${process.env.NEXT_PUBLIC_EAS_EXPLORER_URL}/schema/view/${schemaUID}`);
 
         return schemaUID;
     } catch (error) {
