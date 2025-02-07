@@ -15,8 +15,8 @@ const ABI = parseAbi([
   "function token1() external view returns (address)",
 ]);
 
-const DAI_ADDRESS = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
-const WETH_ADDRESS = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
+const DAI_ADDRESS = process.env.NEXT_PUBLIC_DAI_TOKEN_ADDRESS || '';
+const WETH_ADDRESS = process.env.NEXT_PUBLIC_WETH_TOKEN_ADDRESS || '';
 
 export const fetchPriceFromUniswap = async (targetNetwork: ChainWithAttributes): Promise<number> => {
   if (

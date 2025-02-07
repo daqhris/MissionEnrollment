@@ -24,6 +24,9 @@ async function deployAndInitialize(): Promise<{ contract: AttestationService; sc
   console.log("Creating Mission Enrollment schema...");
   const schemaTx = await attestationService.createMissionEnrollmentSchema();
   const receipt = await schemaTx.wait();
+  if (!receipt) {
+    throw new Error("Failed to get transaction receipt");
+  }
 
   // Verify SchemaCreated event was emitted
   const schemaCreatedEvent = receipt.logs.find(
