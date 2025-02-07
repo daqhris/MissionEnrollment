@@ -15,7 +15,7 @@ export const OnchainKitComponents: React.FC<OnchainKitComponentsProps> = ({ clas
     address: process.env.NEXT_PUBLIC_DAI_TOKEN_ADDRESS || '',
     chainId: 8453,
     decimals: 18,
-    image: "https://makerdao.com/images/logo.svg",
+    image: process.env.NEXT_PUBLIC_TOKEN_LOGO_URL || '',
     name: "Dai",
     symbol: "DAI"
   };

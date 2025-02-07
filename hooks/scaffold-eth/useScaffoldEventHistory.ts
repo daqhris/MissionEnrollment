@@ -103,7 +103,7 @@ export const useScaffoldEventHistory = <
       const fetchPOAPData = async () => {
         try {
           // TODO: Replace with actual POAP API call when API key is available
-          const response = await fetch(`https://api.poap.tech/actions/scan/${address}`);
+          const response = await fetch(`${process.env.NEXT_PUBLIC_POAP_API_URL}/actions/scan/${address}`);
           if (!response.ok) {
             throw new Error("Failed to fetch POAP data");
           }
