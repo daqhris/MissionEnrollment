@@ -1,12 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false, // Temporarily disabled for debugging
+  reactStrictMode: false,
   typescript: {
-    ignoreBuildErrors: true, // Temporarily disabled for testing static export
+    ignoreBuildErrors: true,
   },
   eslint: {
     ignoreDuringBuilds: true,
-    dirs: ['pages', 'components', 'lib', 'app', 'hooks', 'utils'],
+    dirs: ['app', 'components', 'lib', 'hooks', 'utils'],
+  },
+  env: {
+    NEXT_PUBLIC_DEFAULT_CHAIN: process.env.NEXT_PUBLIC_DEFAULT_CHAIN || '8453',
+    NEXT_PUBLIC_BASE_MAINNET_RPC_URL: process.env.NEXT_PUBLIC_BASE_MAINNET_RPC_URL || 'https://mainnet.base.org',
+    NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL: process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL || 'https://sepolia.base.org',
   },
   webpack: config => {
     config.resolve.fallback = { fs: false, net: false, tls: false };

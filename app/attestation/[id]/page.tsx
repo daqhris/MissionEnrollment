@@ -7,11 +7,16 @@ import { SCHEMA_UID } from '../../../utils/constants';
 
 // Generate static paths for recent attestations
 export async function generateStaticParams() {
+  if (process.env.GITHUB_PAGES === "true") {
+    console.log('Static generation for GitHub Pages - using fallback paths');
+    return [{ id: 'latest' }];
+  }
+
   try {
     const { data } = await apolloClient.query({
       query: GET_ENROLLMENTS,
       variables: {
-        take: 100, // Pre-generate paths for the 100 most recent attestations
+        take: 100,
         skip: 0,
         schemaId: SCHEMA_UID
       },
@@ -22,7 +27,7 @@ export async function generateStaticParams() {
     }));
   } catch (error) {
     console.error('Error generating static params:', error);
-    return []; // Return empty array if fetching fails
+    return [{ id: 'latest' }];
   }
 }
 
