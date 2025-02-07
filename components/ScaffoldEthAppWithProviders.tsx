@@ -72,7 +72,7 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
               appInfo={{
                 appName: 'Mission Enrollment',
               }}
-              initialChain={config.chains[0]}
+              initialChain={config.chains[0].id}
             >
               <ScaffoldEthApp>{children}</ScaffoldEthApp>
             </RainbowKitProvider>

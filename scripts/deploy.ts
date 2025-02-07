@@ -7,9 +7,9 @@ async function deployAndInitialize(): Promise<{ contract: AttestationService; sc
   const SCHEMA_REGISTRY_ADDRESS = process.env.NEXT_PUBLIC_SCHEMA_REGISTRY_ADDRESS || '';
 
   console.log("Deploying AttestationService...");
-  const AttestationService = await ethers.getContractFactory("AttestationService") as unknown as AttestationService;
+  const AttestationService = await ethers.getContractFactory("AttestationService");
 
-  const attestationService = await AttestationService.deploy();
+  const attestationService = (await AttestationService.deploy()) as AttestationService;
   await attestationService.waitForDeployment();
   const address = await attestationService.getAddress();
   console.log("AttestationService deployed to:", address);
@@ -57,7 +57,7 @@ async function deployAndInitialize(): Promise<{ contract: AttestationService; sc
   console.log("EAS Contract:", EAS_CONTRACT_ADDRESS);
   console.log("Schema Registry:", SCHEMA_REGISTRY_ADDRESS);
 
-  return { contract: attestationService, schemaId };
+  return { contract: attestationService as AttestationService, schemaId };
 }
 
 // We recommend this pattern to be able to use async/await everywhere
