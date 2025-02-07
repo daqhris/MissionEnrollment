@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : `http://localhost:${process.env.PORT || 3000}`;
+  ? process.env.NEXT_PUBLIC_PRODUCTION_URL || ''
+  : process.env.NEXT_PUBLIC_DEVELOPMENT_URL || '';
 
 export const getMetadata = ({
   title,

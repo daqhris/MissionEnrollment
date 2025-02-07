@@ -14,13 +14,11 @@ export const chains = {
 };
 
 export const RPC_CHAIN_NAMES: Record<number, string> = {
-  [chains.base.id]: "base-mainnet",
+  [chains.base.id]: process.env.NEXT_PUBLIC_NETWORK_NAME || "base-mainnet",
 };
 
 export const getAlchemyHttpUrl = (chainId: number): string | undefined => {
-  return RPC_CHAIN_NAMES[chainId]
-    ? `https://${RPC_CHAIN_NAMES[chainId]}.g.alchemy.com/v2/${scaffoldConfig.alchemyApiKey}`
-    : undefined;
+  return process.env.NEXT_PUBLIC_ALCHEMY_RPC_URL || undefined;
 };
 
 export const NETWORKS_EXTRA_DATA: Record<number, ChainAttributes> = {
@@ -41,7 +39,7 @@ export function getBlockExplorerAddressLink(network: Chain, address: string): st
   const blockExplorerBaseURL = network.blockExplorers?.default?.url;
   return blockExplorerBaseURL
     ? `${blockExplorerBaseURL}/address/${address}`
-    : `https://etherscan.io/address/${address}`;
+    : process.env.NEXT_PUBLIC_ETHERSCAN_URL ? `${process.env.NEXT_PUBLIC_ETHERSCAN_URL}/address/${address}` : '';
 }
 
 export function getTargetNetworks(): ChainWithAttributes[] {

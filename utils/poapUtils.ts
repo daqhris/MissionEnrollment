@@ -55,7 +55,7 @@ export async function fetchAndVerifyPOAPs(userAddress: string): Promise<POAPResp
           let metadata = null;
           if (poap.event.image_url?.startsWith('ipfs://')) {
             const ipfsHash = poap.event.image_url.replace('ipfs://', '');
-            const ipfsUrl = `https://ipfs.io/ipfs/${ipfsHash}`;
+            const ipfsUrl = `${process.env.NEXT_PUBLIC_IPFS_GATEWAY_URL}/ipfs/${ipfsHash}`;
             try {
               const metadataResponse = await axios.get(ipfsUrl, { timeout: 5000 });
               metadata = metadataResponse.data;

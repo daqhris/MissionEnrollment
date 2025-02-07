@@ -23,7 +23,7 @@ export const fetchPoaps = async (userAddress: string): Promise<POAPEvent[]> => {
       throw new Error("POAP API key is not available. Please check your environment variables.");
     }
 
-    const poapApiUrl = `https://api.poap.tech/actions/scan/${userAddress}`;
+    const poapApiUrl = `${process.env.NEXT_PUBLIC_POAP_API_URL}/actions/scan/${userAddress}`;
 
     const response = await axios.get(poapApiUrl, {
       headers: {
@@ -52,7 +52,7 @@ export const fetchPoaps = async (userAddress: string): Promise<POAPEvent[]> => {
           let metadata = null;
           if (poap.event.image_url && poap.event.image_url.startsWith('ipfs://')) {
             const ipfsHash = poap.event.image_url.replace('ipfs://', '');
-            const ipfsUrl = `https://ipfs.io/ipfs/${ipfsHash}`;
+            const ipfsUrl = `${process.env.NEXT_PUBLIC_IPFS_GATEWAY_URL}/ipfs/${ipfsHash}`;
             try {
               const metadataResponse = await axios.get(ipfsUrl, { timeout: 5000 });
               metadata = metadataResponse.data;
