@@ -36,7 +36,7 @@ jobs:
       NEXT_PUBLIC_ONCHAINKIT_API_KEY: ${{ secrets.NEXT_PUBLIC_ONCHAINKIT_API_KEY }}
       NEXT_PUBLIC_POAP_API_KEY: ${{ secrets.NEXT_PUBLIC_POAP_API_KEY }}
       NEXT_PUBLIC_IGNORE_BUILD_ERROR: "true"
-      NODE_VERSION: "18"
+      NODE_VERSION: "18.17.0"
       GITHUB_PAGES: "true"
       CUSTOM_DOMAIN: "true"
     steps:
@@ -47,10 +47,11 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: "18.17.0"
           cache: 'yarn'
       - name: Install dependencies
-        run: yarn install
+        run: |
+          yarn install --frozen-lockfile
       - name: Build with Next.js
         run: |
           mkdir -p out
@@ -76,7 +77,7 @@ jobs:
       NEXT_PUBLIC_ONCHAINKIT_API_KEY: ${{ secrets.NEXT_PUBLIC_ONCHAINKIT_API_KEY }}
       NEXT_PUBLIC_POAP_API_KEY: ${{ secrets.NEXT_PUBLIC_POAP_API_KEY }}
       NEXT_PUBLIC_IGNORE_BUILD_ERROR: "true"
-      NODE_VERSION: "18"
+      NODE_VERSION: "18.17.0"
       GITHUB_PAGES: "true"
       CUSTOM_DOMAIN: "true"
     runs-on: ubuntu-latest
