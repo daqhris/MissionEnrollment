@@ -10,7 +10,7 @@ export const baseMainnet = {
   rpcUrls: {
     ...base.rpcUrls,
     default: {
-      http: [`https://base-mainnet.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`],
+      http: [process.env.NEXT_PUBLIC_BASE_MAINNET_RPC_URL || ''],
     },
     public: {
       http: [base.rpcUrls.default.http[0]],
@@ -24,7 +24,7 @@ export const baseSepoliaChain = {
   rpcUrls: {
     ...baseSepolia.rpcUrls,
     default: {
-      http: [`https://base-sepolia.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`],
+      http: [process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL || ''],
     },
     public: {
       http: [baseSepolia.rpcUrls.default.http[0]],

@@ -8,10 +8,9 @@ const nextConfig = {
     ignoreDuringBuilds: true,
     dirs: ['app', 'components', 'lib', 'hooks', 'utils'],
   },
+  // Environment variables are managed through GitHub Secrets and deployment platforms
   env: {
-    NEXT_PUBLIC_DEFAULT_CHAIN: process.env.NEXT_PUBLIC_DEFAULT_CHAIN || '8453',
-    NEXT_PUBLIC_BASE_MAINNET_RPC_URL: process.env.NEXT_PUBLIC_BASE_MAINNET_RPC_URL || 'https://mainnet.base.org',
-    NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL: process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL || 'https://sepolia.base.org',
+    NEXT_PUBLIC_DEFAULT_CHAIN: process.env.NEXT_PUBLIC_DEFAULT_CHAIN,
   },
   webpack: config => {
     config.resolve.fallback = { fs: false, net: false, tls: false };

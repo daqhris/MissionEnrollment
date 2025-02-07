@@ -9,7 +9,7 @@ describe("POAP Verification", () => {
 
   beforeEach(() => {
     jest.resetAllMocks();
-    process.env.POAP = "mock-api-key";
+    process.env.POAP = "mock-key";
   });
 
   // Removed unused verifyPOAPOwnership test suite

@@ -35,8 +35,8 @@ export const config = getDefaultConfig({
   projectId: NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || '',
   chains: [base, baseSepolia] as const,
   transports: {
-    [base.id]: http(`https://base-mainnet.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`),
-    [baseSepolia.id]: http(`https://base-sepolia.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`),
+    [base.id]: http(process.env.NEXT_PUBLIC_BASE_MAINNET_RPC_URL || ''),
+    [baseSepolia.id]: http(process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL || ''),
   },
   ssr: true,
   wallets: [
