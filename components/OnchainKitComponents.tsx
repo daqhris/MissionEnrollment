@@ -12,7 +12,7 @@ export const OnchainKitComponents: React.FC<OnchainKitComponentsProps> = ({ clas
 
   // Example token data (we'll update this based on actual requirements)
   const token = {
-    address: "0x50c5725949a6f0c72e6c4a641f24049a917db0cb",
+    address: process.env.NEXT_PUBLIC_DAI_TOKEN_ADDRESS || '',
     chainId: 8453,
     decimals: 18,
     image: "https://makerdao.com/images/logo.svg",

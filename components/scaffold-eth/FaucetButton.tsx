@@ -10,7 +10,7 @@ import { useWatchBalance } from "../../hooks/scaffold-eth/useWatchBalance";
 
 // Number of ETH faucet sends to an address
 const NUM_OF_ETH = "1";
-const FAUCET_ADDRESS = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
+const FAUCET_ADDRESS = process.env.NEXT_PUBLIC_FAUCET_ADDRESS || '';
 
 const localWalletClient = createWalletClient({
   chain: hardhat,

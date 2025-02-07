@@ -65,7 +65,7 @@ const FooterLinks = tw.div`
   w-full
 `;
 
-export const Footer = (): JSX.Element => {
+export const Footer = (): React.ReactElement => {
   const { targetNetwork } = useTargetNetwork();
   const isLocalNetwork = targetNetwork.id === hardhat.id;
 
@@ -90,7 +90,7 @@ export const Footer = (): JSX.Element => {
             <div className="flex items-center gap-2">
               <span className="text-base-content">Made by</span>
               <Link
-                href="https://www.base.org/name/daqhris"
+                href={process.env.NEXT_PUBLIC_BASE_NAME_URL || ''}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-accent font-semibold hover:text-accent-focus"
@@ -119,7 +119,7 @@ export const Footer = (): JSX.Element => {
                 <ExternalLinkIcon />
               </Link>
               <Link
-                href="https://ethglobal.com/showcase/missionenrollment-i4fkr"
+                href={process.env.NEXT_PUBLIC_SHOWCASE_URL || ''}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-accent-content hover:text-accent text-xs flex items-center"
@@ -128,7 +128,7 @@ export const Footer = (): JSX.Element => {
                 <ExternalLinkIcon />
               </Link>
               <Link
-                href="https://github.com/daqhris/MissionEnrollment"
+                href={process.env.NEXT_PUBLIC_GITHUB_REPO_URL || ''}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-accent-content hover:text-accent text-xs flex items-center"
