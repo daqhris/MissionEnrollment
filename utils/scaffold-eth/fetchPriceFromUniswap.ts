@@ -1,12 +1,10 @@
-import { getAlchemyHttpUrl } from "./networks";
 import type { ChainWithAttributes } from "./networks";
 import { createPublicClient, http, parseAbi } from "viem";
 import type { Address } from "viem";
-import { mainnet } from "viem/chains";
 
 const publicClient = createPublicClient({
-  chain: mainnet,
-  transport: http(getAlchemyHttpUrl(mainnet.id)),
+  chain: process.env.NEXT_PUBLIC_DEFAULT_CHAIN as any,
+  transport: http(process.env.NEXT_PUBLIC_ALCHEMY_RPC_URL || ''),
 });
 
 const ABI = parseAbi([
