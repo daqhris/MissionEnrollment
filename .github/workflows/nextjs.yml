@@ -55,7 +55,12 @@ jobs:
           touch out/.nojekyll
           yarn build
           yarn postbuild
-      - name: Upload artifact
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v4
+        with:
+          static_site_generator: next
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3.0.1
         with:
           path: ./out
