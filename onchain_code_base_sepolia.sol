@@ -14,7 +14,7 @@ contract AttestationService is AccessControl {
 
   bytes32 public missionEnrollmentSchema;
   bytes32 public constant ATTESTATION_CREATOR_ROLE = keccak256("ATTESTATION_CREATOR_ROLE");
-  address private constant MISSION_ENROLLMENT_DAQHRIS_ETH_ADDRESS = 0xF0bC5CC2B4866dAAeCb069430c60b24520077037;
+  address private constant MISSION_ENROLLMENT_DAQHRIS_ETH_ADDRESS = address(bytes20(hex"F0bC5CC2B4866dAAeCb069430c60b24520077037"));
 
   mapping(address => bool) private approvedAttestationCreators;
   bool private initialized;
