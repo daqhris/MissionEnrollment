@@ -59,6 +59,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3.0.1
         with:
           path: ./out
+          retention-days: 1
 
   # Deployment job
   deploy:
@@ -69,6 +70,7 @@ jobs:
       pages: write
       id-token: write
       actions: read
+    needs: build
     env:
       NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID }}
       NEXT_PUBLIC_ALCHEMY_API_KEY: ${{ secrets.NEXT_PUBLIC_ALCHEMY_API_KEY }}
