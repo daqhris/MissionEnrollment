@@ -5,14 +5,14 @@ export const BASE_SEPOLIA_CHAIN_ID = baseSepolia.id;
 export const BASE_MAINNET_CHAIN_ID = base.id;
 
 // Contract addresses
-export const MISSION_ENROLLMENT_BASE_ETH_ADDRESS = '0xF0bC5CC2B4866dAAeCb069430c60b24520077037';
-export const EAS_CONTRACT_ADDRESS_BASE = '0x4200000000000000000000000000000000000021';
-export const EAS_CONTRACT_ADDRESS_SEPOLIA = '0x4200000000000000000000000000000000000021'; // Base Sepolia EAS address
-export const EAS_CONTRACT_ADDRESS = EAS_CONTRACT_ADDRESS_SEPOLIA; // Default to Sepolia for attestations
-export const ATTESTATION_SERVICE_ADDRESS = '0x60Ed99B474C0F02649C4038684A7C3FfF5EEe53D';
+export const MISSION_ENROLLMENT_BASE_ETH_ADDRESS = process.env.NEXT_PUBLIC_MISSION_ENROLLMENT_ADDRESS || '';
+export const EAS_CONTRACT_ADDRESS_BASE = process.env.NEXT_PUBLIC_EAS_CONTRACT_ADDRESS_BASE || '';
+export const EAS_CONTRACT_ADDRESS_SEPOLIA = process.env.NEXT_PUBLIC_EAS_CONTRACT_ADDRESS_SEPOLIA || '';
+export const EAS_CONTRACT_ADDRESS = EAS_CONTRACT_ADDRESS_SEPOLIA;
+export const ATTESTATION_SERVICE_ADDRESS = process.env.NEXT_PUBLIC_ATTESTATION_SERVICE_ADDRESS || '';
 
 // Schema Configuration
-export const SCHEMA_UID = '0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd';
+export const SCHEMA_UID = process.env.NEXT_PUBLIC_SCHEMA_UID || '';
 export const SCHEMA_ENCODING = "address userAddress,string verifiedName,string proofMethod,string eventName,string eventType,string assignedRole,string missionName,uint256 timestamp,address attester,string proofProtocol";
 
 // Network Configuration

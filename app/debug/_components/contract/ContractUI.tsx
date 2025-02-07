@@ -18,8 +18,8 @@ type ContractUIProps = {
   className?: string;
 };
 
-const EAS_CONTRACT_ADDRESS = '0xC2679fBD37d54388Ce493F1DB75320D236e1815e';
-const SCHEMA_UID = '0x46a1e77e9f1d74c8c60c8d8bd8129947b3c5f4d3e6e9497ae2e4701dd8e2c401';
+const EAS_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_EAS_CONTRACT_ADDRESS || '';
+const SCHEMA_UID = process.env.NEXT_PUBLIC_SCHEMA_UID || '';
 const ATTESTATION_SCHEMA = "address userAddress,string verifiedName,bool poapVerified,uint256 timestamp";
 
 /**

@@ -4,8 +4,8 @@ import "dotenv/config";
 
 async function deployAndInitialize(): Promise<{ contract: AttestationService; schemaId: string }> {
   // Base Sepolia EAS Contract addresses
-  const EAS_CONTRACT_ADDRESS = "0x4200000000000000000000000000000000000021";
-  const SCHEMA_REGISTRY_ADDRESS = "0x54f0e66D5A04702F5Df9BAe330295a11bD862c81";
+  const EAS_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_EAS_CONTRACT_ADDRESS || '';
+  const SCHEMA_REGISTRY_ADDRESS = process.env.NEXT_PUBLIC_SCHEMA_REGISTRY_ADDRESS || '';
 
   console.log("Deploying AttestationService...");
   const AttestationService = await ethers.getContractFactory("AttestationService");

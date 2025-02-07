@@ -7,8 +7,8 @@ async function main() {
   console.log("Deploying contracts with account:", deployer.address);
 
   // Base Sepolia EAS Contract Address
-  const EAS_CONTRACT_ADDRESS = "0x4200000000000000000000000000000000000021";
-  const SCHEMA_REGISTRY_ADDRESS = "0x4200000000000000000000000000000000000020";
+  const EAS_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_EAS_CONTRACT_ADDRESS || '';
+  const SCHEMA_REGISTRY_ADDRESS = process.env.NEXT_PUBLIC_SCHEMA_REGISTRY_ADDRESS || '';
 
   // Deploy AttestationService as upgradeable
   const AttestationService = await ethers.getContractFactory("AttestationService");
