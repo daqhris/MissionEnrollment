@@ -22,6 +22,11 @@ export async function generateStaticParams() {
       },
     });
 
+    if (!data?.attestations?.length) {
+      console.log('No attestations found - using fallback path');
+      return [{ id: 'latest' }];
+    }
+
     return data.attestations.map((attestation: { id: string }) => ({
       id: attestation.id,
     }));
