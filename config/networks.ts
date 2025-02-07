@@ -16,7 +16,7 @@ export const NETWORK_DETAILS = {
   [baseSepolia.id]: {
     name: 'Base Sepolia',
     isTestnet: true,
-    explorerUrl: 'https://sepolia.basescan.org',
+    explorerUrl: process.env.NEXT_PUBLIC_BASESCAN_URL || '',
   },
 };
 

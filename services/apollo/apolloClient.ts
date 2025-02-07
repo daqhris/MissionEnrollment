@@ -7,7 +7,7 @@ let apolloClientInstance: ApolloClient<any> | null = null;
 console.log('[Apollo] Initializing Apollo Client configuration...');
 
 const httpLink = new HttpLink({
-  uri: 'https://base-sepolia.easscan.org/graphql',
+  uri: `${process.env.NEXT_PUBLIC_EAS_EXPLORER_URL}/graphql`,
   credentials: 'omit',
 });
 

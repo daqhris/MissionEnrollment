@@ -29,8 +29,8 @@ const config = {
         network: "base-sepolia",
         chainId: 84532,
         urls: {
-          apiURL: "https://base-sepolia.blockscout.com/api",
-          browserURL: "https://base-sepolia.blockscout.com"
+          apiURL: process.env.NEXT_PUBLIC_BLOCKSCOUT_API_URL || '',
+          browserURL: process.env.NEXT_PUBLIC_BLOCKSCOUT_URL || ''
         }
       }
     ]
