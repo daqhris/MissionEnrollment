@@ -5,7 +5,7 @@ import { base, baseSepolia } from 'viem/chains';
 import { NEXT_PUBLIC_ALCHEMY_API_KEY } from './env';
 
 // Extend the base chain with Alchemy RPC URL while maintaining the Chain type
-export const baseMainnet: Chain = {
+export const baseMainnet = {
   ...base,
   rpcUrls: {
     ...base.rpcUrls,
@@ -16,10 +16,10 @@ export const baseMainnet: Chain = {
       http: [base.rpcUrls.default.http[0]],
     },
   },
-};
+} as const satisfies Chain;
 
 // Extend the baseSepolia chain with Alchemy RPC URL while maintaining the Chain type
-export const baseSepoliaChain: Chain = {
+export const baseSepoliaChain = {
   ...baseSepolia,
   rpcUrls: {
     ...baseSepolia.rpcUrls,
@@ -30,7 +30,7 @@ export const baseSepoliaChain: Chain = {
       http: [baseSepolia.rpcUrls.default.http[0]],
     },
   },
-};
+} as const satisfies Chain;
 
 // Export the chains array for wagmi configuration
 export const chains = [baseMainnet, baseSepoliaChain] as const;
