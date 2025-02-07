@@ -28,6 +28,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
+      NEXT_PUBLIC_DEFAULT_CHAIN: "8453"
+      NEXT_PUBLIC_BASE_MAINNET_RPC_URL: "https://mainnet.base.org"
+      NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL: "https://sepolia.base.org"
       NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID }}
       NEXT_PUBLIC_ALCHEMY_API_KEY: ${{ secrets.NEXT_PUBLIC_ALCHEMY_API_KEY }}
       NEXT_PUBLIC_ONCHAINKIT_API_KEY: ${{ secrets.NEXT_PUBLIC_ONCHAINKIT_API_KEY }}
@@ -65,6 +68,9 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     env:
+      NEXT_PUBLIC_DEFAULT_CHAIN: "8453"
+      NEXT_PUBLIC_BASE_MAINNET_RPC_URL: "https://mainnet.base.org"
+      NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL: "https://sepolia.base.org"
       NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID }}
       NEXT_PUBLIC_ALCHEMY_API_KEY: ${{ secrets.NEXT_PUBLIC_ALCHEMY_API_KEY }}
       NEXT_PUBLIC_ONCHAINKIT_API_KEY: ${{ secrets.NEXT_PUBLIC_ONCHAINKIT_API_KEY }}
