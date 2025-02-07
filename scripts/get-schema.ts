@@ -7,7 +7,6 @@ const ATTESTATION_SERVICE_ABI = [
 ];
 
 async function main() {
-  // Connect to Base Sepolia
   const provider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL || "");
 
   // Create contract instance

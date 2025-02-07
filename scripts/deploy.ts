@@ -3,12 +3,11 @@ import { AttestationService } from "../typechain-types";
 import "dotenv/config";
 
 async function deployAndInitialize(): Promise<{ contract: AttestationService; schemaId: string }> {
-  // Base Sepolia EAS Contract addresses
   const EAS_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_EAS_CONTRACT_ADDRESS || '';
   const SCHEMA_REGISTRY_ADDRESS = process.env.NEXT_PUBLIC_SCHEMA_REGISTRY_ADDRESS || '';
 
   console.log("Deploying AttestationService...");
-  const AttestationService = await ethers.getContractFactory("AttestationService");
+  const AttestationService = await ethers.getContractFactory("AttestationService") as unknown as AttestationService;
 
   const attestationService = await AttestationService.deploy();
   await attestationService.waitForDeployment();
@@ -28,7 +27,7 @@ async function deployAndInitialize(): Promise<{ contract: AttestationService; sc
 
   // Verify SchemaCreated event was emitted
   const schemaCreatedEvent = receipt.logs.find(
-    (log) => {
+    (log: any) => {
       try {
         const parsed = attestationService.interface.parseLog(log);
         return parsed?.name === "SchemaCreated";
@@ -58,7 +57,7 @@ async function deployAndInitialize(): Promise<{ contract: AttestationService; sc
   console.log("EAS Contract:", EAS_CONTRACT_ADDRESS);
   console.log("Schema Registry:", SCHEMA_REGISTRY_ADDRESS);
 
-  return { attestationService, schemaId };
+  return { contract: attestationService, schemaId };
 }
 
 // We recommend this pattern to be able to use async/await everywhere

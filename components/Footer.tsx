@@ -99,7 +99,7 @@ export const Footer = (): React.ReactElement => {
               </Link>
               <span className="text-base-content">&</span>
               <Link
-                href="https://devin.ai"
+                href={process.env.NEXT_PUBLIC_DEVIN_URL || ''}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-accent font-semibold hover:text-accent-focus"

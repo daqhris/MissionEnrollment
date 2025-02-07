@@ -50,8 +50,8 @@ export const ContractUI = ({ contractName, className = "" }: ContractUIProps): J
       setIsCreating(true);
       setAttestationStatus('Initializing attestation...');
 
-      const provider = new JsonRpcProvider(process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL);
-      const wallet = new Wallet(process.env.NEXT_PUBLIC_PRIVATE_KEY || '', provider);
+      const provider = new JsonRpcProvider(process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL || '');
+      const wallet = new Wallet(process.env.NEXT_PUBLIC_DEPLOYER_PRIVATE_KEY || '', provider as any);
       const eas = new EAS(EAS_CONTRACT_ADDRESS);
       eas.connect(wallet);
 

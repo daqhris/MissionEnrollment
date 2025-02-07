@@ -1,5 +1,5 @@
 // Mock environment variables for testing
-process.env.NEXT_PUBLIC_POAP_API_KEY = 'mock-key';
+process.env.NEXT_PUBLIC_POAP_API_KEY = '';
 
 // Mock global fetch for testing
 global.fetch = jest.fn(() =>
