@@ -3,7 +3,7 @@ import { JsonRpcProvider, Contract, FunctionFragment } from "ethers";
 
 
 export const POAP_CONTRACT_ADDRESS = '0x22C1f6050E56d2876009903609a2cC3fEf83B415';
-export const rpc_url: string = process.env.NEXT_PUBLIC_RPC_URL || 'https://rpc.ankr.com/eth';
+export const rpc_url: string = process.env.NEXT_PUBLIC_BASE_MAINNET_RPC_URL || '';
 
 // POAP ABI (including necessary functions for POAP interaction)
 export const POAP_ABI = [

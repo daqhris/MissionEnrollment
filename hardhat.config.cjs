@@ -15,7 +15,7 @@ const config = {
   },
   networks: {
     "base-sepolia": {
-      url: process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL || "https://sepolia.base.org",
+      url: process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL || "",
       accounts: process.env.DEPLOYER_PRIVATE_KEY ? [process.env.DEPLOYER_PRIVATE_KEY] : [],
       chainId: 84532
     },

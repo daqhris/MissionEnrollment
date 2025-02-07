@@ -96,7 +96,7 @@ export const AttestationCard: React.FC<Props> = ({ attestation }) => {
         </div>
         <div>
           <Link
-            href={`https://sepolia.easscan.org/attestation/view/${attestation.id}`}
+            href={`${process.env.NEXT_PUBLIC_EAS_EXPLORER_URL}/attestation/view/${attestation.id}`}
             target="_blank"
             rel="noopener noreferrer"
           >

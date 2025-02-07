@@ -24,7 +24,7 @@ export function SuccessAttestation({ attestationId, verifiedName, role }: Succes
             <p className="text-lg mb-4">In honor of your hackathon skills demonstrated in Brussels as: <span className="font-semibold">{role}</span></p>
             <p className="text-sm text-base-content/70 mb-2">Attestation ID: {attestationId}</p>
             <a
-              href={`https://base-sepolia.easscan.org/attestation/view/${attestationId}`}
+              href={`${process.env.NEXT_PUBLIC_EAS_EXPLORER_URL}/attestation/view/${attestationId}`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-primary"

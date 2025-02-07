@@ -91,7 +91,7 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
                       {formatDistanceToNow(new Date(attestation.time * 1000), { addSuffix: true })}
                     </div>
                     <a
-                      href={`https://base-sepolia.easscan.org/attestation/view/${attestation.id}`}
+                      href={`${process.env.NEXT_PUBLIC_EAS_EXPLORER_URL}/attestation/view/${attestation.id}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:text-blue-800 text-sm"

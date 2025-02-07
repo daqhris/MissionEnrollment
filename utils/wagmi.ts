@@ -13,10 +13,10 @@ export const config: Config = createConfig({
   ],
   transports: {
     [base.id]: http(process.env.NEXT_PUBLIC_ALCHEMY_API_KEY
-      ? `https://base-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+      ? process.env.NEXT_PUBLIC_BASE_MAINNET_RPC_URL
       : undefined),
-    [baseSepolia.id]: http(process.env.NEXT_PUBLIC_ALCHEMY_API_KEY
-      ? `https://base-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`
+    [baseSepolia.id]: http(process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL
+      ? process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL
       : undefined),
   },
 });
