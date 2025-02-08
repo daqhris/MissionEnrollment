@@ -37,18 +37,25 @@ jobs:
       GITHUB_PAGES: "true"
       CUSTOM_DOMAIN: "true"
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: false
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
-      - run: yarn install
-      - run: |
+      - name: Install dependencies
+        run: yarn install
+      - name: Build with Next.js
+        run: |
           mkdir -p out
           touch out/.nojekyll
           yarn build
           yarn postbuild
-      - uses: actions/upload-pages-artifact@v2
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
         with:
           path: ./out
 
@@ -69,4 +76,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - uses: actions/deploy-pages@v2
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
