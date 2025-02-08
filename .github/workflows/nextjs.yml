@@ -27,6 +27,11 @@ concurrency:
 jobs:
   # Build job
   build:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+      actions: read
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID }}
@@ -55,17 +60,27 @@ jobs:
           touch out/.nojekyll
           yarn build
           yarn postbuild
-      - name: Upload artifact
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v4
+        with:
+          static_site_generator: next
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3.0.1
         with:
-          name: github-pages
           path: ./out
 
   # Deployment job
   deploy:
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+      actions: read
+    needs: build
     env:
       NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID }}
       NEXT_PUBLIC_ALCHEMY_API_KEY: ${{ secrets.NEXT_PUBLIC_ALCHEMY_API_KEY }}
@@ -76,7 +91,6 @@ jobs:
       GITHUB_PAGES: "true"
       CUSTOM_DOMAIN: "true"
     runs-on: ubuntu-latest
-    needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
