@@ -18,6 +18,7 @@ permissions:
   pages: write
   id-token: write
   actions: read
+  deployments: write
 
 # Allow concurrent builds on feature/fix branches, but protect main branch deployments
 concurrency:
@@ -32,6 +33,7 @@ jobs:
       pages: write
       id-token: write
       actions: read
+      deployments: write
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID }}
@@ -69,8 +71,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
-          name: github-pages
-          retention-days: 1
 
   # Deployment job
   deploy:
@@ -94,14 +94,6 @@ jobs:
       CUSTOM_DOMAIN: "true"
     runs-on: ubuntu-latest
     steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: github-pages
-          path: .
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v3
-        with:
-          artifact_name: github-pages
-          token: ${{ secrets.GITHUB_TOKEN }}
