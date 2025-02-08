@@ -7,7 +7,7 @@ name: Deploy Next.js site to Pages
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main", "feature/*", "fix/*"]
+    branches: ["main", "feature/*", "fix/*", "devin/*"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -78,9 +78,6 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    concurrency:
-      group: "pages"
-      cancel-in-progress: false
     permissions:
       pages: write
       id-token: write
