@@ -7,7 +7,11 @@ name: Deploy Next.js site to Pages
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main", "feature/*", "fix/*"]
+    branches: ["main", "feature/*", "fix/*", "devin/*"]
+  
+  # Runs on pull requests
+  pull_request:
+    branches: ["main"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -17,6 +21,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  actions: read
 
 # Allow concurrent builds on feature/fix branches, but protect main branch deployments
 concurrency:
@@ -55,9 +60,12 @@ jobs:
           yarn build
           yarn postbuild
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
+          name: github-pages
           path: ./out
+          retention-days: 1
+          if-no-files-found: error
 
   # Deployment job
   deploy:
@@ -65,6 +73,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     env:
+      CUSTOM_DOMAIN: "true"
       NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID }}
       NEXT_PUBLIC_ALCHEMY_API_KEY: ${{ secrets.NEXT_PUBLIC_ALCHEMY_API_KEY }}
       NEXT_PUBLIC_ONCHAINKIT_API_KEY: ${{ secrets.NEXT_PUBLIC_ONCHAINKIT_API_KEY }}
@@ -78,4 +87,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
