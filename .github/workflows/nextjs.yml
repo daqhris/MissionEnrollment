@@ -31,7 +31,7 @@ concurrency:
 jobs:
   # Build job
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID }}
       NEXT_PUBLIC_ALCHEMY_API_KEY: ${{ secrets.NEXT_PUBLIC_ALCHEMY_API_KEY }}
@@ -59,13 +59,10 @@ jobs:
           touch out/.nojekyll
           yarn build
           yarn postbuild
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v2
         with:
-          name: github-pages
           path: ./out
-          retention-days: 1
-          if-no-files-found: error
 
   # Deployment job
   deploy:
@@ -82,9 +79,9 @@ jobs:
       NODE_VERSION: "18"
       GITHUB_PAGES: "true"
       CUSTOM_DOMAIN: "true"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v2
