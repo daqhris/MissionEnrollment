@@ -71,7 +71,6 @@ jobs:
           path: ./out
           name: github-pages
           retention-days: 1
-          if-no-files-found: error
 
   # Deployment job
   deploy:
