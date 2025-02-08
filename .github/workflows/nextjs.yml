@@ -17,11 +17,12 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  actions: read
 
-# Allow concurrent builds on feature/fix branches, but protect main branch deployments
+# Configure concurrency for GitHub Pages deployment
 concurrency:
-  group: ${{ github.ref == 'refs/heads/main' && 'pages' || format('pages-{0}', github.ref) }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   # Build job
