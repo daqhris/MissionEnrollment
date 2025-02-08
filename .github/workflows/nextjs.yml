@@ -7,7 +7,7 @@ name: Deploy Next.js site to Pages
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main", "feature/*", "fix/*", "devin/*"]
+    branches: ["main", "feature/*", "fix/*"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -17,8 +17,6 @@ permissions:
   contents: read
   pages: write
   id-token: write
-  actions: read
-  deployments: write
 
 # Allow concurrent builds on feature/fix branches, but protect main branch deployments
 concurrency:
@@ -28,12 +26,6 @@ concurrency:
 jobs:
   # Build job
   build:
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-      actions: read
-      deployments: write
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID }}
@@ -45,45 +37,26 @@ jobs:
       GITHUB_PAGES: "true"
       CUSTOM_DOMAIN: "true"
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          submodules: false
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
-      - name: Install dependencies
-        run: yarn install
-      - name: Build with Next.js
-        run: |
+      - run: yarn install
+      - run: |
           mkdir -p out
           touch out/.nojekyll
           yarn build
           yarn postbuild
-      - name: Configure Pages
-        id: pages
-        uses: actions/configure-pages@v3
-        with:
-          static_site_generator: next
-          enablement: true
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v2
         with:
           path: ./out
 
   # Deployment job
   deploy:
-    needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    permissions:
-      pages: write
-      id-token: write
-      actions: read
-      deployments: write
     env:
       NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID }}
       NEXT_PUBLIC_ALCHEMY_API_KEY: ${{ secrets.NEXT_PUBLIC_ALCHEMY_API_KEY }}
@@ -94,7 +67,6 @@ jobs:
       GITHUB_PAGES: "true"
       CUSTOM_DOMAIN: "true"
     runs-on: ubuntu-latest
+    needs: build
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v3
+      - uses: actions/deploy-pages@v2
