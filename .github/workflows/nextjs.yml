@@ -59,13 +59,10 @@ jobs:
           touch out/.nojekyll
           yarn build
           yarn postbuild
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v2
         with:
-          name: github-pages
           path: ./out
-          retention-days: 1
-          if-no-files-found: error
 
   # Deployment job
   deploy:
@@ -86,4 +83,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v2
