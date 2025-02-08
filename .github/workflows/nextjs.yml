@@ -66,7 +66,7 @@ jobs:
         with:
           static_site_generator: next
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./out
           name: github-pages
@@ -96,7 +96,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: github-pages
           path: .
