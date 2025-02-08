@@ -67,6 +67,7 @@ jobs:
         uses: actions/configure-pages@v3
         with:
           static_site_generator: next
+          enablement: true
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
