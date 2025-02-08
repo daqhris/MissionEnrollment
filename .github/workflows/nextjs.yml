@@ -71,6 +71,7 @@ jobs:
           path: ./out
           name: github-pages
           retention-days: 1
+          if-no-files-found: error
 
   # Deployment job
   deploy:
@@ -82,6 +83,7 @@ jobs:
       pages: write
       id-token: write
       actions: read
+      deployments: write
     env:
       NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID }}
       NEXT_PUBLIC_ALCHEMY_API_KEY: ${{ secrets.NEXT_PUBLIC_ALCHEMY_API_KEY }}
@@ -93,6 +95,11 @@ jobs:
       CUSTOM_DOMAIN: "true"
     runs-on: ubuntu-latest
     steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: github-pages
+          path: .
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v3
