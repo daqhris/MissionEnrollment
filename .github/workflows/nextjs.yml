@@ -37,8 +37,8 @@ jobs:
       GITHUB_PAGES: "true"
       CUSTOM_DOMAIN: "true"
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
@@ -48,7 +48,7 @@ jobs:
           touch out/.nojekyll
           yarn build
           yarn postbuild
-      - uses: actions/upload-pages-artifact@v2
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: ./out
 
@@ -69,4 +69,4 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - uses: actions/deploy-pages@v2
+      - uses: actions/deploy-pages@v4
