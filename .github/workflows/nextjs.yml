@@ -43,11 +43,11 @@ jobs:
       CUSTOM_DOMAIN: "true"
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v1
         with:
           submodules: false
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
@@ -60,12 +60,9 @@ jobs:
           yarn build
           yarn postbuild
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-pages-artifact@v1
         with:
-          name: github-pages
           path: ./out
-          retention-days: 1
-          if-no-files-found: error
 
   # Deployment job
   deploy:
@@ -87,4 +84,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v1
