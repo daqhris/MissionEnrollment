@@ -22,6 +22,7 @@ permissions:
   pages: write
   id-token: write
   actions: read
+  deployments: write
 
 # Allow concurrent builds on feature/fix branches, but protect main branch deployments
 concurrency:
@@ -43,11 +44,11 @@ jobs:
       CUSTOM_DOMAIN: "true"
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           submodules: false
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
