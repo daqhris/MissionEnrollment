@@ -1,0 +1,28 @@
+diff --git a/.github/workflows/nextjs.yml b/.github/workflows/nextjs.yml
+index c0a5cf8..a6d85f7 100644
+--- a/.github/workflows/nextjs.yml
++++ b/.github/workflows/nextjs.yml
+@@ -25,7 +25,7 @@ permissions:
+ 
+ # Allow concurrent builds on feature/fix branches, but protect main branch deployments
+ concurrency:
+-  group: ${{ github.ref == 'refs/heads/main' && 'pages' || format('pages-{0}', github.ref) }}
++  group: ${{ github.workflow }}-${{ github.ref }}
+   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+ 
+ jobs:
+@@ -60,7 +60,7 @@ jobs:
+           yarn build
+           yarn postbuild
+       - name: Upload artifact
+-        uses: actions/upload-artifact@v4
++        uses: actions/upload-artifact@v2
+         with:
+           name: github-pages
+           path: ./out
+@@ -87,4 +87,4 @@ jobs:
+     steps:
+       - name: Deploy to GitHub Pages
+         id: deployment
+-        uses: actions/deploy-pages@v4
++        uses: actions/deploy-pages@v2
