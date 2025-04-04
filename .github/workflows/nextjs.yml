@@ -21,13 +21,12 @@ permissions:
   contents: read
   pages: write
   id-token: write
-  actions: read
-  deployments: write
 
-# Allow concurrent builds on feature/fix branches, but protect main branch deployments
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
-  group: ${{ github.ref == 'refs/heads/main' && 'pages' || format('pages-{0}', github.ref) }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   # Build job
@@ -44,14 +43,16 @@ jobs:
       CUSTOM_DOMAIN: "true"
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           submodules: false
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
       - name: Install dependencies
         run: yarn install
       - name: Build with Next.js
@@ -60,31 +61,23 @@ jobs:
           touch out/.nojekyll
           yarn build
           yarn postbuild
+          # Ensure CNAME file exists in the output directory
+          if [ ! -f out/CNAME ]; then
+            echo "mission-enrollment.daqhris.com" > out/CNAME
+          fi
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v2
         with:
-          name: github-pages
           path: ./out
-          retention-days: 1
-          if-no-files-found: error
 
   # Deployment job
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    env:
-      CUSTOM_DOMAIN: "true"
-      NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID }}
-      NEXT_PUBLIC_ALCHEMY_API_KEY: ${{ secrets.NEXT_PUBLIC_ALCHEMY_API_KEY }}
-      NEXT_PUBLIC_ONCHAINKIT_API_KEY: ${{ secrets.NEXT_PUBLIC_ONCHAINKIT_API_KEY }}
-      NEXT_PUBLIC_POAP_API_KEY: ${{ secrets.NEXT_PUBLIC_POAP_API_KEY }}
-      NEXT_PUBLIC_IGNORE_BUILD_ERROR: "true"
-      NODE_VERSION: "18"
-      GITHUB_PAGES: "true"
     runs-on: ubuntu-latest
     needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v2
