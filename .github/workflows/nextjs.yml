@@ -60,12 +60,10 @@ jobs:
           yarn build
           yarn postbuild
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-pages-artifact@v1
         with:
           name: github-pages
           path: ./out
-          retention-days: 1
-          if-no-files-found: error
 
   # Deployment job
   deploy:
