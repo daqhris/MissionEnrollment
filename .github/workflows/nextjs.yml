@@ -61,9 +61,8 @@ jobs:
           yarn build
           yarn postbuild
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v1
         with:
-          name: github-pages
           path: ./out
 
   # Deployment job
