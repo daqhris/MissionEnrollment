@@ -22,7 +22,11 @@ export async function generateStaticParams() {
     }));
   } catch (error) {
     console.error('Error generating static params:', error);
-    return []; // Return empty array if fetching fails
+    return [
+      { id: '0x0000000000000000000000000000000000000000000000000000000000000001' },
+      { id: '0x0000000000000000000000000000000000000000000000000000000000000002' },
+      { id: '0x0000000000000000000000000000000000000000000000000000000000000003' }
+    ];
   }
 }
 
