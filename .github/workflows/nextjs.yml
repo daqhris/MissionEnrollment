@@ -5,8 +5,12 @@
 name: Deploy Next.js site to Github Pages
 
 on:
-  # Runs on pushes targeting the default branch
+  # Runs on pushes targeting the default branch and feature branches
   push:
+    branches: ["main", "feature/*", "fix/*", "devin/*"]
+  
+  # Runs on pull requests
+  pull_request:
     branches: ["main"]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -28,6 +32,15 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID }}
+      NEXT_PUBLIC_ALCHEMY_API_KEY: ${{ secrets.NEXT_PUBLIC_ALCHEMY_API_KEY }}
+      NEXT_PUBLIC_ONCHAINKIT_API_KEY: ${{ secrets.NEXT_PUBLIC_ONCHAINKIT_API_KEY }}
+      NEXT_PUBLIC_POAP_API_KEY: ${{ secrets.NEXT_PUBLIC_POAP_API_KEY }}
+      NEXT_PUBLIC_IGNORE_BUILD_ERROR: "true"
+      NODE_VERSION: "18"
+      GITHUB_PAGES: "true"
+      CUSTOM_DOMAIN: "true"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -74,7 +87,14 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} next build
+        run: |
+          ${{ steps.detect-package-manager.outputs.runner }} next build
+          # Create .nojekyll file to bypass Jekyll processing
+          touch out/.nojekyll
+          # Ensure CNAME file exists in the output directory
+          if [ ! -f out/CNAME ]; then
+            echo "mission-enrollment.daqhris.com" > out/CNAME
+          fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
