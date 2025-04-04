@@ -22,6 +22,7 @@ permissions:
   pages: write
   id-token: write
   actions: read
+  deployments: write
 
 # Allow concurrent builds on feature/fix branches, but protect main branch deployments
 concurrency:
