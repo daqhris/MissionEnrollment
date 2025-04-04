@@ -78,7 +78,6 @@ jobs:
       NEXT_PUBLIC_IGNORE_BUILD_ERROR: "true"
       NODE_VERSION: "18"
       GITHUB_PAGES: "true"
-      CUSTOM_DOMAIN: "true"
     runs-on: ubuntu-latest
     needs: build
     steps:
