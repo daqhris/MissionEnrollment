@@ -58,8 +58,7 @@ jobs:
         run: |
           mkdir -p out
           touch out/.nojekyll
-          # Ensure no symlinks are created during build
-          export NODE_OPTIONS="--no-symlink"
+          # Build without symlinks
           yarn build
           yarn postbuild
           # Verify no symlinks exist in output
