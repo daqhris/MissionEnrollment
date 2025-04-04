@@ -58,8 +58,12 @@ jobs:
         run: |
           mkdir -p out
           touch out/.nojekyll
+          # Ensure no symlinks are created during build
+          export NODE_OPTIONS="--no-symlink"
           yarn build
           yarn postbuild
+          # Verify no symlinks exist in output
+          find ./out -type l -o -type p | grep . && echo "Error: Symlinks found in build output" && exit 1 || echo "No symlinks found in build output"
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
