@@ -61,10 +61,11 @@ jobs:
           yarn build
           yarn postbuild
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: github-pages
           path: ./out
+          retention-days: 1
 
   # Deployment job
   deploy:
