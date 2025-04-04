@@ -34,8 +34,8 @@ const nextConfig = {
   },
   // Static export is compatible with Next.js 13+ dynamic routes
   output: 'export',
-  basePath: process.env.CUSTOM_DOMAIN === "true" ? "" : process.env.GITHUB_PAGES === "true" ? "/MissionEnrollment" : "",
-  assetPrefix: process.env.CUSTOM_DOMAIN === "true" ? "" : process.env.GITHUB_PAGES === "true" ? "/MissionEnrollment/" : "",
+  basePath: "",
+  assetPrefix: "",
   // Ensure client-side rendering works properly
   trailingSlash: true,
 };
