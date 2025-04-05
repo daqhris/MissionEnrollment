@@ -7,15 +7,16 @@ interface ExternalLinkIconProps {
 export const ExternalLinkIcon: React.FC<ExternalLinkIconProps> = ({ className = "" }) => {
   return (
     <svg
-      width="13.5"
-      height="13.5"
+      width="12"
+      height="12"
       aria-hidden="true"
       viewBox="0 0 24 24"
       className={`inline-block ml-1 ${className}`}
     >
       <path
         fill="currentColor"
-        d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"
+        opacity="0.8"
+        d="M10 6v2h5.59L6 17.59 7.41 19 17 9.41V15h2V6z"
       />
     </svg>
   );
