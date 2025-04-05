@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ExternalLinkIcon } from '../../components/ExternalLinkIcon';
 
 export default function PreviewPage() {
@@ -27,8 +27,10 @@ export default function PreviewPage() {
         if (data && data.length > 0) {
           const lastCommit = data[0];
           const commitDate = new Date(lastCommit.commit.author.date);
+          const commitSha = lastCommit.sha.substring(0, 7);
+          const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
           
-          setLastUpdated(commitDate.toLocaleString());
+          setLastUpdated(`${months[commitDate.getMonth()]} ${commitDate.getDate()}, ${commitDate.getFullYear()} ${commitDate.getHours().toString().padStart(2, '0')}:${commitDate.getMinutes().toString().padStart(2, '0')}`);
         } else {
           setError("No commit history found for the video file");
         }
@@ -60,15 +62,18 @@ export default function PreviewPage() {
           ) : error ? (
             `Error: ${error}`
           ) : (
-            <a 
-              href="https://github.com/daqhris/MissionEnrollment/commits/main/public/Preview-MissionEnrollment-WebApp.mp4" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-accent-content hover:text-accent flex items-center justify-center"
-            >
-              Last updated: {lastUpdated}
-              <ExternalLinkIcon />
-            </a>
+            <div className="flex items-center justify-center">
+              <span>Last updated: </span>
+              <a 
+                href="https://github.com/daqhris/MissionEnrollment/commits/main/public/Preview-MissionEnrollment-WebApp.mp4" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-accent-content hover:text-accent flex items-center ml-1"
+              >
+                {lastUpdated}
+                <ExternalLinkIcon />
+              </a>
+            </div>
           )}
         </div>
       </div>
