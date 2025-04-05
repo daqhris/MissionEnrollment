@@ -206,17 +206,93 @@ export const Header = (): JSX.Element => {
             </DropdownMenu>
           )}
         </DropdownContainer>
-        <Link href="/" className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
-          <LogoContainer>
-            <span className="text-2xl" role="img" aria-label="First place medal">🥇</span>
-          </LogoContainer>
-          <LogoText>
-            <LogoTitle>mission-enrollment.base.eth</LogoTitle>
-            <div className="flex items-center">
-              <span className="text-xs px-2 py-0.5 bg-[#957777] text-white rounded-full ml-2 animate-pulse">Beta</span>
-            </div>
-          </LogoText>
-        </Link>
+        {/* DESIGN OPTION 1: Separate domain with smaller font and external link icon */}
+        <div className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
+          <Link href="/" className="flex items-center gap-2">
+            <LogoContainer>
+              <span className="text-2xl" role="img" aria-label="First place medal">🥇</span>
+            </LogoContainer>
+            <LogoText>
+              <LogoTitle>
+                <span className="font-bold">mission-enrollment</span>
+                <span className="text-gray-400 text-xs ml-1">.base.eth</span>
+              </LogoTitle>
+              <div className="flex items-center">
+                <span className="text-xs px-2 py-0.5 bg-[#957777] text-white rounded-full ml-2 animate-pulse">Beta</span>
+              </div>
+            </LogoText>
+          </Link>
+          <a 
+            href="https://www.base.org/name/mission-enrollment" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="ml-1 text-xs text-blue-300 hover:text-blue-200 transition-colors"
+            title="View on Base"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+        </div>
+
+        {/* DESIGN OPTION 2: Domain part as a badge with Base logo */}
+        {/* <div className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
+          <Link href="/" className="flex items-center gap-2">
+            <LogoContainer>
+              <span className="text-2xl" role="img" aria-label="First place medal">🥇</span>
+            </LogoContainer>
+            <LogoText>
+              <div className="flex items-center">
+                <LogoTitle>
+                  <span className="font-bold">mission-enrollment</span>
+                </LogoTitle>
+                <a 
+                  href="https://www.base.org/name/mission-enrollment" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="ml-2 px-2 py-0.5 bg-blue-900 text-blue-300 rounded-full text-xs flex items-center hover:bg-blue-800 transition-colors"
+                  title="View on Base"
+                >
+                  <svg className="h-3 w-3 mr-1" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                  </svg>
+                  .base.eth
+                </a>
+              </div>
+              <div className="flex items-center">
+                <span className="text-xs px-2 py-0.5 bg-[#957777] text-white rounded-full animate-pulse">Beta</span>
+              </div>
+            </LogoText>
+          </Link>
+        </div> */}
+
+        {/* DESIGN OPTION 3: Split links with tooltip */}
+        {/* <div className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
+          <Link href="/" className="flex items-center gap-2">
+            <LogoContainer>
+              <span className="text-2xl" role="img" aria-label="First place medal">🥇</span>
+            </LogoContainer>
+            <LogoText>
+              <div className="flex items-center">
+                <LogoTitle>mission-enrollment</LogoTitle>
+              </div>
+              <div className="flex items-center">
+                <span className="text-xs px-2 py-0.5 bg-[#957777] text-white rounded-full mr-2 animate-pulse">Beta</span>
+                <a 
+                  href="https://www.base.org/name/mission-enrollment" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-xs text-blue-300 hover:underline group relative"
+                >
+                  .base.eth
+                  <span className="absolute left-0 -bottom-6 w-32 bg-blue-900 text-xs text-white p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                    View on Base
+                  </span>
+                </a>
+              </div>
+            </LogoText>
+          </Link>
+        </div> */}
         <DesktopMenu>
           <HeaderMenuLinks />
         </DesktopMenu>
