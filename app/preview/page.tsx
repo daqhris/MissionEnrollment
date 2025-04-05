@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ExternalLinkIcon } from '../../components/ExternalLinkIcon';
 
 export default function PreviewPage() {
