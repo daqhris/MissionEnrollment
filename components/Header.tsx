@@ -207,7 +207,7 @@ export const Header = (): JSX.Element => {
           )}
         </DropdownContainer>
         {/* DESIGN OPTION 1: Separate domain with smaller font and external link icon */}
-        <div className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
+        {/* <div className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
           <Link href="/" className="flex items-center gap-2">
             <LogoContainer>
               <span className="text-2xl" role="img" aria-label="First place medal">🥇</span>
@@ -233,10 +233,10 @@ export const Header = (): JSX.Element => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
           </a>
-        </div>
+        </div> */}
 
         {/* DESIGN OPTION 2: Domain part as a badge with Base logo */}
-        {/* <div className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
+        <div className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
           <Link href="/" className="flex items-center gap-2">
             <LogoContainer>
               <span className="text-2xl" role="img" aria-label="First place medal">🥇</span>
@@ -264,7 +264,7 @@ export const Header = (): JSX.Element => {
               </div>
             </LogoText>
           </Link>
-        </div> */}
+        </div>
 
         {/* DESIGN OPTION 3: Split links with tooltip */}
         {/* <div className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
