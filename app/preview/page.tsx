@@ -1,36 +1,47 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
+import { ExternalLinkIcon } from '../../components/ExternalLinkIcon';
 
 export default function PreviewPage() {
-  const [videoInfo, setVideoInfo] = useState({
-    date: "4/5/2025, 3:56:53 PM",
-    commit: "3c8f11e"
-  });
-
-  const fetchVideoLastModified = useCallback(async () => {
-    try {
-      const response = await fetch('/Preview-MissionEnrollment-WebApp.mp4', { method: 'HEAD' });
-      if (response.ok) {
-        const lastModified = new Date(response.headers.get('last-modified') || '');
-        if (!isNaN(lastModified.getTime())) {
-          setVideoInfo(prevInfo => ({
-            date: lastModified.toLocaleString(),
-            commit: prevInfo.commit // Keep the existing commit hash
-          }));
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching video metadata:', error);
-    }
-  }, []);
+  const [lastUpdated, setLastUpdated] = useState("Loading...");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchVideoLastModified();
-    
-    const interval = setInterval(fetchVideoLastModified, 60000); // Check every minute
-    return () => clearInterval(interval);
-  }, [fetchVideoLastModified]);
+    const fetchVideoCommitInfo = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const apiUrl = 'https://api.github.com/repos/daqhris/MissionEnrollment/commits?path=public/Preview-MissionEnrollment-WebApp.mp4&per_page=1';
+        
+        const response = await fetch(apiUrl);
+        
+        if (!response.ok) {
+          throw new Error(`GitHub API error: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (data && data.length > 0) {
+          const lastCommit = data[0];
+          const commitDate = new Date(lastCommit.commit.author.date);
+          
+          setLastUpdated(commitDate.toLocaleString());
+        } else {
+          setError("No commit history found for the video file");
+        }
+      } catch (error) {
+        console.error('Error fetching commit info:', error);
+        setError("Failed to fetch commit information");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVideoCommitInfo();
+  }, []);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -40,13 +51,26 @@ export default function PreviewPage() {
           controls
           className="w-full rounded-lg shadow-lg"
           src="/Preview-MissionEnrollment-WebApp.mp4"
-          onLoadedMetadata={() => fetchVideoLastModified()}
         >
           Your browser does not support the video tag.
         </video>
-        <p className="text-sm text-gray-500 mt-4 text-center">
-          Last updated: {videoInfo.date} (commit: {videoInfo.commit})
-        </p>
+        <div className="text-sm text-gray-500 mt-4 text-center">
+          {loading ? (
+            "Loading timestamp information..."
+          ) : error ? (
+            `Error: ${error}`
+          ) : (
+            <a 
+              href="https://github.com/daqhris/MissionEnrollment/commits/main/public/Preview-MissionEnrollment-WebApp.mp4" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-accent-content hover:text-accent flex items-center justify-center"
+            >
+              Last updated: {lastUpdated}
+              <ExternalLinkIcon />
+            </a>
+          )}
+        </div>
       </div>
     </div>
   );
