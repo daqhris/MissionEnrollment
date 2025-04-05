@@ -285,7 +285,7 @@ export const Header = (): JSX.Element => {
                   className="text-xs text-blue-300 hover:underline group relative ml-auto"
                 >
                   .base.eth
-                  <span className="absolute left-0 -bottom-6 w-32 bg-blue-900 text-xs text-white p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="absolute left-0 -bottom-6 w-32 bg-blue-900 text-xs text-white p-1 rounded hidden group-hover:block transition-opacity">
                     View on Base
                   </span>
                 </a>
