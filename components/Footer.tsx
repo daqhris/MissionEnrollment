@@ -13,7 +13,8 @@ const FooterContainer = tw.div`
   min-h-0
   py-5
   px-1
-  mb-11
+  mb-16
+  sm:mb-11
   lg:mb-0
 `;
 
@@ -21,10 +22,12 @@ const FixedBottomBar = tw.div`
   fixed
   flex
   justify-between
-  items-center
+  items-start
+  sm:items-center
   w-full
   z-10
-  p-4
+  p-2
+  sm:p-4
   bottom-0
   left-0
   pointer-events-none
@@ -86,29 +89,29 @@ export const Footer = (): JSX.Element => {
               </>
             )}
           </LeftSection>
-          <div className="pointer-events-auto flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <span className="text-base-content">Made by</span>
+          <div className="pointer-events-auto flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-xs">
+            <div className="flex items-center gap-1 sm:gap-2">
+              <span className="text-xs sm:text-sm text-base-content">Made by</span>
               <Link
                 href="https://www.base.org/name/daqhris"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent font-semibold hover:text-accent-focus"
+                className="text-accent font-semibold hover:text-accent-focus text-xs sm:text-sm"
               >
                 daqhris
               </Link>
-              <span className="text-base-content">&</span>
+              <span className="text-xs sm:text-sm text-base-content">&</span>
               <Link
                 href="https://devin.ai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent font-semibold hover:text-accent-focus"
+                className="text-accent font-semibold hover:text-accent-focus text-xs sm:text-sm"
               >
                 devin
               </Link>
-              <span className="text-base-content">|</span>
+              <span className="hidden sm:inline text-base-content">|</span>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4">
               <Link
                 href="https://base-sepolia.easscan.org/attestations/forSchema/0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd"
                 target="_blank"
@@ -137,7 +140,7 @@ export const Footer = (): JSX.Element => {
                 <ExternalLinkIcon />
               </Link>
             </div>
-            <div className="text-xs text-accent-content/70 flex items-center">
+            <div className="text-xs text-accent-content/70 flex items-center mt-1 sm:mt-0">
               <span className="px-2 py-0.5 rounded-full border border-accent">Beta</span>
             </div>
           </div>
