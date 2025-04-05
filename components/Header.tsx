@@ -236,7 +236,7 @@ export const Header = (): JSX.Element => {
         </div> */}
 
         {/* DESIGN OPTION 2: Domain part as a badge with Base logo */}
-        <div className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
+        {/* <div className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
           <Link href="/" className="flex items-center gap-2">
             <LogoContainer>
               <span className="text-2xl" role="img" aria-label="First place medal">🥇</span>
@@ -264,10 +264,10 @@ export const Header = (): JSX.Element => {
               </div>
             </LogoText>
           </Link>
-        </div>
+        </div> */}
 
         {/* DESIGN OPTION 3: Split links with tooltip */}
-        {/* <div className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
+        <div className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
           <Link href="/" className="flex items-center gap-2">
             <LogoContainer>
               <span className="text-2xl" role="img" aria-label="First place medal">🥇</span>
@@ -292,7 +292,7 @@ export const Header = (): JSX.Element => {
               </div>
             </LogoText>
           </Link>
-        </div> */}
+        </div>
         <DesktopMenu>
           <HeaderMenuLinks />
         </DesktopMenu>
