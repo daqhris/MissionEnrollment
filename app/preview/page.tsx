@@ -1,6 +1,6 @@
 export default function PreviewPage() {
-  const videoDate = "12/18/2024, 3:45:00 PM";
-  const videoCommit = "429f7e4";
+  const videoDate = "4/5/2025, 3:56:53 PM";
+  const videoCommit = "3c8f11e";
 
   return (
     <div className="container mx-auto px-4 py-8">
