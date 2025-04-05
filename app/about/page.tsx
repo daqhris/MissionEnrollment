@@ -20,8 +20,9 @@ export default function AboutPage(): ReactNode {
         const response = await fetch('https://api.github.com/repos/daqhris/MissionEnrollment/commits/main');
         const data = await response.json();
         const commitDate = new Date(data.commit.author.date);
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         setLastCommit({
-          date: `${commitDate.getFullYear().toString().substring(2)}/${(commitDate.getMonth() + 1).toString().padStart(2, '0')}/${commitDate.getDate().toString().padStart(2, '0')} ${commitDate.getHours().toString().padStart(2, '0')}:${commitDate.getMinutes().toString().padStart(2, '0')}`,
+          date: `${months[commitDate.getMonth()]} ${commitDate.getDate()}, ${commitDate.getFullYear()} ${commitDate.getHours().toString().padStart(2, '0')}:${commitDate.getMinutes().toString().padStart(2, '0')}`,
           sha: data.sha.substring(0, 7)
         });
       } catch (error) {

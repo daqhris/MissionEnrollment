@@ -28,8 +28,9 @@ export default function PreviewPage() {
           const lastCommit = data[0];
           const commitDate = new Date(lastCommit.commit.author.date);
           const commitSha = lastCommit.sha.substring(0, 7);
+          const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
           
-          setLastUpdated(`${commitDate.getFullYear().toString().substring(2)}/${(commitDate.getMonth() + 1).toString().padStart(2, '0')}/${commitDate.getDate().toString().padStart(2, '0')} ${commitDate.getHours().toString().padStart(2, '0')}:${commitDate.getMinutes().toString().padStart(2, '0')}`);
+          setLastUpdated(`${months[commitDate.getMonth()]} ${commitDate.getDate()}, ${commitDate.getFullYear()} ${commitDate.getHours().toString().padStart(2, '0')}:${commitDate.getMinutes().toString().padStart(2, '0')}`);
         } else {
           setError("No commit history found for the video file");
         }
