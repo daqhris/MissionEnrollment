@@ -122,7 +122,7 @@ export default function AboutPage(): ReactNode {
                   rel="noopener noreferrer"
                   className="text-accent-content hover:text-accent flex items-center ml-1"
                 >
-                  {lastCommit.date} (commit: {lastCommit.sha})
+                  {lastCommit.date}
                   <ExternalLinkIcon />
                 </a>
               </div>

@@ -29,7 +29,7 @@ export default function PreviewPage() {
           const commitDate = new Date(lastCommit.commit.author.date);
           const commitSha = lastCommit.sha.substring(0, 7);
           
-          setLastUpdated(`${commitDate.getFullYear().toString().substring(2)}/${(commitDate.getMonth() + 1).toString().padStart(2, '0')}/${commitDate.getDate().toString().padStart(2, '0')} ${commitDate.getHours().toString().padStart(2, '0')}:${commitDate.getMinutes().toString().padStart(2, '0')} (commit: ${commitSha})`);
+          setLastUpdated(`${commitDate.getFullYear().toString().substring(2)}/${(commitDate.getMonth() + 1).toString().padStart(2, '0')}/${commitDate.getDate().toString().padStart(2, '0')} ${commitDate.getHours().toString().padStart(2, '0')}:${commitDate.getMinutes().toString().padStart(2, '0')}`);
         } else {
           setError("No commit history found for the video file");
         }
