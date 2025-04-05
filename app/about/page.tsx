@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ClientLayout } from '../../components/ClientLayout';
 import type { ReactNode } from 'react';
+import { ExternalLinkIcon } from '../../components/ExternalLinkIcon';
 
 interface CommitInfo {
   date: string;
@@ -113,7 +114,15 @@ export default function AboutPage(): ReactNode {
 
             {lastCommit && (
               <div className="text-sm text-gray-600 mt-8">
-                Last updated: {lastCommit.date} (commit: {lastCommit.sha})
+                <a 
+                  href="https://github.com/daqhris/MissionEnrollment/commits/main" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-accent-content hover:text-accent flex items-center justify-center"
+                >
+                  Last updated: {lastCommit.date}
+                  <ExternalLinkIcon />
+                </a>
               </div>
             )}
           </div>
