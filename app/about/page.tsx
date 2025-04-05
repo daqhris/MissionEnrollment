@@ -66,11 +66,11 @@ export default function AboutPage(): ReactNode {
               <h2 className="text-2xl font-semibold mb-4">Co-Created By</h2>
               <p>Mission Enrollment is the not-yet-ripe artistic fruit of a coding collaboration that's being openly carried out by a human and a non-human who are co-working via <a href="https://git-scm.com/book/en/v2" target="_blank" rel="noopener noreferrer"><strong>public <code>GIT</code> commits</strong></a> in the landscape of cyberspace:</p>
               <ul className="list-disc pl-6 mt-2">
-                <li><strong>Human Author:</strong> <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer">daqhris.base.eth</a> - Project architect and blockchain developer</li>
-                <li><strong>AI Engineer:</strong> <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer">Devin</a> from <a href="https://cognition.ai/" target="_blank" rel="noopener noreferrer">Cognition Labs</a> - Assisted in development and implementation</li>
+                <li><strong>Human Author:</strong> <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer"><strong>daqhris</strong>.base.eth</a> - Creator, project architect and blockchain developer</li>
+                <li><strong>Non-human Engineer:</strong> <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer"><strong>Devin AI</strong></a> (from <a href="https://cognition.ai/" target="_blank" rel="noopener noreferrer">Cognition Labs</a>) - Assisted in coding, development and implementation</li>
               </ul>
               <p className="mt-4">It is an artistic project that enables human creativity and AI capabilities to come together, on the verge of a post-human era, for the preservation of the cultural heritage of a European city festival.</p>
-              <p className="mt-2">Enrollments are registered by in-test attestations linked to <a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer"><strong>mission-enrollment.base.eth</strong></a>. Verification methods are reliant on 3 <strong>open-source protocols</strong>: <a href="https://github.com/base-org/basenames" target="_blank" rel="noopener noreferrer">Basenames</a> (ENS), <a href="https://github.com/poap-xyz/poap.js" target="_blank" rel="noopener noreferrer">Proof of Attendance Protocol</a> (POAP) and <a href="https://github.com/ethereum-attestation-service/eas-sdk" target="_blank" rel="noopener noreferrer">Ethereum Attestation Service</a> (EAS).</p>
+              <p className="mt-2">All enrollments are registered by in-test attestations linked to <a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer"><strong>mission-enrollment.base.eth</strong></a>. Registration methods are reliant on 3 public protocols on the Base Sepolia blockchain: <a href="https://github.com/base-org/basenames" target="_blank" rel="noopener noreferrer">Basenames</a> (ENS), <a href="https://github.com/poap-xyz/poap.js" target="_blank" rel="noopener noreferrer">Proof of Attendance Protocol</a> (POAP) and <a href="https://github.com/ethereum-attestation-service/eas-sdk" target="_blank" rel="noopener noreferrer">Ethereum Attestation Service</a> (EAS).</p>
 
               <div className="mt-4 p-4 border rounded">
                 <div className="flex items-center gap-4">
@@ -84,11 +84,11 @@ export default function AboutPage(): ReactNode {
                   />
                 </div>
                 <p className="mt-2">
-                  On <strong>December 12, 2024</strong>, <code>daqhris</code> earned the{' '}
+                  On 2024/12/12, <code>daqhris</code> and <code>devin</code> earned the{' '}
                   <a href="https://github.com/daqhris?achievement=pair-extraordinaire&tab=achievements" target="_blank" rel="noopener noreferrer">
                     'Pair Extraordinaire'
-                  </a> achievement on <a href="https://github.com/daqhris/MissionEnrollment/pull/177" target="_blank" rel="noopener noreferrer">GitHub</a>, following the <code>GIT</code> commit{' '}
-                  <a href="https://github.com/daqhris/MissionEnrollment/commit/429f7e4" target="_blank" rel="noopener noreferrer"><code>429f7e4</code></a>, which awarded an independent record of <strong>human-nonhuman co-authorship</strong> to the project.
+                  </a> achievement on <a href="https://github.com/daqhris/MissionEnrollment/pull/177" target="_blank" rel="noopener noreferrer">GitHub</a>, following the GIT commit{' '}
+                  <a href="https://github.com/daqhris/MissionEnrollment/commit/429f7e4" target="_blank" rel="noopener noreferrer"><code>429f7e4</code></a> in the public and open source code repository, which awarded an independent record of <strong>human-nonhuman co-authorship</strong> to the project.
                 </p>
               </div>
             </section>
