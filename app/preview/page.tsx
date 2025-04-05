@@ -27,8 +27,9 @@ export default function PreviewPage() {
         if (data && data.length > 0) {
           const lastCommit = data[0];
           const commitDate = new Date(lastCommit.commit.author.date);
+          const commitSha = lastCommit.sha.substring(0, 7);
           
-          setLastUpdated(commitDate.toLocaleString());
+          setLastUpdated(`${commitDate.getFullYear().toString().substring(2)}/${(commitDate.getMonth() + 1).toString().padStart(2, '0')}/${commitDate.getDate().toString().padStart(2, '0')} ${commitDate.getHours().toString().padStart(2, '0')}:${commitDate.getMinutes().toString().padStart(2, '0')} (commit: ${commitSha})`);
         } else {
           setError("No commit history found for the video file");
         }
@@ -60,15 +61,18 @@ export default function PreviewPage() {
           ) : error ? (
             `Error: ${error}`
           ) : (
-            <a 
-              href="https://github.com/daqhris/MissionEnrollment/commits/main/public/Preview-MissionEnrollment-WebApp.mp4" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-accent-content hover:text-accent flex items-center justify-center"
-            >
-              Last updated: {lastUpdated}
-              <ExternalLinkIcon />
-            </a>
+            <div className="flex items-center justify-center">
+              <span>Last updated: </span>
+              <a 
+                href="https://github.com/daqhris/MissionEnrollment/commits/main/public/Preview-MissionEnrollment-WebApp.mp4" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-accent-content hover:text-accent flex items-center ml-1"
+              >
+                {lastUpdated}
+                <ExternalLinkIcon />
+              </a>
+            </div>
           )}
         </div>
       </div>

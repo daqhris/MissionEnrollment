@@ -21,7 +21,7 @@ export default function AboutPage(): ReactNode {
         const data = await response.json();
         const commitDate = new Date(data.commit.author.date);
         setLastCommit({
-          date: `${commitDate.getFullYear().toString().substring(2)}/${(commitDate.getMonth() + 1).toString().padStart(2, '0')}/${commitDate.getDate().toString().padStart(2, '0')}`,
+          date: `${commitDate.getFullYear().toString().substring(2)}/${(commitDate.getMonth() + 1).toString().padStart(2, '0')}/${commitDate.getDate().toString().padStart(2, '0')} ${commitDate.getHours().toString().padStart(2, '0')}:${commitDate.getMinutes().toString().padStart(2, '0')}`,
           sha: data.sha.substring(0, 7)
         });
       } catch (error) {
@@ -114,14 +114,15 @@ export default function AboutPage(): ReactNode {
             </section>
 
             {lastCommit && (
-              <div className="text-sm text-gray-600 mt-8 text-left">
+              <div className="text-sm text-gray-600 mt-8 text-left flex items-center">
+                <span>Last updated: </span>
                 <a 
                   href="https://github.com/daqhris/MissionEnrollment/commits/main" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-accent-content hover:text-accent flex items-center"
+                  className="text-accent-content hover:text-accent flex items-center ml-1"
                 >
-                  Last updated: {lastCommit.date} (commit: {lastCommit.sha})
+                  {lastCommit.date} (commit: {lastCommit.sha})
                   <ExternalLinkIcon />
                 </a>
               </div>
