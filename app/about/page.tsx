@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ClientLayout } from '../../components/ClientLayout';
 import type { ReactNode } from 'react';
+import { ExternalLinkIcon } from '../../components/ExternalLinkIcon';
 
 interface CommitInfo {
   date: string;
@@ -18,8 +19,9 @@ export default function AboutPage(): ReactNode {
       try {
         const response = await fetch('https://api.github.com/repos/daqhris/MissionEnrollment/commits/main');
         const data = await response.json();
+        const commitDate = new Date(data.commit.author.date);
         setLastCommit({
-          date: new Date(data.commit.author.date).toLocaleString(),
+          date: `${commitDate.getFullYear().toString().substring(2)}/${(commitDate.getMonth() + 1).toString().padStart(2, '0')}/${commitDate.getDate().toString().padStart(2, '0')}`,
           sha: data.sha.substring(0, 7)
         });
       } catch (error) {
@@ -112,8 +114,16 @@ export default function AboutPage(): ReactNode {
             </section>
 
             {lastCommit && (
-              <div className="text-sm text-gray-600 mt-8">
-                Last updated: {lastCommit.date} (commit: {lastCommit.sha})
+              <div className="text-sm text-gray-600 mt-8 text-left">
+                <a 
+                  href="https://github.com/daqhris/MissionEnrollment/commits/main" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-accent-content hover:text-accent flex items-center"
+                >
+                  Last updated: {lastCommit.date} (commit: {lastCommit.sha})
+                  <ExternalLinkIcon />
+                </a>
               </div>
             )}
           </div>
