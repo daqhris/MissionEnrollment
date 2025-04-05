@@ -16,7 +16,7 @@ export const ExternalLinkIcon: React.FC<ExternalLinkIconProps> = ({ className = 
       <path
         fill="currentColor"
         opacity="0.8"
-        d="M7 7h10v2h-6.5l7 7-1.5 1.5-7-7V17H7V7z"
+        d="M10 6v2h5.59L6 17.59 7.41 19 17 9.41V15h2V6z"
       />
     </svg>
   );
