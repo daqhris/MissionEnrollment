@@ -212,7 +212,9 @@ export const Header = (): JSX.Element => {
           </LogoContainer>
           <LogoText>
             <LogoTitle>mission-enrollment.base.eth</LogoTitle>
-            {/*<span className="text-xs">Ethereum dev stack</span>*/}
+            <div className="flex items-center">
+              <span className="text-xs px-2 py-0.5 bg-[#957777] text-white rounded-full ml-2 animate-pulse">Beta</span>
+            </div>
           </LogoText>
         </Link>
         <DesktopMenu>

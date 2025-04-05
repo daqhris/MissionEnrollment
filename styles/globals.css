@@ -80,11 +80,22 @@ select:focus {
 }
 
 .card {
-  @apply rounded-xl shadow-lg p-6;
+  @apply rounded-xl shadow-lg p-6 relative;
   background: rgba(31, 41, 55, 0.7);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card::after {
+  content: "BETA";
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  font-size: 0.6rem;
+  opacity: 0.3;
+  color: #957777;
+  pointer-events: none;
 }
 
 .card:hover {

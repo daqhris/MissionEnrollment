@@ -10,6 +10,7 @@ import EventAttendanceVerification from '../components/EventAttendanceVerificati
 import EnrollmentAttestation from '../components/EnrollmentAttestation';
 import { SuccessAttestation } from '../components/SuccessAttestation';
 import { Logo } from '../components/Logo';
+import { BetaBanner } from '../components/BetaBanner';
 
 // Type definitions for component state
 interface EventInfo {
@@ -124,6 +125,7 @@ export default function Home() {
       <div className="flex items-center justify-between mb-8">
         <Logo />
       </div>
+      <BetaBanner />
       <div className="bg-base-100 p-6 rounded-lg shadow-lg">
         <div className="space-y-4">
           <div className="card">
