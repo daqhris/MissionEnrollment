@@ -115,7 +115,7 @@ export const Footer = (): JSX.Element => {
                 rel="noopener noreferrer"
                 className="text-accent-content hover:text-accent text-xs flex items-center"
               >
-                Attest In-Test
+                Attests In-Test
                 <ExternalLinkIcon />
               </Link>
               <Link
