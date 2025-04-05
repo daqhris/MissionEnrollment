@@ -137,6 +137,9 @@ export const Footer = (): JSX.Element => {
                 <ExternalLinkIcon />
               </Link>
             </div>
+            <div className="text-xs text-accent-content/70 flex items-center">
+              <span className="px-2 py-0.5 rounded-full border border-accent">Beta</span>
+            </div>
           </div>
         </FixedBottomBar>
       </div>
