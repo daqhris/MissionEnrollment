@@ -1,12 +1,10 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { ExternalLinkIcon } from '../../components/ExternalLinkIcon';
 
 export default function PreviewPage() {
-  const [videoInfo, setVideoInfo] = useState({
-    date: "Loading...",
-    commit: "Loading..."
-  });
+  const [lastUpdated, setLastUpdated] = useState("Loading...");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,12 +27,8 @@ export default function PreviewPage() {
         if (data && data.length > 0) {
           const lastCommit = data[0];
           const commitDate = new Date(lastCommit.commit.author.date);
-          const commitSha = lastCommit.sha.substring(0, 7); // Short commit hash
           
-          setVideoInfo({
-            date: commitDate.toLocaleString(),
-            commit: commitSha
-          });
+          setLastUpdated(commitDate.toLocaleString());
         } else {
           setError("No commit history found for the video file");
         }
@@ -60,15 +54,23 @@ export default function PreviewPage() {
         >
           Your browser does not support the video tag.
         </video>
-        <p className="text-sm text-gray-500 mt-4 text-center">
+        <div className="text-sm text-gray-500 mt-4 text-center">
           {loading ? (
             "Loading timestamp information..."
           ) : error ? (
             `Error: ${error}`
           ) : (
-            `Last updated: ${videoInfo.date} (commit: ${videoInfo.commit})`
+            <a 
+              href="https://github.com/daqhris/MissionEnrollment/commits/main/public/Preview-MissionEnrollment-WebApp.mp4" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-accent-content hover:text-accent flex items-center justify-center"
+            >
+              Last updated: {lastUpdated}
+              <ExternalLinkIcon />
+            </a>
           )}
-        </p>
+        </div>
       </div>
     </div>
   );
