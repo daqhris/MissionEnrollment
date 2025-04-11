@@ -56,26 +56,36 @@ export default function CharterPage(): ReactNode {
                 <li>All contributions will be tracked through version control systems</li>
                 <li>Public documentation will clearly identify human and AI contributors</li>
                 <li>The collaborative nature of the project will be openly communicated</li>
-                <li>AI-generated content will be clearly marked as such, in compliance with EU AI Act Article 50</li>
+                <li>AI-generated content will be clearly marked as such, in compliance with <a href="https://artificialintelligenceact.eu/article/50/" target="_blank" rel="noopener noreferrer">EU AI Act Article 50</a> <ExternalLinkIcon /></li>
                 <li>Users will be explicitly informed when interacting with AI-generated components</li>
               </ul>
               
               <h3 className="text-xl font-medium mt-6 mb-2">2. Shared Responsibility</h3>
               <p>Both human and AI contributors share responsibility for the quality, security, and ethical implications of the project. While the human contributor maintains final oversight and decision-making authority, the AI contributor actively participates in identifying potential issues and suggesting improvements.</p>
               <ul className="list-disc pl-6 mt-2">
-                <li>Human oversight is maintained throughout the development process, as required by EU AI Act Article 14</li>
+                <li>Human oversight is maintained throughout the development process, as required by <a href="https://artificialintelligenceact.eu/article/14/" target="_blank" rel="noopener noreferrer">EU AI Act Article 14</a> <ExternalLinkIcon /></li>
                 <li>The human contributor has the ability to monitor, interpret, and override AI decisions</li>
                 <li>Measures are in place to prevent automation bias and over-reliance on AI outputs</li>
               </ul>
               
               <h3 className="text-xl font-medium mt-6 mb-2">3. Privacy and Data Protection</h3>
-              <p>We respect user privacy and adhere to data protection principles in accordance with relevant regulations, including the EU's General Data Protection Regulation (GDPR) and the EU AI Act. Personal data will be handled with care, collected only when necessary, and stored securely.</p>
+              <p>We respect user privacy and adhere to data protection principles in accordance with relevant regulations, including the EU's <a href="https://gdpr.eu/" target="_blank" rel="noopener noreferrer">General Data Protection Regulation (GDPR)</a> <ExternalLinkIcon /> and the EU AI Act. Personal data will be handled with care, collected only when necessary, and stored securely.</p>
               <ul className="list-disc pl-6 mt-2">
                 <li>Minimal data collection: Only data necessary for the functioning of the application will be collected</li>
                 <li>Transparency: Users will be informed about what data is collected and how it is used</li>
                 <li>Security: Appropriate measures will be implemented to protect user data</li>
                 <li>User control: Users will have control over their data and the ability to request its deletion</li>
                 <li>Documentation: Technical documentation about data processing is maintained in accordance with EU AI Act requirements</li>
+              </ul>
+              
+              <h4 className="text-lg font-medium mt-4 mb-2">Third-Party Services and Data Processing</h4>
+              <p>Mission Enrollment utilizes several third-party services and APIs to provide its functionality. We carefully select partners that maintain high standards of security and privacy. The app integrates with:</p>
+              <ul className="list-disc pl-6 mt-2">
+                <li><a href="https://www.alchemy.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer">Alchemy</a> <ExternalLinkIcon />: Provides blockchain infrastructure services for reliable network connectivity</li>
+                <li><a href="https://poap.xyz/terms-and-conditions" target="_blank" rel="noopener noreferrer">POAP (Proof of Attendance Protocol)</a> <ExternalLinkIcon />: Used for verifying event attendance through digital collectibles</li>
+                <li><a href="https://docs.walletconnect.com/web3modal/legal/privacy-policy" target="_blank" rel="noopener noreferrer">WalletConnect</a> <ExternalLinkIcon />: Facilitates secure wallet connections</li>
+                <li><a href="https://onchainkit.xyz/legal/privacy-policy" target="_blank" rel="noopener noreferrer">OnchainKit (Coinbase)</a> <ExternalLinkIcon />: Provides identity and wallet functionalities</li>
+                <li><a href="https://docs.attest.sh/docs/overview" target="_blank" rel="noopener noreferrer">Ethereum Attestation Service (EAS)</a> <ExternalLinkIcon />: Powers the blockchain attestation system</li>
               </ul>
               
               <h3 className="text-xl font-medium mt-6 mb-2">4. Accessibility and Inclusion</h3>
@@ -87,6 +97,7 @@ export default function CharterPage(): ReactNode {
                 <li>Risk assessment and management procedures are implemented</li>
                 <li>Technical documentation is maintained about the AI systems used</li>
                 <li>Regular evaluation of the AI systems for potential risks and biases</li>
+                <li>Security protection through <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Cloudflare</a> <ExternalLinkIcon /> for the mission-enrollment.daqhris.com domain</li>
               </ul>
             </section>
 
@@ -169,7 +180,7 @@ export default function CharterPage(): ReactNode {
               <h2 className="text-2xl font-semibold mb-4">Blockchain-Specific Considerations</h2>
               
               <h3 className="text-xl font-medium mt-6 mb-2">Data Permanence</h3>
-              <p>Users should be aware that information recorded on the blockchain is permanent and immutable. Before creating attestations or other on-chain records, users will be informed about:</p>
+              <p>Users should be aware that information recorded on the <a href="https://base.org/" target="_blank" rel="noopener noreferrer">Base blockchain</a> <ExternalLinkIcon /> is permanent and immutable. Before creating attestations or other on-chain records, users will be informed about:</p>
               <ul className="list-disc pl-6 mt-2">
                 <li>What data will be recorded on-chain</li>
                 <li>The permanent nature of blockchain records</li>
@@ -198,7 +209,7 @@ export default function CharterPage(): ReactNode {
               <p>The Mission Enrollment project is committed to compliance with the European Union's Artificial Intelligence Act (EU AI Act). This section outlines our approach to meeting the requirements of this regulation:</p>
               
               <h3 className="text-xl font-medium mt-6 mb-2">Transparency Obligations (Article 50)</h3>
-              <p>In accordance with Article 50 of the EU AI Act, we commit to:</p>
+              <p>In accordance with <a href="https://artificialintelligenceact.eu/article/50/" target="_blank" rel="noopener noreferrer">Article 50 of the EU AI Act</a> <ExternalLinkIcon />, we commit to:</p>
               <ul className="list-disc pl-6 mt-2">
                 <li>Clearly informing users when they are interacting with AI-generated content</li>
                 <li>Marking AI-generated content as artificially generated</li>
@@ -208,7 +219,7 @@ export default function CharterPage(): ReactNode {
               </ul>
               
               <h3 className="text-xl font-medium mt-6 mb-2">Human Oversight (Article 14)</h3>
-              <p>In compliance with Article 14 of the EU AI Act, we implement human oversight measures that:</p>
+              <p>In compliance with <a href="https://artificialintelligenceact.eu/article/14/" target="_blank" rel="noopener noreferrer">Article 14 of the EU AI Act</a> <ExternalLinkIcon />, we implement human oversight measures that:</p>
               <ul className="list-disc pl-6 mt-2">
                 <li>Enable human understanding of the AI system's capabilities and limitations</li>
                 <li>Allow for detection of anomalies, unexpected behavior, or unintended outputs</li>
