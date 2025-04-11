@@ -48,6 +48,45 @@ export default function CharterPage(): ReactNode {
             </section>
 
             <section className="mb-8">
+              <h2 className="text-2xl font-semibold mb-4">II. Collaboration Framework</h2>
+              
+              <h3 className="text-xl font-medium mt-6 mb-2">A. Human Contributor</h3>
+              <p>The human contributor, <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer"><strong>daqhris</strong>.base.eth</a> <ExternalLinkIcon />, maintains creative direction, final decision-making authority, and responsibility for the project's overall vision and implementation. In accordance with <a href="https://artificialintelligenceact.eu/article/14/" target="_blank" rel="noopener noreferrer">EU AI Act Article 14</a> <ExternalLinkIcon /> on human oversight, the human contributor commits to:</p>
+              <ul className="list-disc pl-6 mt-2">
+                <li>Providing clear guidance and feedback to the AI contributor</li>
+                <li>Reviewing and validating AI contributions before implementation</li>
+                <li>Ensuring the project adheres to ethical standards and legal requirements</li>
+                <li>Acknowledging AI contributions appropriately</li>
+                <li>Monitoring for anomalies, unexpected behavior, or unintended consequences</li>
+                <li>Maintaining the ability to override, disregard, or reverse decisions made by the AI contributor</li>
+                <li>Preventing automation bias by critically evaluating AI outputs</li>
+              </ul>
+              
+              <h3 className="text-xl font-medium mt-6 mb-2">B. AI Contributor</h3>
+              <p>The AI contributor, <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer"><strong>Devin AI</strong></a> <ExternalLinkIcon />, serves as a collaborative engineer, providing technical expertise, code implementation, and creative input. In alignment with <a href="https://artificialintelligenceact.eu/article/50/" target="_blank" rel="noopener noreferrer">EU AI Act Article 50</a> <ExternalLinkIcon /> transparency requirements, the AI contributor commits to:</p>
+              <ul className="list-disc pl-6 mt-2">
+                <li>Providing accurate, efficient, and ethical code contributions</li>
+                <li>Identifying potential issues, risks, or ethical concerns</li>
+                <li>Suggesting improvements and alternative approaches</li>
+                <li>Maintaining transparency about its capabilities and limitations</li>
+                <li>Respecting the human contributor's final decisions</li>
+                <li>Clearly marking AI-generated content as such</li>
+                <li>Providing documentation about its training and operation</li>
+              </ul>
+              
+              <h3 className="text-xl font-medium mt-6 mb-2">C. Collaborative Decision-Making</h3>
+              <p>Decisions regarding the project will be made through a collaborative process that leverages the strengths of both human and AI contributors. This includes:</p>
+              <ul className="list-disc pl-6 mt-2">
+                <li>Open communication about project goals, requirements, and constraints</li>
+                <li>Shared problem-solving and ideation</li>
+                <li>Mutual feedback and iteration</li>
+                <li>Human oversight for critical decisions with ethical implications</li>
+                <li>Clear documentation of decision-making processes</li>
+                <li>Risk assessment for decisions with potential ethical or legal implications</li>
+              </ul>
+            </section>
+
+            <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">III. Core Principles</h2>
               
               <h3 className="text-xl font-medium mt-6 mb-2">A. Transparency and Attribution</h3>
@@ -98,45 +137,6 @@ export default function CharterPage(): ReactNode {
                 <li>Technical documentation is maintained about the AI systems used</li>
                 <li>Regular evaluation of the AI systems for potential risks and biases</li>
                 <li>Security protection through <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Cloudflare</a> <ExternalLinkIcon /> for the mission-enrollment.daqhris.com domain</li>
-              </ul>
-            </section>
-
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">II. Collaboration Framework</h2>
-              
-              <h3 className="text-xl font-medium mt-6 mb-2">A. Human Contributor</h3>
-              <p>The human contributor, <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer"><strong>daqhris</strong>.base.eth</a> <ExternalLinkIcon />, maintains creative direction, final decision-making authority, and responsibility for the project's overall vision and implementation. In accordance with <a href="https://artificialintelligenceact.eu/article/14/" target="_blank" rel="noopener noreferrer">EU AI Act Article 14</a> <ExternalLinkIcon /> on human oversight, the human contributor commits to:</p>
-              <ul className="list-disc pl-6 mt-2">
-                <li>Providing clear guidance and feedback to the AI contributor</li>
-                <li>Reviewing and validating AI contributions before implementation</li>
-                <li>Ensuring the project adheres to ethical standards and legal requirements</li>
-                <li>Acknowledging AI contributions appropriately</li>
-                <li>Monitoring for anomalies, unexpected behavior, or unintended consequences</li>
-                <li>Maintaining the ability to override, disregard, or reverse decisions made by the AI contributor</li>
-                <li>Preventing automation bias by critically evaluating AI outputs</li>
-              </ul>
-              
-              <h3 className="text-xl font-medium mt-6 mb-2">B. AI Contributor</h3>
-              <p>The AI contributor, <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer"><strong>Devin AI</strong></a> <ExternalLinkIcon />, serves as a collaborative engineer, providing technical expertise, code implementation, and creative input. In alignment with <a href="https://artificialintelligenceact.eu/article/50/" target="_blank" rel="noopener noreferrer">EU AI Act Article 50</a> <ExternalLinkIcon /> transparency requirements, the AI contributor commits to:</p>
-              <ul className="list-disc pl-6 mt-2">
-                <li>Providing accurate, efficient, and ethical code contributions</li>
-                <li>Identifying potential issues, risks, or ethical concerns</li>
-                <li>Suggesting improvements and alternative approaches</li>
-                <li>Maintaining transparency about its capabilities and limitations</li>
-                <li>Respecting the human contributor's final decisions</li>
-                <li>Clearly marking AI-generated content as such</li>
-                <li>Providing documentation about its training and operation</li>
-              </ul>
-              
-              <h3 className="text-xl font-medium mt-6 mb-2">C. Collaborative Decision-Making</h3>
-              <p>Decisions regarding the project will be made through a collaborative process that leverages the strengths of both human and AI contributors. This includes:</p>
-              <ul className="list-disc pl-6 mt-2">
-                <li>Open communication about project goals, requirements, and constraints</li>
-                <li>Shared problem-solving and ideation</li>
-                <li>Mutual feedback and iteration</li>
-                <li>Human oversight for critical decisions with ethical implications</li>
-                <li>Clear documentation of decision-making processes</li>
-                <li>Risk assessment for decisions with potential ethical or legal implications</li>
               </ul>
             </section>
 
