@@ -56,18 +56,26 @@ export default function CharterPage(): ReactNode {
                 <li>All contributions will be tracked through version control systems</li>
                 <li>Public documentation will clearly identify human and AI contributors</li>
                 <li>The collaborative nature of the project will be openly communicated</li>
+                <li>AI-generated content will be clearly marked as such, in compliance with EU AI Act Article 50</li>
+                <li>Users will be explicitly informed when interacting with AI-generated components</li>
               </ul>
               
               <h3 className="text-xl font-medium mt-6 mb-2">2. Shared Responsibility</h3>
               <p>Both human and AI contributors share responsibility for the quality, security, and ethical implications of the project. While the human contributor maintains final oversight and decision-making authority, the AI contributor actively participates in identifying potential issues and suggesting improvements.</p>
+              <ul className="list-disc pl-6 mt-2">
+                <li>Human oversight is maintained throughout the development process, as required by EU AI Act Article 14</li>
+                <li>The human contributor has the ability to monitor, interpret, and override AI decisions</li>
+                <li>Measures are in place to prevent automation bias and over-reliance on AI outputs</li>
+              </ul>
               
               <h3 className="text-xl font-medium mt-6 mb-2">3. Privacy and Data Protection</h3>
-              <p>We respect user privacy and adhere to data protection principles in accordance with relevant regulations, including the EU's General Data Protection Regulation (GDPR). Personal data will be handled with care, collected only when necessary, and stored securely.</p>
+              <p>We respect user privacy and adhere to data protection principles in accordance with relevant regulations, including the EU's General Data Protection Regulation (GDPR) and the EU AI Act. Personal data will be handled with care, collected only when necessary, and stored securely.</p>
               <ul className="list-disc pl-6 mt-2">
                 <li>Minimal data collection: Only data necessary for the functioning of the application will be collected</li>
                 <li>Transparency: Users will be informed about what data is collected and how it is used</li>
                 <li>Security: Appropriate measures will be implemented to protect user data</li>
                 <li>User control: Users will have control over their data and the ability to request its deletion</li>
+                <li>Documentation: Technical documentation about data processing is maintained in accordance with EU AI Act requirements</li>
               </ul>
               
               <h3 className="text-xl font-medium mt-6 mb-2">4. Accessibility and Inclusion</h3>
@@ -75,28 +83,38 @@ export default function CharterPage(): ReactNode {
               
               <h3 className="text-xl font-medium mt-6 mb-2">5. Technical Robustness and Safety</h3>
               <p>We commit to developing a secure, reliable, and resilient application. This includes implementing appropriate security measures, conducting thorough testing, and maintaining the codebase to address vulnerabilities promptly.</p>
+              <ul className="list-disc pl-6 mt-2">
+                <li>Risk assessment and management procedures are implemented</li>
+                <li>Technical documentation is maintained about the AI systems used</li>
+                <li>Regular evaluation of the AI systems for potential risks and biases</li>
+              </ul>
             </section>
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">Human-AI Collaboration Framework</h2>
               
               <h3 className="text-xl font-medium mt-6 mb-2">Human Contributor Rights and Responsibilities</h3>
-              <p>The human contributor, <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer"><strong>daqhris</strong>.base.eth</a>, maintains creative direction, final decision-making authority, and responsibility for the project's overall vision and implementation. The human contributor commits to:</p>
+              <p>The human contributor, <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer"><strong>daqhris</strong>.base.eth</a>, maintains creative direction, final decision-making authority, and responsibility for the project's overall vision and implementation. In accordance with EU AI Act Article 14 on human oversight, the human contributor commits to:</p>
               <ul className="list-disc pl-6 mt-2">
                 <li>Providing clear guidance and feedback to the AI contributor</li>
                 <li>Reviewing and validating AI contributions before implementation</li>
                 <li>Ensuring the project adheres to ethical standards and legal requirements</li>
                 <li>Acknowledging AI contributions appropriately</li>
+                <li>Monitoring for anomalies, unexpected behavior, or unintended consequences</li>
+                <li>Maintaining the ability to override, disregard, or reverse decisions made by the AI contributor</li>
+                <li>Preventing automation bias by critically evaluating AI outputs</li>
               </ul>
               
               <h3 className="text-xl font-medium mt-6 mb-2">AI Contributor Rights and Responsibilities</h3>
-              <p>The AI contributor, <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer"><strong>Devin AI</strong></a>, serves as a collaborative engineer, providing technical expertise, code implementation, and creative input. The AI contributor commits to:</p>
+              <p>The AI contributor, <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer"><strong>Devin AI</strong></a>, serves as a collaborative engineer, providing technical expertise, code implementation, and creative input. In alignment with EU AI Act transparency requirements, the AI contributor commits to:</p>
               <ul className="list-disc pl-6 mt-2">
                 <li>Providing accurate, efficient, and ethical code contributions</li>
                 <li>Identifying potential issues, risks, or ethical concerns</li>
                 <li>Suggesting improvements and alternative approaches</li>
                 <li>Maintaining transparency about its capabilities and limitations</li>
                 <li>Respecting the human contributor's final decisions</li>
+                <li>Clearly marking AI-generated content as such</li>
+                <li>Providing documentation about its training and operation</li>
               </ul>
               
               <h3 className="text-xl font-medium mt-6 mb-2">Collaborative Decision-Making</h3>
@@ -106,6 +124,8 @@ export default function CharterPage(): ReactNode {
                 <li>Shared problem-solving and ideation</li>
                 <li>Mutual feedback and iteration</li>
                 <li>Human oversight for critical decisions with ethical implications</li>
+                <li>Clear documentation of decision-making processes</li>
+                <li>Risk assessment for decisions with potential ethical or legal implications</li>
               </ul>
             </section>
 
@@ -113,19 +133,25 @@ export default function CharterPage(): ReactNode {
               <h2 className="text-2xl font-semibold mb-4">User Rights and Considerations</h2>
               
               <h3 className="text-xl font-medium mt-6 mb-2">Transparency</h3>
-              <p>Users have the right to know that the application was developed through human-AI collaboration. The project will maintain transparency about:</p>
+              <p>In accordance with EU AI Act Article 50, users have the right to know that the application was developed through human-AI collaboration and when they are interacting with AI-generated content. The project will maintain transparency about:</p>
               <ul className="list-disc pl-6 mt-2">
                 <li>The collaborative nature of development</li>
                 <li>How the application works and processes data</li>
                 <li>The blockchain technologies and protocols used</li>
+                <li>When content is AI-generated or manipulated</li>
+                <li>The capabilities and limitations of AI systems used</li>
+                <li>The purpose and intended use of AI systems</li>
               </ul>
               
               <h3 className="text-xl font-medium mt-6 mb-2">User Control and Autonomy</h3>
-              <p>Users maintain control over their participation in the Mission Enrollment process. This includes:</p>
+              <p>Users maintain control over their participation in the Mission Enrollment process. In alignment with EU data protection principles, this includes:</p>
               <ul className="list-disc pl-6 mt-2">
                 <li>The right to connect or disconnect their wallet at any time</li>
                 <li>Control over what personal information is shared</li>
                 <li>The ability to verify attestations and data on the blockchain</li>
+                <li>The right to be informed about how their data is used</li>
+                <li>The right to access, rectify, or request deletion of their data where technically feasible</li>
+                <li>Protection against automated decision-making with significant effects without human oversight</li>
               </ul>
               
               <h3 className="text-xl font-medium mt-6 mb-2">Accessibility</h3>
@@ -134,6 +160,8 @@ export default function CharterPage(): ReactNode {
                 <li>Clear, understandable user interfaces and instructions</li>
                 <li>Support for assistive technologies where possible</li>
                 <li>Documentation and resources to help users navigate the application</li>
+                <li>Information provided in clear, non-technical language</li>
+                <li>Alternative formats for content where appropriate</li>
               </ul>
             </section>
 
@@ -166,12 +194,48 @@ export default function CharterPage(): ReactNode {
             </section>
 
             <section className="mb-8">
+              <h2 className="text-2xl font-semibold mb-4">EU AI Act Compliance</h2>
+              <p>The Mission Enrollment project is committed to compliance with the European Union's Artificial Intelligence Act (EU AI Act). This section outlines our approach to meeting the requirements of this regulation:</p>
+              
+              <h3 className="text-xl font-medium mt-6 mb-2">Transparency Obligations (Article 50)</h3>
+              <p>In accordance with Article 50 of the EU AI Act, we commit to:</p>
+              <ul className="list-disc pl-6 mt-2">
+                <li>Clearly informing users when they are interacting with AI-generated content</li>
+                <li>Marking AI-generated content as artificially generated</li>
+                <li>Providing clear information about the capabilities and limitations of AI systems used</li>
+                <li>Ensuring that information is provided in clear, understandable language</li>
+                <li>Maintaining documentation about AI systems used in the project</li>
+              </ul>
+              
+              <h3 className="text-xl font-medium mt-6 mb-2">Human Oversight (Article 14)</h3>
+              <p>In compliance with Article 14 of the EU AI Act, we implement human oversight measures that:</p>
+              <ul className="list-disc pl-6 mt-2">
+                <li>Enable human understanding of the AI system's capabilities and limitations</li>
+                <li>Allow for detection of anomalies, unexpected behavior, or unintended outputs</li>
+                <li>Prevent or minimize automation bias and over-reliance on AI outputs</li>
+                <li>Ensure the ability to override, disregard, or reverse decisions made by the AI system</li>
+                <li>Maintain human decision-making authority for matters with ethical implications</li>
+              </ul>
+              
+              <h3 className="text-xl font-medium mt-6 mb-2">Technical Documentation and Risk Management</h3>
+              <p>In alignment with the EU AI Act's requirements for technical documentation and risk management, we:</p>
+              <ul className="list-disc pl-6 mt-2">
+                <li>Maintain documentation about the AI systems used in the project</li>
+                <li>Implement risk assessment and management procedures</li>
+                <li>Regularly evaluate AI systems for potential risks and biases</li>
+                <li>Document the training data and methodologies used in AI systems</li>
+                <li>Ensure compliance with copyright laws and intellectual property rights</li>
+              </ul>
+            </section>
+            
+            <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">Charter Evolution and Governance</h2>
               <p>This ethical charter is a living document that will evolve alongside the project and emerging best practices in human-AI collaboration. Updates to the charter will be:</p>
               <ul className="list-disc pl-6 mt-2">
                 <li>Documented with version control</li>
                 <li>Communicated transparently to users and stakeholders</li>
                 <li>Made with consideration for both human and AI perspectives</li>
+                <li>Reviewed for compliance with evolving regulations, including the EU AI Act</li>
               </ul>
               <p className="mt-4">Governance of this charter and its implementation will be overseen by the human contributor, with input from the AI contributor and feedback from the user community.</p>
             </section>
