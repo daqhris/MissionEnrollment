@@ -117,9 +117,9 @@ export default function AboutPage(): ReactNode {
             {lastCommit && (
               <div className="text-sm text-gray-600 mt-8 text-left flex items-center">
                 <span>Last updated: </span>
-                <a 
-                  href="https://github.com/daqhris/MissionEnrollment/commits/main" 
-                  target="_blank" 
+                <a
+                  href="https://github.com/daqhris/MissionEnrollment/commits/main"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-accent-content hover:text-accent flex items-center ml-1"
                 >
