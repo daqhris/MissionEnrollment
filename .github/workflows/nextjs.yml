@@ -95,6 +95,13 @@ jobs:
           if [ ! -f out/CNAME ]; then
             echo "mission-enrollment.daqhris.com" > out/CNAME
           fi
+      - name: Generate sitemap
+        run: |
+          ${{ steps.detect-package-manager.outputs.runner }} next-sitemap --config next-sitemap.config.cjs
+          # Move sitemap files to the out directory if they were generated in the root
+          if [ -f "./sitemap.xml" ]; then
+            cp ./sitemap*.xml ./out/
+          fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
