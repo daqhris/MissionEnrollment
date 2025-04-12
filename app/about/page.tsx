@@ -87,7 +87,7 @@ export default function AboutPage(): ReactNode {
                   />
                 </div>
                 <p className="mt-2">
-                  On 2024/12/12, <code>daqhris</code> and <code>devin</code> earned the{' '}
+                  On 2024/12/12, <code>daqhris</code> and <code>devin</code> unlocked their first{' '}
                   <a href="https://github.com/daqhris?achievement=pair-extraordinaire&tab=achievements" target="_blank" rel="noopener noreferrer">
                     'Pair Extraordinaire'
                   </a> achievement on <a href="https://github.com/daqhris/MissionEnrollment/pull/177" target="_blank" rel="noopener noreferrer">GitHub</a>, following the commit{' '}
