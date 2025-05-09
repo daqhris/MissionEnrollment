@@ -263,6 +263,10 @@ If necessary, users should verify the authenticity of mission enrollments throug
 The creation of this dApp was initiated by **daqhris** during a virtual hackathon: [ETHGlobal Superhack 2024](https://ethglobal.com/events/superhack2024).
 It is built thanks to the assistance and collaboration of **Devin**, the world's first AI software engineer from [Cognition.AI](https://www.cognition.ai/).
 
-**Hackathon Submission**: [ethglobal.com/showcase/missionenrollment-i4fkr](https://ethglobal.com/showcase/missionenrollment-i4fkr)
+**Superchain Hackathon Submission**: [ethglobal.com/showcase/missionenrollment-i4fkr](https://ethglobal.com/showcase/missionenrollment-i4fkr)
 
-**Short Demo Video** _(December 18, 2024)_: [mission-enrollment.daqhris.com/Preview-MissionEnrollment-WebApp](https://mission-enrollment.daqhris.com/Preview-MissionEnrollment-WebApp.mp4)
+**Web App Short Demo Video** _(May 9, '25)_: [mission-enrollment.daqhris.com/Preview-MissionEnrollment-WebApp](https://mission-enrollment.daqhris.com/Preview-MissionEnrollment-WebApp.mp4)
+
+**Source Code's In-depth Documentation**: [deepwiki.com/daqhris/MissionEnrollment](https://deepwiki.com/daqhris/MissionEnrollment)   [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/daqhris/MissionEnrollment)
+
+**Base Batch Europe Buildathon (Devolio - Showcase Track)**: [devfolio.co/projects/mission-enrollment-b9f4](https://devfolio.co/projects/mission-enrollment-b9f4)
