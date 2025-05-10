@@ -47,6 +47,7 @@ export default function EnrollmentAttestation({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [previewData, setPreviewData] = useState<PreviewData | null>(null);
+  const { preferredNetwork } = useUserNetworkPreference();
 
   const {
     isLoading: isNetworkSwitching,
@@ -153,7 +154,6 @@ export default function EnrollmentAttestation({
       }
 
       // Initialize EAS with the correct contract address based on network
-      const { preferredNetwork } = useUserNetworkPreference();
       const easContractAddress = EAS_CONTRACT_ADDRESS(preferredNetwork);
       const eas = new EAS(easContractAddress);
       const provider = new BrowserProvider(window.ethereum);
@@ -193,7 +193,7 @@ export default function EnrollmentAttestation({
       handleError(err);
       setLoading(false);
     }
-  }, [address, previewData, handleNetworkSwitch, onAttestationComplete]);
+  }, [address, previewData, handleNetworkSwitch, onAttestationComplete, preferredNetwork]);
 
   const checkNetworkAndContract = useCallback(async () => {
     if (!address) return;
