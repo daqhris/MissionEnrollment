@@ -17,14 +17,20 @@ export default function CharterPage(): ReactNode {
   useEffect(() => {
     const fetchLastCommit = async () => {
       try {
-        const response = await fetch('https://api.github.com/repos/daqhris/MissionEnrollment/commits/main');
+        const response = await fetch('https://api.github.com/repos/daqhris/MissionEnrollment/commits?path=app/charter/page.tsx&sha=main&per_page=1');
         const data = await response.json();
-        const commitDate = new Date(data.commit.author.date);
-        const formattedDate = `${commitDate.getMonth() + 1}/${commitDate.getDate()}/${commitDate.getFullYear()}, ${commitDate.getHours().toString().padStart(2, '0')}:${commitDate.getMinutes().toString().padStart(2, '0')}:${commitDate.getSeconds().toString().padStart(2, '0')} ${commitDate.getHours() >= 12 ? 'PM' : 'AM'}`;
-        setLastCommit({
-          date: formattedDate,
-          sha: data.sha.substring(0, 7)
-        });
+        
+        if (data && Array.isArray(data) && data.length > 0) {
+          const latestCommit = data[0];
+          const commitDate = new Date(latestCommit.commit.author.date);
+          const formattedDate = `${commitDate.getMonth() + 1}/${commitDate.getDate()}/${commitDate.getFullYear()}, ${commitDate.getHours().toString().padStart(2, '0')}:${commitDate.getMinutes().toString().padStart(2, '0')}:${commitDate.getSeconds().toString().padStart(2, '0')} ${commitDate.getHours() >= 12 ? 'PM' : 'AM'}`;
+          setLastCommit({
+            date: formattedDate,
+            sha: latestCommit.sha.substring(0, 7)
+          });
+        } else {
+          console.error('No commit data found for charter file');
+        }
       } catch (error) {
         console.error('Error fetching commit info:', error);
       }
@@ -261,7 +267,7 @@ export default function CharterPage(): ReactNode {
               <div className="text-sm text-gray-600 mt-8 text-left flex items-center">
                 <span>Last updated: </span>
                 <a 
-                  href="https://github.com/daqhris/MissionEnrollment/commits/main" 
+                  href="https://github.com/daqhris/MissionEnrollment/commits/main/app/charter/page.tsx" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-accent-content hover:text-accent flex items-center ml-1"
