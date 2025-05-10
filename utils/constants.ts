@@ -13,8 +13,8 @@ export const EAS_CONTRACT_ADDRESS = (chainId: number) =>
 export const ATTESTATION_SERVICE_ADDRESS = '0x60Ed99B474C0F02649C4038684A7C3FfF5EEe53D';
 
 // Schema Configuration
-export const SCHEMA_UID = '0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd';
-export const SCHEMA_ENCODING = "address userAddress,string verifiedName,string proofMethod,string eventName,string eventType,string assignedRole,string missionName,uint256 timestamp,address attester,string proofProtocol";
+export const SCHEMA_UID = '0x24e3eb564e8e879fbcae9b5d16ebf0d7d880cf5ec58fef0d4f74c9d6f594475e';
+export const SCHEMA_ENCODING = "address userAddress,string verifiedName,string proofMethod,string eventName,string eventType,string assignedRole,string missionName,uint256 timestamp,address attester,string proofProtocol,string verificationSource,string verificationTimestamp,string verificationSignature,string verificationHash";
 
 // Network Configuration
 export const NETWORK_CONFIG: Record<number, {
