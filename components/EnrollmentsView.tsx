@@ -7,7 +7,7 @@ import { Spinner } from './assets/Spinner';
 import { Attestation, AttestationData } from '../types/attestation';
 import { ErrorBoundary } from 'react-error-boundary';
 import { formatDistanceToNow } from 'date-fns';
-import { SCHEMA_UID as SCHEMA_ID } from '../utils/constants';
+import { SCHEMA_UID_ORIGINAL, SCHEMA_UID_ENHANCED } from '../utils/constants';
 import { formatAttestationData, getFieldLabel } from '../utils/formatting';
 import { mockEnrollments, mockAttestationsCount } from '../data/mockEnrollments';
 
@@ -38,7 +38,7 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
     variables: {
       take: pageSize,
       skip: (page - 1) * pageSize,
-      schemaId: SCHEMA_ID
+      schemaIds: [SCHEMA_UID_ORIGINAL, SCHEMA_UID_ENHANCED]
     },
     notifyOnNetworkStatusChange: true,
     onError: (error) => {
@@ -113,7 +113,7 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
             </>
           ) : (
             <>
-              <p>Error loading enrollments for schema {SCHEMA_ID}</p>
+              <p>Error loading enrollments for schemas</p>
               <pre className="text-sm overflow-auto">{errorMessage}</pre>
             </>
           )}
@@ -193,7 +193,10 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
                             'assignedRole',     // Role: Hacker
                             'missionName',      // Mission: Zinneke Rescue Mission
                             'attester',         // Attester: mission-enrollment.base.eth
-                            'proofProtocol'     // Proof: EAS
+                            'proofProtocol',    // Proof: EAS
+                            'verificationSource', // Source: mission-enrollment.base.eth
+                            'verificationTimestamp', // Timestamp: ISO date
+                            'verificationHash'  // Hash: 0x...
                           ];
 
                           return displayOrder.map((key, index) => {
