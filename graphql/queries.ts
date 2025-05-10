@@ -1,11 +1,11 @@
 import { gql } from "@apollo/client";
 
 export const GET_ENROLLMENTS = gql`
-  query GetEnrollments($take: Int!, $skip: Int, $schemaId: String!) {
+  query GetEnrollments($take: Int!, $skip: Int, $schemaIds: [String!]) {
     attestations(
       take: $take
       skip: $skip
-      where: { schemaId: { equals: $schemaId } }
+      where: { schemaId: { in: $schemaIds } }
       orderBy: { time: desc }
     ) {
       id
@@ -18,6 +18,7 @@ export const GET_ENROLLMENTS = gql`
       data
       time
       decodedDataJson
+      schemaId
     }
   }
 `;

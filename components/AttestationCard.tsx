@@ -1,6 +1,7 @@
 import React from "react";
 import type { Attestation } from "../types/attestation";
 import tw from "tailwind-styled-components";
+import { SCHEMA_UID_ORIGINAL, SCHEMA_UID_ENHANCED } from "../utils/constants";
 
 const Card = tw.div`
   mt-6
@@ -16,6 +17,7 @@ const Header = tw.div`
   py-2
   flex
   items-center
+  justify-between
 `;
 
 const Title = tw.h3`
@@ -25,9 +27,27 @@ const Title = tw.h3`
   mb-0
 `;
 
+const SchemaTag = tw.span`
+  text-xs
+  bg-white
+  text-blue-800
+  px-2
+  py-1
+  rounded-full
+  font-semibold
+`;
+
 const Content = tw.div`
   p-4
   space-y-3
+`;
+
+const Section = tw.div`
+  border-b
+  border-red-200
+  pb-3
+  mb-3
+  last:border-0
 `;
 
 const Label = tw.p`
@@ -60,43 +80,87 @@ type Props = {
 };
 
 export const AttestationCard: React.FC<Props> = ({ attestation }) => {
+  const decodedData = attestation.decodedDataJson ? JSON.parse(attestation.decodedDataJson) : {};
+  
+  const isEnhancedSchema = attestation.schemaId === SCHEMA_UID_ENHANCED;
+  
   return (
     <Card>
       <Header>
         <Title>Attestation</Title>
+        <SchemaTag>
+          {isEnhancedSchema ? "Enhanced Schema #1157" : "Original Schema #910"}
+        </SchemaTag>
       </Header>
       <Content>
-        <div>
-          <Label>Attester:</Label>
-          <Value>{attestation.attester}</Value>
-        </div>
-        <div>
-          <Label>Recipient:</Label>
-          <Value>{attestation.recipient}</Value>
-        </div>
-        <div>
-          <Label>Reference UID:</Label>
-          <Value>{attestation.refUID}</Value>
-        </div>
-        <div>
-          <Label>Revocable:</Label>
-          <Value>{attestation.revocable ? "Yes" : "No"}</Value>
-        </div>
-        <div>
-          <Label>Revocation Time:</Label>
-          <Value>{attestation.revocationTime || "N/A"}</Value>
-        </div>
-        <div>
-          <Label>Expiration Time:</Label>
-          <Value>{attestation.expirationTime || "N/A"}</Value>
-        </div>
-        <div>
-          <Label>Data:</Label>
-          <Value>{attestation.data}</Value>
-        </div>
+        <Section>
+          <Label>Attestation ID:</Label>
+          <Value>{attestation.id}</Value>
+        </Section>
+        
+        <Section>
+          <Label>Basic Information:</Label>
+          <div className="space-y-2">
+            <div>
+              <Label>Attester:</Label>
+              <Value>{attestation.attester}</Value>
+            </div>
+            <div>
+              <Label>Recipient:</Label>
+              <Value>{attestation.recipient}</Value>
+            </div>
+            <div>
+              <Label>Created:</Label>
+              <Value>{new Date(attestation.time * 1000).toLocaleString()}</Value>
+            </div>
+          </div>
+        </Section>
+        
+        {decodedData && Object.keys(decodedData).length > 0 && (
+          <Section>
+            <Label>Attestation Data:</Label>
+            <div className="space-y-2">
+              {Object.entries(decodedData).map(([key, value]) => (
+                <div key={key}>
+                  <Label>{key}:</Label>
+                  <Value>
+                    {typeof value === 'object' 
+                      ? JSON.stringify(value) 
+                      : String(value)}
+                  </Value>
+                </div>
+              ))}
+            </div>
+          </Section>
+        )}
+        
+        {isEnhancedSchema && decodedData.verificationSource && (
+          <Section>
+            <Label>Enhanced Verification:</Label>
+            <div className="space-y-2">
+              <div>
+                <Label>Verification Source:</Label>
+                <Value>{decodedData.verificationSource}</Value>
+              </div>
+              {decodedData.verificationTimestamp && (
+                <div>
+                  <Label>Verification Timestamp:</Label>
+                  <Value>{decodedData.verificationTimestamp}</Value>
+                </div>
+              )}
+              {decodedData.verificationHash && (
+                <div>
+                  <Label>Verification Hash:</Label>
+                  <Value>{decodedData.verificationHash}</Value>
+                </div>
+              )}
+            </div>
+          </Section>
+        )}
+        
         <div>
           <Link
-            href={`https://sepolia.easscan.org/attestation/view/${attestation.id}`}
+            href={`https://base-sepolia.easscan.org/attestation/view/${attestation.id}`}
             target="_blank"
             rel="noopener noreferrer"
           >

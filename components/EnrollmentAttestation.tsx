@@ -16,6 +16,7 @@ import { SCHEMA_ENCODING } from '../types/attestation';
 import { getPOAPRole } from '../utils/poap';
 import { BrowserProvider, TransactionReceipt, Log, Interface } from 'ethers';
 import { useNetworkSwitch } from '../hooks/useNetworkSwitch';
+import { generateVerificationSignature, generateVerificationHash } from '../utils/attestationVerification';
 
 interface EnrollmentAttestationProps {
   verifiedName: string;
@@ -35,6 +36,10 @@ interface PreviewData {
   timestamp: number;
   attester: string;
   proofProtocol: string;
+  verificationSource: string;
+  verificationTimestamp: string;
+  verificationSignature: string;
+  verificationHash: string;
 }
 
 export default function EnrollmentAttestation({
@@ -77,6 +82,19 @@ export default function EnrollmentAttestation({
         eventTypeDisplay = "Developer Workshop & Hackathon";
       }
 
+      const verificationSource = "mission-enrollment.base.eth";
+      const verificationTimestamp = new Date().toISOString();
+      const verificationSignature = generateVerificationSignature(address, { 
+        eventName, 
+        role, 
+        verifiedName 
+      });
+      const verificationHash = generateVerificationHash(address, { 
+        eventName, 
+        role, 
+        verifiedName 
+      });
+
       setPreviewData({
         userAddress: address,
         verifiedName,
@@ -87,7 +105,11 @@ export default function EnrollmentAttestation({
         missionName: "Zinneke Rescue Mission",
         timestamp,
         attester: MISSION_ENROLLMENT_BASE_ETH_ADDRESS,
-        proofProtocol: "EAS Protocol"
+        proofProtocol: "EAS Schema #1157",
+        verificationSource,
+        verificationTimestamp,
+        verificationSignature,
+        verificationHash
       });
       setLoading(false);  // Clear loading state
     } catch (error) {
@@ -180,7 +202,11 @@ export default function EnrollmentAttestation({
         { name: "missionName", value: previewData.missionName, type: "string" },
         { name: "timestamp", value: previewData.timestamp, type: "uint256" },
         { name: "attester", value: previewData.attester, type: "address" },
-        { name: "proofProtocol", value: previewData.proofProtocol, type: "string" }
+        { name: "proofProtocol", value: previewData.proofProtocol, type: "string" },
+        { name: "verificationSource", value: previewData.verificationSource, type: "string" },
+        { name: "verificationTimestamp", value: previewData.verificationTimestamp, type: "string" },
+        { name: "verificationSignature", value: previewData.verificationSignature, type: "string" },
+        { name: "verificationHash", value: previewData.verificationHash, type: "string" }
       ]);
 
       const tx = await eas.attest({
@@ -336,6 +362,9 @@ export default function EnrollmentAttestation({
               </Typography>
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Proof Verification: {previewData?.proofProtocol}
+              </Typography>
+              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
+                Verification Source: {previewData?.verificationSource}
               </Typography>
             </Box>
 
