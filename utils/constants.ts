@@ -44,7 +44,7 @@ export const NETWORK_CONFIG: Record<number, {
 };
 
 // API Endpoints
-export const POAP_API_URL = "https://api.poap.tech";
+export const POAP_API_URL = "/api/poap";
 
 // Helper Functions
 export const getNetworkName = (chainId: number): string => {
