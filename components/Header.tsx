@@ -136,12 +136,12 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/preview",
   },
   {
-    label: "About",
-    href: "/about",
-  },
-  {
     label: "Charter",
     href: "/charter",
+  },
+  {
+    label: "About",
+    href: "/about",
   },
 ];
 
