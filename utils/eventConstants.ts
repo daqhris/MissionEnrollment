@@ -1,4 +1,4 @@
-export const VERIFIED_EVENT_NAMES = {
+export const APPROVED_EVENT_NAMES = {
   ETH_GLOBAL_BRUSSELS: [
     'ETHGlobal Brussels 2024 Hacker',
     'ETHGlobal Brussels 2024 Sponsor',
@@ -19,5 +19,5 @@ export const EVENT_VENUES = {
   ETHDENVER_COINBASE_2025: 'National Western Complex, Denver, Colorado, USA'
 };
 
-export const ETH_GLOBAL_BRUSSELS_EVENT_NAMES = VERIFIED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS;
+export const ETH_GLOBAL_BRUSSELS_EVENT_NAMES = APPROVED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS;
 export const EVENT_VENUE = EVENT_VENUES.ETH_GLOBAL_BRUSSELS;

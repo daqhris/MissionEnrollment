@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { fetchPoaps } from '../utils/fetchPoapsUtil';
-import { VERIFIED_EVENT_NAMES, EVENT_VENUES } from '../utils/eventConstants';
+import { APPROVED_EVENT_NAMES, EVENT_VENUES } from '../utils/eventConstants';
 import { useNetworkSwitch } from '../hooks/useNetworkSwitch';
 
 interface POAPEvent {
@@ -68,7 +68,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
       let eventType = '';
 
       eventPoap = poaps.find(poap =>
-        VERIFIED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS.some(eventName =>
+        APPROVED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS.some(eventName =>
           poap.event.name.toLowerCase().includes(eventName.toLowerCase())
         )
       );
@@ -79,7 +79,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
 
       if (!eventPoap) {
         eventPoap = poaps.find(poap =>
-          VERIFIED_EVENT_NAMES.ETHDENVER_COINBASE_2025.some(eventName =>
+          APPROVED_EVENT_NAMES.ETHDENVER_COINBASE_2025.some(eventName =>
             poap.event.name.toLowerCase().includes(eventName.toLowerCase())
           )
         );
@@ -118,9 +118,9 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
 
         onVerified(true, eventInfo);
       } else {
-        console.log('No verified event POAP found');
+        console.log('No approved event POAP found');
         setVerificationStatus('error');
-        setError('No verified event attendance record found');
+        setError('No approved event attendance record found');
         onVerified(false);
       }
     } catch (error) {
@@ -155,7 +155,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
         {!hasAnswered ? (
           <div className="text-center">
             <p className="text-base-content/70 mb-6">
-              Hello {verifiedName}, did you attend any of our verified events in person?
+              Hello {verifiedName}, did you attend any of our approved events in person?
             </p>
             <div className="flex justify-center gap-4">
               <button
@@ -181,13 +181,13 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
             </svg>
             <div>
               <p>Thank you for your honesty!</p>
-              <p className="text-sm">The enrollment process requires in-person attendance at one of our verified events. We hope to see you at future events!</p>
+              <p className="text-sm">The enrollment process requires in-person attendance at one of our approved events. We hope to see you at future events!</p>
             </div>
           </div>
         ) : (
           <>
             <p className="text-base-content/70 mb-4">
-              Hello {verifiedName}, we are checking your attendance at our verified events.
+              Hello {verifiedName}, we are checking your attendance at our approved events.
             </p>
 
             {isVerifying && (
@@ -201,7 +201,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                 </p>
                 <div className="flex flex-col items-center space-y-2 text-sm text-base-content/50">
                   <p className="animate-bounce">🔍 Searching POAPs on Gnosis Chain</p>
-                  <p className="animate-pulse">🎪 Looking for verified event badges</p>
+                  <p className="animate-pulse">🎪 Looking for approved event badges</p>
                   <p>🎯 Matching your wallet address</p>
                 </div>
               </div>
@@ -224,7 +224,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                 <div className="space-y-4">
                   <div>
                     <p className="font-bold text-lg">🎉 Event attendance verified!</p>
-                    <p className="text-sm opacity-75">Your POAP confirms your participation at a verified blockchain event</p>
+                    <p className="text-sm opacity-75">Your POAP confirms your participation at an approved blockchain event</p>
                   </div>
                   <div className="flex items-center bg-base-200 rounded-lg p-4">
                     <Image
@@ -239,7 +239,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                       <p className="text-base font-semibold">
                         {poapDetails?.event?.name?.includes('ETHGlobal Brussels') ? 'ETHGlobal Brussels 2024' : 
                          poapDetails?.event?.name?.includes('Coinbase Developer Platform') ? 'ETHDenver Coinbase 2025' : 
-                         'Verified Event'}
+                         'Approved Event'}
                       </p>
                       <div className="flex flex-col text-sm opacity-75">
                         <p>🎭 Role: {poapDetails?.event?.name?.includes('ETHGlobal Brussels') ? 

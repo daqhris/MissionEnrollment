@@ -1,5 +1,5 @@
 import { POAP_API_URL } from './constants';
-import { VERIFIED_EVENT_NAMES } from './eventConstants';
+import { APPROVED_EVENT_NAMES } from './eventConstants';
 
 interface POAPEvent {
   event: {
@@ -29,7 +29,7 @@ export async function getPOAPRole(address: string): Promise<POAPRoleResult> {
     const data = await response.json();
     
     const ethGlobalEvent = data.find((poap: POAPEvent) =>
-      VERIFIED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS.some(eventName => 
+      APPROVED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS.some(eventName => 
         poap.event.name.toLowerCase().includes(eventName.toLowerCase())
       )
     );
@@ -56,7 +56,7 @@ export async function getPOAPRole(address: string): Promise<POAPRoleResult> {
     }
 
     const ethDenverEvent = data.find((poap: POAPEvent) =>
-      VERIFIED_EVENT_NAMES.ETHDENVER_COINBASE_2025.some(eventName => 
+      APPROVED_EVENT_NAMES.ETHDENVER_COINBASE_2025.some(eventName => 
         poap.event.name.toLowerCase().includes(eventName.toLowerCase())
       )
     );

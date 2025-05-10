@@ -1,5 +1,5 @@
 import { fetchPoaps } from '../utils/fetchPoapsUtil';
-import { VERIFIED_EVENT_NAMES, EVENT_VENUES } from '../utils/eventConstants';
+import { APPROVED_EVENT_NAMES, EVENT_VENUES } from '../utils/eventConstants';
 import { mockPoapsResponse, mockValidWalletAddresses } from './mocks/poapData';
 
 // Mock fetchPoaps function
@@ -19,7 +19,7 @@ describe('POAP Verification', () => {
 
       const poaps = await fetchPoaps(address);
       const ethGlobalBrusselsPoaps = poaps.filter(poap =>
-        VERIFIED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS.includes(poap.event.name as typeof VERIFIED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS[number])
+        APPROVED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS.includes(poap.event.name as typeof APPROVED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS[number])
       );
 
       expect(ethGlobalBrusselsPoaps.length).toBeGreaterThan(0);
@@ -31,7 +31,7 @@ describe('POAP Verification', () => {
 
       const poaps = await fetchPoaps(address);
       const ethGlobalBrusselsPoap = poaps.find(poap =>
-        VERIFIED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS.includes(poap.event.name as typeof VERIFIED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS[number])
+        APPROVED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS.includes(poap.event.name as typeof APPROVED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS[number])
       );
 
       if (!ethGlobalBrusselsPoap) throw new Error('No ETHGlobal Brussels POAP found');
@@ -47,7 +47,7 @@ describe('POAP Verification', () => {
 
       const poaps = await fetchPoaps(address);
       const ethGlobalBrusselsPoap = poaps.find(poap =>
-        VERIFIED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS.includes(poap.event.name as typeof VERIFIED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS[number])
+        APPROVED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS.includes(poap.event.name as typeof APPROVED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS[number])
       );
 
       if (!ethGlobalBrusselsPoap) throw new Error('No ETHGlobal Brussels POAP found');
