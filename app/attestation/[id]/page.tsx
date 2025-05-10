@@ -3,7 +3,7 @@ import { GET_ATTESTATION_BY_ID, GET_ENROLLMENTS } from '../../../graphql/queries
 import { ClientAttestationView } from '../../../components/ClientAttestationView';
 import { ApolloWrapper } from '../../../components/ApolloWrapper';
 import { apolloClient } from '../../../services/apollo/apolloClient';
-import { SCHEMA_UID } from '../../../utils/constants';
+import { SCHEMA_UID_ORIGINAL, SCHEMA_UID_ENHANCED } from '../../../utils/constants';
 
 // Generate static paths for recent attestations
 export async function generateStaticParams() {
