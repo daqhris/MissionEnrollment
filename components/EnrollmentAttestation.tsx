@@ -66,15 +66,23 @@ export default function EnrollmentAttestation({
 
     try {
       setLoading(true);  // Add loading state
-      const role = await getPOAPRole(address);
+      const { role, eventType } = await getPOAPRole(address);
       const timestamp = Math.floor(Date.now() / 1000);
+
+      let eventName = "ETHGlobal Brussels 2024";
+      let eventTypeDisplay = "International Hackathon";
+      
+      if (eventType === 'ETHDENVER_COINBASE_2025') {
+        eventName = "ETHDenver Coinbase 2025";
+        eventTypeDisplay = "Developer Workshop & Hackathon";
+      }
 
       setPreviewData({
         userAddress: address,
         verifiedName,
         proofMethod: "Basename Protocol",
-        eventName: "ETHGlobal Brussels 2024",
-        eventType: "International Hackathon",
+        eventName,
+        eventType: eventTypeDisplay,
         assignedRole: role,
         missionName: "Zinneke Rescue Mission",
         timestamp,
