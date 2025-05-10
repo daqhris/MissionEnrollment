@@ -4,12 +4,14 @@ import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { Card, CardContent, Typography, Button, CircularProgress, Box } from '@mui/material';
 import { notification } from "../utils/scaffold-eth";
 import {
-  EAS_CONTRACT_ADDRESS_SEPOLIA,
+  EAS_CONTRACT_ADDRESS,
   SCHEMA_UID,
   MISSION_ENROLLMENT_BASE_ETH_ADDRESS,
   getRequiredNetwork,
-  BASE_SEPOLIA_CHAIN_ID
+  BASE_SEPOLIA_CHAIN_ID,
+  NETWORK_CONFIG
 } from '../utils/constants';
+import { useUserNetworkPreference } from '../hooks/useUserNetworkPreference';
 import { SCHEMA_ENCODING } from '../types/attestation';
 import { getPOAPRole } from '../utils/poap';
 import { BrowserProvider, TransactionReceipt, Log, Interface } from 'ethers';
@@ -46,6 +48,7 @@ export default function EnrollmentAttestation({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [previewData, setPreviewData] = useState<PreviewData | null>(null);
+  const { preferredNetwork } = useUserNetworkPreference();
 
   const {
     isLoading: isNetworkSwitching,
@@ -144,15 +147,16 @@ export default function EnrollmentAttestation({
       setLoading(true);
       setError(null);
 
-      // Switch to Base Sepolia network if needed
+      // Switch to user-preferred network if needed (now controlled by the useNetworkSwitch hook)
       const switchResult = await handleNetworkSwitch();
       if (!switchResult) {
         setLoading(false);
         return;
       }
 
-      // Initialize EAS
-      const eas = new EAS(EAS_CONTRACT_ADDRESS_SEPOLIA);
+      // Initialize EAS with the correct contract address based on network
+      const easContractAddress = EAS_CONTRACT_ADDRESS(preferredNetwork);
+      const eas = new EAS(easContractAddress);
       const provider = new BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       eas.connect(signer);
@@ -190,7 +194,7 @@ export default function EnrollmentAttestation({
       handleError(err);
       setLoading(false);
     }
-  }, [address, previewData, handleNetworkSwitch, onAttestationComplete]);
+  }, [address, previewData, handleNetworkSwitch, onAttestationComplete, preferredNetwork]);
 
   const checkNetworkAndContract = useCallback(async () => {
     if (!address) return;
@@ -230,6 +234,12 @@ export default function EnrollmentAttestation({
         <Typography variant="h5" gutterBottom sx={{ color: '#957777', fontWeight: 600 }}>
           Enrollment Attestation
         </Typography>
+        
+        {preferredNetwork && chainId !== preferredNetwork && (
+          <Typography color="warning.main" gutterBottom>
+            Your wallet is connected to {NETWORK_CONFIG[chainId]?.name || 'an unknown network'}, but you've selected {NETWORK_CONFIG[preferredNetwork]?.name || 'another network'} for attestations.
+          </Typography>
+        )}
 
         {error && (
           <Typography color="error" gutterBottom>

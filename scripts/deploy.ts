@@ -2,10 +2,25 @@ import { ethers } from "hardhat";
 import { AttestationService } from "../typechain-types";
 import "dotenv/config";
 
-async function deployAndInitialize(): Promise<{ contract: AttestationService; schemaId: string }> {
-  // Base Sepolia EAS Contract addresses
-  const EAS_CONTRACT_ADDRESS = "0x4200000000000000000000000000000000000021";
-  const SCHEMA_REGISTRY_ADDRESS = "0x54f0e66D5A04702F5Df9BAe330295a11bD862c81";
+async function deployAndInitialize(networkId: string = 'base-sepolia'): Promise<{ contract: AttestationService; schemaId: string }> {
+  // Network-specific EAS Contract addresses
+  const EAS_CONTRACT_ADDRESSES: Record<string, string> = {
+    'base-sepolia': "0x4200000000000000000000000000000000000021",
+    'base-mainnet': "0x4200000000000000000000000000000000000021"
+  };
+  
+  // Network-specific Schema Registry addresses
+  const SCHEMA_REGISTRY_ADDRESSES: Record<string, string> = {
+    'base-sepolia': "0x54f0e66D5A04702F5Df9BAe330295a11bD862c81",
+    'base-mainnet': "0x720c2bA66D19A725143FBf5fDC5b4ADA2742682E" // Base mainnet schema registry
+  };
+  
+  const EAS_CONTRACT_ADDRESS = EAS_CONTRACT_ADDRESSES[networkId] || EAS_CONTRACT_ADDRESSES['base-sepolia'];
+  const SCHEMA_REGISTRY_ADDRESS = SCHEMA_REGISTRY_ADDRESSES[networkId] || SCHEMA_REGISTRY_ADDRESSES['base-sepolia'];
+  
+  console.log(`Deploying to ${networkId}...`);
+  console.log(`Using EAS Contract: ${EAS_CONTRACT_ADDRESS}`);
+  console.log(`Using Schema Registry: ${SCHEMA_REGISTRY_ADDRESS}`);
 
   console.log("Deploying AttestationService...");
   const AttestationService = await ethers.getContractFactory("AttestationService");
@@ -58,12 +73,15 @@ async function deployAndInitialize(): Promise<{ contract: AttestationService; sc
   console.log("EAS Contract:", EAS_CONTRACT_ADDRESS);
   console.log("Schema Registry:", SCHEMA_REGISTRY_ADDRESS);
 
-  return { attestationService, schemaId };
+  return { contract: attestationService, schemaId };
 }
 
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
-deployAndInitialize()
+const networkArg = process.argv.find(arg => arg.startsWith('--network='));
+const network = networkArg ? networkArg.split('=')[1] : 'base-sepolia';
+
+deployAndInitialize(network)
   .then(() => process.exit(0))
   .catch((error: Error) => {
     console.error(error);

@@ -11,6 +11,7 @@ import EnrollmentAttestation from '../components/EnrollmentAttestation';
 import { SuccessAttestation } from '../components/SuccessAttestation';
 import { Logo } from '../components/Logo';
 import { BetaBanner } from '../components/BetaBanner';
+import NetworkSelector from '../components/NetworkSelector';
 
 // Type definitions for component state
 interface EventInfo {
@@ -230,6 +231,7 @@ export default function Home() {
 
                   {showAttestation && eventInfo && (
                     <div className="mt-4">
+                      <NetworkSelector />
                       <EnrollmentAttestation
                         verifiedName={eventInfo.verifiedName}
                         poapVerified={eventAttendanceVerified}

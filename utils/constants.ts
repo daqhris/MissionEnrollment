@@ -8,7 +8,8 @@ export const BASE_MAINNET_CHAIN_ID = base.id;
 export const MISSION_ENROLLMENT_BASE_ETH_ADDRESS = '0xF0bC5CC2B4866dAAeCb069430c60b24520077037';
 export const EAS_CONTRACT_ADDRESS_BASE = '0x4200000000000000000000000000000000000021';
 export const EAS_CONTRACT_ADDRESS_SEPOLIA = '0x4200000000000000000000000000000000000021'; // Base Sepolia EAS address
-export const EAS_CONTRACT_ADDRESS = EAS_CONTRACT_ADDRESS_SEPOLIA; // Default to Sepolia for attestations
+export const EAS_CONTRACT_ADDRESS = (chainId: number) => 
+  chainId === BASE_MAINNET_CHAIN_ID ? EAS_CONTRACT_ADDRESS_BASE : EAS_CONTRACT_ADDRESS_SEPOLIA;
 export const ATTESTATION_SERVICE_ADDRESS = '0x60Ed99B474C0F02649C4038684A7C3FfF5EEe53D';
 
 // Schema Configuration
@@ -47,10 +48,16 @@ export const getNetworkName = (chainId: number): string => {
   return NETWORK_CONFIG[chainId]?.name || 'Unknown Network';
 };
 
-export const isCorrectNetwork = (chainId: number, action: 'verification' | 'attestation'): boolean => {
+export const isCorrectNetwork = (chainId: number, action: 'verification' | 'attestation', preferredNetwork?: number): boolean => {
+  if (action === 'attestation' && preferredNetwork) {
+    return chainId === preferredNetwork;
+  }
   return action === 'verification' ? chainId === base.id : chainId === baseSepolia.id;
 };
 
-export const getRequiredNetwork = (action: 'verification' | 'attestation') => {
+export const getRequiredNetwork = (action: 'verification' | 'attestation', preferredNetwork?: number) => {
+  if (action === 'attestation' && preferredNetwork) {
+    return preferredNetwork === BASE_MAINNET_CHAIN_ID ? base : baseSepolia;
+  }
   return action === 'verification' ? base : baseSepolia;
 };

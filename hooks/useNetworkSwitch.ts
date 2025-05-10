@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useAccount, useConfig } from 'wagmi';
 import { switchNetwork } from 'wagmi/actions';
-import { getRequiredNetwork } from '../utils/constants';
+import { getRequiredNetwork, NETWORK_CONFIG } from '../utils/constants';
+import { useUserNetworkPreference } from './useUserNetworkPreference';
 
 export const useNetworkSwitch = (action: 'verification' | 'attestation') => {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,15 +12,22 @@ export const useNetworkSwitch = (action: 'verification' | 'attestation') => {
   const { chain } = useAccount();
   const config = useConfig();
   const chainId = chain?.id;
+  
+  const { preferredNetwork } = useUserNetworkPreference();
+  
+  const targetNetwork = getRequiredNetwork(action, action === 'attestation' ? preferredNetwork : undefined);
 
-  const targetNetwork = getRequiredNetwork(action);
-
-  const handleNetworkSwitch = async () => {
+  const handleNetworkSwitch = async (specificChainId?: number) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      await switchNetwork(config, { chainId: targetNetwork.id });
+      const chainIdToUse = specificChainId || targetNetwork.id;
+      const networkName = specificChainId 
+        ? (NETWORK_CONFIG[specificChainId]?.name || 'Unknown Network')
+        : targetNetwork.name;
+      
+      await switchNetwork(config, { chainId: chainIdToUse });
       const provider = window.ethereum;
 
       if (!provider) {
@@ -27,11 +35,11 @@ export const useNetworkSwitch = (action: 'verification' | 'attestation') => {
       }
 
       // Verify contract connection
-      const targetChainId = `0x${targetNetwork.id.toString(16)}`;
+      const targetChainId = `0x${chainIdToUse.toString(16)}`;
       const currentChainId = await provider.request({ method: 'eth_chainId' });
 
       if (currentChainId !== targetChainId) {
-        throw new Error(`Failed to switch to ${targetNetwork.name}`);
+        throw new Error(`Failed to switch to ${networkName}`);
       }
 
       setNetworkSwitched(true);
