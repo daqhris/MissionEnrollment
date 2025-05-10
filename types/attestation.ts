@@ -28,6 +28,7 @@ export interface Attestation {
   time: number;  // Changed from string to number to match GraphQL response
   data: string;
   decodedDataJson: string;  // Made required as it's always present in responses
+  schemaId?: string;  // Added to identify which schema this attestation uses
 }
 
 export interface AttestationData {

@@ -13,7 +13,7 @@ export async function generateStaticParams() {
       variables: {
         take: 100, // Pre-generate paths for the 100 most recent attestations
         skip: 0,
-        schemaId: SCHEMA_UID
+        schemaIds: [SCHEMA_UID_ORIGINAL, SCHEMA_UID_ENHANCED]
       },
     });
 
