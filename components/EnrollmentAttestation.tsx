@@ -4,12 +4,13 @@ import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 import { Card, CardContent, Typography, Button, CircularProgress, Box } from '@mui/material';
 import { notification } from "../utils/scaffold-eth";
 import {
-  EAS_CONTRACT_ADDRESS_SEPOLIA,
+  EAS_CONTRACT_ADDRESS,
   SCHEMA_UID,
   MISSION_ENROLLMENT_BASE_ETH_ADDRESS,
   getRequiredNetwork,
   BASE_SEPOLIA_CHAIN_ID
 } from '../utils/constants';
+import { useUserNetworkPreference } from '../hooks/useUserNetworkPreference';
 import { SCHEMA_ENCODING } from '../types/attestation';
 import { getPOAPRole } from '../utils/poap';
 import { BrowserProvider, TransactionReceipt, Log, Interface } from 'ethers';
@@ -151,8 +152,10 @@ export default function EnrollmentAttestation({
         return;
       }
 
-      // Initialize EAS
-      const eas = new EAS(EAS_CONTRACT_ADDRESS_SEPOLIA);
+      // Initialize EAS with the correct contract address based on network
+      const { preferredNetwork } = useUserNetworkPreference();
+      const easContractAddress = EAS_CONTRACT_ADDRESS(preferredNetwork);
+      const eas = new EAS(easContractAddress);
       const provider = new BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       eas.connect(signer);

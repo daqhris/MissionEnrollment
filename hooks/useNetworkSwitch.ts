@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAccount, useConfig } from 'wagmi';
 import { switchNetwork } from 'wagmi/actions';
 import { getRequiredNetwork } from '../utils/constants';
+import { useUserNetworkPreference } from './useUserNetworkPreference';
 
 export const useNetworkSwitch = (action: 'verification' | 'attestation') => {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,8 +12,10 @@ export const useNetworkSwitch = (action: 'verification' | 'attestation') => {
   const { chain } = useAccount();
   const config = useConfig();
   const chainId = chain?.id;
-
-  const targetNetwork = getRequiredNetwork(action);
+  
+  const { preferredNetwork } = useUserNetworkPreference();
+  
+  const targetNetwork = getRequiredNetwork(action, action === 'attestation' ? preferredNetwork : undefined);
 
   const handleNetworkSwitch = async () => {
     setIsLoading(true);
