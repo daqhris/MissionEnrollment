@@ -1,5 +1,5 @@
 import { fetchPoaps } from '../utils/fetchPoapsUtil';
-import { ETH_GLOBAL_BRUSSELS_EVENT_NAMES, EVENT_VENUE } from '../utils/eventConstants';
+import { APPROVED_EVENT_NAMES, EVENT_VENUES } from '../utils/eventConstants';
 import { mockPoapsResponse, mockValidWalletAddresses } from './mocks/poapData';
 
 // Mock fetchPoaps function
@@ -19,7 +19,7 @@ describe('POAP Verification', () => {
 
       const poaps = await fetchPoaps(address);
       const ethGlobalBrusselsPoaps = poaps.filter(poap =>
-        ETH_GLOBAL_BRUSSELS_EVENT_NAMES.includes(poap.event.name as typeof ETH_GLOBAL_BRUSSELS_EVENT_NAMES[number])
+        APPROVED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS.includes(poap.event.name as typeof APPROVED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS[number])
       );
 
       expect(ethGlobalBrusselsPoaps.length).toBeGreaterThan(0);
@@ -31,7 +31,7 @@ describe('POAP Verification', () => {
 
       const poaps = await fetchPoaps(address);
       const ethGlobalBrusselsPoap = poaps.find(poap =>
-        ETH_GLOBAL_BRUSSELS_EVENT_NAMES.includes(poap.event.name as typeof ETH_GLOBAL_BRUSSELS_EVENT_NAMES[number])
+        APPROVED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS.includes(poap.event.name as typeof APPROVED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS[number])
       );
 
       if (!ethGlobalBrusselsPoap) throw new Error('No ETHGlobal Brussels POAP found');
@@ -47,7 +47,7 @@ describe('POAP Verification', () => {
 
       const poaps = await fetchPoaps(address);
       const ethGlobalBrusselsPoap = poaps.find(poap =>
-        ETH_GLOBAL_BRUSSELS_EVENT_NAMES.includes(poap.event.name as typeof ETH_GLOBAL_BRUSSELS_EVENT_NAMES[number])
+        APPROVED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS.includes(poap.event.name as typeof APPROVED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS[number])
       );
 
       if (!ethGlobalBrusselsPoap) throw new Error('No ETHGlobal Brussels POAP found');
@@ -55,7 +55,7 @@ describe('POAP Verification', () => {
       const eventInfo = {
         role: ethGlobalBrusselsPoap.event.name.replace('ETHGlobal Brussels ', ''),
         date: ethGlobalBrusselsPoap.event.start_date,
-        venue: EVENT_VENUE,
+        venue: EVENT_VENUES.ETH_GLOBAL_BRUSSELS,
         verifiedName,
         tokenId: ethGlobalBrusselsPoap.tokenId
       };
@@ -63,7 +63,7 @@ describe('POAP Verification', () => {
       expect(eventInfo).toMatchObject({
         role: expect.any(String),
         date: expect.any(String),
-        venue: EVENT_VENUE,
+        venue: EVENT_VENUES.ETH_GLOBAL_BRUSSELS,
         verifiedName: expect.any(String),
         tokenId: expect.any(String)
       });

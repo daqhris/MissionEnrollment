@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { fetchPoaps } from '../utils/fetchPoapsUtil';
-import { ETH_GLOBAL_BRUSSELS_EVENT_NAMES, EVENT_VENUE } from '../utils/eventConstants';
+import { APPROVED_EVENT_NAMES, EVENT_VENUES } from '../utils/eventConstants';
 import { useNetworkSwitch } from '../hooks/useNetworkSwitch';
 
 interface POAPEvent {
@@ -21,6 +21,7 @@ interface EventInfo {
   venue: string;
   verifiedName: string;
   tokenId: string;
+  eventType: string; // Added to identify which event the user attended
 }
 
 interface EventAttendanceVerificationProps {
@@ -63,38 +64,63 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
       const poaps = await fetchPoaps(address);
       console.log('Fetched POAPs:', poaps);
 
-      const ethGlobalBrusselsPoap = poaps.find(poap =>
-        ETH_GLOBAL_BRUSSELS_EVENT_NAMES.some(eventName =>
+      let eventPoap = null;
+      let eventType = '';
+
+      eventPoap = poaps.find(poap =>
+        APPROVED_EVENT_NAMES.ETH_GLOBAL_BRUSSELS.some(eventName =>
           poap.event.name.toLowerCase().includes(eventName.toLowerCase())
         )
       );
+      if (eventPoap) {
+        eventType = 'ETH_GLOBAL_BRUSSELS';
+        console.log('Found ETHGlobal Brussels POAP:', eventPoap);
+      }
+
+      if (!eventPoap) {
+        eventPoap = poaps.find(poap =>
+          APPROVED_EVENT_NAMES.ETHDENVER_COINBASE_2025.some(eventName =>
+            poap.event.name.toLowerCase().includes(eventName.toLowerCase())
+          )
+        );
+        if (eventPoap) {
+          eventType = 'ETHDENVER_COINBASE_2025';
+          console.log('Found ETHDenver Coinbase 2025 POAP:', eventPoap);
+        }
+      }
 
       // Add a minimum delay for the drumroll effect (15 seconds)
       await new Promise(resolve => setTimeout(resolve, 15000));
-      if (ethGlobalBrusselsPoap) {
-        console.log('Found ETHGlobal Brussels POAP:', ethGlobalBrusselsPoap);
-        setPoapDetails(ethGlobalBrusselsPoap);
+      
+      if (eventPoap) {
+        setPoapDetails(eventPoap);
         setVerificationStatus('success');
 
-        // Extract role from POAP name (e.g., "ETHGlobal Brussels Hacker" -> "Hacker")
-        const role = ethGlobalBrusselsPoap.event.name
-          .replace('ETHGlobal Brussels ', '')
-          .trim();
+        // Extract role from POAP name based on event type
+        let role = '';
+        if (eventType === 'ETH_GLOBAL_BRUSSELS') {
+          role = eventPoap.event.name
+            .replace('ETHGlobal Brussels 2024 ', '')
+            .trim();
+        } else if (eventType === 'ETHDENVER_COINBASE_2025') {
+          role = 'Attendee';
+        }
 
         // Combine verified name and POAP info for attestation
         const eventInfo: EventInfo = {
           role,
-          date: ethGlobalBrusselsPoap.event.end_date || ethGlobalBrusselsPoap.event.start_date,
-          venue: EVENT_VENUE,
+          date: eventPoap.event.end_date || eventPoap.event.start_date,
+          venue: EVENT_VENUES[eventType as keyof typeof EVENT_VENUES],
           verifiedName: verifiedName,
-          tokenId: ethGlobalBrusselsPoap.tokenId
+          tokenId: eventPoap.tokenId,
+          eventType: eventType
         };
 
         onVerified(true, eventInfo);
       } else {
-        console.log('No ETHGlobal Brussels POAP found');
+        console.log('No approved event POAP found');
         setVerificationStatus('error');
-        setError('No ETHGlobal Brussels attendance record found');
+        setError('No approved event attendance record found');
         onVerified(false);
       }
     } catch (error) {
@@ -129,7 +155,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
         {!hasAnswered ? (
           <div className="text-center">
             <p className="text-base-content/70 mb-6">
-              Hello {verifiedName}, did you attend ETHGlobal Brussels in person?
+              Hello {verifiedName}, did you attend any of our approved events in person?
             </p>
             <div className="flex justify-center gap-4">
               <button
@@ -155,13 +181,13 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
             </svg>
             <div>
               <p>Thank you for your honesty!</p>
-              <p className="text-sm">The enrollment process requires in-person attendance at ETHGlobal Brussels. We hope to see you at future events!</p>
+              <p className="text-sm">The enrollment process requires in-person attendance at one of our approved events. We hope to see you at future events!</p>
             </div>
           </div>
         ) : (
           <>
             <p className="text-base-content/70 mb-4">
-              Hello {verifiedName}, we are checking your attendance at ETHGlobal Brussels.
+              Hello {verifiedName}, we are checking your attendance at our approved events.
             </p>
 
             {isVerifying && (
@@ -175,7 +201,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                 </p>
                 <div className="flex flex-col items-center space-y-2 text-sm text-base-content/50">
                   <p className="animate-bounce">🔍 Searching POAPs on Gnosis Chain</p>
-                  <p className="animate-pulse">🎪 Looking for ETHGlobal Brussels badges</p>
+                  <p className="animate-pulse">🎪 Looking for approved event badges</p>
                   <p>🎯 Matching your wallet address</p>
                 </div>
               </div>
@@ -198,7 +224,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                 <div className="space-y-4">
                   <div>
                     <p className="font-bold text-lg">🎉 Event attendance verified!</p>
-                    <p className="text-sm opacity-75">Your POAP confirms your participation at a hackathon in Brussels hosted by ETHGlobal</p>
+                    <p className="text-sm opacity-75">Your POAP confirms your participation at an approved blockchain event</p>
                   </div>
                   <div className="flex items-center bg-base-200 rounded-lg p-4">
                     <Image
@@ -210,11 +236,18 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                       onError={handleImageError}
                     />
                     <div className="space-y-2">
-                      <p className="text-base font-semibold">ETHGlobal Brussels 2024</p>
+                      <p className="text-base font-semibold">
+                        {poapDetails?.event?.name?.includes('ETHGlobal Brussels') ? 'ETHGlobal Brussels 2024' : 
+                         poapDetails?.event?.name?.includes('Coinbase Developer Platform') ? 'ETHDenver Coinbase 2025' : 
+                         'Approved Event'}
+                      </p>
                       <div className="flex flex-col text-sm opacity-75">
-                        <p>🎭 Role: {poapDetails?.event?.name?.replace('ETHGlobal Brussels 2024', '') || 'Attendee'}</p>
+                        <p>🎭 Role: {poapDetails?.event?.name?.includes('ETHGlobal Brussels') ? 
+                          poapDetails?.event?.name?.replace('ETHGlobal Brussels 2024', '') : 'Attendee'}</p>
                         <p>📅 Date: {new Date(poapDetails?.event?.end_date || poapDetails?.event?.start_date || Date.now()).toLocaleDateString()}</p>
-                        <p>📍 Venue: {EVENT_VENUE}</p>
+                        <p>📍 Venue: {poapDetails?.event?.name?.includes('ETHGlobal Brussels') ? 
+                          EVENT_VENUES.ETH_GLOBAL_BRUSSELS : 
+                          EVENT_VENUES.ETHDENVER_COINBASE_2025}</p>
                         <p>🎫 Token ID: {poapDetails?.tokenId || 'N/A'}</p>
                       </div>
                     </div>
@@ -228,14 +261,25 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                 className={`btn w-full ${networkSwitched || attestationId ? 'btn-disabled opacity-50' : 'btn-primary'}`}
                 onClick={async () => {
                   const success = await handleNetworkSwitch();
-                  if (success) {
-                    onVerified(true, poapDetails ? {
-                      role: poapDetails.event.name.replace('ETHGlobal Brussels ', '').trim(),
+                  if (success && poapDetails) {
+                    const eventType = poapDetails.event.name.includes('ETHGlobal Brussels') 
+                      ? 'ETH_GLOBAL_BRUSSELS' 
+                      : 'ETHDENVER_COINBASE_2025';
+                    
+                    // Extract role based on event type
+                    let role = 'Attendee';
+                    if (eventType === 'ETH_GLOBAL_BRUSSELS') {
+                      role = poapDetails.event.name.replace('ETHGlobal Brussels 2024 ', '').trim();
+                    }
+                    
+                    onVerified(true, {
+                      role,
                       date: poapDetails.event.end_date || poapDetails.event.start_date,
-                      venue: EVENT_VENUE,
+                      venue: EVENT_VENUES[eventType as keyof typeof EVENT_VENUES],
                       verifiedName: verifiedName,
-                      tokenId: poapDetails.tokenId
-                    } : undefined);
+                      tokenId: poapDetails.tokenId,
+                      eventType
+                    });
                   }
                 }}
                 disabled={networkSwitched || verificationStatus !== 'success' || !!attestationId}

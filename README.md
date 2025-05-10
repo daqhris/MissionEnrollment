@@ -131,7 +131,7 @@ The project includes comprehensive testing setup:
 **Mission Enrollment** provides a streamlined, one-page application for a select number of talented individuals to enroll in advance of the **_Zinneke Rescue Mission_**.
 
 1. User connects their Ethereum wallet using the wallet connector and verifies their identity with Basename or ENS name.
-2. The application fetches and displays relevant POAPs, specifically ETHGlobal Brussels 2024, extracting role information dynamically.
+2. The application fetches and displays relevant POAPs from approved events (ETHGlobal Brussels 2024 and ETHDenver Coinbase 2025), extracting role information dynamically.
 3. Its interface's second stage leads to verification of event attendance and role through POAPs before proceeding to attestation.
 4. User creates an attestation on the Base Sepolia network using EAS, with automatic network switching if needed.
 5. Upon successful attestation creation, a success screen is displayed with attestation details and a link to view it on EAS Explorer.
