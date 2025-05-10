@@ -2,6 +2,14 @@ import { NextResponse } from 'next/server';
 
 export const dynamic = "force-static";
 
+export function generateStaticParams() {
+  return [
+    { path: ['actions', 'scan', ':address'] },
+    { path: ['token', ':tokenId'] },
+    { path: ['actions', 'scan', ':address', 'layer2'] }
+  ];
+}
+
 export async function GET(
   request: Request,
   { params }: { params: { path: string[] } }
