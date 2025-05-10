@@ -8,7 +8,8 @@ import {
   SCHEMA_UID,
   MISSION_ENROLLMENT_BASE_ETH_ADDRESS,
   getRequiredNetwork,
-  BASE_SEPOLIA_CHAIN_ID
+  BASE_SEPOLIA_CHAIN_ID,
+  NETWORK_CONFIG
 } from '../utils/constants';
 import { useUserNetworkPreference } from '../hooks/useUserNetworkPreference';
 import { SCHEMA_ENCODING } from '../types/attestation';
@@ -146,7 +147,7 @@ export default function EnrollmentAttestation({
       setLoading(true);
       setError(null);
 
-      // Switch to Base Sepolia network if needed
+      // Switch to user-preferred network if needed (now controlled by the useNetworkSwitch hook)
       const switchResult = await handleNetworkSwitch();
       if (!switchResult) {
         setLoading(false);
@@ -233,6 +234,12 @@ export default function EnrollmentAttestation({
         <Typography variant="h5" gutterBottom sx={{ color: '#957777', fontWeight: 600 }}>
           Enrollment Attestation
         </Typography>
+        
+        {preferredNetwork && chainId !== preferredNetwork && (
+          <Typography color="warning.main" gutterBottom>
+            Your wallet is connected to {NETWORK_CONFIG[chainId]?.name || 'an unknown network'}, but you've selected {NETWORK_CONFIG[preferredNetwork]?.name || 'another network'} for attestations.
+          </Typography>
+        )}
 
         {error && (
           <Typography color="error" gutterBottom>

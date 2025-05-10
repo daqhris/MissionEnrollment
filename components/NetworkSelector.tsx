@@ -18,6 +18,7 @@ import {
   BASE_MAINNET_CHAIN_ID 
 } from '../utils/constants';
 import { useUserNetworkPreference } from '../hooks/useUserNetworkPreference';
+import { useNetworkSwitch } from '../hooks/useNetworkSwitch';
 
 export default function NetworkSelector() {
   const { address } = useAccount();
@@ -27,10 +28,26 @@ export default function NetworkSelector() {
     setPreferredNetwork,
     isLoading 
   } = useUserNetworkPreference();
+  
+  const {
+    isLoading: isSwitching,
+    error: switchError,
+    handleNetworkSwitch
+  } = useNetworkSwitch('attestation');
 
   const handleNetworkChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPreferredNetwork(parseInt(event.target.value));
+    const newNetwork = parseInt(event.target.value);
+    setPreferredNetwork(newNetwork);
   };
+  
+  const triggerNetworkSwitch = async () => {
+    await handleNetworkSwitch();
+  };
+  
+  useEffect(() => {
+    const networkMismatch = currentChainId !== preferredNetwork;
+    
+  }, [currentChainId, preferredNetwork]);
 
   if (!address) return null;
 
@@ -82,6 +99,20 @@ export default function NetworkSelector() {
           Current network: {NETWORK_CONFIG[currentChainId]?.name || 'Unknown Network'}
           {currentChainId !== preferredNetwork && ' (Different from selected)'}
         </Typography>
+        
+        {currentChainId !== preferredNetwork && (
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={triggerNetworkSwitch}
+            disabled={isSwitching}
+            sx={{ mt: 2 }}
+          >
+            {isSwitching ? 'Switching...' : 'Switch to Selected Network'}
+          </Button>
+        )}
+        
+        {switchError && <Typography color="error" variant="caption" sx={{ mt: 1, display: 'block' }}>{switchError}</Typography>}
       </CardContent>
     </Card>
   );
