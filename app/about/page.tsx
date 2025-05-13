@@ -53,7 +53,7 @@ export default function AboutPage(): ReactNode {
               <h2 className="text-2xl font-semibold mb-4">Our Founding Story</h2>
               <p>Born at <a href="https://ethglobal.com/events/brussels" target="_blank" rel="noopener noreferrer"><strong>ETHGlobal Brussels</strong></a><ExternalLinkIcon /> during the summer of 2024, our collaborative rescue mission draws inspiration from the city's unique heritage. The Zinneke—Brussels' resilient mixed-breed dogs that once roamed the banks of the Senne River—symbolize the community we're building. We're using innovative technology to disseminate memories of the biennial <a href="https://www.zinneke.org/nl/album-photo/zinneke-parade-2024-2/" target="_blank" rel="noopener noreferrer"><strong>Zinneke Parade</strong></a><ExternalLinkIcon /> with its legendary After-Party, combined with the <a href="https://kfda.be/en/festivals/2024-edition/programme/nightlife-2024/" target="_blank" rel="noopener noreferrer">closing night of the annual <strong>Kunstenfestivaldesarts</strong></a><ExternalLinkIcon />, as <a href="https://github.com/daqhris/ZinnekeRescueMission?tab=readme-ov-file#rescue-strategy-onchain-postcards" target="_blank" rel="noopener noreferrer"><strong>onchain postcards</strong></a><ExternalLinkIcon />, in celebration of Brussels' cultural diversity.</p>
               
-              <p className="mt-4">Our community has expanded to include participants from <a href="https://ethdenver.com/" target="_blank" rel="noopener noreferrer"><strong>ETHDenver</strong></a><ExternalLinkIcon /> events, particularly those who attended <a href="https://www.coinbase.com/developer" target="_blank" rel="noopener noreferrer"><strong>Coinbase Developer Platform</strong></a><ExternalLinkIcon /> workshops and gatherings in 2025. This expansion reflects our commitment to building a diverse and global community of blockchain enthusiasts and creators.</p>
+              <p className="mt-4">Our community has expanded to include participants from <a href="https://ethdenver.com/" target="_blank" rel="noopener noreferrer"><strong>ETHDenver</strong></a><ExternalLinkIcon /> events, particularly those who attended <a href="https://www.coinbase.com/developer-platform" target="_blank" rel="noopener noreferrer"><strong>Coinbase Developer Platform</strong></a><ExternalLinkIcon /> workshops and gatherings in 2025. This expansion reflects our commitment to building a diverse and global community of blockchain enthusiasts and creators.</p>
             </section>
 
             <section className="mb-8">
@@ -61,10 +61,10 @@ export default function AboutPage(): ReactNode {
               <p>Your journey begins here with 3 steps:</p>
               <ul className="list-disc pl-6">
                 <li>Submit your onchain name during an identity check</li>
-                <li>Confirm your attendance at approved blockchain events (ETHGlobal Brussels or ETHDenver Coinbase 2025)</li>
-                <li>Receive an enrollment attestation on a public blockchain</li>
+                <li>Confirm your attendance at approved blockchain events: ETHGlobal Brussels or ETHDenver Coinbase 2025</li>
+                <li>Create an enrollment attestation on a public blockchain</li>
               </ul>
-              <p className="mt-4">Once enrolled, you'll be certified and granted access to the upcoming <strong>Zinneke Rescue Mission</strong>.</p>
+              <p className="mt-4">Once self-enrolled, you'll be certified and granted access to the upcoming <strong>Zinneke Rescue Mission</strong>.</p>
             </section>
 
             <section className="mb-8">
