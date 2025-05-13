@@ -2,7 +2,7 @@
   "name": "mission-enrollment",
   "private": true,
   "version": "0.1.0",
-  "description": "A decentralized application for managing mission enrollments and verifying attestations on Base blockchain",
+  "description": "Mission Enrollment is a decentralized enrollment application for the 'Zinneke Rescue Mission' on the Base blockchain",
   "type": "module",
   "engines": {
     "node": ">=18.x"

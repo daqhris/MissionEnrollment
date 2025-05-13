@@ -262,7 +262,9 @@ export default function EnrollmentAttestation({
     <Card sx={{
       backgroundColor: 'rgba(239, 68, 68, 0.1)',
       borderRadius: '0.5rem',
-      transition: 'box-shadow 0.2s'
+      transition: 'box-shadow 0.2s',
+      margin: { xs: '0.5rem', md: '1rem' },
+      padding: { xs: '0.75rem', md: '1.5rem' }
     }}>
       <CardContent>
         <Typography variant="h5" gutterBottom sx={{ color: '#957777', fontWeight: 600 }}>
@@ -295,7 +297,7 @@ export default function EnrollmentAttestation({
           <>
             <Box mb={2} sx={{
               backgroundColor: 'rgb(254, 242, 242)',
-              padding: '0.5rem',
+              padding: { xs: '0.375rem', md: '0.5rem' },
               borderRadius: '0.375rem',
               '&:hover': {
                 backgroundColor: 'rgb(254, 226, 226)',
@@ -318,7 +320,7 @@ export default function EnrollmentAttestation({
 
             <Box mb={2} sx={{
               backgroundColor: 'rgb(254, 242, 242)',
-              padding: '0.5rem',
+              padding: { xs: '0.375rem', md: '0.5rem' },
               borderRadius: '0.375rem',
               '&:hover': {
                 backgroundColor: 'rgb(254, 226, 226)',
@@ -341,7 +343,7 @@ export default function EnrollmentAttestation({
 
             <Box mb={2} sx={{
               backgroundColor: 'rgb(254, 242, 242)',
-              padding: '0.5rem',
+              padding: { xs: '0.375rem', md: '0.5rem' },
               borderRadius: '0.375rem',
               '&:hover': {
                 backgroundColor: 'rgb(254, 226, 226)',
