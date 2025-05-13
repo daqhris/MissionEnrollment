@@ -40,8 +40,8 @@ export function generateVerificationHash(userAddress: string, eventInfo: any): s
 }
 
 export async function signVerification(signer: any, userAddress: string, eventInfo: any): Promise<string> {
-  if (!signer || typeof signer._signTypedData !== 'function') {
-    throw new Error('Invalid signer or signer does not support EIP-712 signing');
+  if (!signer) {
+    throw new Error('Invalid signer: signer is undefined or null');
   }
   
   const messageData = {
@@ -53,18 +53,46 @@ export async function signVerification(signer: any, userAddress: string, eventIn
   };
   
   try {
+    console.log("Wallet signer details:", {
+      type: typeof signer,
+      methods: Object.keys(signer),
+      provider: signer.provider ? 'available' : 'unavailable'
+    });
+    
     console.log("Signing message for Zinneke Rescue Mission enrollment with the following data:", {
       ...messageData,
       domain: EIP712_DOMAIN
     });
     
-    return await signer._signTypedData(
-      EIP712_DOMAIN,
-      EIP712_TYPES,
-      messageData
-    );
+    if (typeof signer.signTypedData === 'function') {
+      return await signer.signTypedData(
+        EIP712_DOMAIN,
+        EIP712_TYPES,
+        messageData
+      );
+    } 
+    else if (typeof signer._signTypedData === 'function') {
+      return await signer._signTypedData(
+        EIP712_DOMAIN,
+        EIP712_TYPES,
+        messageData
+      );
+    }
+    else if (signer.provider && typeof signer.provider.send === 'function') {
+      return await signer.provider.send('eth_signTypedData_v4', [
+        await signer.getAddress(),
+        JSON.stringify({
+          domain: EIP712_DOMAIN,
+          types: EIP712_TYPES,
+          message: messageData
+        })
+      ]);
+    }
+    else {
+      throw new Error('Wallet does not support EIP-712 signing. Please try a different wallet or contact support.');
+    }
   } catch (error) {
     console.error('Error signing verification:', error);
-    throw new Error('Failed to sign verification message');
+    throw new Error(`Failed to sign verification message: ${error.message || 'Unknown error'}`);
   }
 }

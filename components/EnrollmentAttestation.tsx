@@ -201,13 +201,20 @@ export default function EnrollmentAttestation({
 
       console.log("EIP-712 message data:", messageData);
 
-      const signature = await signVerification(signer, previewData.userAddress, {
-        eventName: previewData.eventName,
-        role: previewData.assignedRole,
-        verifiedName: previewData.approvedName
-      });
-
-      console.log("EIP-712 signature:", signature);
+      try {
+        const signature = await signVerification(signer, previewData.userAddress, {
+          eventName: previewData.eventName,
+          role: previewData.assignedRole,
+          verifiedName: previewData.approvedName
+        });
+        
+        console.log("EIP-712 signature:", signature);
+      } catch (error) {
+        console.error("EIP-712 signing error:", error);
+        setError(`Failed to create attestation: ${error instanceof Error ? error.message : 'Wallet signing error'}`);
+        setLoading(false);
+        return;
+      }
 
       const schemaEncoder = new SchemaEncoder(SCHEMA_ENCODING);
       const encodedData = schemaEncoder.encodeData([
@@ -295,8 +302,10 @@ export default function EnrollmentAttestation({
           </Typography>
         )}
 
-        <Typography paragraph sx={{ color: 'rgb(31, 41, 55)', marginBottom: 2 }}>
-          Mission Enrollment is the official onboarding portal for the upcoming Zinneke Rescue Mission on the Base blockchain. Complete the steps below to secure your place in this collaborative artistic mission.
+        <Typography paragraph sx={{ color: '#ffffff', marginBottom: 2 }}>
+          Mission Enrollment is the official onboarding portal for the upcoming Zinneke Rescue Mission on the Base blockchain.
+          <br />
+          Complete the steps below to secure your place in this collaborative artistic mission.
         </Typography>
 
         {error && (
@@ -376,7 +385,7 @@ export default function EnrollmentAttestation({
                 Mission Registration
               </Typography>
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
-                Collaborative Mission: <span style={{ fontWeight: 600 }}>{previewData?.missionName}</span> - The first artistic collaboration on Base blockchain
+                Collaborative Mission: <span style={{ fontWeight: 600 }}>{previewData?.missionName}</span>
               </Typography>
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Enrollment Timestamp: {previewData?.timestamp ? new Date(previewData.timestamp).toLocaleString() : 'Not set'}
