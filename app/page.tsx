@@ -18,7 +18,7 @@ interface EventInfo {
   role: string;
   date: string;
   venue: string;
-  verifiedName: string;
+  approvedName: string;
   tokenId: string;
 }
 
@@ -26,7 +26,7 @@ interface EventInfo {
 type VerificationStatus = 'idle' | 'loading' | 'success' | 'error';
 
 interface POAPEventInfo {
-  verifiedName: string;
+  approvedName: string;
   tokenId: string;
   role: string;
   date: string;
@@ -37,7 +37,7 @@ export default function Home() {
   const { address, isConnected } = useAccount();
   const [inputName, setInputName] = useState('');
   const [verificationStatus, setVerificationStatus] = useState<VerificationStatus>('idle');
-  const [verifiedName, setVerifiedName] = useState<string | null>(null);
+  const [approvedName, setApprovedName] = useState<string | null>(null);
   const [onchainName, setOnchainName] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showEventAttendance, setShowEventAttendance] = useState(false);
@@ -48,7 +48,7 @@ export default function Home() {
     role: string;
     date: string;
     venue: string;
-    verifiedName: string;
+    approvedName: string;
     tokenId: string;
   } | null>(null);
 
@@ -107,7 +107,7 @@ export default function Home() {
       if (onchainName && fullName.toLowerCase() === onchainName.toLowerCase()) {
         console.log('Name verification successful');
         setVerificationStatus('success');
-        setVerifiedName(fullName);
+        setApprovedName(fullName);
         setError(null);
       } else {
         console.log('Name verification failed');
@@ -148,7 +148,7 @@ export default function Home() {
 
               {isConnected && (
                 <>
-                  <h2 className="text-2xl font-bold mb-4">Identity Check</h2>
+                  <h2 className="text-2xl font-bold mb-4">Onchain Identity Check</h2>
 
                   {address && (
                     <div className="flex items-center gap-2 mb-6">
@@ -206,17 +206,17 @@ export default function Home() {
                     </button>
                   )}
 
-                  {showEventAttendance && verifiedName && (
+                  {showEventAttendance && approvedName && (
                     <div className="mt-4">
                       <EventAttendanceVerification
                         address={address || ''}
-                        verifiedName={verifiedName}
+                        approvedName={approvedName}
                         attestationId={attestationId}
                         onVerified={(hasAttended: boolean, info?: {
                           role: string;
                           date: string;
                           venue: string;
-                          verifiedName: string;
+                          approvedName: string;
                           tokenId: string;
                         }) => {
                           setEventAttendanceVerified(hasAttended);
@@ -233,7 +233,7 @@ export default function Home() {
                     <div className="mt-4">
                       <NetworkSelector />
                       <EnrollmentAttestation
-                        verifiedName={eventInfo.verifiedName}
+                        approvedName={eventInfo.approvedName}
                         poapVerified={eventAttendanceVerified}
                         onAttestationComplete={(attestationId: string) => {
                           console.log('Attestation created:', attestationId);
@@ -247,7 +247,7 @@ export default function Home() {
                   {attestationId && eventInfo && (
                     <SuccessAttestation
                       attestationId={attestationId}
-                      verifiedName={eventInfo.verifiedName}
+                      verifiedName={eventInfo.approvedName}
                       role={eventInfo.role}
                     />
                   )}
