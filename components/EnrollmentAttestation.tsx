@@ -16,10 +16,10 @@ import { SCHEMA_ENCODING } from '../types/attestation';
 import { getPOAPRole } from '../utils/poap';
 import { BrowserProvider, TransactionReceipt, Log, Interface } from 'ethers';
 import { useNetworkSwitch } from '../hooks/useNetworkSwitch';
-import { generateVerificationSignature, generateVerificationHash } from '../utils/attestationVerification';
+import { generateVerificationSignature, generateVerificationHash, signVerification } from '../utils/attestationVerification';
 
 interface EnrollmentAttestationProps {
-  verifiedName: string;
+  approvedName: string;
   poapVerified: boolean;
   onAttestationComplete: (attestationId: string) => void;
   attestationId?: string | null;
@@ -27,7 +27,7 @@ interface EnrollmentAttestationProps {
 
 interface PreviewData {
   userAddress: string;
-  verifiedName: string;
+  approvedName: string;
   proofMethod: string;
   eventName: string;
   eventType: string;
@@ -43,7 +43,7 @@ interface PreviewData {
 }
 
 export default function EnrollmentAttestation({
-  verifiedName,
+  approvedName,
   poapVerified,
   onAttestationComplete,
   attestationId
@@ -76,7 +76,7 @@ export default function EnrollmentAttestation({
 
       let eventName = "ETHGlobal Brussels 2024";
       let eventTypeDisplay = "International Hackathon";
-      
+
       if (eventType === 'ETHDENVER_COINBASE_2025') {
         eventName = "ETHDenver Coinbase 2025";
         eventTypeDisplay = "Developer Workshop & Hackathon";
@@ -87,17 +87,17 @@ export default function EnrollmentAttestation({
       const verificationSignature = generateVerificationSignature(address, { 
         eventName, 
         role, 
-        verifiedName 
+        verifiedName: approvedName 
       });
       const verificationHash = generateVerificationHash(address, { 
         eventName, 
         role, 
-        verifiedName 
+        verifiedName: approvedName 
       });
 
       setPreviewData({
         userAddress: address,
-        verifiedName,
+        approvedName,
         proofMethod: "Basename Protocol",
         eventName,
         eventType: eventTypeDisplay,
@@ -117,7 +117,7 @@ export default function EnrollmentAttestation({
       setError('Failed to initialize preview data. Please try again.');
       setLoading(false);  // Clear loading state on error
     }
-  }, [address, verifiedName]);
+  }, [address, approvedName]);
 
   const handleError = (error: any) => {
     // Add receipt-specific error logging
@@ -191,10 +191,28 @@ export default function EnrollmentAttestation({
       const signer = await provider.getSigner();
       eas.connect(signer);
 
+      const messageData = {
+        userAddress: previewData.userAddress,
+        eventName: previewData.eventName,
+        role: previewData.assignedRole,
+        verifiedName: previewData.approvedName,
+        timestamp: previewData.timestamp
+      };
+
+      console.log("EIP-712 message data:", messageData);
+
+      const signature = await signVerification(signer, previewData.userAddress, {
+        eventName: previewData.eventName,
+        role: previewData.assignedRole,
+        verifiedName: previewData.approvedName
+      });
+
+      console.log("EIP-712 signature:", signature);
+
       const schemaEncoder = new SchemaEncoder(SCHEMA_ENCODING);
       const encodedData = schemaEncoder.encodeData([
         { name: "userAddress", value: previewData.userAddress, type: "address" },
-        { name: "verifiedName", value: previewData.verifiedName, type: "string" },
+        { name: "verifiedName", value: previewData.approvedName, type: "string" },
         { name: "proofMethod", value: previewData.proofMethod, type: "string" },
         { name: "eventName", value: previewData.eventName, type: "string" },
         { name: "eventType", value: previewData.eventType, type: "string" },
@@ -268,14 +286,18 @@ export default function EnrollmentAttestation({
     }}>
       <CardContent>
         <Typography variant="h5" gutterBottom sx={{ color: '#957777', fontWeight: 600 }}>
-          Enrollment Attestation
+          Enrollment for Zinneke Rescue Mission
         </Typography>
-        
+
         {preferredNetwork && chainId !== preferredNetwork && (
           <Typography color="warning.main" gutterBottom>
             Your wallet is connected to {NETWORK_CONFIG[chainId]?.name || 'an unknown network'}, but you've selected {NETWORK_CONFIG[preferredNetwork]?.name || 'another network'} for attestations.
           </Typography>
         )}
+
+        <Typography paragraph sx={{ color: 'rgb(31, 41, 55)', marginBottom: 2 }}>
+          Mission Enrollment is the official onboarding portal for the upcoming Zinneke Rescue Mission on the Base blockchain. Complete the steps below to secure your place in this collaborative artistic mission.
+        </Typography>
 
         {error && (
           <Typography color="error" gutterBottom>
@@ -311,7 +333,7 @@ export default function EnrollmentAttestation({
                 User Address: {previewData?.userAddress || 'Not connected'}
               </Typography>
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
-                Public Identity: {previewData?.verifiedName || 'Not verified'}
+                Public Identity: {previewData?.approvedName || 'Not approved'}
               </Typography>
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Proof Verification Method: {previewData?.proofMethod}
@@ -337,7 +359,7 @@ export default function EnrollmentAttestation({
                 Event Type: {previewData?.eventType}
               </Typography>
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
-                Assigned Role: {previewData?.assignedRole || 'Not verified'}
+                Assigned Role: {previewData?.assignedRole || 'Not approved'}
               </Typography>
             </Box>
 
@@ -351,10 +373,10 @@ export default function EnrollmentAttestation({
               }
             }}>
               <Typography variant="h6" gutterBottom sx={{ color: 'rgb(17, 24, 39)', fontWeight: 600 }}>
-                Early Registration
+                Mission Registration
               </Typography>
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
-                Collaborative Mission: {previewData?.missionName}
+                Collaborative Mission: <span style={{ fontWeight: 600 }}>{previewData?.missionName}</span> - The first artistic collaboration on Base blockchain
               </Typography>
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Enrollment Timestamp: {previewData?.timestamp ? new Date(previewData.timestamp).toLocaleString() : 'Not set'}

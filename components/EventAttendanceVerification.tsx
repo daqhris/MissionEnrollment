@@ -19,21 +19,21 @@ interface EventInfo {
   role: string;
   date: string;
   venue: string;
-  verifiedName: string;
+  approvedName: string;
   tokenId: string;
   eventType: string; // Added to identify which event the user attended
 }
 
 interface EventAttendanceVerificationProps {
   address: string;
-  verifiedName: string;
+  approvedName: string;
   onVerified: (hasAttended: boolean, eventInfo?: EventInfo) => void;
   attestationId?: string | null;
 }
 
 const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = ({
   address,
-  verifiedName,
+  approvedName,
   onVerified,
   attestationId
 }) => {
@@ -106,12 +106,12 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
           role = 'Attendee';
         }
 
-        // Combine verified name and POAP info for attestation
+        // Combine approved name and POAP info for attestation
         const eventInfo: EventInfo = {
           role,
           date: eventPoap.event.end_date || eventPoap.event.start_date,
           venue: EVENT_VENUES[eventType as keyof typeof EVENT_VENUES],
-          verifiedName: verifiedName,
+          approvedName: approvedName,
           tokenId: eventPoap.tokenId,
           eventType: eventType
         };
@@ -150,12 +150,12 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
   return (
     <div className="card">
       <div className="card-body">
-        <h2 className="text-2xl font-bold mb-4">Event Attendance</h2>
+        <h2 className="text-2xl font-bold mb-4">Approved Event Attendance</h2>
 
         {!hasAnswered ? (
           <div className="text-center">
             <p className="text-base-content/70 mb-6">
-              Hello {verifiedName}, did you attend any of our approved events in person?
+              Hello {approvedName}, did you attend any of our approved events in person? This verification is required for enrolling in the Zinneke Rescue Mission.
             </p>
             <div className="flex justify-center gap-4">
               <button
@@ -187,7 +187,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
         ) : (
           <>
             <p className="text-base-content/70 mb-4">
-              Hello {verifiedName}, we are checking your attendance at our approved events.
+              Hello {approvedName}, we are checking your attendance at our approved events.
             </p>
 
             {isVerifying && (
@@ -223,7 +223,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                 </svg>
                 <div className="space-y-4">
                   <div>
-                    <p className="font-bold text-lg">🎉 Event attendance verified!</p>
+                    <p className="font-bold text-lg">🎉 Event attendance approved!</p>
                     <p className="text-sm opacity-75">Your POAP confirms your participation at an approved blockchain event</p>
                   </div>
                   <div className="flex items-center bg-base-200 rounded-lg p-4">
@@ -276,7 +276,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                       role,
                       date: poapDetails.event.end_date || poapDetails.event.start_date,
                       venue: EVENT_VENUES[eventType as keyof typeof EVENT_VENUES],
-                      verifiedName: verifiedName,
+                      approvedName: approvedName,
                       tokenId: poapDetails.tokenId,
                       eventType
                     });

@@ -48,11 +48,16 @@ export async function signVerification(signer: any, userAddress: string, eventIn
     userAddress,
     eventName: eventInfo.eventName,
     role: eventInfo.role,
-    verifiedName: eventInfo.verifiedName || '',
+    verifiedName: eventInfo.approvedName || eventInfo.verifiedName || '',
     timestamp: Date.now()
   };
   
   try {
+    console.log("Signing message for Zinneke Rescue Mission enrollment with the following data:", {
+      ...messageData,
+      domain: EIP712_DOMAIN
+    });
+    
     return await signer._signTypedData(
       EIP712_DOMAIN,
       EIP712_TYPES,
