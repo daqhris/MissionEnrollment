@@ -39,6 +39,11 @@ export function generateVerificationHash(userAddress: string, eventInfo: any): s
   return `0x${Buffer.from(data).toString('hex')}`;
 }
 
+/**
+ * Signs a verification message using EIP-712 typed data
+ * This function handles the first wallet interaction where the user verifies their identity
+ * The signed message contains the user's address, name, role, and event information
+ */
 export async function signVerification(signer: any, userAddress: string, eventInfo: any): Promise<string> {
   if (!signer) {
     throw new Error('Invalid signer: signer is undefined or null');
@@ -59,7 +64,7 @@ export async function signVerification(signer: any, userAddress: string, eventIn
       provider: signer.provider ? 'available' : 'unavailable'
     });
     
-    console.log("Signing message for Zinneke Rescue Mission enrollment with the following data:", {
+    console.log("Signing identity verification for Zinneke Rescue Mission enrollment:", {
       ...messageData,
       domain: EIP712_DOMAIN
     });
@@ -89,7 +94,7 @@ export async function signVerification(signer: any, userAddress: string, eventIn
       ]);
     }
     else {
-      throw new Error('Wallet does not support EIP-712 signing. Please try a different wallet or contact support.');
+      throw new Error('Your wallet does not support EIP-712 signing. Please try a different wallet or contact support.');
     }
   } catch (error) {
     console.error('Error signing verification:', error);

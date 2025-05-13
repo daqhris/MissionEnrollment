@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAccount, useChainId } from 'wagmi';
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import { Card, CardContent, Typography, Button, CircularProgress, Box } from '@mui/material';
+import { Card, CardContent, Typography, Button, CircularProgress, Box, Alert, Stepper, Step, StepLabel } from '@mui/material';
 import { notification } from "../utils/scaffold-eth";
 import {
   EAS_CONTRACT_ADDRESS,
@@ -23,6 +23,13 @@ interface EnrollmentAttestationProps {
   poapVerified: boolean;
   onAttestationComplete: (attestationId: string) => void;
   attestationId?: string | null;
+}
+
+enum WalletStep {
+  IDLE = 'idle',
+  SIGNING = 'signing',
+  TRANSACTION = 'transaction',
+  COMPLETE = 'complete'
 }
 
 interface PreviewData {
@@ -53,6 +60,7 @@ export default function EnrollmentAttestation({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [previewData, setPreviewData] = useState<PreviewData | null>(null);
+  const [walletStep, setWalletStep] = useState<WalletStep>(WalletStep.IDLE);
   const { preferredNetwork } = useUserNetworkPreference();
 
   const {
@@ -191,6 +199,9 @@ export default function EnrollmentAttestation({
       const signer = await provider.getSigner();
       eas.connect(signer);
 
+      setWalletStep(WalletStep.SIGNING);
+      notification.info("Please sign the identity verification message in your wallet");
+      
       const messageData = {
         userAddress: previewData.userAddress,
         eventName: previewData.eventName,
@@ -201,8 +212,9 @@ export default function EnrollmentAttestation({
 
       console.log("EIP-712 message data:", messageData);
 
+      let signature;
       try {
-        const signature = await signVerification(signer, previewData.userAddress, {
+        signature = await signVerification(signer, previewData.userAddress, {
           eventName: previewData.eventName,
           role: previewData.assignedRole,
           verifiedName: previewData.approvedName
@@ -212,10 +224,14 @@ export default function EnrollmentAttestation({
       } catch (error) {
         console.error("EIP-712 signing error:", error);
         setError(`Failed to create attestation: ${error instanceof Error ? error.message : 'Wallet signing error'}`);
+        setWalletStep(WalletStep.IDLE);
         setLoading(false);
         return;
       }
 
+      setWalletStep(WalletStep.TRANSACTION);
+      notification.info("Please confirm the transaction to create your on-chain attestation");
+      
       const schemaEncoder = new SchemaEncoder(SCHEMA_ENCODING);
       const encodedData = schemaEncoder.encodeData([
         { name: "userAddress", value: previewData.userAddress, type: "address" },
@@ -230,7 +246,7 @@ export default function EnrollmentAttestation({
         { name: "proofProtocol", value: previewData.proofProtocol, type: "string" },
         { name: "verificationSource", value: previewData.verificationSource, type: "string" },
         { name: "verificationTimestamp", value: previewData.verificationTimestamp, type: "string" },
-        { name: "verificationSignature", value: previewData.verificationSignature, type: "string" },
+        { name: "verificationSignature", value: signature, type: "string" }, // Use the actual signature
         { name: "verificationHash", value: previewData.verificationHash, type: "string" }
       ]);
 
@@ -246,11 +262,13 @@ export default function EnrollmentAttestation({
       const newAttestationId = await tx.wait();
       console.log("New attestation created with ID: ", newAttestationId);
 
+      setWalletStep(WalletStep.COMPLETE);
       notification.success("Successfully created attestation!");
       onAttestationComplete(newAttestationId);
       setLoading(false);
     } catch (err) {
       handleError(err);
+      setWalletStep(WalletStep.IDLE);
       setLoading(false);
     }
   }, [address, previewData, handleNetworkSwitch, onAttestationComplete, preferredNetwork]);
@@ -307,6 +325,43 @@ export default function EnrollmentAttestation({
           <br />
           Complete the steps below to secure your place in this collaborative artistic mission.
         </Typography>
+        
+        {/* Wallet interaction explanation */}
+        <Box sx={{ mb: 2, p: 2, backgroundColor: 'rgba(255, 255, 255, 0.1)', borderRadius: '0.5rem' }}>
+          <Typography variant="subtitle1" sx={{ color: '#ffffff', fontWeight: 600, mb: 1 }}>
+            Wallet Interaction Guide
+          </Typography>
+          <Typography sx={{ color: '#ffffff', fontSize: '0.9rem' }}>
+            Creating your attestation requires two wallet interactions:
+          </Typography>
+          <Typography component="ol" sx={{ color: '#ffffff', fontSize: '0.9rem', pl: 2 }}>
+            <li>First, you'll sign a message to verify your identity (shows your name and role)</li>
+            <li>Then, you'll confirm a transaction to create your attestation on the blockchain</li>
+          </Typography>
+        </Box>
+        
+        {/* Wallet step indicator */}
+        {(walletStep !== WalletStep.IDLE && !attestationId) && (
+          <Box sx={{ mb: 2 }}>
+            <Stepper activeStep={walletStep === WalletStep.SIGNING ? 0 : walletStep === WalletStep.TRANSACTION ? 1 : 2} alternativeLabel>
+              <Step>
+                <StepLabel>Identity Verification</StepLabel>
+              </Step>
+              <Step>
+                <StepLabel>On-chain Attestation</StepLabel>
+              </Step>
+              <Step>
+                <StepLabel>Complete</StepLabel>
+              </Step>
+            </Stepper>
+            
+            <Alert severity={walletStep === WalletStep.SIGNING ? "info" : walletStep === WalletStep.TRANSACTION ? "warning" : "success"} sx={{ mt: 2 }}>
+              {walletStep === WalletStep.SIGNING && "Please sign the identity verification message in your wallet. This confirms your name and role."}
+              {walletStep === WalletStep.TRANSACTION && "Please confirm the transaction in your wallet to create your on-chain attestation."}
+              {walletStep === WalletStep.COMPLETE && "Your attestation has been successfully created on the blockchain!"}
+            </Alert>
+          </Box>
+        )}
 
         {error && (
           <Typography color="error" gutterBottom>
@@ -407,10 +462,19 @@ export default function EnrollmentAttestation({
                 color="primary"
                 onClick={createAttestation}
                 disabled={!address || !previewData || loading || isNetworkSwitching || networkSwitched || !!attestationId}
-                sx={{ width: '100%' }}
+                sx={{ 
+                  width: '100%',
+                  opacity: walletStep !== WalletStep.IDLE && walletStep !== WalletStep.COMPLETE ? 0.7 : 1,
+                  position: 'relative'
+                }}
               >
                 {loading ? (
-                  <CircularProgress size={24} />
+                  <>
+                    <CircularProgress size={24} sx={{ mr: 1 }} />
+                    {walletStep === WalletStep.SIGNING && "Waiting for signature..."}
+                    {walletStep === WalletStep.TRANSACTION && "Creating attestation..."}
+                    {walletStep === WalletStep.IDLE && "Loading..."}
+                  </>
                 ) : isNetworkSwitching ? (
                   'Switching Network...'
                 ) : networkSwitched ? (
@@ -421,6 +485,13 @@ export default function EnrollmentAttestation({
                   'Create Attestation'
                 )}
               </Button>
+              
+              {/* Additional explanation about the button */}
+              {!loading && !attestationId && (
+                <Typography sx={{ color: '#ffffff', fontSize: '0.8rem', mt: 1, textAlign: 'center' }}>
+                  Clicking this button will start the attestation process
+                </Typography>
+              )}
             </Box>
           </>
         )}
