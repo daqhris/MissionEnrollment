@@ -253,11 +253,16 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
 - Account change handling
 - Network synchronization
 
-## ETHGlobal Brussels 2024
+## Approved Events
 
+### ETHGlobal Brussels 2024
 This web app includes a special feature that is dependent on in-person participation at ETHGlobal Brussels 2024.
 Users are invited to verify ownership of an ETHGlobal-certified POAP, adding an extra layer of credibility to their enrollment attestations.
 The mission coordinator has participated in the global hackathon when it was held for the first time in Belgium.
+
+### ETHDenver Coinbase 2025
+The application also recognizes attendance at ETHDenver Coinbase 2025 as an approved event for mission enrollment.
+Participants who attended this event can verify their attendance through their POAP tokens, which will be automatically detected and validated during the enrollment process.
 
 ### Affiliated Wallet Addresses
 - __daqhris.base.eth__: 0xb5ee030c71e76c3e03b2a8d425dbb9b395037c82
