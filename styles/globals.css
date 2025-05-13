@@ -3,9 +3,10 @@
 @import "tailwindcss/utilities";
 
 :root {
-  --primary-color: #4f46e5;
+  --primary-color: #957777;
   --secondary-color: #10b981;
   --accent-color: #f59e0b;
+  --text-color: #e2e8f0;
   --background-gradient: linear-gradient(135deg, #1e293b, #111827);
 }
 
@@ -22,7 +23,7 @@ h3,
 h4 {
   margin-bottom: 1rem;
   line-height: 1.2;
-  color: #957777;
+  color: var(--primary-color);
   font-weight: 700;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -94,7 +95,7 @@ select:focus {
   right: 8px;
   font-size: 0.6rem;
   opacity: 0.3;
-  color: #957777;
+  color: var(--primary-color);
   pointer-events: none;
 }
 
@@ -105,6 +106,22 @@ select:focus {
 
 .container {
   @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Add responsive adjustments for small screens */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 1.75rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  .card {
+    @apply p-4;
+  }
+  .btn {
+    @apply px-4 py-2 text-sm;
+  }
 }
 
 @keyframes float {

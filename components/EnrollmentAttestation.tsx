@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAccount, useChainId } from 'wagmi';
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import { Card, CardContent, Typography, Button, CircularProgress, Box } from '@mui/material';
+import { Card, CardContent, Typography, Button, CircularProgress, Box, Alert, Stepper, Step, StepLabel } from '@mui/material';
 import { notification } from "../utils/scaffold-eth";
 import {
   EAS_CONTRACT_ADDRESS,
@@ -16,18 +16,25 @@ import { SCHEMA_ENCODING } from '../types/attestation';
 import { getPOAPRole } from '../utils/poap';
 import { BrowserProvider, TransactionReceipt, Log, Interface } from 'ethers';
 import { useNetworkSwitch } from '../hooks/useNetworkSwitch';
-import { generateVerificationSignature, generateVerificationHash } from '../utils/attestationVerification';
+import { generateVerificationSignature, generateVerificationHash, signVerification } from '../utils/attestationVerification';
 
 interface EnrollmentAttestationProps {
-  verifiedName: string;
+  approvedName: string;
   poapVerified: boolean;
   onAttestationComplete: (attestationId: string) => void;
   attestationId?: string | null;
 }
 
+enum WalletStep {
+  IDLE = 'idle',
+  SIGNING = 'signing',
+  TRANSACTION = 'transaction',
+  COMPLETE = 'complete'
+}
+
 interface PreviewData {
   userAddress: string;
-  verifiedName: string;
+  approvedName: string;
   proofMethod: string;
   eventName: string;
   eventType: string;
@@ -43,7 +50,7 @@ interface PreviewData {
 }
 
 export default function EnrollmentAttestation({
-  verifiedName,
+  approvedName,
   poapVerified,
   onAttestationComplete,
   attestationId
@@ -53,6 +60,7 @@ export default function EnrollmentAttestation({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [previewData, setPreviewData] = useState<PreviewData | null>(null);
+  const [walletStep, setWalletStep] = useState<WalletStep>(WalletStep.IDLE);
   const { preferredNetwork } = useUserNetworkPreference();
 
   const {
@@ -76,7 +84,7 @@ export default function EnrollmentAttestation({
 
       let eventName = "ETHGlobal Brussels 2024";
       let eventTypeDisplay = "International Hackathon";
-      
+
       if (eventType === 'ETHDENVER_COINBASE_2025') {
         eventName = "ETHDenver Coinbase 2025";
         eventTypeDisplay = "Developer Workshop & Hackathon";
@@ -87,17 +95,17 @@ export default function EnrollmentAttestation({
       const verificationSignature = generateVerificationSignature(address, { 
         eventName, 
         role, 
-        verifiedName 
+        verifiedName: approvedName 
       });
       const verificationHash = generateVerificationHash(address, { 
         eventName, 
         role, 
-        verifiedName 
+        verifiedName: approvedName 
       });
 
       setPreviewData({
         userAddress: address,
-        verifiedName,
+        approvedName,
         proofMethod: "Basename Protocol",
         eventName,
         eventType: eventTypeDisplay,
@@ -117,7 +125,7 @@ export default function EnrollmentAttestation({
       setError('Failed to initialize preview data. Please try again.');
       setLoading(false);  // Clear loading state on error
     }
-  }, [address, verifiedName]);
+  }, [address, approvedName]);
 
   const handleError = (error: any) => {
     // Add receipt-specific error logging
@@ -191,10 +199,43 @@ export default function EnrollmentAttestation({
       const signer = await provider.getSigner();
       eas.connect(signer);
 
+      setWalletStep(WalletStep.SIGNING);
+      notification.info("Please sign the identity verification message in your wallet");
+      
+      const messageData = {
+        userAddress: previewData.userAddress,
+        eventName: previewData.eventName,
+        role: previewData.assignedRole,
+        verifiedName: previewData.approvedName,
+        timestamp: previewData.timestamp
+      };
+
+      console.log("EIP-712 message data:", messageData);
+
+      let signature;
+      try {
+        signature = await signVerification(signer, previewData.userAddress, {
+          eventName: previewData.eventName,
+          role: previewData.assignedRole,
+          verifiedName: previewData.approvedName
+        });
+        
+        console.log("EIP-712 signature:", signature);
+      } catch (error) {
+        console.error("EIP-712 signing error:", error);
+        setError(`Failed to create attestation: ${error instanceof Error ? error.message : 'Wallet signing error'}`);
+        setWalletStep(WalletStep.IDLE);
+        setLoading(false);
+        return;
+      }
+
+      setWalletStep(WalletStep.TRANSACTION);
+      notification.info("Please confirm the transaction to create your on-chain attestation");
+      
       const schemaEncoder = new SchemaEncoder(SCHEMA_ENCODING);
       const encodedData = schemaEncoder.encodeData([
         { name: "userAddress", value: previewData.userAddress, type: "address" },
-        { name: "verifiedName", value: previewData.verifiedName, type: "string" },
+        { name: "verifiedName", value: previewData.approvedName, type: "string" },
         { name: "proofMethod", value: previewData.proofMethod, type: "string" },
         { name: "eventName", value: previewData.eventName, type: "string" },
         { name: "eventType", value: previewData.eventType, type: "string" },
@@ -205,7 +246,7 @@ export default function EnrollmentAttestation({
         { name: "proofProtocol", value: previewData.proofProtocol, type: "string" },
         { name: "verificationSource", value: previewData.verificationSource, type: "string" },
         { name: "verificationTimestamp", value: previewData.verificationTimestamp, type: "string" },
-        { name: "verificationSignature", value: previewData.verificationSignature, type: "string" },
+        { name: "verificationSignature", value: signature, type: "string" }, // Use the actual signature
         { name: "verificationHash", value: previewData.verificationHash, type: "string" }
       ]);
 
@@ -221,11 +262,13 @@ export default function EnrollmentAttestation({
       const newAttestationId = await tx.wait();
       console.log("New attestation created with ID: ", newAttestationId);
 
+      setWalletStep(WalletStep.COMPLETE);
       notification.success("Successfully created attestation!");
       onAttestationComplete(newAttestationId);
       setLoading(false);
     } catch (err) {
       handleError(err);
+      setWalletStep(WalletStep.IDLE);
       setLoading(false);
     }
   }, [address, previewData, handleNetworkSwitch, onAttestationComplete, preferredNetwork]);
@@ -262,17 +305,62 @@ export default function EnrollmentAttestation({
     <Card sx={{
       backgroundColor: 'rgba(239, 68, 68, 0.1)',
       borderRadius: '0.5rem',
-      transition: 'box-shadow 0.2s'
+      transition: 'box-shadow 0.2s',
+      margin: { xs: '0.5rem', md: '1rem' },
+      padding: { xs: '0.75rem', md: '1.5rem' }
     }}>
       <CardContent>
         <Typography variant="h5" gutterBottom sx={{ color: '#957777', fontWeight: 600 }}>
-          Enrollment Attestation
+          Enrollment for Zinneke Rescue Mission
         </Typography>
-        
+
         {preferredNetwork && chainId !== preferredNetwork && (
           <Typography color="warning.main" gutterBottom>
             Your wallet is connected to {NETWORK_CONFIG[chainId]?.name || 'an unknown network'}, but you've selected {NETWORK_CONFIG[preferredNetwork]?.name || 'another network'} for attestations.
           </Typography>
+        )}
+
+        <Typography paragraph sx={{ color: '#ffffff', marginBottom: 2 }}>
+          Mission Enrollment is the official onboarding portal for the upcoming Zinneke Rescue Mission on the Base blockchain.
+          <br />
+          Complete the steps below to secure your place in this collaborative artistic mission.
+        </Typography>
+        
+        {/* Wallet interaction explanation */}
+        <Box sx={{ mb: 2, p: 2, backgroundColor: 'rgba(255, 255, 255, 0.1)', borderRadius: '0.5rem' }}>
+          <Typography variant="subtitle1" sx={{ color: '#ffffff', fontWeight: 600, mb: 1 }}>
+            Wallet Interaction Guide
+          </Typography>
+          <Typography sx={{ color: '#ffffff', fontSize: '0.9rem' }}>
+            Creating your attestation requires two wallet interactions:
+          </Typography>
+          <Typography component="ol" sx={{ color: '#ffffff', fontSize: '0.9rem', pl: 2 }}>
+            <li>First, you'll sign a message to verify your identity (shows your name and role)</li>
+            <li>Then, you'll confirm a transaction to create your attestation on the blockchain</li>
+          </Typography>
+        </Box>
+        
+        {/* Wallet step indicator */}
+        {(walletStep !== WalletStep.IDLE && !attestationId) && (
+          <Box sx={{ mb: 2 }}>
+            <Stepper activeStep={walletStep === WalletStep.SIGNING ? 0 : walletStep === WalletStep.TRANSACTION ? 1 : 2} alternativeLabel>
+              <Step>
+                <StepLabel>Identity Verification</StepLabel>
+              </Step>
+              <Step>
+                <StepLabel>On-chain Attestation</StepLabel>
+              </Step>
+              <Step>
+                <StepLabel>Complete</StepLabel>
+              </Step>
+            </Stepper>
+            
+            <Alert severity={walletStep === WalletStep.SIGNING ? "info" : walletStep === WalletStep.TRANSACTION ? "warning" : "success"} sx={{ mt: 2 }}>
+              {walletStep === WalletStep.SIGNING && "Please sign the identity verification message in your wallet. This confirms your name and role."}
+              {walletStep === WalletStep.TRANSACTION && "Please confirm the transaction in your wallet to create your on-chain attestation."}
+              {walletStep === WalletStep.COMPLETE && "Your attestation has been successfully created on the blockchain!"}
+            </Alert>
+          </Box>
         )}
 
         {error && (
@@ -295,7 +383,7 @@ export default function EnrollmentAttestation({
           <>
             <Box mb={2} sx={{
               backgroundColor: 'rgb(254, 242, 242)',
-              padding: '0.5rem',
+              padding: { xs: '0.375rem', md: '0.5rem' },
               borderRadius: '0.375rem',
               '&:hover': {
                 backgroundColor: 'rgb(254, 226, 226)',
@@ -309,7 +397,7 @@ export default function EnrollmentAttestation({
                 User Address: {previewData?.userAddress || 'Not connected'}
               </Typography>
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
-                Public Identity: {previewData?.verifiedName || 'Not verified'}
+                Public Identity: {previewData?.approvedName || 'Not approved'}
               </Typography>
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Proof Verification Method: {previewData?.proofMethod}
@@ -318,7 +406,7 @@ export default function EnrollmentAttestation({
 
             <Box mb={2} sx={{
               backgroundColor: 'rgb(254, 242, 242)',
-              padding: '0.5rem',
+              padding: { xs: '0.375rem', md: '0.5rem' },
               borderRadius: '0.375rem',
               '&:hover': {
                 backgroundColor: 'rgb(254, 226, 226)',
@@ -335,13 +423,13 @@ export default function EnrollmentAttestation({
                 Event Type: {previewData?.eventType}
               </Typography>
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
-                Assigned Role: {previewData?.assignedRole || 'Not verified'}
+                Assigned Role: {previewData?.assignedRole || 'Not approved'}
               </Typography>
             </Box>
 
             <Box mb={2} sx={{
               backgroundColor: 'rgb(254, 242, 242)',
-              padding: '0.5rem',
+              padding: { xs: '0.375rem', md: '0.5rem' },
               borderRadius: '0.375rem',
               '&:hover': {
                 backgroundColor: 'rgb(254, 226, 226)',
@@ -349,10 +437,10 @@ export default function EnrollmentAttestation({
               }
             }}>
               <Typography variant="h6" gutterBottom sx={{ color: 'rgb(17, 24, 39)', fontWeight: 600 }}>
-                Early Registration
+                Mission Registration
               </Typography>
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
-                Collaborative Mission: {previewData?.missionName}
+                Collaborative Mission: <span style={{ fontWeight: 600 }}>{previewData?.missionName}</span>
               </Typography>
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Enrollment Timestamp: {previewData?.timestamp ? new Date(previewData.timestamp).toLocaleString() : 'Not set'}
@@ -374,10 +462,19 @@ export default function EnrollmentAttestation({
                 color="primary"
                 onClick={createAttestation}
                 disabled={!address || !previewData || loading || isNetworkSwitching || networkSwitched || !!attestationId}
-                sx={{ width: '100%' }}
+                sx={{ 
+                  width: '100%',
+                  opacity: walletStep !== WalletStep.IDLE && walletStep !== WalletStep.COMPLETE ? 0.7 : 1,
+                  position: 'relative'
+                }}
               >
                 {loading ? (
-                  <CircularProgress size={24} />
+                  <>
+                    <CircularProgress size={24} sx={{ mr: 1 }} />
+                    {walletStep === WalletStep.SIGNING && "Waiting for signature..."}
+                    {walletStep === WalletStep.TRANSACTION && "Creating attestation..."}
+                    {walletStep === WalletStep.IDLE && "Loading..."}
+                  </>
                 ) : isNetworkSwitching ? (
                   'Switching Network...'
                 ) : networkSwitched ? (
@@ -388,6 +485,13 @@ export default function EnrollmentAttestation({
                   'Create Attestation'
                 )}
               </Button>
+              
+              {/* Additional explanation about the button */}
+              {!loading && !attestationId && (
+                <Typography sx={{ color: '#ffffff', fontSize: '0.8rem', mt: 1, textAlign: 'center' }}>
+                  Clicking this button will start the attestation process
+                </Typography>
+              )}
             </Box>
           </>
         )}
