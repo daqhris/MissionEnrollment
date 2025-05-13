@@ -6,9 +6,9 @@ _A blockchain app being openly built by a human and a non-human since summer 202
 <img src="https://raw.githubusercontent.com/daqhris/MissionEnrollment/master/public/logo.png" alt="Mission Enrollment Logo" width="250" height="250">
 
 This app facilitates the enrollment of its connected user for an up-coming onchain mission.
-Its use requires the verification of a name on a blockchain, a token from an in-person event, and an attestation signed by the mission coordinator on the **Base** blockchain.
+Its use requires the onchain identity check of a name on a blockchain, approval of attendance at an in-person event, and an attestation signed by the mission coordinator on the **Base** blockchain.
 
-This project implements a transparent process reliant on 3 steps of control and validation: identity check, event attendance, and enrollment attestation.
+This project implements a transparent process reliant on 3 steps of control and validation: onchain identity check, event attendance approval, and enrollment attestation.
 It is built as a web application with **Next.js** and **React**, and runs on top of smart contracts integrating blockchain protocols: **Basename (ENS)**, **Proof of Attendance Protocol (POAP)** and **Ethereum Attestation Service (EAS)**.
 
 ## Project Structure
@@ -43,13 +43,16 @@ Custom hook for handling network switching between Base and Base Sepolia network
 
 - Frontend: React with Next.js (Node.js v18)
 - Blockchain Interaction: ethers.js, wagmi v2, viem/chains
-- Basename/ENS Integration: user name resolution via ethers.js with two-step verification
+- Basename/ENS Integration: user name resolution via ethers.js with two-step onchain identity check
 - POAP API: Custom API route with caching, rate limiting, and a delay implementation
 - Middleware: Custom implementation for POAP API request handling with rate limiting
 - Attestation: Ethereum Attestation Service (EAS) SDK v2.7.0 with role-based access
 - OnchainKit (Coinbase): Integrated for identity and wallet functionalities
 - GraphQL Integration: Apollo Client for querying attestation data from EAS GraphQL endpoint with pagination and caching
 - Recent Attestations: Paginated view of attestations with error handling and fallback UI
+- EIP-712 Typed Data Signing: Structured wallet message signing for improved security and user experience
+- Mobile Responsiveness: Adaptive UI design for optimal viewing on devices of all sizes
+- Branding Elements: Consistent color scheme, typography, and visual identity throughout the application
 
 ### State Management
 The application uses a multi-layered state management approach:
@@ -130,10 +133,10 @@ The project includes comprehensive testing setup:
 
 **Mission Enrollment** provides a streamlined, one-page application for a select number of talented individuals to enroll in advance of the **_Zinneke Rescue Mission_**.
 
-1. User connects their Ethereum wallet using the wallet connector and verifies their identity with Basename or ENS name.
+1. User connects their Ethereum wallet using the wallet connector and completes an onchain identity check with Basename or ENS name.
 2. The application fetches and displays relevant POAPs from approved events (ETHGlobal Brussels 2024 and ETHDenver Coinbase 2025), extracting role information dynamically.
-3. Its interface's second stage leads to verification of event attendance and role through POAPs before proceeding to attestation.
-4. User creates an attestation on the Base Sepolia network using EAS, with automatic network switching if needed.
+3. Its interface's second stage leads to approval of event attendance and role through POAPs before proceeding to attestation.
+4. User creates an attestation on the Base Sepolia network using EAS, with automatic network switching if needed and guided wallet interactions.
 5. Upon successful attestation creation, a success screen is displayed with attestation details and a link to view it on EAS Explorer.
 
 ## API Routes
@@ -155,14 +158,14 @@ The project includes comprehensive testing setup:
 The attestation system leverages the Ethereum Attestation Service (EAS) infrastructure with the following components:
 
 ### Schema Details
-- **Schema Structure**: `address userAddress,string verifiedName,string proofMethod,string eventName,string eventType,string assignedRole,string missionName,uint256 timestamp,address attester,string proofProtocol`
+- **Schema Structure**: `address userAddress,string approvedName,string proofMethod,string eventName,string eventType,string assignedRole,string missionName,uint256 timestamp,address attester,string proofProtocol`
 - **Schema UID**: 0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd
 - **View Attestations on EAS Explorer**: [Base Sepolia Schema #910](https://base-sepolia.easscan.org/schema/view/0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd)
 - **Fields**:
   - `userAddress`: Ethereum address of the enrolled user
-  - `verifiedName`: User's verified Basename or ENS name
-  - `proofMethod`: Method used for verification (e.g., "POAP")
-  - `eventName`: Name of the verified event (e.g., "ETHGlobal Brussels 2024")
+  - `approvedName`: User's approved Basename or ENS name
+  - `proofMethod`: Method used for approval (e.g., "POAP")
+  - `eventName`: Name of the approved event (e.g., "ETHGlobal Brussels 2024")
   - `eventType`: Type of event attended (e.g., "Hackathon")
   - `assignedRole`: Role assigned at the event (dynamically extracted from POAP)
   - `missionName`: Name of the mission being enrolled for
@@ -210,6 +213,10 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
   - Wallet integration via wagmi hooks
   - Error recovery mechanisms
   - Gas estimation and optimization
+  - EIP-712 typed data signing for secure wallet interactions
+  - Step indicators for clear wallet interaction guidance
+  - Visual feedback during signing and transaction processes
+  - Improved error handling with user-friendly messages
 
 - `SuccessAttestation.tsx`: Final success screen component
   - Displays attestation creation confirmation
@@ -228,20 +235,34 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
 - Gas price optimization
 - Error recovery mechanisms
 
+#### Mobile Experience
+- Responsive design for all screen sizes
+- Optimized typography and spacing for mobile devices
+- Touch-friendly UI elements with appropriate sizing
+- Consistent branding across all device types
+- Adaptive layout adjustments for smaller screens
+
 
 
 #### Wallet Integration
 - Multiple wallet support (MetaMask, WalletConnect, Coinbase)
 - Connection state management
-- Transaction signing flow
+- Transaction signing flow with EIP-712 typed data
+- Step-by-step wallet interaction guidance
+- Visual feedback during signing processes
 - Account change handling
 - Network synchronization
 
-## ETHGlobal Brussels 2024
+## Approved Events
 
+### ETHGlobal Brussels 2024
 This web app includes a special feature that is dependent on in-person participation at ETHGlobal Brussels 2024.
 Users are invited to verify ownership of an ETHGlobal-certified POAP, adding an extra layer of credibility to their enrollment attestations.
 The mission coordinator has participated in the global hackathon when it was held for the first time in Belgium.
+
+### ETHDenver Coinbase 2025
+The application also recognizes attendance at ETHDenver Coinbase 2025 as an approved event for mission enrollment.
+Participants who attended this event can verify their attendance through their POAP tokens, which will be automatically detected and validated during the enrollment process.
 
 ### Affiliated Wallet Addresses
 - __daqhris.base.eth__: 0xb5ee030c71e76c3e03b2a8d425dbb9b395037c82
