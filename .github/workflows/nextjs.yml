@@ -25,7 +25,7 @@ permissions:
 # Configure concurrency to prevent deadlocks between workflow stages
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   # Build job
@@ -102,7 +102,7 @@ jobs:
             cp ./sitemap*.xml ./out/
           fi
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
 
