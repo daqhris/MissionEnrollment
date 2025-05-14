@@ -443,9 +443,7 @@ export default function EnrollmentAttestation({
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Collaborative Mission: <span style={{ fontWeight: 600 }}>{previewData?.missionName}</span>
               </Typography>
-              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
-                Verification Time: {previewData?.timestamp ? formatTimestamp(previewData.timestamp) : 'Not set'}
-              </Typography>
+
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Public Attester: {previewData?.attester}
               </Typography>
