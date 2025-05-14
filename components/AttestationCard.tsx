@@ -2,6 +2,7 @@ import React from "react";
 import type { Attestation } from "../types/attestation";
 import tw from "tailwind-styled-components";
 import { SCHEMA_UID_ORIGINAL, SCHEMA_UID_ENHANCED } from "../utils/constants";
+import { formatBaseName, getFieldLabel } from "../utils/formatting";
 
 const Card = tw.div`
   mt-6
@@ -120,16 +121,26 @@ export const AttestationCard: React.FC<Props> = ({ attestation }) => {
           <Section>
             <Label>Attestation Data:</Label>
             <div className="space-y-2">
-              {Object.entries(decodedData).map(([key, value]) => (
-                <div key={key}>
-                  <Label>{key}:</Label>
-                  <Value>
-                    {typeof value === 'object' 
-                      ? JSON.stringify(value) 
-                      : String(value)}
-                  </Value>
-                </div>
-              ))}
+              {Object.entries(decodedData).map(([key, value]) => {
+                const formattedKey = key.toLowerCase();
+                const label = getFieldLabel(formattedKey) || key;
+                let displayValue = value;
+                
+                if (formattedKey === 'verifiedname') {
+                  displayValue = formatBaseName(String(value));
+                }
+                
+                return (
+                  <div key={key}>
+                    <Label>{label}:</Label>
+                    <Value>
+                      {typeof displayValue === 'object' 
+                        ? JSON.stringify(displayValue) 
+                        : String(displayValue)}
+                    </Value>
+                  </div>
+                );
+              })}
             </div>
           </Section>
         )}

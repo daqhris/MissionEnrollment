@@ -15,20 +15,34 @@ export function formatAttestationValue(field: { name: string; value: any }) {
 export function getFieldLabel(name: string): string {
   const labels: Record<string, string> = {
     userAddress: 'Address',
-    verifiedName: 'Name',
-    proofMethod: 'Proof',
+    verifiedName: 'Approved Name',  // Changed from 'Name' to 'Approved Name'
+    proofMethod: 'Proof Method',    // More descriptive
     eventName: 'Event',
     eventType: 'Type',
     assignedRole: 'Role',
     missionName: 'Mission',
-    attester: 'Attester',
-    proofProtocol: 'Proof',
-    verificationSource: 'Source',
-    verificationTimestamp: 'Verified',
+    attester: 'Official Attester',  // Made consistent with EnrollmentAttestation
+    proofProtocol: 'Proof Protocol', // More descriptive
+    verificationSource: 'Verification Source',
+    verificationTimestamp: 'Verification Time',
     verificationSignature: 'Signature',
     verificationHash: 'Hash'
   };
   return labels[name] || name;
+}
+
+/**
+ * Ensures Base names are displayed with a single .base.eth suffix
+ * @param name Name to format
+ * @returns Properly formatted name
+ */
+export function formatBaseName(name: string): string {
+  if (!name) return name;
+  const baseSuffix = '.base.eth';
+  if (name.endsWith(`${baseSuffix}${baseSuffix}`)) {
+    return name.slice(0, name.length - baseSuffix.length);
+  }
+  return name;
 }
 
 export function formatAttestationData(decodedData: any[]): Partial<SchemaData> {
@@ -70,6 +84,8 @@ export function formatAttestationData(decodedData: any[]): Partial<SchemaData> {
         if (!isNaN(timestamp)) {
           formattedData[key] = timestamp;
         }
+      } else if (key === 'verifiedName') {
+        formattedData[key] = formatBaseName(String(value).trim());
       } else {
         formattedData[key] = String(value).trim();
       }
