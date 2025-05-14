@@ -48,14 +48,14 @@ export function formatAttestationValue(field: { name: string; value: any }) {
 
 export function getFieldLabel(name: string): string {
   const labels: Record<string, string> = {
-    userAddress: 'Address',
-    verifiedName: 'Enrolled User',  // Changed from 'Approved Name' to 'Enrolled User'
+    userAddress: 'User Address',
+    verifiedName: 'Onchain Name',  // Changed from 'Enrolled User' to 'Onchain Name'
     proofMethod: 'Proof Method',
     eventName: 'Event',
     eventType: 'Type',
     assignedRole: 'Role',
     missionName: 'Mission',
-    attester: 'Official Attester',
+    attester: 'Public Attester',  // Changed from 'Official Attester' to 'Public Attester'
     proofProtocol: 'Proof Protocol',
     verificationSource: 'Schema Deployer',
     verificationTimestamp: 'Verification Time',

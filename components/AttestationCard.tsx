@@ -103,11 +103,11 @@ export const AttestationCard: React.FC<Props> = ({ attestation }) => {
           <Label>Basic Information:</Label>
           <div className="space-y-2">
             <div>
-              <Label>Attester:</Label>
+              <Label>Public Attester:</Label>
               <Value>{attestation.attester}</Value>
             </div>
             <div>
-              <Label>Recipient:</Label>
+              <Label>User Address:</Label>
               <Value>{attestation.recipient}</Value>
             </div>
             <div>

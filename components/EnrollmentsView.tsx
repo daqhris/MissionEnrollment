@@ -185,14 +185,14 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
                           const decodedData = JSON.parse(attestation.decodedDataJson) as AttestationData[];
                           const formattedData = formatAttestationData(decodedData);
                           const displayOrder = [
-                            'userAddress',      // Address: 0xb5ee...
-                            'verifiedName',     // Name: daqhris.base.eth
+                            'userAddress',      // User Address: 0xb5ee...
+                            'verifiedName',     // Onchain Name: daqhris.base.eth
                             'proofMethod',      // Proof: Basename
                             'eventName',        // Event: ETHGlobal Brussels 2024
                             'eventType',        // Type: International Hackathon
                             'assignedRole',     // Role: Hacker
                             'missionName',      // Mission: Zinneke Rescue Mission
-                            'attester',         // Attester: mission-enrollment.base.eth
+                            'attester',         // Public Attester: mission-enrollment.base.eth
                             'proofProtocol',    // Proof: EAS
                             'verificationSource', // Schema Deployer: mission-enrollment.base.eth
                             'verificationTimestamp', // Timestamp: ISO date
