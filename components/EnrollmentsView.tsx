@@ -194,7 +194,7 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
                             'missionName',      // Mission: Zinneke Rescue Mission
                             'attester',         // Attester: mission-enrollment.base.eth
                             'proofProtocol',    // Proof: EAS
-                            'verificationSource', // Source: mission-enrollment.base.eth
+                            'verificationSource', // Schema Deployer: mission-enrollment.base.eth
                             'verificationTimestamp', // Timestamp: ISO date
                             'verificationHash'  // Hash: 0x...
                           ];
