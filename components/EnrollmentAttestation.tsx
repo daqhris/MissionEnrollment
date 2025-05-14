@@ -81,7 +81,7 @@ export default function EnrollmentAttestation({
     try {
       setLoading(true);  // Add loading state
       const { role, eventType } = await getPOAPRole(address);
-      const timestamp = Math.floor(Date.now() / 1000);
+      const timestamp = Date.now(); // Use milliseconds for proper date display
 
       let eventName = "ETHGlobal Brussels 2024";
       let eventTypeDisplay = "International Hackathon";
