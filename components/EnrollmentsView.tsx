@@ -8,7 +8,7 @@ import { Attestation, AttestationData } from '../types/attestation';
 import { ErrorBoundary } from 'react-error-boundary';
 import { formatDistanceToNow } from 'date-fns';
 import { SCHEMA_UID_ORIGINAL, SCHEMA_UID_ENHANCED } from '../utils/constants';
-import { formatAttestationData, getFieldLabel, formatBaseName } from '../utils/formatting';
+import { formatAttestationData, getFieldLabel, formatBaseName, formatTimestamp } from '../utils/formatting';
 import { mockEnrollments, mockAttestationsCount } from '../data/mockEnrollments';
 
 interface EnrollmentsViewProps {
@@ -221,6 +221,8 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
                                 displayValue;
                             } else if (key === 'verifiedName') {
                               displayValue = formatBaseName(String(displayValue));
+                            } else if (key === 'verificationTimestamp' || key === 'timestamp') {
+                              displayValue = formatTimestamp(String(displayValue));
                             }
 
                             return (

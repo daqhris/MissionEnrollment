@@ -2,7 +2,7 @@ import React from "react";
 import type { Attestation } from "../types/attestation";
 import tw from "tailwind-styled-components";
 import { SCHEMA_UID_ORIGINAL, SCHEMA_UID_ENHANCED } from "../utils/constants";
-import { formatBaseName, getFieldLabel } from "../utils/formatting";
+import { formatBaseName, getFieldLabel, formatTimestamp } from "../utils/formatting";
 
 const Card = tw.div`
   mt-6
@@ -112,7 +112,7 @@ export const AttestationCard: React.FC<Props> = ({ attestation }) => {
             </div>
             <div>
               <Label>Created:</Label>
-              <Value>{new Date(attestation.time * 1000).toLocaleString()}</Value>
+              <Value>{formatTimestamp(attestation.time * 1000)}</Value>
             </div>
           </div>
         </Section>
@@ -155,8 +155,8 @@ export const AttestationCard: React.FC<Props> = ({ attestation }) => {
               </div>
               {decodedData.verificationTimestamp && (
                 <div>
-                  <Label>Verification Timestamp:</Label>
-                  <Value>{decodedData.verificationTimestamp}</Value>
+                  <Label>Verification Time:</Label>
+                  <Value>{formatTimestamp(decodedData.verificationTimestamp)}</Value>
                 </div>
               )}
               {decodedData.verificationHash && (
