@@ -4,7 +4,6 @@ import { fetchPoaps } from '../utils/fetchPoapsUtil';
 import { APPROVED_EVENT_NAMES, EVENT_VENUES } from '../utils/eventConstants';
 import { useNetworkSwitch } from '../hooks/useNetworkSwitch';
 import { extractRoleFromPOAP, determineEventType } from '../utils/roleExtraction';
-import { Tooltip, HelpButton } from '../components/Onboarding';
 
 const getRoleBadgeColor = (role: string): string => {
   switch(role.toLowerCase()) {
@@ -189,26 +188,22 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
               Hello {approvedName}, did you attend any of our approved events in person? This verification is required for enrolling in the Zinneke Rescue Mission.
             </p>
             <div className="flex justify-center gap-4">
-              <Tooltip id="yes-attended-button" content="Confirm you attended an approved event in person">
-                <button
-                  className={`btn btn-primary ${attestationId ? 'btn-disabled opacity-50' : ''}`}
-                  onClick={() => handleAttendanceResponse(true)}
-                  disabled={!!attestationId}
-                  id="yes-attended-button"
-                >
-                  Yes, I attended
-                </button>
-              </Tooltip>
-              <Tooltip id="no-attended-button" content="Indicate you did not attend an approved event">
-                <button
-                  className={`btn btn-outline ${attestationId ? 'btn-disabled opacity-50' : ''}`}
-                  onClick={() => handleAttendanceResponse(false)}
-                  disabled={!!attestationId}
-                  id="no-attended-button"
-                >
-                  No, I did not attend
-                </button>
-              </Tooltip>
+              <button
+                className={`btn btn-primary ${attestationId ? 'btn-disabled opacity-50' : ''}`}
+                onClick={() => handleAttendanceResponse(true)}
+                disabled={!!attestationId}
+                id="yes-attended-button"
+              >
+                Yes, I attended
+              </button>
+              <button
+                className={`btn btn-outline ${attestationId ? 'btn-disabled opacity-50' : ''}`}
+                onClick={() => handleAttendanceResponse(false)}
+                disabled={!!attestationId}
+                id="no-attended-button"
+              >
+                No, I did not attend
+              </button>
             </div>
           </div>
         ) : attendedEvent === false ? (
@@ -308,40 +303,38 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
             )}
 
             <div className="mt-4">
-              <Tooltip id="switch-network-button" content="Switch to Base Sepolia network to create your attestation">
-                <button
-                  className={`btn w-full ${networkSwitched || attestationId ? 'btn-disabled opacity-50' : 'btn-primary'}`}
-                  onClick={async () => {
-                    const success = await handleNetworkSwitch();
-                    if (success && poapDetails) {
-                      const eventType = poapDetails.event.name.includes('ETHGlobal Brussels') 
-                        ? 'ETH_GLOBAL_BRUSSELS' 
-                        : 'ETHDENVER_COINBASE_2025';
-                      
-                      // Extract role using the centralized utility
-                      const role = extractRoleFromPOAP(
-                        poapDetails.event.name,
-                        poapDetails.event.description || '',
-                        eventType
-                      );
-                      
-                      onVerified(true, {
-                        role,
-                        date: poapDetails.event.end_date || poapDetails.event.start_date,
-                        venue: EVENT_VENUES[eventType as keyof typeof EVENT_VENUES],
-                        approvedName: approvedName,
-                        tokenId: poapDetails.tokenId,
-                        eventType
-                      });
-                    }
-                  }}
-                  disabled={networkSwitched || verificationStatus !== 'success' || !!attestationId}
-                  id="switch-network-button"
-                >
-                  {isNetworkSwitching ? 'Switching Network...' :
-                   networkSwitched ? 'Network Switched' : 'Switch to Base Sepolia'}
-                </button>
-              </Tooltip>
+              <button
+                className={`btn w-full ${networkSwitched || attestationId ? 'btn-disabled opacity-50' : 'btn-primary'}`}
+                onClick={async () => {
+                  const success = await handleNetworkSwitch();
+                  if (success && poapDetails) {
+                    const eventType = poapDetails.event.name.includes('ETHGlobal Brussels') 
+                      ? 'ETH_GLOBAL_BRUSSELS' 
+                      : 'ETHDENVER_COINBASE_2025';
+                    
+                    // Extract role using the centralized utility
+                    const role = extractRoleFromPOAP(
+                      poapDetails.event.name,
+                      poapDetails.event.description || '',
+                      eventType
+                    );
+                    
+                    onVerified(true, {
+                      role,
+                      date: poapDetails.event.end_date || poapDetails.event.start_date,
+                      venue: EVENT_VENUES[eventType as keyof typeof EVENT_VENUES],
+                      approvedName: approvedName,
+                      tokenId: poapDetails.tokenId,
+                      eventType
+                    });
+                  }
+                }}
+                disabled={networkSwitched || verificationStatus !== 'success' || !!attestationId}
+                id="switch-network-button"
+              >
+                {isNetworkSwitching ? 'Switching Network...' :
+                 networkSwitched ? 'Network Switched' : 'Switch to Base Sepolia'}
+              </button>
               <p className="text-sm text-center mt-2 text-base-content/70">
                 Base Sepolia required for attestation creation
               </p>

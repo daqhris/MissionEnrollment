@@ -243,11 +243,11 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
 - Consistent branding across all device types
 - Adaptive layout adjustments for smaller screens
 
-#### User Guidance
-- Contextual tooltips for important UI elements
-- Progress indicators showing completion status across enrollment steps
-- Help buttons for quick access to guidance at each enrollment stage
-- First-time user detection via localStorage
+#### User Experience
+- Clear, intuitive interface with minimal distractions
+- Streamlined enrollment process with focused UI elements
+- Consistent visual feedback throughout the application
+- Responsive design adapting to different device sizes
 - Non-intrusive design that doesn't interfere with experienced users
 
 #### POAP Role Extraction

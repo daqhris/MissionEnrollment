@@ -12,7 +12,6 @@ import { SuccessAttestation } from '../components/SuccessAttestation';
 import { Logo } from '../components/Logo';
 import { BetaBanner } from '../components/BetaBanner';
 import NetworkSelector from '../components/NetworkSelector';
-import { useOnboarding, Tooltip, HelpButton, ProgressIndicator } from '../components/Onboarding';
 
 // Type definitions for component state
 interface EventInfo {
@@ -53,11 +52,6 @@ export default function Home() {
     tokenId: string;
   } | null>(null);
   
-  const { 
-    currentStep, 
-    setCurrentStep, 
-    markStepComplete 
-  } = useOnboarding();
 
   useEffect(() => {
     console.log('Home component mounted');
@@ -128,25 +122,6 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    if (!isConnected) {
-      setCurrentStep('identity');
-    } else if (isConnected && !showEventAttendance) {
-      setCurrentStep('identity');
-    } else if (showEventAttendance && !showAttestation) {
-      setCurrentStep('attendance');
-      markStepComplete('identity');
-    } else if (showAttestation) {
-      setCurrentStep('attestation');
-      markStepComplete('identity');
-      markStepComplete('attendance');
-    } else if (attestationId) {
-      setCurrentStep('success');
-      markStepComplete('identity');
-      markStepComplete('attendance');
-      markStepComplete('attestation');
-    }
-  }, [isConnected, showEventAttendance, showAttestation, attestationId, setCurrentStep, markStepComplete]);
 
   return (
     <div className="container mx-auto p-8">
@@ -155,8 +130,7 @@ export default function Home() {
       </div>
       <BetaBanner />
       
-      {/* Progress Indicator */}
-      {isConnected && <ProgressIndicator />}
+      {/* Progress Indicator removed */}
       
       <div className="bg-base-100 p-6 rounded-lg shadow-lg">
         <div className="space-y-4">
@@ -179,10 +153,7 @@ export default function Home() {
 
               {isConnected && (
                 <>
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-2xl font-bold mb-4">Onchain Identity Check</h2>
-                    <HelpButton targetStep="identity" />
-                  </div>
+                  <h2 className="text-2xl font-bold mb-4">Onchain Identity Check</h2>
 
                   {address && (
                     <div className="flex items-center gap-2 mb-6">
@@ -204,28 +175,22 @@ export default function Home() {
                   <p className="text-sm mb-4">Please submit your public name as recorded onchain.</p>
 
                   <div className="flex items-center w-full max-w-md mb-4">
-                    <Tooltip id="identity-input" content="Enter your Base name (yourname.base.eth) to verify your onchain identity">
-                      <input
-                        type="text"
-                        placeholder="Enter your name"
-                        className="input input-bordered flex-grow"
-                        value={inputName}
-                        onChange={(e) => setInputName(e.target.value)}
-                        id="identity-input"
-                      />
-                    </Tooltip>
+                    <input
+                      type="text"
+                      placeholder="Enter your name"
+                      className="input input-bordered flex-grow"
+                      value={inputName}
+                      onChange={(e) => setInputName(e.target.value)}
+                    />
                     <span className="ml-2 text-base-content/70">.base.eth</span>
                   </div>
-                  <Tooltip id="identity-submit-button" content="Click to verify your Base name matches your wallet's onchain identity">
-                    <button
-                      className={`btn btn-primary ${attestationId ? 'btn-disabled opacity-50' : ''}`}
-                      onClick={handleNameSubmit}
-                      disabled={!!attestationId}
-                      id="identity-submit-button"
-                    >
-                      REPLY
-                    </button>
-                  </Tooltip>
+                  <button
+                    className={`btn btn-primary ${attestationId ? 'btn-disabled opacity-50' : ''}`}
+                    onClick={handleNameSubmit}
+                    disabled={!!attestationId}
+                  >
+                    REPLY
+                  </button>
 
                   {verificationStatus === 'success' && (
                     <div className="alert alert-success mt-4">
@@ -248,10 +213,7 @@ export default function Home() {
 
                   {showEventAttendance && approvedName && (
                     <div className="mt-4" id="attendance-card">
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="text-xl font-bold">Event Attendance Verification</h3>
-                        <HelpButton targetStep="attendance" />
-                      </div>
+                      <h3 className="text-xl font-bold mb-2">Event Attendance Verification</h3>
                       <div id="poap-verification-area">
                         <EventAttendanceVerification
                           address={address || ''}
@@ -277,35 +239,27 @@ export default function Home() {
 
                   {showAttestation && eventInfo && (
                     <div className="mt-4" id="attestation-card">
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="text-xl font-bold">Create Attestation</h3>
-                        <HelpButton targetStep="attestation" />
-                      </div>
+                      <h3 className="text-xl font-bold mb-2">Create Attestation</h3>
                       <div id="network-switch-button">
                         <NetworkSelector />
                       </div>
                       <div id="attestation-details" className="my-2">
-                        <Tooltip id="sign-message-button" content="You'll need to sign a message with your wallet to verify your identity">
-                          <EnrollmentAttestation
-                            approvedName={eventInfo.approvedName}
-                            poapVerified={eventAttendanceVerified}
-                            onAttestationComplete={(attestationId: string) => {
-                              console.log('Attestation created:', attestationId);
-                              setAttestationId(attestationId);
-                              setShowAttestation(false);
-                            }}
-                          />
-                        </Tooltip>
+                        <EnrollmentAttestation
+                          approvedName={eventInfo.approvedName}
+                          poapVerified={eventAttendanceVerified}
+                          onAttestationComplete={(attestationId: string) => {
+                            console.log('Attestation created:', attestationId);
+                            setAttestationId(attestationId);
+                            setShowAttestation(false);
+                          }}
+                        />
                       </div>
                     </div>
                   )}
 
                   {attestationId && eventInfo && (
                     <div id="success-card" className="mt-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="text-xl font-bold">Enrollment Complete!</h3>
-                        <HelpButton targetStep="success" />
-                      </div>
+                      <h3 className="text-xl font-bold mb-2">Enrollment Complete!</h3>
                       <SuccessAttestation
                         attestationId={attestationId}
                         verifiedName={eventInfo.approvedName}

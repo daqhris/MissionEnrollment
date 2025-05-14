@@ -17,7 +17,6 @@ import { getPOAPRole } from '../utils/poap';
 import { BrowserProvider, TransactionReceipt, Log, Interface } from 'ethers';
 import { useNetworkSwitch } from '../hooks/useNetworkSwitch';
 import { generateVerificationSignature, generateVerificationHash, signVerification } from '../utils/attestationVerification';
-import { Tooltip } from '../components/Onboarding';
 
 interface EnrollmentAttestationProps {
   approvedName: string;
@@ -458,37 +457,35 @@ export default function EnrollmentAttestation({
             </Box>
 
             <Box mt={2} display="flex" justifyContent="center">
-              <Tooltip id="create-attestation-button" content="Click to begin the attestation process with your wallet">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={createAttestation}
-                  disabled={!address || !previewData || loading || isNetworkSwitching || networkSwitched || !!attestationId}
-                  sx={{ 
-                    width: '100%',
-                    opacity: walletStep !== WalletStep.IDLE && walletStep !== WalletStep.COMPLETE ? 0.7 : 1,
-                    position: 'relative'
-                  }}
-                  id="create-attestation-button"
-                >
-                  {loading ? (
-                    <>
-                      <CircularProgress size={24} sx={{ mr: 1 }} />
-                      {walletStep === WalletStep.SIGNING && "Waiting for signature..."}
-                      {walletStep === WalletStep.TRANSACTION && "Creating attestation..."}
-                      {walletStep === WalletStep.IDLE && "Loading..."}
-                    </>
-                  ) : isNetworkSwitching ? (
-                    'Switching Network...'
-                  ) : networkSwitched ? (
-                    'Network Switched'
-                  ) : attestationId ? (
-                    'Attestation Created'
-                  ) : (
-                    'Create Attestation'
-                  )}
-                </Button>
-              </Tooltip>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={createAttestation}
+                disabled={!address || !previewData || loading || isNetworkSwitching || networkSwitched || !!attestationId}
+                sx={{ 
+                  width: '100%',
+                  opacity: walletStep !== WalletStep.IDLE && walletStep !== WalletStep.COMPLETE ? 0.7 : 1,
+                  position: 'relative'
+                }}
+                id="create-attestation-button"
+              >
+                {loading ? (
+                  <>
+                    <CircularProgress size={24} sx={{ mr: 1 }} />
+                    {walletStep === WalletStep.SIGNING && "Waiting for signature..."}
+                    {walletStep === WalletStep.TRANSACTION && "Creating attestation..."}
+                    {walletStep === WalletStep.IDLE && "Loading..."}
+                  </>
+                ) : isNetworkSwitching ? (
+                  'Switching Network...'
+                ) : networkSwitched ? (
+                  'Network Switched'
+                ) : attestationId ? (
+                  'Attestation Created'
+                ) : (
+                  'Create Attestation'
+                )}
+              </Button>
               
               {/* Additional explanation about the button */}
               {!loading && !attestationId && (
