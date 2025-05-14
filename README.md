@@ -200,7 +200,8 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
   - Network status monitoring
 
 - `EventAttendanceVerification.tsx`: Manages POAP verification
-  - Dynamic role extraction from POAP data
+  - Dynamic role extraction from POAP data with configurable mapping
+  - Color-coded role badges for visual differentiation
   - Animated verification process with loading states
   - Comprehensive error handling with retries
   - API request management and rate limiting
@@ -242,6 +243,14 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
 - Consistent branding across all device types
 - Adaptive layout adjustments for smaller screens
 
+#### POAP Role Extraction
+- Centralized role extraction utility in `utils/roleExtraction.ts`
+- Configurable mapping system for different event types (ETHGlobal Brussels, ETHDenver Coinbase)
+- Pattern matching for both event names and descriptions
+- Color-coded role badges for visual differentiation (Hacker, Mentor, Judge, etc.)
+- Fallback mechanisms for unknown role patterns
+- Standardized role extraction across all components
+- Extensible system for adding future events without code changes
 
 
 #### Wallet Integration
