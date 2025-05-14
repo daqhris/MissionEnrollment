@@ -43,6 +43,7 @@ interface POAPEvent {
     image_url: string;
     start_date: string;
     end_date?: string;  // Make end_date optional since it might not always be present
+    description?: string; // Make description optional since it might not always be present
   };
   tokenId: string;
 }
@@ -191,6 +192,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                 className={`btn btn-primary ${attestationId ? 'btn-disabled opacity-50' : ''}`}
                 onClick={() => handleAttendanceResponse(true)}
                 disabled={!!attestationId}
+                id="yes-attended-button"
               >
                 Yes, I attended
               </button>
@@ -198,6 +200,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                 className={`btn btn-outline ${attestationId ? 'btn-disabled opacity-50' : ''}`}
                 onClick={() => handleAttendanceResponse(false)}
                 disabled={!!attestationId}
+                id="no-attended-button"
               >
                 No, I did not attend
               </button>
@@ -327,6 +330,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                   }
                 }}
                 disabled={networkSwitched || verificationStatus !== 'success' || !!attestationId}
+                id="switch-network-button"
               >
                 {isNetworkSwitching ? 'Switching Network...' :
                  networkSwitched ? 'Network Switched' : 'Switch to Base Sepolia'}

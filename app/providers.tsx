@@ -13,7 +13,7 @@ interface ProvidersProps {
 export function Providers({ children }: ProvidersProps) {
   return (
     <WagmiConfig config={config}>
-      <RainbowKitProvider chains={config.chains}>
+      <RainbowKitProvider>
         {children}
       </RainbowKitProvider>
     </WagmiConfig>

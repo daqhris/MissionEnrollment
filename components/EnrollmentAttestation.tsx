@@ -467,6 +467,7 @@ export default function EnrollmentAttestation({
                   opacity: walletStep !== WalletStep.IDLE && walletStep !== WalletStep.COMPLETE ? 0.7 : 1,
                   position: 'relative'
                 }}
+                id="create-attestation-button"
               >
                 {loading ? (
                   <>

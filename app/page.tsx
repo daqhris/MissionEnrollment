@@ -51,6 +51,7 @@ export default function Home() {
     approvedName: string;
     tokenId: string;
   } | null>(null);
+  
 
   useEffect(() => {
     console.log('Home component mounted');
@@ -121,12 +122,16 @@ export default function Home() {
     }
   };
 
+
   return (
     <div className="container mx-auto p-8">
       <div className="flex items-center justify-between mb-8">
         <Logo />
       </div>
       <BetaBanner />
+      
+      {/* Progress Indicator removed */}
+      
       <div className="bg-base-100 p-6 rounded-lg shadow-lg">
         <div className="space-y-4">
           <div className="card">
@@ -207,49 +212,60 @@ export default function Home() {
                   )}
 
                   {showEventAttendance && approvedName && (
-                    <div className="mt-4">
-                      <EventAttendanceVerification
-                        address={address || ''}
-                        approvedName={approvedName}
-                        attestationId={attestationId}
-                        onVerified={(hasAttended: boolean, info?: {
-                          role: string;
-                          date: string;
-                          venue: string;
-                          approvedName: string;
-                          tokenId: string;
-                        }) => {
-                          setEventAttendanceVerified(hasAttended);
-                          if (info) {
-                            setEventInfo(info);
-                            setShowAttestation(true);
-                          }
-                        }}
-                      />
+                    <div className="mt-4" id="attendance-card">
+                      <h3 className="text-xl font-bold mb-2">Event Attendance Verification</h3>
+                      <div id="poap-verification-area">
+                        <EventAttendanceVerification
+                          address={address || ''}
+                          approvedName={approvedName}
+                          attestationId={attestationId}
+                          onVerified={(hasAttended: boolean, info?: {
+                            role: string;
+                            date: string;
+                            venue: string;
+                            approvedName: string;
+                            tokenId: string;
+                          }) => {
+                            setEventAttendanceVerified(hasAttended);
+                            if (info) {
+                              setEventInfo(info);
+                              setShowAttestation(true);
+                            }
+                          }}
+                        />
+                      </div>
                     </div>
                   )}
 
                   {showAttestation && eventInfo && (
-                    <div className="mt-4">
-                      <NetworkSelector />
-                      <EnrollmentAttestation
-                        approvedName={eventInfo.approvedName}
-                        poapVerified={eventAttendanceVerified}
-                        onAttestationComplete={(attestationId: string) => {
-                          console.log('Attestation created:', attestationId);
-                          setAttestationId(attestationId);
-                          setShowAttestation(false);
-                        }}
-                      />
+                    <div className="mt-4" id="attestation-card">
+                      <h3 className="text-xl font-bold mb-2">Create Attestation</h3>
+                      <div id="network-switch-button">
+                        <NetworkSelector />
+                      </div>
+                      <div id="attestation-details" className="my-2">
+                        <EnrollmentAttestation
+                          approvedName={eventInfo.approvedName}
+                          poapVerified={eventAttendanceVerified}
+                          onAttestationComplete={(attestationId: string) => {
+                            console.log('Attestation created:', attestationId);
+                            setAttestationId(attestationId);
+                            setShowAttestation(false);
+                          }}
+                        />
+                      </div>
                     </div>
                   )}
 
                   {attestationId && eventInfo && (
-                    <SuccessAttestation
-                      attestationId={attestationId}
-                      verifiedName={eventInfo.approvedName}
-                      role={eventInfo.role}
-                    />
+                    <div id="success-card" className="mt-4">
+                      <h3 className="text-xl font-bold mb-2">Enrollment Complete!</h3>
+                      <SuccessAttestation
+                        attestationId={attestationId}
+                        verifiedName={eventInfo.approvedName}
+                        role={eventInfo.role}
+                      />
+                    </div>
                   )}
                 </>
               )}

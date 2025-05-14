@@ -102,7 +102,7 @@ jobs:
             cp ./sitemap*.xml ./out/
           fi
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v2
         with:
           path: ./out
 
