@@ -17,6 +17,7 @@ import { getPOAPRole } from '../utils/poap';
 import { BrowserProvider, TransactionReceipt, Log, Interface } from 'ethers';
 import { useNetworkSwitch } from '../hooks/useNetworkSwitch';
 import { generateVerificationSignature, generateVerificationHash, signVerification } from '../utils/attestationVerification';
+import { formatTimestamp } from '../utils/formatting';
 
 interface EnrollmentAttestationProps {
   approvedName: string;
@@ -80,7 +81,7 @@ export default function EnrollmentAttestation({
     try {
       setLoading(true);  // Add loading state
       const { role, eventType } = await getPOAPRole(address);
-      const timestamp = Math.floor(Date.now() / 1000);
+      const timestamp = Date.now(); // Use milliseconds for proper date display
 
       let eventName = "ETHGlobal Brussels 2024";
       let eventTypeDisplay = "International Hackathon";
@@ -442,17 +443,15 @@ export default function EnrollmentAttestation({
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Collaborative Mission: <span style={{ fontWeight: 600 }}>{previewData?.missionName}</span>
               </Typography>
+
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
-                Enrollment Timestamp: {previewData?.timestamp ? new Date(previewData.timestamp).toLocaleString() : 'Not set'}
+                Public Attester: {previewData?.attester}
               </Typography>
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
-                Official Attester: {previewData?.attester}
+                Proof Protocol: {previewData?.proofProtocol}
               </Typography>
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
-                Proof Verification: {previewData?.proofProtocol}
-              </Typography>
-              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
-                Verification Source: {previewData?.verificationSource}
+                Schema Deployer: {previewData?.verificationSource}
               </Typography>
             </Box>
 
