@@ -1,5 +1,6 @@
 import { POAP_API_URL } from './constants';
 import { APPROVED_EVENT_NAMES } from './eventConstants';
+import { extractRoleFromPOAP, determineEventType } from './roleExtraction';
 
 interface POAPEvent {
   event: {
@@ -35,22 +36,14 @@ export async function getPOAPRole(address: string): Promise<POAPRoleResult> {
     );
 
     if (ethGlobalEvent) {
-      const roleMapping: Record<string, string> = {
-        'hacker': 'Hacker',
-        'mentor': 'Mentor',
-        'judge': 'Judge',
-        'sponsor': 'Sponsor',
-        'organizer': 'Organizer',
-        'volunteer': 'Volunteer'
-      };
-
-      const role = Object.entries(roleMapping).find(([key]) =>
-        ethGlobalEvent.event.description.toLowerCase().includes(key) || 
-        ethGlobalEvent.event.name.toLowerCase().includes(key)
+      const role = extractRoleFromPOAP(
+        ethGlobalEvent.event.name,
+        ethGlobalEvent.event.description,
+        'ETH_GLOBAL_BRUSSELS'
       );
-
+      
       return { 
-        role: role ? role[1] : 'Participant', 
+        role, 
         eventType: 'ETH_GLOBAL_BRUSSELS' 
       };
     }
@@ -62,8 +55,14 @@ export async function getPOAPRole(address: string): Promise<POAPRoleResult> {
     );
 
     if (ethDenverEvent) {
+      const role = extractRoleFromPOAP(
+        ethDenverEvent.event.name,
+        ethDenverEvent.event.description,
+        'ETHDENVER_COINBASE_2025'
+      );
+      
       return { 
-        role: 'Attendee', 
+        role, 
         eventType: 'ETHDENVER_COINBASE_2025' 
       };
     }

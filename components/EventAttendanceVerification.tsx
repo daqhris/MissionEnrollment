@@ -3,6 +3,38 @@ import Image from "next/image";
 import { fetchPoaps } from '../utils/fetchPoapsUtil';
 import { APPROVED_EVENT_NAMES, EVENT_VENUES } from '../utils/eventConstants';
 import { useNetworkSwitch } from '../hooks/useNetworkSwitch';
+import { extractRoleFromPOAP, determineEventType } from '../utils/roleExtraction';
+
+const getRoleBadgeColor = (role: string): string => {
+  switch(role.toLowerCase()) {
+    case 'hacker':
+      return 'bg-blue-100 text-blue-800';
+    case 'mentor':
+      return 'bg-green-100 text-green-800';
+    case 'judge':
+      return 'bg-purple-100 text-purple-800';
+    case 'sponsor':
+      return 'bg-yellow-100 text-yellow-800';
+    case 'speaker':
+      return 'bg-red-100 text-red-800';
+    case 'staff':
+      return 'bg-gray-100 text-gray-800';
+    case 'volunteer':
+      return 'bg-teal-100 text-teal-800';
+    case 'developer':
+      return 'bg-indigo-100 text-indigo-800';
+    case 'social participant':
+      return 'bg-pink-100 text-pink-800';
+    case 'buidler':
+      return 'bg-orange-100 text-orange-800';
+    case 'attendee':
+      return 'bg-amber-100 text-amber-800';
+    case 'participant':
+      return 'bg-lime-100 text-lime-800';
+    default:
+      return 'bg-gray-100 text-gray-800';
+  }
+};
 
 interface POAPEvent {
   event: {
@@ -96,15 +128,12 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
         setPoapDetails(eventPoap);
         setVerificationStatus('success');
 
-        // Extract role from POAP name based on event type
-        let role = '';
-        if (eventType === 'ETH_GLOBAL_BRUSSELS') {
-          role = eventPoap.event.name
-            .replace('ETHGlobal Brussels 2024 ', '')
-            .trim();
-        } else if (eventType === 'ETHDENVER_COINBASE_2025') {
-          role = 'Attendee';
-        }
+        // Extract role using the centralized utility
+        const role = extractRoleFromPOAP(
+          eventPoap.event.name,
+          eventPoap.event.description || '',
+          eventType
+        );
 
         // Combine approved name and POAP info for attestation
         const eventInfo: EventInfo = {
@@ -242,8 +271,22 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                          'Approved Event'}
                       </p>
                       <div className="flex flex-col text-sm opacity-75">
-                        <p>🎭 Role: {poapDetails?.event?.name?.includes('ETHGlobal Brussels') ? 
-                          poapDetails?.event?.name?.replace('ETHGlobal Brussels 2024', '') : 'Attendee'}</p>
+                        <p className="flex items-center">
+                        <span>🎭 Role: </span>
+                        <span className={`ml-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
+                          getRoleBadgeColor(extractRoleFromPOAP(
+                            poapDetails?.event?.name || '',
+                            poapDetails?.event?.description || '',
+                            poapDetails?.event?.name?.includes('ETHGlobal Brussels') ? 'ETH_GLOBAL_BRUSSELS' : 'ETHDENVER_COINBASE_2025'
+                          ))
+                        }`}>
+                          {extractRoleFromPOAP(
+                            poapDetails?.event?.name || '',
+                            poapDetails?.event?.description || '',
+                            poapDetails?.event?.name?.includes('ETHGlobal Brussels') ? 'ETH_GLOBAL_BRUSSELS' : 'ETHDENVER_COINBASE_2025'
+                          )}
+                        </span>
+                      </p>
                         <p>📅 Date: {new Date(poapDetails?.event?.end_date || poapDetails?.event?.start_date || Date.now()).toLocaleDateString()}</p>
                         <p>📍 Venue: {poapDetails?.event?.name?.includes('ETHGlobal Brussels') ? 
                           EVENT_VENUES.ETH_GLOBAL_BRUSSELS : 
@@ -266,11 +309,12 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                       ? 'ETH_GLOBAL_BRUSSELS' 
                       : 'ETHDENVER_COINBASE_2025';
                     
-                    // Extract role based on event type
-                    let role = 'Attendee';
-                    if (eventType === 'ETH_GLOBAL_BRUSSELS') {
-                      role = poapDetails.event.name.replace('ETHGlobal Brussels 2024 ', '').trim();
-                    }
+                    // Extract role using the centralized utility
+                    const role = extractRoleFromPOAP(
+                      poapDetails.event.name,
+                      poapDetails.event.description || '',
+                      eventType
+                    );
                     
                     onVerified(true, {
                       role,
