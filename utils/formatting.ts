@@ -57,7 +57,7 @@ export function getFieldLabel(name: string): string {
     missionName: 'Mission',
     attester: 'Official Attester',
     proofProtocol: 'Proof Protocol',
-    verificationSource: 'Verification Source',
+    verificationSource: 'Schema Deployer',
     verificationTimestamp: 'Verification Time',
     verificationSignature: 'Signature',
     verificationHash: 'Hash'

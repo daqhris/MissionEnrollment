@@ -150,7 +150,7 @@ export const AttestationCard: React.FC<Props> = ({ attestation }) => {
             <Label>Enhanced Verification:</Label>
             <div className="space-y-2">
               <div>
-                <Label>Verification Source:</Label>
+                <Label>Schema Deployer:</Label>
                 <Value>{decodedData.verificationSource}</Value>
               </div>
               {decodedData.verificationTimestamp && (
