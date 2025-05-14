@@ -1,9 +1,43 @@
 import { SchemaData } from '../types/attestation';
 
+/**
+ * Formats a timestamp to a human-readable format
+ * @param timestamp ISO timestamp string or number
+ * @returns Formatted date string without T and Z characters
+ */
+export function formatTimestamp(timestamp: string | number): string {
+  if (!timestamp) return '';
+  
+  try {
+    let date: Date;
+    
+    if (typeof timestamp === 'number') {
+      date = new Date(timestamp);
+    } else if (timestamp.includes('T') && timestamp.includes('Z')) {
+      date = new Date(timestamp);
+    } else {
+      date = new Date(timestamp);
+    }
+    
+    return date.toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+  } catch (error) {
+    console.error('Error formatting timestamp:', error);
+    return String(timestamp);
+  }
+}
+
 export function formatAttestationValue(field: { name: string; value: any }) {
   switch (field.name.toLowerCase()) {
     case 'timestamp':
-      return new Date(Number(field.value) * 1000).toLocaleString();
+    case 'verificationtimestamp':
+      return formatTimestamp(field.value);
     case 'useraddress':
     case 'attester':
       return typeof field.value === 'object' ? field.value.hex : field.value;
@@ -14,16 +48,16 @@ export function formatAttestationValue(field: { name: string; value: any }) {
 
 export function getFieldLabel(name: string): string {
   const labels: Record<string, string> = {
-    userAddress: 'Address',
-    verifiedName: 'Approved Name',  // Changed from 'Name' to 'Approved Name'
-    proofMethod: 'Proof Method',    // More descriptive
+    userAddress: 'User Address',
+    verifiedName: 'Onchain Name',  // Changed from 'Enrolled User' to 'Onchain Name'
+    proofMethod: 'Proof Method',
     eventName: 'Event',
     eventType: 'Type',
     assignedRole: 'Role',
     missionName: 'Mission',
-    attester: 'Official Attester',  // Made consistent with EnrollmentAttestation
-    proofProtocol: 'Proof Protocol', // More descriptive
-    verificationSource: 'Verification Source',
+    attester: 'Public Attester',  // Changed from 'Official Attester' to 'Public Attester'
+    proofProtocol: 'Proof Protocol',
+    verificationSource: 'Schema Deployer',
     verificationTimestamp: 'Verification Time',
     verificationSignature: 'Signature',
     verificationHash: 'Hash'

@@ -8,7 +8,7 @@ import { Attestation, AttestationData } from '../types/attestation';
 import { ErrorBoundary } from 'react-error-boundary';
 import { formatDistanceToNow } from 'date-fns';
 import { SCHEMA_UID_ORIGINAL, SCHEMA_UID_ENHANCED } from '../utils/constants';
-import { formatAttestationData, getFieldLabel, formatBaseName } from '../utils/formatting';
+import { formatAttestationData, getFieldLabel, formatBaseName, formatTimestamp } from '../utils/formatting';
 import { mockEnrollments, mockAttestationsCount } from '../data/mockEnrollments';
 
 interface EnrollmentsViewProps {
@@ -185,16 +185,16 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
                           const decodedData = JSON.parse(attestation.decodedDataJson) as AttestationData[];
                           const formattedData = formatAttestationData(decodedData);
                           const displayOrder = [
-                            'userAddress',      // Address: 0xb5ee...
-                            'verifiedName',     // Name: daqhris.base.eth
+                            'userAddress',      // User Address: 0xb5ee...
+                            'verifiedName',     // Onchain Name: daqhris.base.eth
                             'proofMethod',      // Proof: Basename
                             'eventName',        // Event: ETHGlobal Brussels 2024
                             'eventType',        // Type: International Hackathon
                             'assignedRole',     // Role: Hacker
                             'missionName',      // Mission: Zinneke Rescue Mission
-                            'attester',         // Attester: mission-enrollment.base.eth
+                            'attester',         // Public Attester: mission-enrollment.base.eth
                             'proofProtocol',    // Proof: EAS
-                            'verificationSource', // Source: mission-enrollment.base.eth
+                            'verificationSource', // Schema Deployer: mission-enrollment.base.eth
                             'verificationTimestamp', // Timestamp: ISO date
                             'verificationHash'  // Hash: 0x...
                           ];
@@ -221,6 +221,8 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
                                 displayValue;
                             } else if (key === 'verifiedName') {
                               displayValue = formatBaseName(String(displayValue));
+                            } else if (key === 'verificationTimestamp' || key === 'timestamp') {
+                              displayValue = formatTimestamp(String(displayValue));
                             }
 
                             return (

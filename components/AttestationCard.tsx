@@ -2,7 +2,7 @@ import React from "react";
 import type { Attestation } from "../types/attestation";
 import tw from "tailwind-styled-components";
 import { SCHEMA_UID_ORIGINAL, SCHEMA_UID_ENHANCED } from "../utils/constants";
-import { formatBaseName, getFieldLabel } from "../utils/formatting";
+import { formatBaseName, getFieldLabel, formatTimestamp } from "../utils/formatting";
 
 const Card = tw.div`
   mt-6
@@ -103,16 +103,16 @@ export const AttestationCard: React.FC<Props> = ({ attestation }) => {
           <Label>Basic Information:</Label>
           <div className="space-y-2">
             <div>
-              <Label>Attester:</Label>
+              <Label>Public Attester:</Label>
               <Value>{attestation.attester}</Value>
             </div>
             <div>
-              <Label>Recipient:</Label>
+              <Label>User Address:</Label>
               <Value>{attestation.recipient}</Value>
             </div>
             <div>
               <Label>Created:</Label>
-              <Value>{new Date(attestation.time * 1000).toLocaleString()}</Value>
+              <Value>{formatTimestamp(attestation.time * 1000)}</Value>
             </div>
           </div>
         </Section>
@@ -150,13 +150,13 @@ export const AttestationCard: React.FC<Props> = ({ attestation }) => {
             <Label>Enhanced Verification:</Label>
             <div className="space-y-2">
               <div>
-                <Label>Verification Source:</Label>
+                <Label>Schema Deployer:</Label>
                 <Value>{decodedData.verificationSource}</Value>
               </div>
               {decodedData.verificationTimestamp && (
                 <div>
-                  <Label>Verification Timestamp:</Label>
-                  <Value>{decodedData.verificationTimestamp}</Value>
+                  <Label>Verification Time:</Label>
+                  <Value>{formatTimestamp(decodedData.verificationTimestamp)}</Value>
                 </div>
               )}
               {decodedData.verificationHash && (
