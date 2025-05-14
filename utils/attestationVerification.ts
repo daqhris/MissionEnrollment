@@ -12,7 +12,7 @@ const EIP712_TYPES = {
     { name: 'userAddress', type: 'address' },
     { name: 'eventName', type: 'string' },
     { name: 'role', type: 'string' },
-    { name: 'verifiedName', type: 'string' },
+    { name: 'approvedName', type: 'string' },
     { name: 'timestamp', type: 'uint256' }
   ]
 };
@@ -22,7 +22,7 @@ export function generateVerificationSignature(userAddress: string, eventInfo: an
     userAddress,
     eventName: eventInfo.eventName,
     role: eventInfo.role,
-    verifiedName: eventInfo.verifiedName || '',
+    approvedName: eventInfo.approvedName || '',
     timestamp: Date.now()
   };
   
@@ -53,7 +53,7 @@ export async function signVerification(signer: any, userAddress: string, eventIn
     userAddress,
     eventName: eventInfo.eventName,
     role: eventInfo.role,
-    verifiedName: eventInfo.approvedName || eventInfo.verifiedName || '',
+    approvedName: eventInfo.approvedName || eventInfo.verifiedName || '',
     timestamp: Date.now()
   };
   

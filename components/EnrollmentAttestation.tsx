@@ -397,7 +397,7 @@ export default function EnrollmentAttestation({
                 User Address: {previewData?.userAddress || 'Not connected'}
               </Typography>
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
-                Public Identity: {previewData?.approvedName || 'Not approved'}
+                Approved Name: {previewData?.approvedName || 'Not approved'}
               </Typography>
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
                 Proof Verification Method: {previewData?.proofMethod}
