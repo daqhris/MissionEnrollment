@@ -243,6 +243,16 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
 - Consistent branding across all device types
 - Adaptive layout adjustments for smaller screens
 
+#### User Onboarding
+- Guided tour overlay for first-time users with step-by-step instructions
+- Contextual tooltips that appear on hover/focus for important UI elements
+- Progress indicators showing completion status across enrollment steps
+- Help buttons for quick access to guidance at each enrollment stage
+- First-time user detection via localStorage to show guidance only when needed
+- Tour steps customized for each stage of the enrollment process
+- Non-intrusive design that doesn't interfere with experienced users
+- Ability to dismiss and recall guidance as needed
+
 #### POAP Role Extraction
 - Centralized role extraction utility in `utils/roleExtraction.ts`
 - Configurable mapping system for different event types (ETHGlobal Brussels, ETHDenver Coinbase)
