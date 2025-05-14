@@ -6,6 +6,7 @@ This document provides code examples for implementing the updated EAS schema in 
 
 ```typescript
 // In utils/constants.ts
+export const SCHEMA_UID_CURRENT = '0x24e3eb564e8e879fbcae9b5d16ebf0d7d880cf5ec58fef0d4f74c9d6f594475e'; // Schema 1157 UID
 export const SCHEMA_UID_UPDATED = '0x...'; // New schema UID after deployment
 export const SCHEMA_ENCODING_UPDATED = "address userAddress,string onchainName,string proofMethod,string eventName,string eventType,string assignedRole,string missionName,uint256 timestamp,address publicAttester,string proofProtocol,string schemaDeployer,string verificationTime,string verificationSignature,string verificationHash";
 ```

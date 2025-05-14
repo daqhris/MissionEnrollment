@@ -4,7 +4,7 @@ This document outlines a proposed update to the Ethereum Attestation Service (EA
 
 ## Current Schema Structure
 
-The current schema (Schema 910) uses the following encoding:
+The current schema (Schema 1157) uses the following encoding:
 ```typescript
 "address userAddress,string verifiedName,string proofMethod,string eventName,string eventType,string assignedRole,string missionName,uint256 timestamp,address attester,string proofProtocol,string verificationSource,string verificationTimestamp,string verificationSignature,string verificationHash"
 ```
@@ -63,4 +63,4 @@ const EIP712_TYPES = {
 
 4. **Attester Address**: The attester's wallet address in attestation data should match the wallet that deployed the schema on Base Sepolia
 
-5. **Network Specifics**: The schema is intended for use on Base Sepolia testnet with proper display on EAS Explorer
+5. **Network Specifics**: The schema is intended for use on Base Sepolia testnet with proper display on EAS Explorer at https://base-sepolia.easscan.org/schema/view/0x24e3eb564e8e879fbcae9b5d16ebf0d7d880cf5ec58fef0d4f74c9d6f594475e
