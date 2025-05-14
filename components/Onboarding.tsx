@@ -2,16 +2,16 @@
 
 import React, { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 
-type OnboardingStep = 'identity' | 'attendance' | 'attestation' | 'success';
+export type OnboardingStep = 'identity' | 'attendance' | 'attestation' | 'success';
 
-interface TooltipProps {
+export interface TooltipProps {
   id: string;
   content: string;
   position?: 'top' | 'right' | 'bottom' | 'left';
   children: ReactNode;
 }
 
-interface OnboardingContextType {
+export interface OnboardingContextType {
   isFirstTimeUser: boolean;
   setIsFirstTimeUser: (value: boolean) => void;
   currentStep: OnboardingStep;
@@ -39,10 +39,14 @@ export const OnboardingProvider: React.FC<{ children: ReactNode }> = ({ children
   const [completedSteps, setCompletedSteps] = useState<OnboardingStep[]>([]);
 
   useEffect(() => {
-    const hasVisitedBefore = localStorage.getItem('hasVisitedBefore');
-    if (!hasVisitedBefore) {
-      setIsFirstTimeUser(true);
-      localStorage.setItem('hasVisitedBefore', 'true');
+    try {
+      const hasVisitedBefore = localStorage.getItem('hasVisitedBefore');
+      if (!hasVisitedBefore) {
+        setIsFirstTimeUser(true);
+        localStorage.setItem('hasVisitedBefore', 'true');
+      }
+    } catch (e) {
+      console.warn('LocalStorage not available:', e);
     }
   }, []);
 

@@ -17,6 +17,7 @@ import { useInitializeNativeCurrencyPrice } from "../hooks/scaffold-eth";
 import { config } from "../app/config/wagmi";
 import ErrorBoundary from "./ErrorBoundary";
 import { NEXT_PUBLIC_ONCHAINKIT_API_KEY } from "../app/config/env";
+import { OnboardingProvider } from "./Onboarding";
 
 import "@rainbow-me/rainbowkit/styles.css";
 import "@coinbase/onchainkit/styles.css";
@@ -71,7 +72,9 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
                 appName: 'Mission Enrollment',
               }}
             >
-              <ScaffoldEthApp>{children}</ScaffoldEthApp>
+              <OnboardingProvider>
+                <ScaffoldEthApp>{children}</ScaffoldEthApp>
+              </OnboardingProvider>
             </RainbowKitProvider>
           </OnchainKitProvider>
         </QueryClientProvider>
