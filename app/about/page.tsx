@@ -46,7 +46,7 @@ export default function AboutPage(): ReactNode {
 
               <p className="mt-4">This enrollment tool is your first step in joining a collaborative and artistic adventure. Like the historical <a href="https://www.zinneke.org/" target="_blank" rel="noopener noreferrer"><strong>Zinneke</strong></a><ExternalLinkIcon /> that brought character to Brussels, we're bringing together various participants — starting with the innovative minds from a global blockchain gathering once held in Belgium — to preserve citywide parade memories through blockchain technology.</p>
 
-              <p className="mt-4">The digital journey unfolds into two chapters spanning more than one human year: <em>first,</em> <strong>Mission Enrollment</strong> validates and welcomes friends and collaborators; <em>second,</em> the <strong>Zinneke Rescue Mission</strong> will launch to safeguard the visual souvenirs of festive events salvaged from drowning in the summer floodwaters. Together, we are writing a novel chapter in Brussels' contemporary history of community and resilience.</p>
+              <p className="mt-4">The digital journey unfolds into two chapters spanning more than one human year: <em>first,</em> <strong>Mission Enrollment</strong> validates and welcomes friends and collaborators; <em>second,</em> the <strong>Zinneke Rescue Mission</strong> will launch to safeguard the visual souvenirs of festive events salvaged from drowning in torrential floodwaters. Together, we are writing a brilliant chapter in Brussels' contemporary history of collaboration, resilience and art.</p>
             </section>
 
             <section className="mb-8">
