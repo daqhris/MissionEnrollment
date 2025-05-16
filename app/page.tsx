@@ -50,6 +50,7 @@ export default function Home() {
     venue: string;
     approvedName: string;
     tokenId: string;
+    eventType: string;
   } | null>(null);
   
 
@@ -264,6 +265,7 @@ export default function Home() {
                         attestationId={attestationId}
                         verifiedName={eventInfo.approvedName}
                         role={eventInfo.role}
+                        eventType={eventInfo.eventType}
                       />
                     </div>
                   )}

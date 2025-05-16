@@ -4,9 +4,19 @@ interface SuccessAttestationProps {
   attestationId: string;
   verifiedName: string;
   role: string;
+  eventType?: string; // Added to handle different event types
 }
 
-export function SuccessAttestation({ attestationId, verifiedName, role }: SuccessAttestationProps) {
+export function SuccessAttestation({ attestationId, verifiedName, role, eventType = 'ETH_GLOBAL_BRUSSELS' }: SuccessAttestationProps) {
+  let locationMessage = "in Brussels";
+  let eventDescription = "hackathon skills demonstrated";
+  let missionName = "Zinneke Rescue Mission";
+
+  if (eventType === 'ETHDENVER_COINBASE_2025') {
+    locationMessage = "in Denver";
+    eventDescription = "developer workshop skills demonstrated";
+  }
+
   return (
     <div className="mt-8">
       <h2 className="text-2xl font-bold mb-4">Registration Complete</h2>
@@ -20,8 +30,8 @@ export function SuccessAttestation({ attestationId, verifiedName, role }: Succes
           </div>
 
           <div className="mt-4">
-            <p className="text-lg mb-2">Registered for the upcoming <span className="font-semibold">Zinneke Rescue Mission</span> as: <span className="font-semibold">{verifiedName}</span></p>
-            <p className="text-lg mb-4">In honor of your hackathon skills demonstrated in Brussels as: <span className="font-semibold">{role}</span></p>
+            <p className="text-lg mb-2">Registered for the upcoming <span className="font-semibold">{missionName}</span> as: <span className="font-semibold">{verifiedName}</span></p>
+            <p className="text-lg mb-4">In honor of your {eventDescription} {locationMessage} as: <span className="font-semibold">{role}</span></p>
             <p className="text-sm text-base-content/70 mb-2">Attestation ID: {attestationId}</p>
             <a
               href={`https://base-sepolia.easscan.org/attestation/view/${attestationId}`}
