@@ -91,32 +91,32 @@ export const Footer = (): JSX.Element => {
           </LeftSection>
           <div className="pointer-events-auto flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-xs">
             <div className="flex items-center gap-1 sm:gap-2">
-              <span className="text-xs sm:text-sm text-base-content">Made by</span>
+              <span className="text-xs sm:text-sm text-warning animate-pulse-fast">Made by</span>
               <Link
                 href="https://www.base.org/name/daqhris"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent font-semibold hover:text-accent-focus text-xs sm:text-sm"
+                className="text-warning font-semibold hover:text-warning/80 text-xs sm:text-sm animate-pulse-fast"
               >
                 daqhris
               </Link>
-              <span className="text-xs sm:text-sm text-base-content">&</span>
+              <span className="text-xs sm:text-sm text-warning animate-pulse-fast">&</span>
               <Link
                 href="https://devin.ai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent font-semibold hover:text-accent-focus text-xs sm:text-sm"
+                className="text-warning font-semibold hover:text-warning/80 text-xs sm:text-sm animate-pulse-fast"
               >
                 devin
               </Link>
-              <span className="hidden sm:inline text-base-content">|</span>
+              <span className="hidden sm:inline text-warning animate-pulse-fast">|</span>
             </div>
             <div className="flex flex-wrap items-center gap-2 sm:gap-4">
               <Link
                 href="https://devfolio.co/projects/mission-enrollment-b9f4"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent hover:text-accent-focus text-xs flex items-center animate-pulse-fast"
+                className="text-warning hover:text-warning/80 text-xs flex items-center animate-pulse-fast"
               >
                 Base Batch Europe
                 <ExternalLinkIcon />
@@ -125,7 +125,7 @@ export const Footer = (): JSX.Element => {
                 href="https://ethglobal.com/showcase/missionenrollment-i4fkr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent-content hover:text-accent text-xs flex items-center"
+                className="text-warning hover:text-warning/80 text-xs flex items-center animate-pulse-fast"
               >
                 ETHGlobal '24
                 <ExternalLinkIcon />
@@ -134,14 +134,14 @@ export const Footer = (): JSX.Element => {
                 href="https://github.com/daqhris/MissionEnrollment"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent-content hover:text-accent text-xs flex items-center"
+                className="text-warning hover:text-warning/80 text-xs flex items-center animate-pulse-fast"
               >
                 GitHub
                 <ExternalLinkIcon />
               </Link>
             </div>
-            <div className="text-xs text-accent-content/70 flex items-center mt-1 sm:mt-0">
-              <span className="px-2 py-0.5 rounded-full border border-accent">Beta</span>
+            <div className="text-xs text-warning flex items-center mt-1 sm:mt-0 animate-pulse-fast">
+              <span className="px-2 py-0.5 rounded-full border border-warning">Beta</span>
             </div>
           </div>
         </FixedBottomBar>
