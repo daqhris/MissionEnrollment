@@ -73,8 +73,8 @@ export default function NetworkSelector() {
             control={<Radio />} 
             label={
               <Box>
-                <Typography variant="body1">{NETWORK_CONFIG[BASE_SEPOLIA_CHAIN_ID].name} (Testnet)</Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body1" sx={{ color: '#ffffff' }}>{NETWORK_CONFIG[BASE_SEPOLIA_CHAIN_ID].name} (Testnet)</Typography>
+                <Typography variant="body2" sx={{ color: '#f0f9ff' }}>
                   Low cost option - Free attestations (gas fees only)
                 </Typography>
               </Box>
@@ -86,8 +86,8 @@ export default function NetworkSelector() {
             control={<Radio />} 
             label={
               <Box>
-                <Typography variant="body1">{NETWORK_CONFIG[BASE_MAINNET_CHAIN_ID].name} (Mainnet)</Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body1" sx={{ color: '#ffffff' }}>{NETWORK_CONFIG[BASE_MAINNET_CHAIN_ID].name} (Mainnet)</Typography>
+                <Typography variant="body2" sx={{ color: '#f0f9ff' }}>
                   Standard option - Estimated cost: ~0.02 ETH (~€40) per attestation
                 </Typography>
               </Box>
@@ -96,7 +96,7 @@ export default function NetworkSelector() {
           />
         </RadioGroup>
         
-        <Typography variant="caption" color="text.secondary" sx={{ mt: 2, display: 'block' }}>
+        <Typography variant="caption" sx={{ mt: 2, display: 'block', color: '#f0f9ff' }}>
           Current network: {NETWORK_CONFIG[currentChainId]?.name || 'Unknown Network'}
           {currentChainId !== preferredNetwork && ' (Different from selected)'}
         </Typography>
