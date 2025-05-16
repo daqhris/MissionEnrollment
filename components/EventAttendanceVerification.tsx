@@ -256,7 +256,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                 <div className="space-y-4">
                   <div>
                     <p className="font-bold text-lg">🎉 Event attendance approved!</p>
-                    <p className="text-sm opacity-75 font-medium" style={{ color: '#8B4513' }}>Your POAP confirms your participation at an approved blockchain event</p>
+                    <p className="text-sm opacity-75 font-medium" style={{ color: '#B8860B' }}>Your POAP confirms your participation at an approved blockchain event</p>
                   </div>
                   <div className="flex items-center bg-base-200 rounded-lg p-4">
                     <Image
