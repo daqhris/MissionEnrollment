@@ -8,6 +8,7 @@
   --accent-color: #f59e0b;
   --text-color: #e2e8f0;
   --background-gradient: linear-gradient(135deg, #1e293b, #111827);
+  font-size: 87.5%; /* Approximately 80-85% of the original size */
 }
 
 body {

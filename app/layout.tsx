@@ -13,8 +13,8 @@ import { Viewport } from 'next';
 
 export const viewport: Viewport = {
   width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
+  initialScale: 0.8,
+  maximumScale: 5,
 };
 
 export const metadata = getMetadata({
@@ -24,7 +24,7 @@ export const metadata = getMetadata({
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }): React.ReactElement => {
   return (
-    <html suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body>
         <ThemeProvider>
           <ScaffoldEthAppWithProviders>

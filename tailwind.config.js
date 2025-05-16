@@ -51,6 +51,9 @@ module.exports = {
       animation: {
         "pulse-fast": "pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
+      fontSize: {
+        base: '0.875rem', // Reduce base font size
+      },
     },
   },
 };
