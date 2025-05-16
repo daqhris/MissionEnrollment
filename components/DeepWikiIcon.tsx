@@ -17,19 +17,25 @@ export const DeepWikiIcon: React.FC<DeepWikiIconProps> = ({ className = "" }) =>
         width="24"
         height="24"
         rx="6"
-        fill="#2563EB"
+        fill="#FFFFFF"
+        stroke="#E5E7EB"
+        strokeWidth="1"
       />
       <text
         x="12"
         y="17"
         fontSize="16"
         fontWeight="bold"
-        fill="white"
+        fill="#2563EB"
         textAnchor="middle"
         dominantBaseline="middle"
       >
         D
       </text>
+      <circle cx="6" cy="6" r="3" fill="#FF5757" />
+      <circle cx="18" cy="6" r="3" fill="#47CAFF" />
+      <circle cx="18" cy="18" r="3" fill="#8C52FF" />
+      <circle cx="6" cy="18" r="3" fill="#FFD43D" />
     </svg>
   );
 };
