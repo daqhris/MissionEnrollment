@@ -184,8 +184,11 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
 
         {!hasAnswered ? (
           <div className="text-center">
-            <p className="text-base-content/70 mb-6">
-              Hello {approvedName}, did you attend any of our approved events in person? This verification is required for enrolling in the Zinneke Rescue Mission.
+            <p className="text-base-content/70 mb-2">
+              Hello {approvedName}, did you attend any of our approved events in person?
+            </p>
+            <p className="text-base-content/70 mb-4 italic">
+              This verification is required for enrolling in the Zinneke Rescue Mission.
             </p>
             <div className="flex justify-center gap-4">
               <button
@@ -256,7 +259,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                 <div className="space-y-4">
                   <div>
                     <p className="font-bold text-lg">🎉 Event attendance approved!</p>
-                    <p className="text-sm opacity-75">Your POAP confirms your participation at an approved blockchain event</p>
+                    <p className="text-sm opacity-75 font-medium" style={{ color: '#1E293B' }}>Your POAP confirms your participation at an approved blockchain event</p>
                   </div>
                   <div className="flex items-center bg-base-200 rounded-lg p-4">
                     <Image

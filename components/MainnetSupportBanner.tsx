@@ -3,6 +3,7 @@ import { useAccount, useBalance, useSendTransaction } from 'wagmi';
 import { parseEther } from 'viem';
 import { Card, CardContent, Typography, Box, Button, CircularProgress, Alert, Link } from '@mui/material';
 import { BASE_MAINNET_CHAIN_ID, MISSION_ENROLLMENT_BASE_ETH_ADDRESS, BASE_SEPOLIA_CHAIN_ID } from '../utils/constants';
+import { ExternalLinkIcon } from './ExternalLinkIcon';
 
 interface MainnetSupportBannerProps {
   onSwitchToTestnet: () => Promise<boolean>;
@@ -118,7 +119,9 @@ export function MainnetSupportBanner({ onSwitchToTestnet }: MainnetSupportBanner
               {isLoadingDeployerBalance ? (
                 <CircularProgress size={16} sx={{ ml: 1 }} />
               ) : (
-                `${deployerBalance?.formatted || '0'} ${deployerBalance?.symbol || 'ETH'}`
+                <Link href={`https://basescan.org/address/${MISSION_ENROLLMENT_BASE_ETH_ADDRESS}`} target="_blank" rel="noopener noreferrer" sx={{ color: '#ffffff', display: 'flex', alignItems: 'center' }}>
+                  {`${deployerBalance?.formatted || '0'} ${deployerBalance?.symbol || 'ETH'}`}<ExternalLinkIcon />
+                </Link>
               )}
             </Typography>
           </Box>
@@ -132,7 +135,9 @@ export function MainnetSupportBanner({ onSwitchToTestnet }: MainnetSupportBanner
                 {isLoadingUserBalance ? (
                   <CircularProgress size={16} sx={{ ml: 1 }} />
                 ) : (
-                  `${userBalance?.formatted || '0'} ${userBalance?.symbol || 'ETH'}`
+                  <Link href={`https://basescan.org/address/${address}`} target="_blank" rel="noopener noreferrer" sx={{ color: '#ffffff', display: 'flex', alignItems: 'center' }}>
+                    {`${userBalance?.formatted || '0'} ${userBalance?.symbol || 'ETH'}`}<ExternalLinkIcon />
+                  </Link>
                 )}
               </Typography>
             </Box>
