@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAccount, useBalance, useSendTransaction } from 'wagmi';
 import { parseEther } from 'viem';
-import { Card, CardContent, Typography, Box, Button, CircularProgress, Alert } from '@mui/material';
+import { Card, CardContent, Typography, Box, Button, CircularProgress, Alert, Link } from '@mui/material';
 import { BASE_MAINNET_CHAIN_ID, MISSION_ENROLLMENT_BASE_ETH_ADDRESS, BASE_SEPOLIA_CHAIN_ID } from '../utils/constants';
 
 interface MainnetSupportBannerProps {
@@ -13,6 +13,14 @@ export function MainnetSupportBanner({ onSwitchToTestnet }: MainnetSupportBanner
   const [isSwitching, setIsSwitching] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [transactionSuccess, setTransactionSuccess] = useState(false);
+  
+  const getDocumentUrl = (documentPath: string) => {
+    const repoBaseUrl = 'https://github.com/daqhris/MissionEnrollment/blob/main/';
+    
+    const fileName = documentPath.split('/').pop();
+    
+    return `${repoBaseUrl}docs/${fileName}`;
+  };
   
   const { data: deployerBalance, isLoading: isLoadingDeployerBalance } = useBalance({
     address: MISSION_ENROLLMENT_BASE_ETH_ADDRESS as `0x${string}`,
@@ -178,6 +186,7 @@ export function MainnetSupportBanner({ onSwitchToTestnet }: MainnetSupportBanner
           </Box>
           <Typography variant="body2" sx={{ color: '#f0f9ff', mt: 1, fontSize: '0.75rem', fontStyle: 'italic' }}>
             *Estimates based on Base gas price of 0.1 Gwei. Actual costs may vary with market conditions.
+            These figures are derived from previous deployment costs on Base Sepolia and projections for Base mainnet.
           </Typography>
         </Box>
 
@@ -227,6 +236,8 @@ export function MainnetSupportBanner({ onSwitchToTestnet }: MainnetSupportBanner
         <Typography variant="body2" sx={{ color: '#f0f9ff', mt: 2, textAlign: 'center' }}>
           Continue with testnet attestations while mainnet support is in development.
           The migration roadmap includes deploying smart contracts, creating schemas, and updating network configurations.
+          <Link href={getDocumentUrl('base-mainnet-migration-roadmap.md')} target="_blank" rel="noopener" sx={{ color: '#90caf9', display: 'block', mt: 1 }}>View Migration Roadmap →</Link>
+          <Link href={getDocumentUrl('base-mainnet-deployment-guide.md')} target="_blank" rel="noopener" sx={{ color: '#90caf9', display: 'block', mt: 0.5 }}>View Deployment Guide →</Link>
         </Typography>
       </CardContent>
     </Card>
