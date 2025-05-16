@@ -322,13 +322,6 @@ export default function EnrollmentAttestation({
             Your wallet is connected to {NETWORK_CONFIG[chainId]?.name || 'an unknown network'}, but you've selected {NETWORK_CONFIG[preferredNetwork]?.name || 'another network'} for attestations.
           </Typography>
         )}
-        
-        {/* Show MainnetSupportBanner when user selects Base mainnet */}
-        {preferredNetwork === BASE_MAINNET_CHAIN_ID && (
-          <MainnetSupportBanner 
-            onSwitchToTestnet={() => handleNetworkSwitch(BASE_SEPOLIA_CHAIN_ID)}
-          />
-        )}
 
         <Typography paragraph sx={{ color: '#ffffff', marginBottom: 2 }}>
           Mission Enrollment is the official onboarding portal for the upcoming Zinneke Rescue Mission on the Base blockchain.

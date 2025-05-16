@@ -19,6 +19,7 @@ import {
 } from '../utils/constants';
 import { useUserNetworkPreference } from '../hooks/useUserNetworkPreference';
 import { useNetworkSwitch } from '../hooks/useNetworkSwitch';
+import { MainnetSupportBanner } from './MainnetSupportBanner';
 
 export default function NetworkSelector() {
   const { address } = useAccount();
@@ -99,6 +100,15 @@ export default function NetworkSelector() {
           Current network: {NETWORK_CONFIG[currentChainId]?.name || 'Unknown Network'}
           {currentChainId !== preferredNetwork && ' (Different from selected)'}
         </Typography>
+        
+        {/* Display MainnetSupportBanner when Base mainnet is selected */}
+        {preferredNetwork === BASE_MAINNET_CHAIN_ID && (
+          <Box mt={2}>
+            <MainnetSupportBanner 
+              onSwitchToTestnet={() => handleNetworkSwitch(BASE_SEPOLIA_CHAIN_ID)}
+            />
+          </Box>
+        )}
         
         {currentChainId !== preferredNetwork && (
           <Button
