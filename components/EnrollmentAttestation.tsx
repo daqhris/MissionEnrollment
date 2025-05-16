@@ -9,8 +9,10 @@ import {
   MISSION_ENROLLMENT_BASE_ETH_ADDRESS,
   getRequiredNetwork,
   BASE_SEPOLIA_CHAIN_ID,
+  BASE_MAINNET_CHAIN_ID,
   NETWORK_CONFIG
 } from '../utils/constants';
+import { MainnetSupportBanner } from './MainnetSupportBanner';
 import { useUserNetworkPreference } from '../hooks/useUserNetworkPreference';
 import { SCHEMA_ENCODING } from '../types/attestation';
 import { getPOAPRole } from '../utils/poap';
