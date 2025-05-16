@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { ClientLayout } from '../../components/ClientLayout';
 import type { ReactNode } from 'react';
 import { ExternalLinkIcon } from '../../components/ExternalLinkIcon';
+import { FarcasterIcon } from '../../components/FarcasterIcon';
+import { DeepWikiIcon } from '../../components/DeepWikiIcon';
 
 interface CommitInfo {
   date: string;
@@ -71,8 +73,8 @@ export default function AboutPage(): ReactNode {
               <h2 className="text-2xl font-semibold mb-4">Co-Created By</h2>
               <p>Mission Enrollment is the not-yet-ripe artistic fruit of a coding collaboration that's being openly carried out by a human and a non-human who are co-working via <a href="https://git-scm.com/book/en/v2" target="_blank" rel="noopener noreferrer"><strong>public <code>GIT</code> commits</strong></a><ExternalLinkIcon /> in the landscape of cyberspace:</p>
               <ul className="list-disc pl-6 mt-2">
-                <li><strong>Human Author:</strong> <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer"><strong>daqhris</strong>.base.eth</a><ExternalLinkIcon /> - Creator, project architect and blockchain developer</li>
-                <li><strong>Non-human Engineer:</strong> <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer"><strong>Devin AI</strong></a><ExternalLinkIcon /> (from <a href="https://cognition.ai/" target="_blank" rel="noopener noreferrer">Cognition Labs</a><ExternalLinkIcon />) - Assisted in coding, development and implementation</li>
+                <li><strong>Human Author:</strong> <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer"><strong>daqhris</strong>.base.eth</a><ExternalLinkIcon /> - Creator, project architect and blockchain developer <a href="https://warpcast.com/daqhris" target="_blank" rel="noopener noreferrer" className="ml-2" title="Follow on Farcaster"><FarcasterIcon /></a></li>
+                <li><strong>Non-human Engineer:</strong> <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer"><strong>Devin AI</strong></a><ExternalLinkIcon /> (from <a href="https://cognition.ai/" target="_blank" rel="noopener noreferrer">Cognition Labs</a><ExternalLinkIcon />) - Assisted in coding, development and implementation <a href="https://deepwiki.com/daqhris/MissionEnrollment" target="_blank" rel="noopener noreferrer" className="ml-2" title="View on DeepWiki"><DeepWikiIcon /></a></li>
               </ul>
               <p className="mt-4">It is an artistic project that enables human creativity and AI capabilities to come together, on the verge of a posthuman era, for the preservation of the cultural heritage of a European city festival.</p>
               <p className="mt-2">All enrollments are registered by in-test attestations linked to <a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer"><strong>mission-enrollment</strong>.base.eth</a><ExternalLinkIcon />. Registration methods are reliant on 3 public protocols on the Base (or Base Sepolia) blockchain: <a href="https://github.com/base-org/basenames" target="_blank" rel="noopener noreferrer">Basenames</a> (ENS)<ExternalLinkIcon />, <a href="https://github.com/poap-xyz/poap.js" target="_blank" rel="noopener noreferrer">Proof of Attendance Protocol</a> (POAP)<ExternalLinkIcon /> and <a href="https://github.com/ethereum-attestation-service/eas-sdk" target="_blank" rel="noopener noreferrer">Ethereum Attestation Service</a> (EAS)<ExternalLinkIcon />.</p>
