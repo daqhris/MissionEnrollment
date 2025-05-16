@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useAccount, useBalance } from 'wagmi';
+import { useAccount, useBalance, useSendTransaction } from 'wagmi';
+import { parseEther } from 'viem';
 import { Card, CardContent, Typography, Box, Button, CircularProgress, Alert } from '@mui/material';
-import { BASE_MAINNET_CHAIN_ID, MISSION_ENROLLMENT_BASE_ETH_ADDRESS } from '../utils/constants';
+import { BASE_MAINNET_CHAIN_ID, MISSION_ENROLLMENT_BASE_ETH_ADDRESS, BASE_SEPOLIA_CHAIN_ID } from '../utils/constants';
 
 interface MainnetSupportBannerProps {
   onSwitchToTestnet: () => Promise<boolean>;
@@ -10,6 +11,8 @@ interface MainnetSupportBannerProps {
 export function MainnetSupportBanner({ onSwitchToTestnet }: MainnetSupportBannerProps) {
   const { address } = useAccount();
   const [isSwitching, setIsSwitching] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [transactionSuccess, setTransactionSuccess] = useState(false);
   
   const { data: deployerBalance, isLoading: isLoadingDeployerBalance } = useBalance({
     address: MISSION_ENROLLMENT_BASE_ETH_ADDRESS as `0x${string}`,
@@ -20,6 +23,35 @@ export function MainnetSupportBanner({ onSwitchToTestnet }: MainnetSupportBanner
     address: address as `0x${string}`,
     chainId: BASE_MAINNET_CHAIN_ID,
   });
+
+  const { sendTransaction } = useSendTransaction({
+    mutation: {
+      onSuccess: () => {
+        setIsSending(false);
+        setTransactionSuccess(true);
+      },
+      onError: (error: Error) => {
+        console.error('Transaction error:', error);
+        setIsSending(false);
+      }
+    }
+  });
+
+  const handleSendETH = async () => {
+    if (!address) return;
+    
+    setIsSending(true);
+    try {
+      await sendTransaction({
+        to: MISSION_ENROLLMENT_BASE_ETH_ADDRESS as `0x${string}`,
+        value: parseEther('0.01'), // Default to 0.01 ETH
+        chainId: BASE_MAINNET_CHAIN_ID,
+      });
+    } catch (error) {
+      console.error('Error sending transaction:', error);
+      setIsSending(false);
+    }
+  };
 
   const handleSwitchToTestnet = async () => {
     setIsSwitching(true);
@@ -51,30 +83,30 @@ export function MainnetSupportBanner({ onSwitchToTestnet }: MainnetSupportBanner
           </Typography>
         </Alert>
 
-        <Typography variant="h6" gutterBottom sx={{ color: '#1E40AF', fontWeight: 600 }}>
+        <Typography variant="h6" gutterBottom sx={{ color: '#ffffff', fontWeight: 600 }}>
           Help Enable Mainnet Attestations
         </Typography>
         
-        <Typography paragraph sx={{ color: '#1F2937' }}>
+        <Typography paragraph sx={{ color: '#f0f9ff' }}>
           To deploy the attestation schemas and contracts on Base mainnet, we need ETH to cover gas costs. 
           Your support would help make this possible!
         </Typography>
 
         <Box sx={{ 
-          backgroundColor: 'rgba(59, 130, 246, 0.05)', 
+          backgroundColor: 'rgba(59, 130, 246, 0.2)', 
           p: 2, 
           borderRadius: '0.5rem',
           mb: 2
         }}>
-          <Typography variant="subtitle2" sx={{ color: '#1F2937', fontWeight: 600, mb: 1 }}>
+          <Typography variant="subtitle2" sx={{ color: '#ffffff', fontWeight: 600, mb: 1 }}>
             Current Wallet Balances
           </Typography>
           
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-            <Typography variant="body2" sx={{ color: '#1F2937' }}>
+            <Typography variant="body2" sx={{ color: '#f0f9ff' }}>
               Deployer Wallet:
             </Typography>
-            <Typography variant="body2" sx={{ color: '#1F2937', fontWeight: 600 }}>
+            <Typography variant="body2" sx={{ color: '#ffffff', fontWeight: 600 }}>
               {isLoadingDeployerBalance ? (
                 <CircularProgress size={16} sx={{ ml: 1 }} />
               ) : (
@@ -85,10 +117,10 @@ export function MainnetSupportBanner({ onSwitchToTestnet }: MainnetSupportBanner
           
           {address && (
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography variant="body2" sx={{ color: '#1F2937' }}>
+              <Typography variant="body2" sx={{ color: '#f0f9ff' }}>
                 Your Wallet:
               </Typography>
-              <Typography variant="body2" sx={{ color: '#1F2937', fontWeight: 600 }}>
+              <Typography variant="body2" sx={{ color: '#ffffff', fontWeight: 600 }}>
                 {isLoadingUserBalance ? (
                   <CircularProgress size={16} sx={{ ml: 1 }} />
                 ) : (
@@ -100,25 +132,77 @@ export function MainnetSupportBanner({ onSwitchToTestnet }: MainnetSupportBanner
         </Box>
 
         <Box sx={{ mb: 2 }}>
-          <Typography variant="subtitle2" sx={{ color: '#1F2937', fontWeight: 600, mb: 1 }}>
+          <Typography variant="subtitle2" sx={{ color: '#ffffff', fontWeight: 600, mb: 1 }}>
             Support Mainnet Deployment
           </Typography>
-          <Typography variant="body2" sx={{ color: '#1F2937', mb: 1 }}>
+          <Typography variant="body2" sx={{ color: '#f0f9ff', mb: 1 }}>
             Send ETH to the deployer wallet address to help fund mainnet deployment:
           </Typography>
           <Box sx={{ 
-            backgroundColor: 'rgba(59, 130, 246, 0.05)', 
+            backgroundColor: 'rgba(59, 130, 246, 0.2)', 
             p: 2, 
             borderRadius: '0.5rem',
             wordBreak: 'break-all',
             fontFamily: 'monospace',
-            fontSize: '0.8rem'
+            fontSize: '0.8rem',
+            color: '#ffffff'
           }}>
             {MISSION_ENROLLMENT_BASE_ETH_ADDRESS}
           </Box>
         </Box>
+        
+        <Box sx={{ 
+          backgroundColor: 'rgba(59, 130, 246, 0.2)', 
+          p: 2, 
+          borderRadius: '0.5rem',
+          mb: 3
+        }}>
+          <Typography variant="subtitle2" sx={{ color: '#ffffff', fontWeight: 600, mb: 1 }}>
+            Deployment Cost Estimates
+          </Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+            <Typography variant="body2" sx={{ color: '#f0f9ff' }}>
+              Contract Deployment:
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#ffffff', fontWeight: 600 }}>
+              ~0.35 ETH
+            </Typography>
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Typography variant="body2" sx={{ color: '#f0f9ff' }}>
+              Per Attestation:
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#ffffff', fontWeight: 600 }}>
+              ~0.02 ETH
+            </Typography>
+          </Box>
+        </Box>
 
-        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 3 }}>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={handleSendETH}
+            disabled={isSending || !address}
+            sx={{
+              width: '100%',
+              background: 'linear-gradient(45deg, #36B37E 30%, #2EB67D 90%)',
+              color: 'white',
+              fontWeight: 'bold',
+            }}
+          >
+            {isSending ? (
+              <>
+                <CircularProgress size={24} sx={{ mr: 1, color: 'white' }} />
+                Sending donation...
+              </>
+            ) : transactionSuccess ? (
+              'Thank you for your support!'
+            ) : (
+              'Send 0.01 ETH to Support Deployment'
+            )}
+          </Button>
+
           <Button
             variant="contained"
             color="primary"
@@ -137,8 +221,9 @@ export function MainnetSupportBanner({ onSwitchToTestnet }: MainnetSupportBanner
           </Button>
         </Box>
         
-        <Typography variant="body2" sx={{ color: '#1F2937', mt: 2, textAlign: 'center' }}>
+        <Typography variant="body2" sx={{ color: '#f0f9ff', mt: 2, textAlign: 'center' }}>
           Continue with testnet attestations while mainnet support is in development.
+          The migration roadmap includes deploying smart contracts, creating schemas, and updating network configurations.
         </Typography>
       </CardContent>
     </Card>
