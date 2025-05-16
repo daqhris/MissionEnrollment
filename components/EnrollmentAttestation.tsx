@@ -9,8 +9,10 @@ import {
   MISSION_ENROLLMENT_BASE_ETH_ADDRESS,
   getRequiredNetwork,
   BASE_SEPOLIA_CHAIN_ID,
+  BASE_MAINNET_CHAIN_ID,
   NETWORK_CONFIG
 } from '../utils/constants';
+import { MainnetSupportBanner } from './MainnetSupportBanner';
 import { useUserNetworkPreference } from '../hooks/useUserNetworkPreference';
 import { SCHEMA_ENCODING } from '../types/attestation';
 import { getPOAPRole } from '../utils/poap';
@@ -319,6 +321,13 @@ export default function EnrollmentAttestation({
           <Typography color="warning.main" gutterBottom>
             Your wallet is connected to {NETWORK_CONFIG[chainId]?.name || 'an unknown network'}, but you've selected {NETWORK_CONFIG[preferredNetwork]?.name || 'another network'} for attestations.
           </Typography>
+        )}
+        
+        {/* Show MainnetSupportBanner when user selects Base mainnet */}
+        {preferredNetwork === BASE_MAINNET_CHAIN_ID && (
+          <MainnetSupportBanner 
+            onSwitchToTestnet={() => handleNetworkSwitch(BASE_SEPOLIA_CHAIN_ID)}
+          />
         )}
 
         <Typography paragraph sx={{ color: '#ffffff', marginBottom: 2 }}>
