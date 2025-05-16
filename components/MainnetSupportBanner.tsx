@@ -78,7 +78,7 @@ export function MainnetSupportBanner({ onSwitchToTestnet }: MainnetSupportBanner
           <Typography variant="subtitle1" fontWeight="bold">
             Base Mainnet Support Coming Soon
           </Typography>
-          <Typography variant="body2">
+          <Typography variant="body2" sx={{ color: '#8B4513' }}>
             Attestations are currently only available on Base Sepolia testnet. Mainnet support is under development.
           </Typography>
         </Alert>
@@ -176,6 +176,9 @@ export function MainnetSupportBanner({ onSwitchToTestnet }: MainnetSupportBanner
               ~0.02 ETH
             </Typography>
           </Box>
+          <Typography variant="body2" sx={{ color: '#f0f9ff', mt: 1, fontSize: '0.75rem', fontStyle: 'italic' }}>
+            *Estimates based on Base gas price of 0.1 Gwei. Actual costs may vary with market conditions.
+          </Typography>
         </Box>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 3 }}>
