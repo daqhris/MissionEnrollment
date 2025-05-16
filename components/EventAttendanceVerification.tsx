@@ -184,8 +184,11 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
 
         {!hasAnswered ? (
           <div className="text-center">
-            <p className="text-base-content/70 mb-6">
-              Hello {approvedName}, did you attend any of our approved events in person? This verification is required for enrolling in the Zinneke Rescue Mission.
+            <p className="text-base-content/70 mb-2">
+              Hello {approvedName}, did you attend any of our approved events in person?
+            </p>
+            <p className="text-base-content/70 mb-4 italic">
+              This verification is required for enrolling in the Zinneke Rescue Mission.
             </p>
             <div className="flex justify-center gap-4">
               <button
