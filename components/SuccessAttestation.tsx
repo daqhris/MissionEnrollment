@@ -33,14 +33,22 @@ export function SuccessAttestation({ attestationId, verifiedName, role, eventTyp
             <p className="text-lg mb-2">Registered for the upcoming <span className="font-semibold">{missionName}</span> as: <span className="font-semibold">{verifiedName}</span></p>
             <p className="text-lg mb-4">In honor of your {eventDescription} {locationMessage} as: <span className="font-semibold">{role}</span></p>
             <p className="text-sm text-base-content/70 mb-2">Attestation ID: {attestationId}</p>
-            <a
-              href={`https://base-sepolia.easscan.org/attestation/view/${attestationId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-primary"
-            >
-              View on EAS Explorer
-            </a>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <a
+                href={`https://base-sepolia.easscan.org/attestation/view/${attestationId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary"
+              >
+                View on EAS Explorer
+              </a>
+              <a
+                href="/enrollments"
+                className="btn btn-secondary"
+              >
+                View All Enrollments
+              </a>
+            </div>
           </div>
         </div>
       </div>
