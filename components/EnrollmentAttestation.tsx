@@ -403,7 +403,7 @@ export default function EnrollmentAttestation({
                 Onchain Name: {previewData?.approvedName || 'Not approved'}
               </Typography>
               <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
-                Proof Verification Method: {previewData?.proofMethod}
+                Proof Method: {previewData?.proofMethod}
               </Typography>
             </Box>
 
