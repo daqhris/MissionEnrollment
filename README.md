@@ -338,7 +338,7 @@ It is built thanks to the assistance and collaboration of **Devin**, the world's
 
 **Superchain Hackathon Submission**: [ethglobal.com/showcase/missionenrollment-i4fkr](https://ethglobal.com/showcase/missionenrollment-i4fkr)
 
-**Web App Short Demo Video** _(May 9, '25)_: [mission-enrollment.daqhris.com/Preview-MissionEnrollment-WebApp](https://mission-enrollment.daqhris.com/Preview-MissionEnrollment-WebApp.mp4)
+**Web App Short Demo Video** _(May 17, '25)_: [mission-enrollment.daqhris.com/Preview-MissionEnrollment-WebApp](https://mission-enrollment.daqhris.com/Preview-MissionEnrollment-WebApp.mp4)
 
 **Source Code's In-depth Documentation**: [deepwiki.com/daqhris/MissionEnrollment](https://deepwiki.com/daqhris/MissionEnrollment)   [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/daqhris/MissionEnrollment)
 
