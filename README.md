@@ -23,11 +23,14 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 │   ├── SuccessAttestation.tsx    # Final success screen
 │   ├── EventAttendanceVerification.tsx    # Event attendance verification
 │   ├── EnrollmentAttestation.tsx    # Attestation creation
+│   ├── EnrollmentsView.tsx    # View of all attestations
+│   ├── NetworkSelector.tsx    # Network selection component
 ├── services/             # Core services
 │   ├── apollo/           # GraphQL client
 │   ├── store/            # State management
 │   └── web3/            # Blockchain connectivity
 ├── utils/               # Utility functions
+│   ├── roleExtraction.ts    # Dynamic role extraction from POAP data
 └── types/              # TypeScript definitions
 ```
 
@@ -38,6 +41,7 @@ Custom hook for handling network switching between Base and Base Sepolia network
 - Manages network switching state
 - Handles network switching errors
 - Provides network status information
+- Supports automatic network switching when changing preferences
 
 ## Technical Stack
 
@@ -53,6 +57,7 @@ Custom hook for handling network switching between Base and Base Sepolia network
 - EIP-712 Typed Data Signing: Structured wallet message signing for improved security and user experience
 - Mobile Responsiveness: Adaptive UI design for optimal viewing on devices of all sizes
 - Branding Elements: Consistent color scheme, typography, and visual identity throughout the application
+- Network Support: Base Sepolia testnet and Base mainnet with automatic switching
 
 ### State Management
 The application uses a multi-layered state management approach:
@@ -76,6 +81,7 @@ The project includes comprehensive testing setup:
 - **Styling**: Tailwind CSS, daisy UI
 - **Type Checking**: TypeScript
 - **Code Quality**: ESLint, Jest
+- **Documentation**: DeepWiki for in-depth code documentation
 
 ## Screenshots
 
@@ -83,7 +89,7 @@ The project includes comprehensive testing setup:
 |:---:|:---:|:---:|:---:|:---:|:---:|
 | Enrollment-Step0 | Enrollment-Step1 | Enrollment-Pause1 | Enrollment-Step2 | Enrollment-Pause2 | Enrollment-Step3 |
 
-**Note:** A success screen is displayed after successful attestation creation, showing attestation details and providing a link to view it on EAS Explorer.
+**Note:** A success screen is displayed after successful attestation creation, showing attestation details and providing links to view it on EAS Explorer and to view all enrollments.
 
 ## Getting Started
 
@@ -98,6 +104,7 @@ The project includes comprehensive testing setup:
   - `NEXT_PUBLIC_ALCHEMY_API_KEY`: API key for Alchemy services
   - `NEXT_PUBLIC_POAP_API_KEY`: API key for POAP data retrieval
   - `NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL`: RPC URL for Base Sepolia network
+  - `NEXT_PUBLIC_BASE_MAINNET_RPC_URL`: RPC URL for Base mainnet
   - `NEXT_PUBLIC_EAS_CONTRACT_ADDRESS`: Address of the EAS contract
   - `NEXT_PUBLIC_DEFAULT_CHAIN`: Chain ID (default: 8453 for Base)
 
@@ -136,8 +143,8 @@ The project includes comprehensive testing setup:
 1. User connects their Ethereum wallet using the wallet connector and completes an onchain identity check with Basename or ENS name.
 2. The application fetches and displays relevant POAPs from approved events (ETHGlobal Brussels 2024 and ETHDenver Coinbase 2025), extracting role information dynamically.
 3. Its interface's second stage leads to approval of event attendance and role through POAPs before proceeding to attestation.
-4. User creates an attestation on the Base Sepolia network using EAS, with automatic network switching if needed and guided wallet interactions.
-5. Upon successful attestation creation, a success screen is displayed with attestation details and a link to view it on EAS Explorer.
+4. User creates an attestation on the Base Sepolia network (or optionally Base mainnet) using EAS, with automatic network switching if needed and guided wallet interactions.
+5. Upon successful attestation creation, a success screen is displayed with attestation details and links to view it on EAS Explorer and to view all enrollments.
 
 ## API Routes
 
@@ -158,9 +165,14 @@ The project includes comprehensive testing setup:
 The attestation system leverages the Ethereum Attestation Service (EAS) infrastructure with the following components:
 
 ### Schema Details
-- **Schema Structure**: `address userAddress,string approvedName,string proofMethod,string eventName,string eventType,string assignedRole,string missionName,uint256 timestamp,address attester,string proofProtocol`
-- **Schema UID**: 0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd
-- **View Attestations on EAS Explorer**: [Base Sepolia Schema #910](https://base-sepolia.easscan.org/schema/view/0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd)
+- **Original Schema Structure**: `address userAddress,string approvedName,string proofMethod,string eventName,string eventType,string assignedRole,string missionName,uint256 timestamp,address attester,string proofProtocol`
+- **Original Schema UID**: 0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd
+- **View Original Attestations on EAS Explorer**: [Base Sepolia Schema #910](https://base-sepolia.easscan.org/schema/view/0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd)
+
+- **Enhanced Schema Structure**: Includes additional fields for improved verification and data consistency
+- **Enhanced Schema UID**: Available on Base Sepolia as Schema #1157
+- **View Enhanced Attestations on EAS Explorer**: [Base Sepolia Schema #1157](https://base-sepolia.easscan.org/schema/view/0xa580685123e4b999c5f1cdd30ade707da884eb258416428f2cbda0b0609f64cd)
+
 - **Fields**:
   - `userAddress`: Ethereum address of the enrolled user
   - `approvedName`: User's approved Basename or ENS name
@@ -188,6 +200,8 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
 - [Base Network EAS Guide](https://docs.base.org/guides/attestation-service)
 - [Base Sepolia Explorer](https://sepolia.basescan.org/)
 - [EAS Contract on Base Sepolia](https://sepolia.basescan.org/address/0x4200000000000000000000000000000000000021)
+- [Base Mainnet Explorer](https://basescan.org/)
+- [EAS Contract on Base Mainnet](https://basescan.org/address/0x4200000000000000000000000000000000000021)
 
 ## Frontend Components
 
@@ -218,14 +232,30 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
   - Step indicators for clear wallet interaction guidance
   - Visual feedback during signing and transaction processes
   - Improved error handling with user-friendly messages
+  - Base mainnet support with migration banner
 
 - `SuccessAttestation.tsx`: Final success screen component
   - Displays attestation creation confirmation
   - Shows attestation details and transaction status
   - Provides EAS Explorer link for verification
+  - Includes button to view all enrollments
   - Implements error boundaries and fallback UI
   - Manages component state and animations
   - Handles network-specific functionality
+  - Adapts success message based on event type
+
+- `NetworkSelector.tsx`: Network selection component
+  - Allows switching between Base Sepolia and Base mainnet
+  - Displays MainnetSupportBanner when Base mainnet is selected
+  - Handles automatic network switching
+  - Provides clear visual feedback on network status
+
+- `EnrollmentsView.tsx`: View of all attestations
+  - Paginated display of attestations from both schemas
+  - Sorting by most recent attestations
+  - Consistent terminology and formatting
+  - Error handling and fallback UI
+  - Responsive design for all screen sizes
 
 ### Technical Implementation
 
@@ -235,6 +265,7 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
 - Transaction confirmation handling
 - Gas price optimization
 - Error recovery mechanisms
+- Base mainnet support with migration roadmap
 
 #### Mobile Experience
 - Responsive design for all screen sizes
@@ -242,6 +273,7 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
 - Touch-friendly UI elements with appropriate sizing
 - Consistent branding across all device types
 - Adaptive layout adjustments for smaller screens
+- Improved UI scaling for better accessibility
 
 #### User Experience
 - Clear, intuitive interface with minimal distractions
@@ -249,6 +281,8 @@ The attestation system leverages the Ethereum Attestation Service (EAS) infrastr
 - Consistent visual feedback throughout the application
 - Responsive design adapting to different device sizes
 - Non-intrusive design that doesn't interfere with experienced users
+- Improved text contrast for better readability
+- Step indicators for wallet interactions
 
 #### POAP Role Extraction
 - Centralized role extraction utility in `utils/roleExtraction.ts`
@@ -279,6 +313,7 @@ The mission coordinator has participated in the global hackathon when it was hel
 ### ETHDenver Coinbase 2025
 The application also recognizes attendance at ETHDenver Coinbase 2025 as an approved event for mission enrollment.
 Participants who attended this event can verify their attendance through their POAP tokens, which will be automatically detected and validated during the enrollment process.
+The system dynamically extracts role information from POAP data, providing a personalized enrollment experience.
 
 ### Affiliated Wallet Addresses
 - __daqhris.base.eth__: 0xb5ee030c71e76c3e03b2a8d425dbb9b395037c82
@@ -291,6 +326,7 @@ _**Note**: Contract addresses are maintained and updated regularly as the app is
 - [Ethereum Attestation Service Documentation](https://docs.attest.sh/)
 - [Basename Documentation](https://onchainkit.xyz/identity/name)
 - [POAP Documentation](https://documentation.poap.tech/)
+- [Base Network Documentation](https://docs.base.org/)
 
 ## Disclaimer
 
