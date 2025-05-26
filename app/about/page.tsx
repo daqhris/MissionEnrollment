@@ -113,13 +113,13 @@ export default function AboutPage(): ReactNode {
                   <a href="https://rounds.wtf/contributors/daqhris" target="_blank" rel="noopener noreferrer">
                     <strong>Rounds.wtf</strong>
                   </a><ExternalLinkIcon /> as part of the{' '}
-                  <a href="https://docs.rounds.wtf/faq" target="_blank" rel="noopener noreferrer">
-                    <strong>Base Builds</strong>
-                  </a><ExternalLinkIcon /> community funding initiative. This reward was distributed based on public engagement in the <a href="https://farcaster.xyz/daqhris/0xbba773b923393cb4bde58f04ec3f446c9ee988d4" target="_blank" rel="noopener noreferrer">base-builds</a><ExternalLinkIcon /> Farcaster community channel.
+                  <a href="https://farcaster.xyz/daqhris/0xbba773b923393cb4bde58f04ec3f446c9ee988d4" target="_blank" rel="noopener noreferrer">
+                    <strong>Base-Builds</strong>
+                  </a><ExternalLinkIcon /> Farcaster community funding initiative. 
                   The transaction is permanently recorded on Base blockchain as{' '}
                   <a href="https://basescan.org/tx/0x679e9ea73d10423ebdecfe3b42e8b9923cf33488bf7cf60454cfec582a946b5d" target="_blank" rel="noopener noreferrer">
                     <strong>0x679e9ea7...82a946b5d</strong>
-                  </a><ExternalLinkIcon />.
+                  </a><ExternalLinkIcon />
                 </p>
               </div>
 
