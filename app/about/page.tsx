@@ -121,9 +121,7 @@ export default function AboutPage(): ReactNode {
                     <strong>0x679e9ea7...82a946b5d</strong>
                   </a><ExternalLinkIcon />
                 </p>
-              </div>
-
-              <div className="mt-4 p-4 border rounded">
+                
                 <div className="flex items-center gap-4">
                   <h3 className="text-lg font-semibold flex-grow">Grant #2: Devfolio Crypto Cheer</h3>
                   <div className="flex-shrink-0 text-2xl">🎉</div>
