@@ -28,7 +28,7 @@ export const FarcasterIcon: React.FC<FarcasterIconProps> = ({ className = "" }) 
         textAnchor="middle"
         dominantBaseline="middle"
       >
-        W
+        F
       </text>
     </svg>
   );
