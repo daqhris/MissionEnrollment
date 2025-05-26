@@ -105,23 +105,45 @@ export default function AboutPage(): ReactNode {
               
               <div className="mt-4 p-4 border rounded">
                 <div className="flex items-center gap-4">
-                  <h3 className="text-lg font-semibold flex-grow">First Financial Backing: Devfolio Crypto Cheer</h3>
+                  <h3 className="text-lg font-semibold flex-grow">First Financial Backing: Base Build Rounds.wtf</h3>
+                  <div className="flex-shrink-0 text-2xl">🚀</div>
+                </div>
+                <p className="mt-2">
+                  On 2024/09/16, Mission Enrollment received its first financial support: <strong>0.0051 ETH</strong> through{' '}
+                  <a href="https://rounds.wtf/contributors/daqhris" target="_blank" rel="noopener noreferrer">
+                    <strong>Rounds.wtf</strong>
+                  </a><ExternalLinkIcon /> as part of the{' '}
+                  <a href="https://docs.rounds.wtf/faq" target="_blank" rel="noopener noreferrer">
+                    <strong>Base Builds</strong>
+                  </a><ExternalLinkIcon /> community funding initiative. This reward was distributed based on community engagement in the base-builds Farcaster channel.
+                </p>
+                <p className="mt-2">
+                  The transaction is permanently recorded on Base blockchain as{' '}
+                  <a href="https://basescan.org/tx/0x679e9ea73d10423ebdecfe3b42e8b9923cf33488bf7cf60454cfec582a946b5d" target="_blank" rel="noopener noreferrer">
+                    <strong>0x679e9ea7...82a946b5d</strong>
+                  </a><ExternalLinkIcon /> - marking the first community recognition of the collaborative rescue mission.
+                </p>
+              </div>
+
+              <div className="mt-4 p-4 border rounded">
+                <div className="flex items-center gap-4">
+                  <h3 className="text-lg font-semibold flex-grow">Competition Recognition: Devfolio Crypto Cheer</h3>
                   <div className="flex-shrink-0 text-2xl">🎉</div>
                 </div>
                 <p className="mt-2">
-                  On 2025/05/17, Mission Enrollment received its first act of financial support: <strong>0.0050 ETH worth of cheers</strong> on{' '}
+                  On 2025/05/17, Mission Enrollment received <strong>0.0050 ETH worth of cheers</strong> on{' '}
                   <a href="https://devfolio.co/projects/mission-enrollment-b9f4" target="_blank" rel="noopener noreferrer">
                     <strong>Devfolio</strong>
                   </a><ExternalLinkIcon /> during the{' '}
                   <a href="https://base-batch-europe.devfolio.co/" target="_blank" rel="noopener noreferrer">
                     <strong>Base Batch Europe</strong>
-                  </a><ExternalLinkIcon /> buildathon competition. This milestone represents the first community recognition and financial backing of the project.
+                  </a><ExternalLinkIcon /> buildathon competition.
                 </p>
                 <p className="mt-2">
-                  The backing is permanently recorded on the Base blockchain as{' '}
+                  Permanently recorded as{' '}
                   <a href="https://base.easscan.org/attestation/view/0xd19f9f8afc99585dc634a311f8e7c4c691ecfea75d0083032b8b7c696f1fba0d" target="_blank" rel="noopener noreferrer">
                     <strong>attestation 0xd19f9f8a...f1fba0d</strong>
-                  </a><ExternalLinkIcon /> with the message <em>"To onboarding many more to the Mission!"</em> - serving as immutable proof of this first act of community support for the collaborative rescue mission.
+                  </a><ExternalLinkIcon /> with the message <em>"To onboarding many more to the Mission!"</em>
                 </p>
               </div>
             </section>
