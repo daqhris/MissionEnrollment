@@ -101,6 +101,32 @@ export default function AboutPage(): ReactNode {
             </section>
 
             <section className="mb-8">
+              <h2 className="text-2xl font-semibold mb-4">Community Support</h2>
+              
+              <div className="mt-4 p-4 border rounded">
+                <div className="flex items-center gap-4">
+                  <h3 className="text-lg font-semibold flex-grow">First Financial Backing: Devfolio Crypto Cheer</h3>
+                  <div className="flex-shrink-0 text-2xl">🎉</div>
+                </div>
+                <p className="mt-2">
+                  On 2025/05/17, Mission Enrollment received its first act of financial support: <strong>0.0050 ETH worth of cheers</strong> on{' '}
+                  <a href="https://devfolio.co/projects/mission-enrollment-b9f4" target="_blank" rel="noopener noreferrer">
+                    <strong>Devfolio</strong>
+                  </a><ExternalLinkIcon /> during the{' '}
+                  <a href="https://base-batch-europe.devfolio.co/" target="_blank" rel="noopener noreferrer">
+                    <strong>Base Batch Europe</strong>
+                  </a><ExternalLinkIcon /> buildathon competition. This milestone represents the first community recognition and financial backing of the project.
+                </p>
+                <p className="mt-2">
+                  The backing is permanently recorded on the Base blockchain as{' '}
+                  <a href="https://base.easscan.org/attestation/view/0xd19f9f8afc99585dc634a311f8e7c4c691ecfea75d0083032b8b7c696f1fba0d" target="_blank" rel="noopener noreferrer">
+                    <strong>attestation 0xd19f9f8a...f1fba0d</strong>
+                  </a><ExternalLinkIcon /> with the message <em>"To onboarding many more to the Mission!"</em> - serving as immutable proof of this first act of community support for the collaborative rescue mission.
+                </p>
+              </div>
+            </section>
+
+            <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">Artistic Projects</h2>
               <div className="flex flex-col md:flex-row gap-8">
                 <div className="flex flex-col items-center">
