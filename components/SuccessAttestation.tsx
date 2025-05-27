@@ -12,7 +12,7 @@ export function SuccessAttestation({ attestationId, verifiedName, role, eventTyp
   let eventDescription = "hackathon skills demonstrated";
   let missionName = "Zinneke Rescue Mission";
 
-  if (eventType === 'ETHDENVER_COINBASE_2025') {
+  if (eventType === 'ETHDENVER_COINBASE_CDP_2025') {
     locationMessage = "in Denver";
     eventDescription = "developer workshop skills demonstrated";
   }

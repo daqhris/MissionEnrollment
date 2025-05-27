@@ -112,13 +112,13 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
 
       if (!eventPoap) {
         eventPoap = poaps.find(poap =>
-          APPROVED_EVENT_NAMES.ETHDENVER_COINBASE_2025.some(eventName =>
+          APPROVED_EVENT_NAMES.ETHDENVER_COINBASE_CDP_2025.some(eventName =>
             poap.event.name.toLowerCase().includes(eventName.toLowerCase())
           )
         );
         if (eventPoap) {
-          eventType = 'ETHDENVER_COINBASE_2025';
-          console.log('Found ETHDenver Coinbase 2025 POAP:', eventPoap);
+          eventType = 'ETHDENVER_COINBASE_CDP_2025';
+          console.log('Found ETHDenver Coinbase CDP 2025 POAP:', eventPoap);
         }
       }
 
@@ -273,7 +273,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                     <div className="space-y-2">
                       <p className="text-base font-semibold">
                         {poapDetails?.event?.name?.includes('ETHGlobal Brussels') ? 'ETHGlobal Brussels 2024' : 
-                         poapDetails?.event?.name?.includes('Coinbase Developer Platform') ? 'ETHDenver Coinbase 2025' : 
+                         poapDetails?.event?.name?.includes('Coinbase Developer Platform') ? 'ETHDenver Coinbase CDP 2025' : 
                          'Approved Event'}
                       </p>
                       <div className="flex flex-col text-sm opacity-75">
@@ -283,20 +283,20 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                           getRoleBadgeColor(extractRoleFromPOAP(
                             poapDetails?.event?.name || '',
                             poapDetails?.event?.description || '',
-                            poapDetails?.event?.name?.includes('ETHGlobal Brussels') ? 'ETH_GLOBAL_BRUSSELS' : 'ETHDENVER_COINBASE_2025'
+                            poapDetails?.event?.name?.includes('ETHGlobal Brussels') ? 'ETH_GLOBAL_BRUSSELS' : 'ETHDENVER_COINBASE_CDP_2025'
                           ))
                         }`}>
                           {extractRoleFromPOAP(
                             poapDetails?.event?.name || '',
                             poapDetails?.event?.description || '',
-                            poapDetails?.event?.name?.includes('ETHGlobal Brussels') ? 'ETH_GLOBAL_BRUSSELS' : 'ETHDENVER_COINBASE_2025'
+                            poapDetails?.event?.name?.includes('ETHGlobal Brussels') ? 'ETH_GLOBAL_BRUSSELS' : 'ETHDENVER_COINBASE_CDP_2025'
                           )}
                         </span>
                       </p>
                         <p>📅 Date: {new Date(poapDetails?.event?.end_date || poapDetails?.event?.start_date || Date.now()).toLocaleDateString()}</p>
                         <p>📍 Venue: {poapDetails?.event?.name?.includes('ETHGlobal Brussels') ? 
                           EVENT_VENUES.ETH_GLOBAL_BRUSSELS : 
-                          EVENT_VENUES.ETHDENVER_COINBASE_2025}</p>
+                          EVENT_VENUES.ETHDENVER_COINBASE_CDP_2025}</p>
                         <p>🎫 Token ID: {poapDetails?.tokenId || 'N/A'}</p>
                       </div>
                     </div>
@@ -313,7 +313,7 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                   if (success && poapDetails) {
                     const eventType = poapDetails.event.name.includes('ETHGlobal Brussels') 
                       ? 'ETH_GLOBAL_BRUSSELS' 
-                      : 'ETHDENVER_COINBASE_2025';
+                      : 'ETHDENVER_COINBASE_CDP_2025';
                     
                     // Extract role using the centralized utility
                     const role = extractRoleFromPOAP(

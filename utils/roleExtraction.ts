@@ -30,8 +30,8 @@ export const EVENT_ROLE_CONFIG: Record<string, EventRoleConfig> = {
     },
     defaultRole: 'Participant',
   },
-  ETHDENVER_COINBASE_2025: {
-    eventKey: 'ETHDENVER_COINBASE_2025',
+  ETHDENVER_COINBASE_CDP_2025: {
+    eventKey: 'ETHDENVER_COINBASE_CDP_2025',
     namePatterns: {
       'speaker': 'Speaker',
       'sponsor': 'Sponsor',
@@ -58,7 +58,7 @@ export const EVENT_ROLE_CONFIG: Record<string, EventRoleConfig> = {
  * Extract role from POAP event information using pattern matching
  * @param eventName - Full name of the POAP event
  * @param eventDescription - Description of the POAP event
- * @param eventType - Type of event (ETH_GLOBAL_BRUSSELS or ETHDENVER_COINBASE_2025)
+ * @param eventType - Type of event (ETH_GLOBAL_BRUSSELS or ETHDENVER_COINBASE_CDP_2025)
  * @returns Extracted role string
  */
 export function extractRoleFromPOAP(
@@ -110,9 +110,9 @@ export function determineEventType(eventName: string): string {
     return 'ETH_GLOBAL_BRUSSELS';
   }
   
-  if (APPROVED_EVENT_NAMES.ETHDENVER_COINBASE_2025.some(name => 
+  if (APPROVED_EVENT_NAMES.ETHDENVER_COINBASE_CDP_2025.some(name => 
     nameLower.includes(name.toLowerCase()))) {
-    return 'ETHDENVER_COINBASE_2025';
+    return 'ETHDENVER_COINBASE_CDP_2025';
   }
   
   return '';
