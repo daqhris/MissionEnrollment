@@ -222,27 +222,26 @@ export const Header = (): JSX.Element => {
                   <LogoTitle>mission-enrollment</LogoTitle>
                 </div>
                 <div className="flex items-center justify-between w-full">
-                  <span className="text-xs px-2 py-0.5 bg-[#957777] text-white rounded-full animate-pulse">Beta</span>
+                  <a 
+                    href="https://www.base.org/name/mission-enrollment" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-xs text-blue-300 hover:underline group relative"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const url = "https://www.base.org/name/mission-enrollment";
+                      const newTab = window.open(url, "_blank");
+                      if (newTab) newTab.opener = null;
+                    }}
+                  >
+                    .base.eth
+                    <span className="absolute left-0 -bottom-6 w-32 bg-blue-900 text-xs text-white p-1 rounded hidden group-hover:block transition-opacity">
+                      View on Base
+                    </span>
+                  </a>
                 </div>
               </LogoText>
             </Link>
-            <a 
-              href="https://www.base.org/name/mission-enrollment" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-xs text-blue-300 hover:underline group relative ml-2"
-              onClick={(e) => {
-                e.preventDefault();
-                const url = "https://www.base.org/name/mission-enrollment";
-                const newTab = window.open(url, "_blank");
-                if (newTab) newTab.opener = null;
-              }}
-            >
-              .base.eth
-              <span className="absolute left-0 -bottom-6 w-32 bg-blue-900 text-xs text-white p-1 rounded hidden group-hover:block transition-opacity">
-                View on Base
-              </span>
-            </a>
           </div>
         </div>
         <DesktopMenu>
