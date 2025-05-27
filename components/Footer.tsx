@@ -116,29 +116,35 @@ export const Footer = (): JSX.Element => {
                 href="https://devfolio.co/projects/mission-enrollment-b9f4"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#957777] hover:text-[#a58a8a] text-xs flex items-center"
+                className="text-[#957777] hover:text-[#a58a8a] text-xs"
               >
                 Base Batch Europe
-                <ExternalLinkIcon />
               </Link>
+              <span className="inline-block ml-0.5 text-[#957777]">
+                <ExternalLinkIcon />
+              </span>
               <Link
                 href="https://ethglobal.com/showcase/missionenrollment-i4fkr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#957777] hover:text-[#a58a8a] text-xs flex items-center"
+                className="text-[#957777] hover:text-[#a58a8a] text-xs"
               >
                 ETHGlobal '24
-                <ExternalLinkIcon />
               </Link>
+              <span className="inline-block ml-0.5 text-[#957777]">
+                <ExternalLinkIcon />
+              </span>
               <Link
                 href="https://github.com/daqhris/MissionEnrollment"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#957777] hover:text-[#a58a8a] text-xs flex items-center"
+                className="text-[#957777] hover:text-[#a58a8a] text-xs"
               >
                 GitHub
-                <ExternalLinkIcon />
               </Link>
+              <span className="inline-block ml-0.5 text-[#957777]">
+                <ExternalLinkIcon />
+              </span>
             </div>
           </div>
         </FixedBottomBar>
