@@ -242,7 +242,7 @@ export default function ChangelogPage() {
                 <p>{error}</p>
               </div>
             ) : (
-              <section className="mb-8 bg-amber-600 p-6 rounded-lg border border-amber-500">
+              <section className="mb-8 p-6 rounded-lg border" style={{backgroundColor: "#7c6054", borderColor: "#6a5046"}}>
                 <h2 className="text-2xl font-semibold mb-6 text-amber-300">Development Timeline</h2>
                 
                 <div className="relative">
