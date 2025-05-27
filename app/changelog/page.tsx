@@ -183,7 +183,7 @@ export default function ChangelogPage() {
         <div className="prose max-w-none">
           <h1 className="text-4xl font-bold mb-8">Changelog: Mission Enrollment</h1>
           
-          <section className="mb-8 bg-amber-100/50 p-6 rounded-lg border border-amber-200">
+          <section className="mb-8 bg-amber-50 p-6 rounded-lg border border-amber-200">
             <h2 className="text-2xl font-semibold mb-4 text-amber-900">Executive Summary</h2>
             <p className="text-gray-900">
               <strong>Mission Enrollment</strong> is a collaborative blockchain application that has evolved significantly since its inception in August 2024. 
@@ -328,9 +328,22 @@ export default function ChangelogPage() {
               >
                 {lastCommit.date}
               </a>
-              <span className="ml-1">
+              <span className="ml-1 inline-block">
                 <ExternalLinkIcon />
               </span>
+              <span className="ml-1">(commit: </span>
+              <a
+                href={`https://github.com/daqhris/MissionEnrollment/commit/${lastCommit.sha}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-amber-900 hover:text-amber-700"
+              >
+                {lastCommit.sha}
+              </a>
+              <span className="ml-1 inline-block">
+                <ExternalLinkIcon />
+              </span>
+              <span>)</span>
             </div>
           )}
         </div>
