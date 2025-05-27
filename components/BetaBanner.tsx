@@ -34,7 +34,7 @@ export const BetaBanner = (): JSX.Element => {
       </div>
       <button 
         onClick={handleDismiss}
-        className="text-sm hover:text-[#957777] transition-colors ml-2"
+        className="text-sm hover:text-[#957777] transition-colors ml-2 border border-white px-2 py-0.5 rounded-md"
       >
         Dismiss
       </button>
