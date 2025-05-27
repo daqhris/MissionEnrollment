@@ -145,7 +145,7 @@ export default function Home() {
                     <p className="text-base-content/70 text-center">
                       This is an enrollment tool for a collaborative and artistic mission on the BASE blockchain.
                     </p>
-                    <p className="text-base-content/70 text-center"><em>The tool is being openly built by a human and a non-human <a href="https://github.com/daqhris/MissionEnrollment/commits/main" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">since summer 2024</a>.</em></p>
+                    <p className="text-base-content/70 text-center"><em>The tool is being openly built by a human and a non-human <a href="https://github.com/daqhris/MissionEnrollment/commits?after=420db94bb24e6a700f86cdc7f708828cfabfa2be+0" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">since summer 2024</a>.</em></p>
                   </div>
                   <div className="flex justify-center">
                     <RainbowKitCustomConnectButton />
