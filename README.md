@@ -328,6 +328,10 @@ _**Note**: Contract addresses are maintained and updated regularly as the app is
 - [POAP Documentation](https://documentation.poap.tech/)
 - [Base Network Documentation](https://docs.base.org/)
 
+## Project Origins and Historical Context
+
+This project has its origins in a fork of slavik0329's repository, which was subsequently developed through a collaborative effort between **daqhris** and **Devin** starting in summer 2024. The foundational merge commit [597cc88820f698e43c280196d94fa13dc525cd80](https://github.com/daqhris/MissionEnrollment/commit/597cc88820f698e43c280196d94fa13dc525cd80) represents the convergence of the initial forked codebase with the beginning of the human-AI collaboration that has driven the project's development.
+
 ## Disclaimer
 
 This project builds upon components from [Scaffold-ETH 2](https://github.com/scaffold-eth/scaffold-eth-2) and leverages open-source protocols for blockchain functionality.
