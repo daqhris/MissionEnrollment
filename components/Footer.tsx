@@ -112,45 +112,33 @@ export const Footer = (): React.JSX.Element => {
               <span className="hidden sm:inline text-[#957777]">|</span>
             </div>
             <div className="flex flex-wrap items-center gap-2 sm:gap-4">
-              <div className="flex items-center">
-                <Link
-                  href="https://devfolio.co/projects/mission-enrollment-b9f4"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#957777] hover:text-[#a58a8a] text-xs"
-                >
-                  Base Batch Europe
-                </Link>
-                <span className="inline-block text-[#957777] -ml-1">
-                  <ExternalLinkIcon className="-ml-0.5" />
-                </span>
-              </div>
-              <div className="flex items-center">
-                <Link
-                  href="https://ethglobal.com/showcase/missionenrollment-i4fkr"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#957777] hover:text-[#a58a8a] text-xs"
-                >
-                  ETHGlobal '24
-                </Link>
-                <span className="inline-block text-[#957777] -ml-1">
-                  <ExternalLinkIcon className="-ml-0.5" />
-                </span>
-              </div>
-              <div className="flex items-center">
-                <Link
-                  href="https://github.com/daqhris/MissionEnrollment"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#957777] hover:text-[#a58a8a] text-xs"
-                >
-                  GitHub
-                </Link>
-                <span className="inline-block text-[#957777] -ml-1">
-                  <ExternalLinkIcon className="-ml-0.5" />
-                </span>
-              </div>
+              <Link
+                href="https://devfolio.co/projects/mission-enrollment-b9f4"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#957777] hover:text-[#a58a8a] text-xs flex items-center"
+              >
+                Base Batch Europe
+                <ExternalLinkIcon />
+              </Link>
+              <Link
+                href="https://ethglobal.com/showcase/missionenrollment-i4fkr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#957777] hover:text-[#a58a8a] text-xs flex items-center"
+              >
+                ETHGlobal '24
+                <ExternalLinkIcon />
+              </Link>
+              <Link
+                href="https://github.com/daqhris/MissionEnrollment"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#957777] hover:text-[#a58a8a] text-xs flex items-center"
+              >
+                GitHub
+                <ExternalLinkIcon />
+              </Link>
             </div>
           </div>
         </FixedBottomBar>
