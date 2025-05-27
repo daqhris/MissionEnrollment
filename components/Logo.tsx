@@ -37,7 +37,7 @@ export const Logo: React.FC = () => (
           <span className="text-white text-xl">🔜</span>
         </div>
         <span className="font-bold text-xl md:text-2xl text-gray-500 ml-3">
-          Zinneke Rescue
+          Zinneke Rescue Mission
         </span>
       </div>
     </div>
