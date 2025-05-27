@@ -12,6 +12,7 @@ import { SuccessAttestation } from '../components/SuccessAttestation';
 import { Logo } from '../components/Logo';
 import { BetaBanner } from '../components/BetaBanner';
 import NetworkSelector from '../components/NetworkSelector';
+import { ExternalLinkIcon } from '../components/ExternalLinkIcon';
 
 // Type definitions for component state
 interface EventInfo {
@@ -144,7 +145,7 @@ export default function Home() {
                     <p className="text-base-content/70 text-center">
                       This is an enrollment tool for a collaborative and artistic mission on the BASE blockchain.
                     </p>
-                    <p className="text-base-content/70 text-center"><em>The tool is being openly built by a human and a non-human since summer 2024.</em></p>
+                    <p className="text-base-content/70 text-center"><em>The tool is being openly built by a human and a non-human <a href="https://github.com/daqhris/MissionEnrollment/graphs/code-frequency" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">since summer 2024</a>.</em></p>
                   </div>
                   <div className="flex justify-center">
                     <RainbowKitCustomConnectButton />
