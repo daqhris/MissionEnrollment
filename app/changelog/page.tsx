@@ -189,28 +189,36 @@ export default function ChangelogPage() {
               <strong>Mission Enrollment</strong> is a collaborative blockchain application that has evolved significantly since its inception in August 2024. 
               This changelog documents the journey of this human-AI pair programming project, highlighting key milestones, technical advancements, 
               and the collaborative achievements between{' '}
-              <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+              <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer" className="text-amber-900 hover:text-amber-700">
                 daqhris.base.eth
+              </a>
+              <span className="ml-0.5">
                 <ExternalLinkIcon />
-              </a>{' '}and{' '}
-              <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+              </span>{' '}and{' '}
+              <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer" className="text-amber-900 hover:text-amber-700">
                 Devin AI
+              </a>
+              <span className="ml-0.5">
                 <ExternalLinkIcon />
-              </a>.
+              </span>.
             </p>
             
             <p className="mt-4 text-gray-900">
               Over time, the application has grown to include robust identity verification through Basenames (ENS), 
               event attendance verification via POAP, and attestation creation using the Ethereum Attestation Service (EAS). 
               The project has received financial backing through{' '}
-              <a href="https://rounds.wtf/contributors/daqhris" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+              <a href="https://rounds.wtf/contributors/daqhris" target="_blank" rel="noopener noreferrer" className="text-amber-900 hover:text-amber-700">
                 Rounds.wtf
+              </a>
+              <span className="ml-0.5">
                 <ExternalLinkIcon />
-              </a>{' '}and{' '}
-              <a href="https://devfolio.co/projects/mission-enrollment-b9f4" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+              </span>{' '}and{' '}
+              <a href="https://devfolio.co/projects/mission-enrollment-b9f4" target="_blank" rel="noopener noreferrer" className="text-amber-900 hover:text-amber-700">
                 Devfolio
+              </a>
+              <span className="ml-0.5">
                 <ExternalLinkIcon />
-              </a>, and has been showcased at events like Base Batch Europe and ETHGlobal.
+              </span>, and has been showcased at events like Base Batch Europe and ETHGlobal.
             </p>
             
             <p className="mt-4 text-gray-900">
