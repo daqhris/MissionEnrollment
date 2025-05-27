@@ -120,7 +120,7 @@ export const Footer = (): JSX.Element => {
               >
                 Base Batch Europe
               </Link>
-              <span className="inline-block ml-0.5 text-[#957777]">
+              <span className="inline-block text-[#957777]">
                 <ExternalLinkIcon />
               </span>
               <Link
@@ -131,7 +131,7 @@ export const Footer = (): JSX.Element => {
               >
                 ETHGlobal '24
               </Link>
-              <span className="inline-block ml-0.5 text-[#957777]">
+              <span className="inline-block text-[#957777]">
                 <ExternalLinkIcon />
               </span>
               <Link
@@ -142,7 +142,7 @@ export const Footer = (): JSX.Element => {
               >
                 GitHub
               </Link>
-              <span className="inline-block ml-0.5 text-[#957777]">
+              <span className="inline-block text-[#957777]">
                 <ExternalLinkIcon />
               </span>
             </div>
