@@ -33,10 +33,7 @@ export const Logo: React.FC = () => (
       
       {/* Zinneke Rescue Mission */}
       <div className="flex items-center">
-        <div className="relative overflow-hidden rounded-lg shadow-md bg-gray-700 flex items-center justify-center w-12 h-12">
-          <span className="text-white text-xl">🔜</span>
-        </div>
-        <span className="font-bold text-xl md:text-2xl text-gray-500 ml-3">
+        <span className="font-bold text-xl md:text-2xl text-gray-500">
           Zinneke Rescue Mission
         </span>
       </div>
