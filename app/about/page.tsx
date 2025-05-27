@@ -63,7 +63,7 @@ export default function AboutPage(): ReactNode {
               <p>Your journey begins here with three verification steps:</p>
               <ul className="list-disc pl-6">
                 <li>Submit your onchain name during an identity check</li>
-                <li>Confirm your attendance at approved blockchain events: <a href="https://ethglobal.com/events/brussels" target="_blank" rel="noopener noreferrer">ETHGlobal Brussels 2024</a><ExternalLinkIcon /> or <a href="https://poap.gallery/search?term=Coinbase%20Developer%20Platform" target="_blank" rel="noopener noreferrer">ETHDenver Coinbase 2025</a><ExternalLinkIcon /></li>
+                <li>Confirm your attendance at approved blockchain events: <a href="https://ethglobal.com/events/brussels" target="_blank" rel="noopener noreferrer">ETHGlobal Brussels 2024</a><ExternalLinkIcon /> or <a href="https://poap.gallery/search?term=Coinbase%20Developer%20Platform" target="_blank" rel="noopener noreferrer">ETHDenver Coinbase CDP 2025</a><ExternalLinkIcon /></li>
                 <li>Create an enrollment attestation on a public blockchain</li>
               </ul>
               <p className="mt-4">Once self-enrolled, you'll be certified and granted access to the upcoming <strong>Zinneke Rescue Mission</strong>.</p>

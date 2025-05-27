@@ -88,8 +88,8 @@ export default function EnrollmentAttestation({
       let eventName = "ETHGlobal Brussels 2024";
       let eventTypeDisplay = "International Hackathon";
 
-      if (eventType === 'ETHDENVER_COINBASE_2025') {
-        eventName = "ETHDenver Coinbase 2025";
+      if (eventType === 'ETHDENVER_COINBASE_CDP_2025') {
+        eventName = "ETHDenver Coinbase CDP 2025";
         eventTypeDisplay = "Developer Workshop & Hackathon";
       }
 

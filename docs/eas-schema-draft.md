@@ -55,7 +55,7 @@ const EIP712_TYPES = {
 
 1. **Role Information**: Roles should be dynamically retrieved from the user's POAP data rather than hardcoded. The possible roles include:
    - ETH_GLOBAL_BRUSSELS: Hacker, Mentor, Judge, Sponsor, Speaker, Volunteer, Staff
-   - ETHDENVER_COINBASE_2025: Speaker, Sponsor, Mentor, Judge, Developer, Hacker, Social Participant, BUIDLer
+   - ETHDENVER_COINBASE_CDP_2025: Speaker, Sponsor, Mentor, Judge, Developer, Hacker, Social Participant, BUIDLer
 
 2. **Base Names**: Base names should be formatted consistently, removing duplicate suffixes like ".base.eth.base.eth"
 

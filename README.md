@@ -141,7 +141,7 @@ The project includes comprehensive testing setup:
 **Mission Enrollment** provides a streamlined, one-page application for a select number of talented individuals to enroll in advance of the **_Zinneke Rescue Mission_**.
 
 1. User connects their Ethereum wallet using the wallet connector and completes an onchain identity check with Basename or ENS name.
-2. The application fetches and displays relevant POAPs from approved events (ETHGlobal Brussels 2024 and ETHDenver Coinbase 2025), extracting role information dynamically.
+2. The application fetches and displays relevant POAPs from approved events (ETHGlobal Brussels 2024 and ETHDenver Coinbase CDP 2025), extracting role information dynamically.
 3. Its interface's second stage leads to approval of event attendance and role through POAPs before proceeding to attestation.
 4. User creates an attestation on the Base Sepolia network (or optionally Base mainnet) using EAS, with automatic network switching if needed and guided wallet interactions.
 5. Upon successful attestation creation, a success screen is displayed with attestation details and links to view it on EAS Explorer and to view all enrollments.
@@ -310,8 +310,8 @@ This web app includes a special feature that is dependent on in-person participa
 Users are invited to verify ownership of an ETHGlobal-certified POAP, adding an extra layer of credibility to their enrollment attestations.
 The mission coordinator has participated in the global hackathon when it was held for the first time in Belgium.
 
-### ETHDenver Coinbase 2025
-The application also recognizes attendance at ETHDenver Coinbase 2025 as an approved event for mission enrollment.
+### ETHDenver Coinbase CDP 2025
+The application also recognizes attendance at ETHDenver Coinbase CDP 2025 as an approved event for mission enrollment.
 Participants who attended this event can verify their attendance through their POAP tokens, which will be automatically detected and validated during the enrollment process.
 The system dynamically extracts role information from POAP data, providing a personalized enrollment experience.
 

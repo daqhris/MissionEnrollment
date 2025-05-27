@@ -49,7 +49,7 @@ export async function getPOAPRole(address: string): Promise<POAPRoleResult> {
     }
 
     const ethDenverEvent = data.find((poap: POAPEvent) =>
-      APPROVED_EVENT_NAMES.ETHDENVER_COINBASE_2025.some(eventName => 
+      APPROVED_EVENT_NAMES.ETHDENVER_COINBASE_CDP_2025.some(eventName => 
         poap.event.name.toLowerCase().includes(eventName.toLowerCase())
       )
     );
@@ -58,12 +58,12 @@ export async function getPOAPRole(address: string): Promise<POAPRoleResult> {
       const role = extractRoleFromPOAP(
         ethDenverEvent.event.name,
         ethDenverEvent.event.description,
-        'ETHDENVER_COINBASE_2025'
+        'ETHDENVER_COINBASE_CDP_2025'
       );
       
       return { 
         role, 
-        eventType: 'ETHDENVER_COINBASE_2025' 
+        eventType: 'ETHDENVER_COINBASE_CDP_2025' 
       };
     }
 
