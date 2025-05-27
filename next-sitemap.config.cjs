@@ -6,6 +6,6 @@ module.exports = {
   generateIndexSitemap: true,
   outDir: './out',
   additionalPaths: async () => {
-    return ['/about', '/enrollments', '/preview', '/charter']
+    return ['/about', '/enrollments', '/preview', '/charter', '/changelog']
   }
 }
