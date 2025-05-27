@@ -25,6 +25,7 @@ interface GitHubCommit {
 interface QuarterData {
   name: string;
   season: string;
+  months: string;
   startDate: Date;
   endDate: Date;
   keyLearnings: string[];
@@ -50,6 +51,7 @@ export default function ChangelogPage() {
     {
       name: 'Q3 2024',
       season: 'Summer/Fall',
+      months: 'July-September',
       startDate: new Date('2024-08-01'),
       endDate: new Date('2024-09-30'),
       keyLearnings: [
@@ -70,6 +72,7 @@ export default function ChangelogPage() {
     {
       name: 'Q4 2024',
       season: 'Fall/Winter',
+      months: 'October-December',
       startDate: new Date('2024-10-01'),
       endDate: new Date('2024-12-31'),
       keyLearnings: [
@@ -90,6 +93,7 @@ export default function ChangelogPage() {
     {
       name: 'Q1 2025',
       season: 'Winter/Spring',
+      months: 'January-March',
       startDate: new Date('2025-01-01'),
       endDate: new Date('2025-03-31'),
       keyLearnings: [
@@ -110,6 +114,7 @@ export default function ChangelogPage() {
     {
       name: 'Q2 2025',
       season: 'Spring/Summer',
+      months: 'April-June',
       startDate: new Date('2025-04-01'),
       endDate: new Date('2025-05-31'),
       keyLearnings: [
@@ -246,7 +251,7 @@ export default function ChangelogPage() {
                       {/* Quarter/Season Header */}
                       <div className="flex justify-center items-center mb-6">
                         <div className="bg-amber-800 text-amber-100 px-4 py-2 rounded-full font-semibold">
-                          {quarter.name} • {quarter.season}
+                          {quarter.name} • {quarter.season} • {quarter.months}
                         </div>
                       </div>
                       
@@ -296,7 +301,7 @@ export default function ChangelogPage() {
                       <div className="mt-8 p-4 bg-amber-100 rounded-lg border border-amber-300">
                         <h3 className="font-semibold text-lg mb-2">Quarter Summary</h3>
                         <p className="text-gray-900">
-                          {quarter.name} ({quarter.season}) marked {quarterIndex === 0 ? 'the beginning' : 'a major period'} in the 
+                          {quarter.name} ({quarter.season}, {quarter.months}) marked {quarterIndex === 0 ? 'the beginning' : 'a major period'} in the 
                           Mission Enrollment project&apos;s development. 
                           {quarterIndex === 0 && ' The foundation was established and initial blockchain integrations were implemented.'}
                           {quarterIndex === 1 && ' The human-AI collaboration reached a milestone with the Pair Extraordinaire achievement, and the user experience was noticeably enhanced.'}

@@ -346,4 +346,6 @@ It is built thanks to the assistance and collaboration of **Devin**, the world's
 
 **Source Code's In-depth Documentation**: [deepwiki.com/daqhris/MissionEnrollment](https://deepwiki.com/daqhris/MissionEnrollment)   [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/daqhris/MissionEnrollment)
 
+**Project Changelog**: [mission-enrollment.daqhris.com/changelog](https://mission-enrollment.daqhris.com/changelog) - Timeline of key developments and collaborative achievements
+
 **Base Batch Europe Buildathon (Devolio - Showcase Track)**: [devfolio.co/projects/mission-enrollment-b9f4](https://devfolio.co/projects/mission-enrollment-b9f4)
