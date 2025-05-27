@@ -278,16 +278,19 @@ export default function ChangelogPage() {
                               <h4 className="font-medium text-sm mb-2">Notable Commits:</h4>
                               <div className="flex flex-wrap gap-2">
                                 {quarter.keyCommits.map((commitSha, index) => (
-                                  <a 
-                                    key={index}
-                                    href={`https://github.com/daqhris/MissionEnrollment/commit/${commitSha}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center text-xs bg-amber-200 hover:bg-amber-300 rounded px-2 py-1 text-gray-900"
-                                  >
-                                    {commitSha.substring(0, 7)}
-                                    <ExternalLinkIcon />
-                                  </a>
+                                  <span key={index} className="inline-flex items-center">
+                                    <a 
+                                      href={`https://github.com/daqhris/MissionEnrollment/commit/${commitSha}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-xs bg-amber-200 hover:bg-amber-300 rounded px-2 py-1 text-gray-900"
+                                    >
+                                      {commitSha.substring(0, 7)}
+                                    </a>
+                                    <span className="ml-0.5 -mr-1">
+                                      <ExternalLinkIcon />
+                                    </span>
+                                  </span>
                                 ))}
                               </div>
                             </div>
