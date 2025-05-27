@@ -80,7 +80,10 @@ export default function ChangelogPage() {
         'Enhanced UI with improved text contrast and hover effects',
         'Expanded attestation capabilities with success confirmation screens',
         'Improved mobile responsiveness across all pages',
-        'Refined user experience with clearer instructions and feedback'
+        'Refined user experience with clearer instructions and feedback',
+        'About page created with dynamic commit information and project history (December 17)',
+        'Preview page implemented with video player functionality (December 15)',
+        'Enrollments page established by restructuring /recent route for better URL organization (December 15)'
       ],
       keyCommits: [
         'e7602e0', // Pair Extraordinaire achievement
@@ -119,13 +122,15 @@ export default function ChangelogPage() {
       endDate: new Date('2025-05-31'),
       keyLearnings: [
         'Ethical charter created with improved logical organization',
+        'Charter page implemented with human-AI collaboration principles and EU AI Act compliance (April 11)',
         'External link system implemented for better accessibility',
         'Enhanced self-attestation with new schema (#1157)',
         'EIP-712 typing implemented for improved security',
         'Base Batch Europe buildathon participation and Devfolio financial support (0.0050 ETH)',
         'Mainnet support added with clear migration information',
         'Dynamic role extraction from POAP data implemented',
-        'Onboarding components integrated for improved user guidance'
+        'Onboarding components integrated for improved user guidance',
+        'Changelog page created to document project development timeline and collaborative history (May 27)'
       ],
       keyCommits: [
         'c326038', // Style improvements
