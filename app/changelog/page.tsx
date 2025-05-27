@@ -55,7 +55,7 @@ export default function ChangelogPage() {
       startDate: new Date('2024-08-01'),
       endDate: new Date('2024-09-30'),
       keyLearnings: [
-        'Project foundation established with the initial merge of a git commit by Devin AI on GitHub',
+        'Project foundation established with the merge of a git commit by Devin AI',
         'Initial integration with Base blockchain for identity verification',
         'First financial support received through Rounds.wtf (0.0051 ETH)',
         'Core attestation functionality implemented',
@@ -121,7 +121,6 @@ export default function ChangelogPage() {
       startDate: new Date('2025-04-01'),
       endDate: new Date('2025-05-31'),
       keyLearnings: [
-        'Ethical charter created with improved logical organization',
         'Charter page implemented with human-AI collaboration principles and EU AI Act compliance (April 11)',
         'External link system implemented for better accessibility',
         'Enhanced self-attestation with new schema (#1157)',
@@ -197,8 +196,7 @@ export default function ChangelogPage() {
             <h2 className="text-2xl font-semibold mb-4 text-amber-900">Executive Summary</h2>
             <p className="text-gray-900">
               <strong>Mission Enrollment</strong> is a collaborative blockchain application that keeps on evolving since its inception in August 2024. 
-              This changelog documents the journey of this human-AI pair programming project, highlighting key milestones, technical advancements, 
-              and the collaborative achievements between{' '}
+              This changelog documents the journey of this human-AI pair programming project, highlighting milestones and technical achievements of{' '}
               <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer" className="text-amber-900 hover:text-amber-700">
                 daqhris.base.eth
               </a>
@@ -228,7 +226,7 @@ export default function ChangelogPage() {
               </a>
               <span className="ml-0.5">
                 <ExternalLinkIcon />
-              </span>, and has been showcased at coding competitions like Base Batch Europe and ETHGlobal.
+              </span>, and has been built and showcased at 2 international coding competitions.
             </p>
 
           </section>
@@ -270,7 +268,7 @@ export default function ChangelogPage() {
                         {/* Content */}
                         <div className={`ml-6 md:ml-0 md:w-5/12 ${quarterIndex % 2 === 0 ? 'md:text-right' : ''}`}>
                           <div className="bg-amber-50 p-4 rounded-lg shadow-md border border-amber-200">
-                            <h3 className="font-semibold text-lg mb-4">Key Developments</h3>
+                            <h3 className="font-semibold text-lg mb-4">Key Milestones</h3>
                             
                             <ul className={`list-disc ${quarterIndex % 2 === 0 ? 'md:ml-auto md:mr-4' : 'ml-4'} text-gray-900`}>
                               {quarter.keyLearnings.map((learning, index) => (
@@ -306,8 +304,7 @@ export default function ChangelogPage() {
                       <div className="mt-8 p-4 bg-amber-100 rounded-lg border border-amber-300">
                         <h3 className="font-semibold text-lg mb-2">Quarter Summary</h3>
                         <p className="text-gray-900">
-                          {quarter.name} ({quarter.season}, {quarter.months}) marked {quarterIndex === 0 ? 'the beginning' : 'a major period'} in the 
-                          Mission Enrollment project&apos;s development. 
+                          {quarter.name} ({quarter.season}, {quarter.months}) marked {quarterIndex === 0 ? 'the beginning of collaboration' : 'a period of crucial code changes'} in the project&apos;s development. 
                           {quarterIndex === 0 && ' The foundation was established and initial blockchain integrations were implemented.'}
                           {quarterIndex === 1 && ' The human-AI collaboration reached a milestone with the Pair Extraordinaire achievement, and the user experience was noticeably enhanced.'}
                           {quarterIndex === 2 && ' Infrastructure improvements were the focus, with significant enhancements to deployment reliability and dependency management.'}
