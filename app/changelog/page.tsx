@@ -27,14 +27,8 @@ interface QuarterData {
   season: string;
   startDate: Date;
   endDate: Date;
-  commits: GitHubCommit[];
-}
-
-interface TimelinePeriod {
-  quarter: string;
-  season: string;
-  commits: GitHubCommit[];
-  majorChanges: GitHubCommit[];
+  keyLearnings: string[];
+  keyCommits: string[];
 }
 
 function ErrorFallback({ error }: { error: Error }) {
@@ -48,7 +42,6 @@ function ErrorFallback({ error }: { error: Error }) {
 
 export default function ChangelogPage() {
   const [commits, setCommits] = useState<GitHubCommit[]>([]);
-  const [timelinePeriods, setTimelinePeriods] = useState<TimelinePeriod[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastCommit, setLastCommit] = useState<{ date: string; sha: string } | null>(null);
@@ -59,46 +52,88 @@ export default function ChangelogPage() {
       season: 'Summer/Fall',
       startDate: new Date('2024-08-01'),
       endDate: new Date('2024-09-30'),
-      commits: []
+      keyLearnings: [
+        'Project foundation established through fork of Steve Dakh\'s repository',
+        'Initial integration with Base blockchain for identity verification',
+        'First financial support received through Rounds.wtf (0.0051 ETH)',
+        'Core attestation functionality implemented',
+        'Basic POAP verification system established'
+      ],
+      keyCommits: [
+        '597cc88', // Initial fork and foundation
+        'acc36db', // Base as primary chain
+        '41e37a6', // Financial support milestone
+        'f260060', // Core attestation implementation
+        'f50ba07'  // POAP verification system
+      ]
     },
     {
       name: 'Q4 2024',
       season: 'Fall/Winter',
       startDate: new Date('2024-10-01'),
       endDate: new Date('2024-12-31'),
-      commits: []
+      keyLearnings: [
+        'Pair Extraordinaire achievement unlocked on GitHub (human-AI collaboration milestone)',
+        'Enhanced UI with improved text contrast and hover effects',
+        'Expanded attestation capabilities with success confirmation screens',
+        'Improved mobile responsiveness across all pages',
+        'Refined user experience with clearer instructions and feedback'
+      ],
+      keyCommits: [
+        'e7602e0', // Pair Extraordinaire achievement
+        'b35be5b', // Text contrast improvements
+        'eab4aa8', // Attestation implementation
+        '48b04bc', // Mobile responsiveness enhancements
+        '328b4aa'  // User experience improvements
+      ]
     },
     {
       name: 'Q1 2025',
       season: 'Winter/Spring',
       startDate: new Date('2025-01-01'),
       endDate: new Date('2025-03-31'),
-      commits: []
+      keyLearnings: [
+        'GitHub Actions workflow optimized for improved deployment reliability',
+        'Artifact handling in GitHub Pages deployment refined',
+        'Dependency management system upgraded',
+        'Infrastructure stability improvements implemented',
+        'Development environment standardization across contributors'
+      ],
+      keyCommits: [
+        '0298253', // Provider initialization improvements
+        '6f3ab7a', // Provider reordering for better stability
+        '84367ec', // Error boundaries and initialization checks
+        '3f7c795', // Provider initialization order
+        'e4dd4b6'  // Client-side initialization improvements
+      ]
     },
     {
       name: 'Q2 2025',
       season: 'Spring/Summer',
       startDate: new Date('2025-04-01'),
       endDate: new Date('2025-05-31'),
-      commits: []
+      keyLearnings: [
+        'Ethical charter restructured with improved logical organization',
+        'External link system implemented for better accessibility',
+        'Enhanced self-attestation with new schema (#1157)',
+        'EIP-712 typing implemented for improved security',
+        'Base Batch Europe buildathon participation and financial support (0.0050 ETH)',
+        'Mainnet support added with clear migration information',
+        'Dynamic role extraction from POAP data implemented',
+        'Onboarding components integrated for improved user guidance'
+      ],
+      keyCommits: [
+        'c326038', // Style improvements
+        'b4f355c', // External link system
+        'b2cbb3b', // Enhanced self-attestation
+        '2c91b5f', // EIP-712 typing
+        '7cc7aca', // Base Batch Europe
+        'fe39f02', // Mainnet support
+        'b002284', // Schema improvements
+        'f3e8a11'  // Onboarding components
+      ]
     }
   ];
-
-  const isMajorChange = (commit: GitHubCommit): boolean => {
-    const message = commit.commit.message.toLowerCase();
-    
-    if (message.includes('merge pull request')) {
-      return true;
-    }
-    
-    const keywordsForMajorChanges = [
-      'add', 'feature', 'implement', 'create', 'new', 
-      'update', 'enhance', 'improve', 'fix', 'refactor',
-      'support', 'integrate', 'optimize'
-    ];
-    
-    return keywordsForMajorChanges.some(keyword => message.includes(keyword));
-  };
 
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
@@ -131,40 +166,6 @@ export default function ChangelogPage() {
             sha: latestCommit.sha.substring(0, 7)
           });
         }
-        
-        const organizedCommits = quarters.map(quarter => {
-          const quarterCommits = data.filter(commit => {
-            const commitDate = new Date(commit.commit.author.date);
-            return commitDate >= quarter.startDate && commitDate <= quarter.endDate;
-          });
-          
-          const majorChanges = quarterCommits.filter(isMajorChange);
-          
-          let finalMajorChanges = majorChanges;
-          if (majorChanges.length < 5 && quarterCommits.length >= 5) {
-            const additionalCommits = quarterCommits
-              .filter(commit => !majorChanges.includes(commit))
-              .slice(0, 5 - majorChanges.length);
-            
-            finalMajorChanges = [...majorChanges, ...additionalCommits];
-          }
-          
-          return {
-            quarter: quarter.name,
-            season: quarter.season,
-            commits: quarterCommits,
-            majorChanges: finalMajorChanges
-          };
-        });
-        
-        const periodsWithCommits = organizedCommits.filter(period => period.commits.length > 0);
-        
-        setTimelinePeriods(periodsWithCommits.sort((a, b) => {
-          const aDate = new Date(quarters.find(q => q.name === a.quarter)?.startDate || 0);
-          const bDate = new Date(quarters.find(q => q.name === b.quarter)?.startDate || 0);
-          return aDate.getTime() - bDate.getTime();
-        }));
-        
       } catch (err) {
         console.error('Error fetching commits:', err);
         setError(err instanceof Error ? err.message : 'Unknown error occurred');
@@ -248,84 +249,64 @@ export default function ChangelogPage() {
                   {/* Timeline line */}
                   <div className="absolute left-0 md:left-1/2 h-full w-0.5 bg-gray-200 transform -translate-x-1/2"></div>
                   
-                  {timelinePeriods.map((period, periodIndex) => (
-                    <div key={period.quarter} className="mb-12">
+                  {quarters.map((quarter, quarterIndex) => (
+                    <div key={quarter.name} className="mb-16">
                       {/* Quarter/Season Header */}
                       <div className="flex justify-center items-center mb-6">
                         <div className="bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-semibold">
-                          {period.quarter} • {period.season}
+                          {quarter.name} • {quarter.season}
                         </div>
                       </div>
                       
-                      {/* Major Changes */}
-                      <div className="space-y-8">
-                        {period.majorChanges.length > 0 ? (
-                          period.majorChanges.map((commit, index) => (
-                            <div 
-                              key={commit.sha} 
-                              className={`relative flex flex-col md:flex-row items-start gap-4 ${
-                                index % 2 === 0 ? 'md:flex-row-reverse' : ''
-                              }`}
-                            >
-                              {/* Timeline dot */}
-                              <div className="absolute left-0 md:left-1/2 w-4 h-4 bg-blue-500 rounded-full transform -translate-x-1/2 mt-1.5"></div>
-                              
-                              {/* Content */}
-                              <div className={`ml-6 md:ml-0 md:w-5/12 ${index % 2 === 0 ? 'md:text-right' : ''}`}>
-                                <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200">
-                                  <div className="flex items-center justify-between mb-2">
-                                    <span className="text-sm text-gray-500">
-                                      {formatDate(commit.commit.author.date)}
-                                    </span>
-                                    <a 
-                                      href={commit.html_url} 
-                                      target="_blank" 
-                                      rel="noopener noreferrer"
-                                      className="text-xs text-blue-600 hover:text-blue-800 flex items-center"
-                                    >
-                                      {commit.sha.substring(0, 7)}
-                                      <ExternalLinkIcon />
-                                    </a>
-                                  </div>
-                                  
-                                  <h3 className="font-semibold text-lg mb-2">
-                                    {commit.commit.message.split('\n')[0]}
-                                  </h3>
-                                  
-                                  <div className="flex items-center">
-                                    <span className="text-sm text-gray-600">
-                                      By: {commit.author?.login || commit.commit.author.name}
-                                    </span>
-                                  </div>
-                                </div>
+                      {/* Key Learnings */}
+                      <div className={`relative flex flex-col md:flex-row items-start gap-4 ${
+                        quarterIndex % 2 === 0 ? 'md:flex-row-reverse' : ''
+                      }`}>
+                        {/* Timeline dot */}
+                        <div className="absolute left-0 md:left-1/2 w-4 h-4 bg-blue-500 rounded-full transform -translate-x-1/2 mt-1.5"></div>
+                        
+                        {/* Content */}
+                        <div className={`ml-6 md:ml-0 md:w-5/12 ${quarterIndex % 2 === 0 ? 'md:text-right' : ''}`}>
+                          <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200">
+                            <h3 className="font-semibold text-lg mb-4">Key Developments</h3>
+                            
+                            <ul className={`list-disc ${quarterIndex % 2 === 0 ? 'md:ml-auto md:mr-4' : 'ml-4'}`}>
+                              {quarter.keyLearnings.map((learning, index) => (
+                                <li key={index} className="mb-2">{learning}</li>
+                              ))}
+                            </ul>
+                            
+                            <div className="mt-4 pt-4 border-t border-gray-100">
+                              <h4 className="font-medium text-sm mb-2 text-gray-700">Notable Commits:</h4>
+                              <div className="flex flex-wrap gap-2">
+                                {quarter.keyCommits.map((commitSha, index) => (
+                                  <a 
+                                    key={index}
+                                    href={`https://github.com/daqhris/MissionEnrollment/commit/${commitSha}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center text-xs bg-gray-100 hover:bg-gray-200 rounded px-2 py-1 text-gray-700"
+                                  >
+                                    {commitSha.substring(0, 7)}
+                                    <ExternalLinkIcon className="ml-1" />
+                                  </a>
+                                ))}
                               </div>
                             </div>
-                          ))
-                        ) : (
-                          <div className="text-center text-gray-500 italic">
-                            No major changes recorded for this period.
                           </div>
-                        )}
+                        </div>
                       </div>
                       
-                      {/* Period summary */}
+                      {/* Quarter Summary */}
                       <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                        <h3 className="font-semibold text-lg mb-2">Period Summary</h3>
+                        <h3 className="font-semibold text-lg mb-2">Quarter Summary</h3>
                         <p>
-                          During {period.quarter} ({period.season}), the project saw {period.commits.length} commits, 
-                          with {period.majorChanges.length} major changes highlighted above. 
-                          {period.commits.length > 0 && (
-                            <>
-                              {' '}The period began with commit <a href={period.commits[period.commits.length - 1].html_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
-                                {period.commits[period.commits.length - 1].sha.substring(0, 7)}
-                                <ExternalLinkIcon />
-                              </a> and 
-                              ended with <a href={period.commits[0].html_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
-                                {period.commits[0].sha.substring(0, 7)}
-                                <ExternalLinkIcon />
-                              </a>.
-                            </>
-                          )}
+                          {quarter.name} ({quarter.season}) marked {quarterIndex === 0 ? 'the beginning' : 'a significant period'} in the 
+                          Mission Enrollment project&apos;s development. 
+                          {quarterIndex === 0 && ' The foundation was established and initial blockchain integrations were implemented.'}
+                          {quarterIndex === 1 && ' The human-AI collaboration reached a milestone with the Pair Extraordinaire achievement, and the user experience was significantly enhanced.'}
+                          {quarterIndex === 2 && ' Infrastructure improvements were the focus, with significant enhancements to deployment reliability and dependency management.'}
+                          {quarterIndex === 3 && ' The project matured with advanced features like EIP-712 typing, mainnet support, and participation in the Base Batch Europe buildathon.'}
                         </p>
                       </div>
                     </div>
@@ -334,119 +315,6 @@ export default function ChangelogPage() {
               </section>
             )}
           </ErrorBoundary>
-          
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">Collaborative Achievements</h2>
-            <div className="mt-4 p-4 border rounded">
-              <div className="flex items-center gap-4">
-                <h3 className="text-lg font-semibold flex-grow">Pair Extraordinaire Achievement</h3>
-              </div>
-              <p className="mt-2">
-                On 2024/12/12, <code>daqhris</code> and <code>devin</code> unlocked their first 
-                <a 
-                  href="https://github.com/daqhris?achievement=pair-extraordinaire&tab=achievements" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center ml-1"
-                >
-                  <strong>Pair Extraordinaire</strong>
-                  <ExternalLinkIcon />
-                </a> achievement on 
-                <a 
-                  href="https://github.com/daqhris/MissionEnrollment/pull/177" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center ml-1"
-                >
-                  <strong>GitHub</strong>
-                  <ExternalLinkIcon />
-                </a>, following the commit 
-                <a 
-                  href="https://github.com/daqhris/MissionEnrollment/commit/429f7e4" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center ml-1"
-                >
-                  <code>429f7e4</code>
-                  <ExternalLinkIcon />
-                </a> in the public code repository, which awarded an independent record of <strong>human-nonhuman co-authorship</strong> to the project.
-              </p>
-            </div>
-            
-            <div className="mt-4 p-4 border rounded">
-              <div className="flex items-center gap-4">
-                <h3 className="text-lg font-semibold flex-grow">Financial Support Milestones</h3>
-              </div>
-              <p className="mt-2">
-                <strong>Grant #1:</strong> On 2024/09/16, Mission Enrollment received its first financial support: <strong>0.0051 ETH</strong> through{' '}
-                <a 
-                  href="https://rounds.wtf/contributors/daqhris" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center"
-                >
-                  <strong>Rounds.wtf</strong>
-                  <ExternalLinkIcon />
-                </a> as part of the{' '}
-                <a 
-                  href="https://farcaster.xyz/daqhris/0xbba773b923393cb4bde58f04ec3f446c9ee988d4" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center"
-                >
-                  <strong>Base-Builds</strong>
-                  <ExternalLinkIcon />
-                </a> Farcaster community funding initiative.
-              </p>
-              <p className="mt-2">
-                <strong>Grant #2:</strong> On 2025/05/17, Mission Enrollment received <strong>0.0050 ETH worth of cheers</strong> on{' '}
-                <a 
-                  href="https://devfolio.co/projects/mission-enrollment-b9f4" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center"
-                >
-                  <strong>Devfolio</strong>
-                  <ExternalLinkIcon />
-                </a> during the{' '}
-                <a 
-                  href="https://base-batch-europe.devfolio.co/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center"
-                >
-                  <strong>Base Batch Europe</strong>
-                  <ExternalLinkIcon />
-                </a> buildathon competition.
-              </p>
-            </div>
-          </section>
-          
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">Future Roadmap</h2>
-            <p>
-              The Mission Enrollment project continues to evolve as a gateway to the upcoming Zinneke Rescue Mission. 
-              Future development will focus on enhancing the user experience, expanding network support, and preparing 
-              for the launch of the Zinneke Rescue Mission, which will focus on preserving digital souvenirs of the 
-              2024 Zinneke Parade through blockchain technology.
-            </p>
-            <p className="mt-4">
-              For the most up-to-date information on the project&apos;s development, visit the{' '}
-              <Link href="/about" className="text-blue-600 hover:text-blue-800 cursor-pointer">
-                About page
-              </Link>{' '}
-              or check the{' '}
-              <a 
-                href="https://github.com/daqhris/MissionEnrollment" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-blue-600 hover:text-blue-800 inline-flex items-center"
-              >
-                GitHub repository
-                <ExternalLinkIcon />
-              </a>.
-            </p>
-          </section>
           
           {lastCommit && (
             <div className="text-sm text-gray-600 mt-8 text-left flex items-center">
