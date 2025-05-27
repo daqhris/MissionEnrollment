@@ -197,14 +197,14 @@ export default function ChangelogPage() {
             <p className="text-gray-900">
               <strong>Mission Enrollment</strong> is a collaborative blockchain application that keeps on evolving since its inception in August 2024. 
               This changelog documents the journey of this human-AI pair programming project, highlighting milestones and technical achievements of{' '}
-              <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer" className="text-amber-900 hover:text-amber-700">
-                daqhris.base.eth
+              <a href="https://daqhris.com" target="_blank" rel="noopener noreferrer" className="text-amber-900 hover:text-amber-700">
+                daqhris
               </a>
               <span className="ml-0.5">
                 <ExternalLinkIcon />
               </span>{' '}and{' '}
-              <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer" className="text-amber-900 hover:text-amber-700">
-                Devin AI
+              <a href="https://cognition.ai/blog/" target="_blank" rel="noopener noreferrer" className="text-amber-900 hover:text-amber-700">
+                devin
               </a>
               <span className="ml-0.5">
                 <ExternalLinkIcon />
