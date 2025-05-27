@@ -11,7 +11,7 @@ export const ExternalLinkIcon: React.FC<ExternalLinkIconProps> = ({ className = 
       height="12"
       aria-hidden="true"
       viewBox="0 0 24 24"
-      className={`inline-block ml-0.5 ${className}`}
+      className={`inline-block ml-1 ${className}`}
     >
       <path
         fill="currentColor"

@@ -149,12 +149,12 @@ export const menuLinks: HeaderMenuLink[] = [
   },
 ];
 
-export const HeaderMenuLinks = (): JSX.Element => {
+export const HeaderMenuLinks = (): React.JSX.Element => {
   const pathname = usePathname();
 
   return (
     <>
-      {menuLinks.map(({ label, href, icon }): JSX.Element => {
+      {menuLinks.map(({ label, href, icon }): React.JSX.Element => {
         const isActive = pathname === href;
         return (
           <li key={href}>
@@ -169,12 +169,12 @@ export const HeaderMenuLinks = (): JSX.Element => {
   );
 };
 
-export const Header = (): JSX.Element => {
+export const Header = (): React.JSX.Element => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const burgerMenuRef = useRef<HTMLDivElement>(null);
   const chainId = useChainId();
   useOutsideClick(
-    burgerMenuRef,
+    burgerMenuRef as React.RefObject<HTMLElement>,
     useCallback((): void => setIsDrawerOpen(false), []),
   );
 

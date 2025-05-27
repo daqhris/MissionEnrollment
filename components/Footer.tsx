@@ -68,7 +68,7 @@ const FooterLinks = tw.div`
   w-full
 `;
 
-export const Footer = (): JSX.Element => {
+export const Footer = (): React.JSX.Element => {
   const { targetNetwork } = useTargetNetwork();
   const isLocalNetwork = targetNetwork.id === hardhat.id;
 
@@ -100,7 +100,7 @@ export const Footer = (): JSX.Element => {
               >
                 daqhris
               </Link>
-              <span className="text-xs sm:text-sm text-[#957777]">&</span>
+              <span className="text-xs sm:text-sm text-[#957777]">&amp;</span>
               <Link
                 href="https://devin.ai"
                 target="_blank"
@@ -116,35 +116,29 @@ export const Footer = (): JSX.Element => {
                 href="https://devfolio.co/projects/mission-enrollment-b9f4"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#957777] hover:text-[#a58a8a] text-xs"
+                className="text-[#957777] hover:text-[#a58a8a] text-xs flex items-center"
               >
                 Base Batch Europe
-              </Link>
-              <span className="inline-block ml-0.5 text-[#957777]">
                 <ExternalLinkIcon />
-              </span>
+              </Link>
               <Link
                 href="https://ethglobal.com/showcase/missionenrollment-i4fkr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#957777] hover:text-[#a58a8a] text-xs"
+                className="text-[#957777] hover:text-[#a58a8a] text-xs flex items-center"
               >
                 ETHGlobal '24
-              </Link>
-              <span className="inline-block ml-0.5 text-[#957777]">
                 <ExternalLinkIcon />
-              </span>
+              </Link>
               <Link
                 href="https://github.com/daqhris/MissionEnrollment"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#957777] hover:text-[#a58a8a] text-xs"
+                className="text-[#957777] hover:text-[#a58a8a] text-xs flex items-center"
               >
                 GitHub
-              </Link>
-              <span className="inline-block ml-0.5 text-[#957777]">
                 <ExternalLinkIcon />
-              </span>
+              </Link>
             </div>
           </div>
         </FixedBottomBar>
