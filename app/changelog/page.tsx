@@ -187,30 +187,46 @@ export default function ChangelogPage() {
             <p>
               <strong>Mission Enrollment</strong> is a collaborative blockchain application that has evolved significantly since its inception in August 2024. 
               This changelog documents the journey of this human-AI pair programming project, highlighting key milestones, technical advancements, 
-              and the collaborative achievements between <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer">daqhris.base.eth</a><ExternalLinkIcon /> 
-              and <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer">Devin AI</a><ExternalLinkIcon />.
+              and the collaborative achievements between <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+                daqhris.base.eth
+                <ExternalLinkIcon />
+              </a> and <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+                Devin AI
+                <ExternalLinkIcon />
+              </a>.
             </p>
             
             <p className="mt-4">
-              The project began as a fork of <a href="https://github.com/slavik0329" target="_blank" rel="noopener noreferrer">Steve Dakh's (slavik0329)</a><ExternalLinkIcon /> repository 
-              and has since evolved into a sophisticated enrollment tool for the collaborative artistic <a href="https://github.com/daqhris/ZinnekeRescueMission" target="_blank" rel="noopener noreferrer">Zinneke Rescue Mission</a><ExternalLinkIcon /> 
-              on the Base blockchain. The foundational merge commit <a href="https://github.com/daqhris/MissionEnrollment/commit/597cc88820f698e43c280196d94fa13dc525cd80" target="_blank" rel="noopener noreferrer">597cc88</a><ExternalLinkIcon /> 
-              represents the convergence of the initial forked codebase with the beginning of the human-AI collaboration.
+              The project began as a fork of <a href="https://github.com/slavik0329" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+                Steve Dakh&apos;s (slavik0329)
+                <ExternalLinkIcon />
+              </a> repository 
+              and has since evolved into a sophisticated enrollment tool for the collaborative artistic <a href="https://github.com/daqhris/ZinnekeRescueMission" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+                Zinneke Rescue Mission
+                <ExternalLinkIcon />
+              </a> on the Base blockchain. The foundational merge commit <a href="https://github.com/daqhris/MissionEnrollment/commit/597cc88820f698e43c280196d94fa13dc525cd80" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+                597cc88
+                <ExternalLinkIcon />
+              </a> represents the convergence of the initial forked codebase with the beginning of the human-AI collaboration.
             </p>
             
             <p className="mt-4">
               Over time, the application has grown to include robust identity verification through Basenames (ENS), 
               event attendance verification via POAP, and attestation creation using the Ethereum Attestation Service (EAS). 
-              The project has received financial backing through <a href="https://rounds.wtf/contributors/daqhris" target="_blank" rel="noopener noreferrer">Rounds.wtf</a><ExternalLinkIcon /> 
-              and <a href="https://devfolio.co/projects/mission-enrollment-b9f4" target="_blank" rel="noopener noreferrer">Devfolio</a><ExternalLinkIcon />, 
-              and has been showcased at events like Base Batch Europe and ETHGlobal.
+              The project has received financial backing through <a href="https://rounds.wtf/contributors/daqhris" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+                Rounds.wtf
+                <ExternalLinkIcon />
+              </a> and <a href="https://devfolio.co/projects/mission-enrollment-b9f4" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+                Devfolio
+                <ExternalLinkIcon />
+              </a>, and has been showcased at events like Base Batch Europe and ETHGlobal.
             </p>
             
             <p className="mt-4">
               This timeline chronicles the evolution of Mission Enrollment, from its early development stages to its current state as a 
               functional enrollment tool for the upcoming Zinneke Rescue Mission. It serves as a record of the collaborative work between 
               human and non-human contributors, documenting the gradual improvements, crucial turning points, and notable achievements 
-              throughout the project's history.
+              throughout the project&apos;s history.
             </p>
           </section>
           
@@ -300,12 +316,14 @@ export default function ChangelogPage() {
                           with {period.majorChanges.length} major changes highlighted above. 
                           {period.commits.length > 0 && (
                             <>
-                              {' '}The period began with commit <a href={period.commits[period.commits.length - 1].html_url} target="_blank" rel="noopener noreferrer">
+                              {' '}The period began with commit <a href={period.commits[period.commits.length - 1].html_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
                                 {period.commits[period.commits.length - 1].sha.substring(0, 7)}
-                              </a><ExternalLinkIcon /> and 
-                              ended with <a href={period.commits[0].html_url} target="_blank" rel="noopener noreferrer">
+                                <ExternalLinkIcon />
+                              </a> and 
+                              ended with <a href={period.commits[0].html_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
                                 {period.commits[0].sha.substring(0, 7)}
-                              </a><ExternalLinkIcon />.
+                                <ExternalLinkIcon />
+                              </a>.
                             </>
                           )}
                         </p>
@@ -324,11 +342,34 @@ export default function ChangelogPage() {
                 <h3 className="text-lg font-semibold flex-grow">Pair Extraordinaire Achievement</h3>
               </div>
               <p className="mt-2">
-                On 2024/12/12, <code>daqhris</code> and <code>devin</code> unlocked their first{' '}
-                <a href="https://github.com/daqhris?achievement=pair-extraordinaire&tab=achievements" target="_blank" rel="noopener noreferrer">
-                  <strong>'Pair Extraordinaire'</strong>
-                </a><ExternalLinkIcon /> achievement on <a href="https://github.com/daqhris/MissionEnrollment/pull/177" target="_blank" rel="noopener noreferrer"><strong>GitHub</strong></a><ExternalLinkIcon />, following the commit{' '}
-                <a href="https://github.com/daqhris/MissionEnrollment/commit/429f7e4" target="_blank" rel="noopener noreferrer"><code>429f7e4</code></a><ExternalLinkIcon /> in the public code repository, which awarded an independent record of <strong>human-nonhuman co-authorship</strong> to the project.
+                On 2024/12/12, <code>daqhris</code> and <code>devin</code> unlocked their first 
+                <a 
+                  href="https://github.com/daqhris?achievement=pair-extraordinaire&tab=achievements" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center ml-1"
+                >
+                  <strong>Pair Extraordinaire</strong>
+                  <ExternalLinkIcon />
+                </a> achievement on 
+                <a 
+                  href="https://github.com/daqhris/MissionEnrollment/pull/177" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center ml-1"
+                >
+                  <strong>GitHub</strong>
+                  <ExternalLinkIcon />
+                </a>, following the commit 
+                <a 
+                  href="https://github.com/daqhris/MissionEnrollment/commit/429f7e4" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center ml-1"
+                >
+                  <code>429f7e4</code>
+                  <ExternalLinkIcon />
+                </a> in the public code repository, which awarded an independent record of <strong>human-nonhuman co-authorship</strong> to the project.
               </p>
             </div>
             
@@ -338,21 +379,45 @@ export default function ChangelogPage() {
               </div>
               <p className="mt-2">
                 <strong>Grant #1:</strong> On 2024/09/16, Mission Enrollment received its first financial support: <strong>0.0051 ETH</strong> through{' '}
-                <a href="https://rounds.wtf/contributors/daqhris" target="_blank" rel="noopener noreferrer">
+                <a 
+                  href="https://rounds.wtf/contributors/daqhris" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center"
+                >
                   <strong>Rounds.wtf</strong>
-                </a><ExternalLinkIcon /> as part of the{' '}
-                <a href="https://farcaster.xyz/daqhris/0xbba773b923393cb4bde58f04ec3f446c9ee988d4" target="_blank" rel="noopener noreferrer">
+                  <ExternalLinkIcon />
+                </a> as part of the{' '}
+                <a 
+                  href="https://farcaster.xyz/daqhris/0xbba773b923393cb4bde58f04ec3f446c9ee988d4" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center"
+                >
                   <strong>Base-Builds</strong>
-                </a><ExternalLinkIcon /> Farcaster community funding initiative.
+                  <ExternalLinkIcon />
+                </a> Farcaster community funding initiative.
               </p>
               <p className="mt-2">
                 <strong>Grant #2:</strong> On 2025/05/17, Mission Enrollment received <strong>0.0050 ETH worth of cheers</strong> on{' '}
-                <a href="https://devfolio.co/projects/mission-enrollment-b9f4" target="_blank" rel="noopener noreferrer">
+                <a 
+                  href="https://devfolio.co/projects/mission-enrollment-b9f4" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center"
+                >
                   <strong>Devfolio</strong>
-                </a><ExternalLinkIcon /> during the{' '}
-                <a href="https://base-batch-europe.devfolio.co/" target="_blank" rel="noopener noreferrer">
+                  <ExternalLinkIcon />
+                </a> during the{' '}
+                <a 
+                  href="https://base-batch-europe.devfolio.co/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center"
+                >
                   <strong>Base Batch Europe</strong>
-                </a><ExternalLinkIcon /> buildathon competition.
+                  <ExternalLinkIcon />
+                </a> buildathon competition.
               </p>
             </div>
           </section>
@@ -366,14 +431,20 @@ export default function ChangelogPage() {
               2024 Zinneke Parade through blockchain technology.
             </p>
             <p className="mt-4">
-              For the most up-to-date information on the project's development, visit the{' '}
-              <Link href="/about">
-                <span className="text-blue-600 hover:text-blue-800 cursor-pointer">About page</span>
+              For the most up-to-date information on the project&apos;s development, visit the{' '}
+              <Link href="/about" className="text-blue-600 hover:text-blue-800 cursor-pointer">
+                About page
               </Link>{' '}
               or check the{' '}
-              <a href="https://github.com/daqhris/MissionEnrollment" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">
+              <a 
+                href="https://github.com/daqhris/MissionEnrollment" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-blue-600 hover:text-blue-800 inline-flex items-center"
+              >
                 GitHub repository
-              </a><ExternalLinkIcon />.
+                <ExternalLinkIcon />
+              </a>.
             </p>
           </section>
           
