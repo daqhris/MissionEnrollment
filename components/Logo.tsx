@@ -15,9 +15,14 @@ export const Logo: React.FC = () => (
         className="transition-transform duration-500 hover:scale-110"
       />
     </div>
-    <span className="font-bold text-xl md:text-2xl text-[#957777]">
-      Mission Enrollment
-    </span>
+    <div className="flex flex-col">
+      <span className="font-bold text-xl md:text-2xl text-[#957777]">
+        Mission Enrollment
+      </span>
+      <span className="text-sm text-gray-500 italic">
+        Chapter 1 → Zinneke Rescue Mission
+      </span>
+    </div>
   </div>
 );
 
