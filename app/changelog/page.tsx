@@ -186,7 +186,7 @@ export default function ChangelogPage() {
           <section className="mb-8 bg-amber-50 p-6 rounded-lg border border-amber-200">
             <h2 className="text-2xl font-semibold mb-4 text-amber-900">Executive Summary</h2>
             <p className="text-gray-900">
-              <strong>Mission Enrollment</strong> is a collaborative blockchain application that has evolved significantly since its inception in August 2024. 
+              <strong>Mission Enrollment</strong> is a collaborative blockchain application that keeps on evolving since its inception in August 2024. 
               This changelog documents the journey of this human-AI pair programming project, highlighting key milestones, technical advancements, 
               and the collaborative achievements between{' '}
               <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer" className="text-amber-900 hover:text-amber-700">
@@ -218,15 +218,9 @@ export default function ChangelogPage() {
               </a>
               <span className="ml-0.5">
                 <ExternalLinkIcon />
-              </span>, and has been showcased at coding events like Base Batch Europe and ETHGlobal.
+              </span>, and has been showcased at coding competitions like Base Batch Europe and ETHGlobal.
             </p>
-            
-            <p className="mt-4 text-gray-900">
-              This timeline chronicles the evolution of the onchain app, from its early development stages to its current state as a 
-              functional enrollment tool for the upcoming Zinneke Rescue Mission. It serves as a record of the collaborative work between 
-              human and non-human contributors, documenting the gradual improvements, crucial turning points, and notable achievements 
-              throughout the project&apos;s history.
-            </p>
+
           </section>
           
           <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -302,10 +296,10 @@ export default function ChangelogPage() {
                       <div className="mt-8 p-4 bg-amber-100 rounded-lg border border-amber-300">
                         <h3 className="font-semibold text-lg mb-2">Quarter Summary</h3>
                         <p className="text-gray-900">
-                          {quarter.name} ({quarter.season}) marked {quarterIndex === 0 ? 'the beginning' : 'a significant period'} in the 
+                          {quarter.name} ({quarter.season}) marked {quarterIndex === 0 ? 'the beginning' : 'a major period'} in the 
                           Mission Enrollment project&apos;s development. 
                           {quarterIndex === 0 && ' The foundation was established and initial blockchain integrations were implemented.'}
-                          {quarterIndex === 1 && ' The human-AI collaboration reached a milestone with the Pair Extraordinaire achievement, and the user experience was significantly enhanced.'}
+                          {quarterIndex === 1 && ' The human-AI collaboration reached a milestone with the Pair Extraordinaire achievement, and the user experience was noticeably enhanced.'}
                           {quarterIndex === 2 && ' Infrastructure improvements were the focus, with significant enhancements to deployment reliability and dependency management.'}
                           {quarterIndex === 3 && ' The project matured with advanced features like EIP-712 typing, mainnet support, and participation in the Base Batch Europe buildathon.'}
                         </p>
