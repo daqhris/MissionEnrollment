@@ -234,8 +234,8 @@ export default function ChangelogPage() {
                 <p>{error}</p>
               </div>
             ) : (
-              <section className="mb-8 bg-stone-50 p-6 rounded-lg border border-stone-200">
-                <h2 className="text-2xl font-semibold mb-6 text-amber-900">Development Timeline</h2>
+              <section className="mb-8 bg-stone-800 p-6 rounded-lg border border-stone-700">
+                <h2 className="text-2xl font-semibold mb-6 text-amber-300">Development Timeline</h2>
                 
                 <div className="relative">
                   {/* Timeline line */}
