@@ -68,7 +68,7 @@ const FooterLinks = tw.div`
   w-full
 `;
 
-export const Footer = (): JSX.Element => {
+export const Footer = (): React.JSX.Element => {
   const { targetNetwork } = useTargetNetwork();
   const isLocalNetwork = targetNetwork.id === hardhat.id;
 
@@ -100,7 +100,7 @@ export const Footer = (): JSX.Element => {
               >
                 daqhris
               </Link>
-              <span className="text-xs sm:text-sm text-[#957777]">&</span>
+              <span className="text-xs sm:text-sm text-[#957777]">&amp;</span>
               <Link
                 href="https://devin.ai"
                 target="_blank"
@@ -112,39 +112,45 @@ export const Footer = (): JSX.Element => {
               <span className="hidden sm:inline text-[#957777]">|</span>
             </div>
             <div className="flex flex-wrap items-center gap-2 sm:gap-4">
-              <Link
-                href="https://devfolio.co/projects/mission-enrollment-b9f4"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#957777] hover:text-[#a58a8a] text-xs"
-              >
-                Base Batch Europe
-              </Link>
-              <span className="inline-block text-[#957777]">
-                <ExternalLinkIcon />
-              </span>
-              <Link
-                href="https://ethglobal.com/showcase/missionenrollment-i4fkr"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#957777] hover:text-[#a58a8a] text-xs"
-              >
-                ETHGlobal '24
-              </Link>
-              <span className="inline-block text-[#957777]">
-                <ExternalLinkIcon />
-              </span>
-              <Link
-                href="https://github.com/daqhris/MissionEnrollment"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#957777] hover:text-[#a58a8a] text-xs"
-              >
-                GitHub
-              </Link>
-              <span className="inline-block text-[#957777]">
-                <ExternalLinkIcon />
-              </span>
+              <div className="flex items-center">
+                <Link
+                  href="https://devfolio.co/projects/mission-enrollment-b9f4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#957777] hover:text-[#a58a8a] text-xs"
+                >
+                  Base Batch Europe
+                </Link>
+                <span className="inline-block text-[#957777] -ml-1">
+                  <ExternalLinkIcon className="-ml-0.5" />
+                </span>
+              </div>
+              <div className="flex items-center">
+                <Link
+                  href="https://ethglobal.com/showcase/missionenrollment-i4fkr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#957777] hover:text-[#a58a8a] text-xs"
+                >
+                  ETHGlobal '24
+                </Link>
+                <span className="inline-block text-[#957777] -ml-1">
+                  <ExternalLinkIcon className="-ml-0.5" />
+                </span>
+              </div>
+              <div className="flex items-center">
+                <Link
+                  href="https://github.com/daqhris/MissionEnrollment"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#957777] hover:text-[#a58a8a] text-xs"
+                >
+                  GitHub
+                </Link>
+                <span className="inline-block text-[#957777] -ml-1">
+                  <ExternalLinkIcon className="-ml-0.5" />
+                </span>
+              </div>
             </div>
           </div>
         </FixedBottomBar>
