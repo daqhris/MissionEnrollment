@@ -53,7 +53,7 @@ export default function ChangelogPage() {
       startDate: new Date('2024-08-01'),
       endDate: new Date('2024-09-30'),
       keyLearnings: [
-        'Project foundation established through fork of Steve Dakh\'s repository',
+        'Project foundation established with initial blockchain integration',
         'Initial integration with Base blockchain for identity verification',
         'First financial support received through Rounds.wtf (0.0051 ETH)',
         'Core attestation functionality implemented',
@@ -181,49 +181,39 @@ export default function ChangelogPage() {
     <ClientLayout>
       <div className="container mx-auto px-4 py-8">
         <div className="prose max-w-none">
-          <h1 className="text-4xl font-bold mb-8 text-amber-900">Changelog: Mission Enrollment</h1>
+          <h1 className="text-4xl font-bold mb-8">Changelog: Mission Enrollment</h1>
           
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4 text-amber-800">Executive Summary</h2>
-            <p className="text-amber-950">
+          <section className="mb-8 bg-amber-100/50 p-6 rounded-lg border border-amber-200">
+            <h2 className="text-2xl font-semibold mb-4 text-amber-900">Executive Summary</h2>
+            <p className="text-gray-900">
               <strong>Mission Enrollment</strong> is a collaborative blockchain application that has evolved significantly since its inception in August 2024. 
               This changelog documents the journey of this human-AI pair programming project, highlighting key milestones, technical advancements, 
-              and the collaborative achievements between<a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+              and the collaborative achievements between{' '}
+              <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
                 daqhris.base.eth
                 <ExternalLinkIcon />
-              </a> and <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+              </a>{' '}and{' '}
+              <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
                 Devin AI
                 <ExternalLinkIcon />
               </a>.
             </p>
             
             <p className="mt-4 text-gray-900">
-              The project began as a fork of <a href="https://github.com/slavik0329" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
-                Steve Dakh&apos;s (slavik0329)
-                <ExternalLinkIcon />
-              </a> repository 
-              and has since evolved into a sophisticated enrollment tool for the collaborative artistic <a href="https://github.com/daqhris/ZinnekeRescueMission" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
-                Zinneke Rescue Mission
-                <ExternalLinkIcon />
-              </a> on the Base blockchain. The foundational merge commit <a href="https://github.com/daqhris/MissionEnrollment/commit/597cc88820f698e43c280196d94fa13dc525cd80" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
-                597cc88
-                <ExternalLinkIcon />
-              </a> represents the convergence of the initial forked codebase with the beginning of the human-AI collaboration.
-            </p>
-            
-            <p className="mt-4 text-amber-950">
               Over time, the application has grown to include robust identity verification through Basenames (ENS), 
               event attendance verification via POAP, and attestation creation using the Ethereum Attestation Service (EAS). 
-              The project has received financial backing through <a href="https://rounds.wtf/contributors/daqhris" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+              The project has received financial backing through{' '}
+              <a href="https://rounds.wtf/contributors/daqhris" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
                 Rounds.wtf
                 <ExternalLinkIcon />
-              </a> and <a href="https://devfolio.co/projects/mission-enrollment-b9f4" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
+              </a>{' '}and{' '}
+              <a href="https://devfolio.co/projects/mission-enrollment-b9f4" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
                 Devfolio
                 <ExternalLinkIcon />
               </a>, and has been showcased at events like Base Batch Europe and ETHGlobal.
             </p>
             
-            <p className="mt-4 text-amber-950">
+            <p className="mt-4 text-gray-900">
               This timeline chronicles the evolution of Mission Enrollment, from its early development stages to its current state as a 
               functional enrollment tool for the upcoming Zinneke Rescue Mission. It serves as a record of the collaborative work between 
               human and non-human contributors, documenting the gradual improvements, crucial turning points, and notable achievements 
@@ -243,7 +233,7 @@ export default function ChangelogPage() {
               </div>
             ) : (
               <section className="mb-8">
-                <h2 className="text-2xl font-semibold mb-6 text-amber-800">Development Timeline</h2>
+                <h2 className="text-2xl font-semibold mb-6 text-amber-900">Development Timeline</h2>
                 
                 <div className="relative">
                   {/* Timeline line */}
@@ -268,16 +258,16 @@ export default function ChangelogPage() {
                         {/* Content */}
                         <div className={`ml-6 md:ml-0 md:w-5/12 ${quarterIndex % 2 === 0 ? 'md:text-right' : ''}`}>
                           <div className="bg-amber-50 p-4 rounded-lg shadow-md border border-amber-200">
-                            <h3 className="font-semibold text-lg mb-4 text-amber-900">Key Developments</h3>
+                            <h3 className="font-semibold text-lg mb-4">Key Developments</h3>
                             
-                            <ul className={`list-disc ${quarterIndex % 2 === 0 ? 'md:ml-auto md:mr-4' : 'ml-4'} text-amber-950`}>
+                            <ul className={`list-disc ${quarterIndex % 2 === 0 ? 'md:ml-auto md:mr-4' : 'ml-4'} text-gray-900`}>
                               {quarter.keyLearnings.map((learning, index) => (
                                 <li key={index} className="mb-2">{learning}</li>
                               ))}
                             </ul>
                             
                             <div className="mt-4 pt-4 border-t border-gray-100">
-                              <h4 className="font-medium text-sm mb-2 text-amber-900">Notable Commits:</h4>
+                              <h4 className="font-medium text-sm mb-2">Notable Commits:</h4>
                               <div className="flex flex-wrap gap-2">
                                 {quarter.keyCommits.map((commitSha, index) => (
                                   <a 
@@ -285,10 +275,10 @@ export default function ChangelogPage() {
                                     href={`https://github.com/daqhris/MissionEnrollment/commit/${commitSha}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center text-xs bg-amber-200 hover:bg-amber-300 rounded px-2 py-1 text-amber-900"
+                                    className="inline-flex items-center text-xs bg-amber-200 hover:bg-amber-300 rounded px-2 py-1 text-gray-900"
                                   >
                                     {commitSha.substring(0, 7)}
-                                    <ExternalLinkIcon className="ml-1" />
+                                    <ExternalLinkIcon />
                                   </a>
                                 ))}
                               </div>
@@ -299,8 +289,8 @@ export default function ChangelogPage() {
                       
                       {/* Quarter Summary */}
                       <div className="mt-8 p-4 bg-amber-100 rounded-lg border border-amber-300">
-                        <h3 className="font-semibold text-lg mb-2 text-amber-900">Quarter Summary</h3>
-                        <p className="text-amber-950">
+                        <h3 className="font-semibold text-lg mb-2">Quarter Summary</h3>
+                        <p className="text-gray-900">
                           {quarter.name} ({quarter.season}) marked {quarterIndex === 0 ? 'the beginning' : 'a significant period'} in the 
                           Mission Enrollment project&apos;s development. 
                           {quarterIndex === 0 && ' The foundation was established and initial blockchain integrations were implemented.'}
@@ -323,11 +313,13 @@ export default function ChangelogPage() {
                 href="https://github.com/daqhris/MissionEnrollment/commits/main"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent-content hover:text-accent flex items-center ml-1"
+                className="text-amber-900 hover:text-amber-700 ml-1"
               >
                 {lastCommit.date}
-                <ExternalLinkIcon />
               </a>
+              <span className="ml-1">
+                <ExternalLinkIcon />
+              </span>
             </div>
           )}
         </div>
