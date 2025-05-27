@@ -53,7 +53,7 @@ export default function ChangelogPage() {
       startDate: new Date('2024-08-01'),
       endDate: new Date('2024-09-30'),
       keyLearnings: [
-        'Project foundation established with initial blockchain integration',
+        'Project foundation established with the initial merge of a git commit by Devin AI on GitHub',
         'Initial integration with Base blockchain for identity verification',
         'First financial support received through Rounds.wtf (0.0051 ETH)',
         'Core attestation functionality implemented',
@@ -73,7 +73,7 @@ export default function ChangelogPage() {
       startDate: new Date('2024-10-01'),
       endDate: new Date('2024-12-31'),
       keyLearnings: [
-        'Pair Extraordinaire achievement unlocked on GitHub (human-AI collaboration milestone)',
+        'Pair Extraordinaire achievement unlocked on GitHub',
         'Enhanced UI with improved text contrast and hover effects',
         'Expanded attestation capabilities with success confirmation screens',
         'Improved mobile responsiveness across all pages',
@@ -113,11 +113,11 @@ export default function ChangelogPage() {
       startDate: new Date('2025-04-01'),
       endDate: new Date('2025-05-31'),
       keyLearnings: [
-        'Ethical charter restructured with improved logical organization',
+        'Ethical charter created with improved logical organization',
         'External link system implemented for better accessibility',
         'Enhanced self-attestation with new schema (#1157)',
         'EIP-712 typing implemented for improved security',
-        'Base Batch Europe buildathon participation and financial support (0.0050 ETH)',
+        'Base Batch Europe buildathon participation and Devfolio financial support (0.0050 ETH)',
         'Mainnet support added with clear migration information',
         'Dynamic role extraction from POAP data implemented',
         'Onboarding components integrated for improved user guidance'
@@ -204,8 +204,8 @@ export default function ChangelogPage() {
             </p>
             
             <p className="mt-4 text-gray-900">
-              Over time, the application has grown to include robust identity verification through Basenames (ENS), 
-              event attendance verification via POAP, and attestation creation using the Ethereum Attestation Service (EAS). 
+              Over time, the application has grown to include robust identity verification, 
+              event attendance verification, and attestation creation. 
               The project has received financial backing through{' '}
               <a href="https://rounds.wtf/contributors/daqhris" target="_blank" rel="noopener noreferrer" className="text-amber-900 hover:text-amber-700">
                 Rounds.wtf
@@ -218,11 +218,11 @@ export default function ChangelogPage() {
               </a>
               <span className="ml-0.5">
                 <ExternalLinkIcon />
-              </span>, and has been showcased at events like Base Batch Europe and ETHGlobal.
+              </span>, and has been showcased at coding events like Base Batch Europe and ETHGlobal.
             </p>
             
             <p className="mt-4 text-gray-900">
-              This timeline chronicles the evolution of Mission Enrollment, from its early development stages to its current state as a 
+              This timeline chronicles the evolution of the onchain app, from its early development stages to its current state as a 
               functional enrollment tool for the upcoming Zinneke Rescue Mission. It serves as a record of the collaborative work between 
               human and non-human contributors, documenting the gradual improvements, crucial turning points, and notable achievements 
               throughout the project&apos;s history.
