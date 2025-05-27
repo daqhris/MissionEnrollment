@@ -58,7 +58,7 @@ export default function ChangelogPage() {
         'Project foundation established with the merge of a git commit by Devin AI',
         'Initial integration with Base blockchain for identity verification',
         'First financial support received through Rounds.wtf (0.0051 ETH)',
-        'Core attestation functionality implemented',
+        'Core attestation functionality implemented with original schema (#910)',
         'Basic POAP verification system established'
       ],
       keyCommits: [
