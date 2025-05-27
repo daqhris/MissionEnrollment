@@ -186,7 +186,7 @@ export default function ChangelogPage() {
     <ClientLayout>
       <div className="container mx-auto px-4 py-8">
         <div className="prose max-w-none">
-          <h1 className="text-4xl font-bold mb-8">Changelog: Mission Enrollment</h1>
+          <h1 className="text-4xl font-bold mb-8">Changelog</h1>
           
           <section className="mb-8 bg-amber-50 p-6 rounded-lg border border-amber-200">
             <h2 className="text-2xl font-semibold mb-4 text-amber-900">Executive Summary</h2>
@@ -239,8 +239,8 @@ export default function ChangelogPage() {
                 <p>{error}</p>
               </div>
             ) : (
-              <section className="mb-8">
-                <h2 className="text-2xl font-semibold mb-6 text-amber-900">Development Timeline</h2>
+              <section className="mb-8 bg-stone-800 p-6 rounded-lg border border-stone-700">
+                <h2 className="text-2xl font-semibold mb-6 text-amber-300">Development Timeline</h2>
                 
                 <div className="relative">
                   {/* Timeline line */}
@@ -274,7 +274,7 @@ export default function ChangelogPage() {
                             </ul>
                             
                             <div className="mt-4 pt-4 border-t border-gray-100">
-                              <h4 className="font-medium text-sm mb-2">Notable Commits:</h4>
+                              <h4 className="font-medium text-sm mb-2">Notable <code className="bg-gray-100 text-gray-800 px-1 py-0.5 rounded text-xs font-mono">git</code> Commits:</h4>
                               <div className="flex flex-wrap gap-2">
                                 {quarter.keyCommits.map((commitSha, index) => (
                                   <span key={index} className="inline-flex items-center">
