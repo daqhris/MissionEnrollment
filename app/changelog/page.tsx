@@ -181,11 +181,11 @@ export default function ChangelogPage() {
     <ClientLayout>
       <div className="container mx-auto px-4 py-8">
         <div className="prose max-w-none">
-          <h1 className="text-4xl font-bold mb-8 text-blue-900">Changelog: Mission Enrollment</h1>
+          <h1 className="text-4xl font-bold mb-8 text-amber-900">Changelog: Mission Enrollment</h1>
           
           <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4 text-blue-800">Executive Summary</h2>
-            <p className="text-gray-900">
+            <h2 className="text-2xl font-semibold mb-4 text-amber-800">Executive Summary</h2>
+            <p className="text-amber-950">
               <strong>Mission Enrollment</strong> is a collaborative blockchain application that has evolved significantly since its inception in August 2024. 
               This changelog documents the journey of this human-AI pair programming project, highlighting key milestones, technical advancements, 
               and the collaborative achievements between<a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
@@ -211,7 +211,7 @@ export default function ChangelogPage() {
               </a> represents the convergence of the initial forked codebase with the beginning of the human-AI collaboration.
             </p>
             
-            <p className="mt-4 text-gray-900">
+            <p className="mt-4 text-amber-950">
               Over time, the application has grown to include robust identity verification through Basenames (ENS), 
               event attendance verification via POAP, and attestation creation using the Ethereum Attestation Service (EAS). 
               The project has received financial backing through <a href="https://rounds.wtf/contributors/daqhris" target="_blank" rel="noopener noreferrer" className="inline-flex items-center">
@@ -223,7 +223,7 @@ export default function ChangelogPage() {
               </a>, and has been showcased at events like Base Batch Europe and ETHGlobal.
             </p>
             
-            <p className="mt-4 text-gray-900">
+            <p className="mt-4 text-amber-950">
               This timeline chronicles the evolution of Mission Enrollment, from its early development stages to its current state as a 
               functional enrollment tool for the upcoming Zinneke Rescue Mission. It serves as a record of the collaborative work between 
               human and non-human contributors, documenting the gradual improvements, crucial turning points, and notable achievements 
@@ -243,17 +243,17 @@ export default function ChangelogPage() {
               </div>
             ) : (
               <section className="mb-8">
-                <h2 className="text-2xl font-semibold mb-6 text-blue-800">Development Timeline</h2>
+                <h2 className="text-2xl font-semibold mb-6 text-amber-800">Development Timeline</h2>
                 
                 <div className="relative">
                   {/* Timeline line */}
-                  <div className="absolute left-0 md:left-1/2 h-full w-0.5 bg-gray-200 transform -translate-x-1/2"></div>
+                  <div className="absolute left-0 md:left-1/2 h-full w-0.5 bg-amber-400 transform -translate-x-1/2"></div>
                   
                   {quarters.map((quarter, quarterIndex) => (
                     <div key={quarter.name} className="mb-16">
                       {/* Quarter/Season Header */}
                       <div className="flex justify-center items-center mb-6">
-                        <div className="bg-blue-200 text-blue-900 px-4 py-2 rounded-full font-semibold">
+                        <div className="bg-amber-800 text-amber-100 px-4 py-2 rounded-full font-semibold">
                           {quarter.name} • {quarter.season}
                         </div>
                       </div>
@@ -263,21 +263,21 @@ export default function ChangelogPage() {
                         quarterIndex % 2 === 0 ? 'md:flex-row-reverse' : ''
                       }`}>
                         {/* Timeline dot */}
-                        <div className="absolute left-0 md:left-1/2 w-4 h-4 bg-blue-500 rounded-full transform -translate-x-1/2 mt-1.5"></div>
+                        <div className="absolute left-0 md:left-1/2 w-4 h-4 bg-amber-800 rounded-full transform -translate-x-1/2 mt-1.5"></div>
                         
                         {/* Content */}
                         <div className={`ml-6 md:ml-0 md:w-5/12 ${quarterIndex % 2 === 0 ? 'md:text-right' : ''}`}>
-                          <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200">
-                            <h3 className="font-semibold text-lg mb-4 text-blue-800">Key Developments</h3>
+                          <div className="bg-amber-50 p-4 rounded-lg shadow-md border border-amber-200">
+                            <h3 className="font-semibold text-lg mb-4 text-amber-900">Key Developments</h3>
                             
-                            <ul className={`list-disc ${quarterIndex % 2 === 0 ? 'md:ml-auto md:mr-4' : 'ml-4'} text-gray-900`}>
+                            <ul className={`list-disc ${quarterIndex % 2 === 0 ? 'md:ml-auto md:mr-4' : 'ml-4'} text-amber-950`}>
                               {quarter.keyLearnings.map((learning, index) => (
                                 <li key={index} className="mb-2">{learning}</li>
                               ))}
                             </ul>
                             
                             <div className="mt-4 pt-4 border-t border-gray-100">
-                              <h4 className="font-medium text-sm mb-2 text-blue-800">Notable Commits:</h4>
+                              <h4 className="font-medium text-sm mb-2 text-amber-900">Notable Commits:</h4>
                               <div className="flex flex-wrap gap-2">
                                 {quarter.keyCommits.map((commitSha, index) => (
                                   <a 
@@ -285,7 +285,7 @@ export default function ChangelogPage() {
                                     href={`https://github.com/daqhris/MissionEnrollment/commit/${commitSha}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center text-xs bg-gray-200 hover:bg-gray-300 rounded px-2 py-1 text-gray-900"
+                                    className="inline-flex items-center text-xs bg-amber-200 hover:bg-amber-300 rounded px-2 py-1 text-amber-900"
                                   >
                                     {commitSha.substring(0, 7)}
                                     <ExternalLinkIcon className="ml-1" />
@@ -298,9 +298,9 @@ export default function ChangelogPage() {
                       </div>
                       
                       {/* Quarter Summary */}
-                      <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                        <h3 className="font-semibold text-lg mb-2 text-blue-800">Quarter Summary</h3>
-                        <p className="text-gray-900">
+                      <div className="mt-8 p-4 bg-amber-100 rounded-lg border border-amber-300">
+                        <h3 className="font-semibold text-lg mb-2 text-amber-900">Quarter Summary</h3>
+                        <p className="text-amber-950">
                           {quarter.name} ({quarter.season}) marked {quarterIndex === 0 ? 'the beginning' : 'a significant period'} in the 
                           Mission Enrollment project&apos;s development. 
                           {quarterIndex === 0 && ' The foundation was established and initial blockchain integrations were implemented.'}
