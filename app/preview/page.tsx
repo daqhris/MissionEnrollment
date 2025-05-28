@@ -88,11 +88,11 @@ export default function PreviewPage() {
         </div>
         
         {/* Enhanced information card with interactive elements */}
-        <div className="card bg-gray-900/40 backdrop-blur-md p-6 rounded-xl shadow-2xl border border-[#957777]/20 transition-all duration-300 hover:border-[#f59e0b]/40 hover:bg-gray-900/50">
+        <div className="card bg-amber-50 p-6 rounded-xl shadow-2xl border border-[#957777]/20 transition-all duration-300 hover:border-[#f59e0b]/40">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold text-[#f59e0b] flex items-center">
               <span className="w-3 h-3 bg-[#f59e0b] rounded-full mr-3 animate-pulse"></span>
-              Mission Enrollment Demo
+              Enrollment Tool Demo
             </h2>
             <div className="flex items-center space-x-2">
               <span className="px-3 py-1 bg-[#f59e0b]/20 text-[#f59e0b] rounded-full text-xs font-medium">
@@ -101,58 +101,58 @@ export default function PreviewPage() {
             </div>
           </div>
           
-          <p className="text-gray-300 mb-6 leading-relaxed">
+          <p className="text-amber-900 mb-6 leading-relaxed">
             Experience the complete Mission Enrollment workflow: connect your wallet, verify your identity through Basenames, 
-            validate POAP attendance, and receive your blockchain attestation for the Zinneke Rescue Mission.
+            validate POAP ownership and event attendance, then create and publish your blockchain attestation for the Zinneke Rescue Mission.
           </p>
           
           {/* Enhanced feature highlights */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="bg-gray-800/50 p-4 rounded-lg border border-[#957777]/10">
-              <h3 className="text-[#f59e0b] font-semibold mb-2">🔗 Wallet Integration</h3>
-              <p className="text-gray-400 text-sm">RainbowKit connection with Base network support</p>
+            <div className="bg-amber-400 p-4 rounded-lg border border-[#957777]/20">
+              <h3 className="text-[#957777] font-semibold mb-2">🔗 Wallet Integration</h3>
+              <p className="text-amber-900 text-sm">Identity check with Base network support</p>
             </div>
-            <div className="bg-gray-800/50 p-4 rounded-lg border border-[#957777]/10">
-              <h3 className="text-[#f59e0b] font-semibold mb-2">🏷️ POAP Verification</h3>
-              <p className="text-gray-400 text-sm">Automated event attendance validation</p>
+            <div className="bg-amber-400 p-4 rounded-lg border border-[#957777]/20">
+              <h3 className="text-[#957777] font-semibold mb-2">🏷️ POAP Verification</h3>
+              <p className="text-amber-900 text-sm">Automated event attendance validation</p>
             </div>
-            <div className="bg-gray-800/50 p-4 rounded-lg border border-[#957777]/10">
-              <h3 className="text-[#f59e0b] font-semibold mb-2">⚡ EAS Attestations</h3>
-              <p className="text-gray-400 text-sm">Onchain identity verification system</p>
+            <div className="bg-amber-400 p-4 rounded-lg border border-[#957777]/20">
+              <h3 className="text-[#957777] font-semibold mb-2">⚡ EAS Attestations</h3>
+              <p className="text-amber-800 text-sm">Onchain self-enrollment and public attestions</p>
             </div>
           </div>
           
           {/* Timestamp and metadata */}
-          <div className="flex items-center justify-between flex-wrap gap-3 pt-4 border-t border-gray-700/50">
+          <div className="flex items-center justify-between flex-wrap gap-3 pt-4 border-t border-amber-200">
             <div className="flex items-center space-x-4">
-              <div className="bg-gray-800/60 px-4 py-2 rounded-lg flex items-center">
-                <span className="text-[#f59e0b] text-sm mr-2">⏱️ Duration:</span>
-                <span className="text-white text-sm font-medium">6:33</span>
+              <div className="bg-amber-200 px-4 py-2 rounded-lg flex items-center border border-[#957777]/20">
+                <span className="text-[#957777] text-sm mr-2">⏱️ Duration:</span>
+                <span className="text-amber-900 text-sm font-medium">6:33</span>
               </div>
-              <div className="bg-gray-800/60 px-4 py-2 rounded-lg flex items-center">
-                <span className="text-[#f59e0b] text-sm mr-2">📱 Format:</span>
-                <span className="text-white text-sm font-medium">MP4 • 1080p</span>
+              <div className="bg-amber-200 px-4 py-2 rounded-lg flex items-center border border-[#957777]/20">
+                <span className="text-[#957777] text-sm mr-2">📱 Format:</span>
+                <span className="text-amber-900 text-sm font-medium">MP4 • 1080p</span>
               </div>
             </div>
             
             {loading ? (
-              <div className="bg-gray-800/60 px-4 py-2 rounded-lg">
-                <span className="text-amber-300 text-sm animate-pulse">Loading timestamp...</span>
+              <div className="bg-amber-200 px-4 py-2 rounded-lg border border-[#957777]/20">
+                <span className="text-[#957777] text-sm animate-pulse">Loading timestamp...</span>
               </div>
             ) : error ? (
-              <div className="bg-red-900/40 px-4 py-2 rounded-lg border border-red-500/20">
-                <span className="text-red-300 text-sm">Timestamp unavailable</span>
+              <div className="bg-red-50 px-4 py-2 rounded-lg border border-red-200">
+                <span className="text-red-600 text-sm">Timestamp unavailable</span>
               </div>
             ) : (
               <a 
                 href="https://github.com/daqhris/MissionEnrollment/commits/main/public/Preview-MissionEnrollment-WebApp.mp4" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="bg-gray-800/60 hover:bg-[#f59e0b]/20 px-4 py-2 rounded-lg flex items-center transition-all duration-200 group"
+                className="bg-amber-200 hover:bg-[#f59e0b]/20 px-4 py-2 rounded-lg flex items-center transition-all duration-200 group border border-[#957777]/20"
               >
-                <span className="text-[#f59e0b] text-sm mr-2">📅 Updated:</span>
-                <span className="text-white text-sm mr-2">{lastUpdated}</span>
-                <ExternalLinkIcon className="w-4 h-4 text-[#f59e0b] group-hover:text-white transition-colors" />
+                <span className="text-[#957777] text-sm mr-2">📅 Updated:</span>
+                <span className="text-amber-900 text-sm mr-2">{lastUpdated}</span>
+                <ExternalLinkIcon className="w-4 h-4 text-[#957777] group-hover:text-[#f59e0b] transition-colors" />
               </a>
             )}
           </div>
