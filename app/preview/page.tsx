@@ -101,7 +101,7 @@ export default function PreviewPage() {
             </div>
           </div>
           
-          <p className="text-gray-700 mb-6 leading-relaxed">
+          <p className="text-gray-800 mb-6 leading-relaxed">
             Experience the complete Mission Enrollment workflow: connect your wallet, verify your identity through Basenames, 
             validate POAP attendance, and receive your blockchain attestation for the Zinneke Rescue Mission.
           </p>
@@ -110,15 +110,15 @@ export default function PreviewPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div className="bg-amber-100 p-4 rounded-lg border border-[#957777]/20">
               <h3 className="text-[#957777] font-semibold mb-2">🔗 Wallet Integration</h3>
-              <p className="text-gray-700 text-sm">RainbowKit connection with Base network support</p>
+              <p className="text-gray-800 text-sm">RainbowKit connection with Base network support</p>
             </div>
             <div className="bg-amber-100 p-4 rounded-lg border border-[#957777]/20">
               <h3 className="text-[#957777] font-semibold mb-2">🏷️ POAP Verification</h3>
-              <p className="text-gray-700 text-sm">Automated event attendance validation</p>
+              <p className="text-gray-800 text-sm">Automated event attendance validation</p>
             </div>
             <div className="bg-amber-100 p-4 rounded-lg border border-[#957777]/20">
               <h3 className="text-[#957777] font-semibold mb-2">⚡ EAS Attestations</h3>
-              <p className="text-gray-700 text-sm">Onchain identity verification system</p>
+              <p className="text-gray-800 text-sm">Onchain identity verification system</p>
             </div>
           </div>
           
@@ -127,11 +127,11 @@ export default function PreviewPage() {
             <div className="flex items-center space-x-4">
               <div className="bg-amber-100 px-4 py-2 rounded-lg flex items-center border border-[#957777]/20">
                 <span className="text-[#957777] text-sm mr-2">⏱️ Duration:</span>
-                <span className="text-gray-700 text-sm font-medium">6:33</span>
+                <span className="text-gray-800 text-sm font-medium">6:33</span>
               </div>
               <div className="bg-amber-100 px-4 py-2 rounded-lg flex items-center border border-[#957777]/20">
                 <span className="text-[#957777] text-sm mr-2">📱 Format:</span>
-                <span className="text-gray-700 text-sm font-medium">MP4 • 1080p</span>
+                <span className="text-gray-800 text-sm font-medium">MP4 • 1080p</span>
               </div>
             </div>
             
@@ -151,7 +151,7 @@ export default function PreviewPage() {
                 className="bg-amber-100 hover:bg-[#f59e0b]/20 px-4 py-2 rounded-lg flex items-center transition-all duration-200 group border border-[#957777]/20"
               >
                 <span className="text-[#957777] text-sm mr-2">📅 Updated:</span>
-                <span className="text-gray-700 text-sm mr-2">{lastUpdated}</span>
+                <span className="text-gray-800 text-sm mr-2">{lastUpdated}</span>
                 <ExternalLinkIcon className="w-4 h-4 text-[#957777] group-hover:text-[#f59e0b] transition-colors" />
               </a>
             )}
