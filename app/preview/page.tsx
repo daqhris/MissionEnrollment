@@ -101,22 +101,22 @@ export default function PreviewPage() {
             </div>
           </div>
           
-          <p className="text-amber-900 mb-6 leading-relaxed">
+          <p className="text-amber-200 mb-6 leading-relaxed">
             Experience the complete Mission Enrollment workflow: connect your wallet, verify your identity through Basenames, 
             validate POAP ownership and event attendance, then create and publish your blockchain attestation for the Zinneke Rescue Mission.
           </p>
           
           {/* Enhanced feature highlights */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="bg-amber-400 p-4 rounded-lg border border-[#957777]/20">
+            <div className="bg-amber-200 p-4 rounded-lg border border-[#957777]/20">
               <h3 className="text-[#957777] font-semibold mb-2">🔗 Wallet Integration</h3>
               <p className="text-amber-900 text-sm">Identity check with Base network support</p>
             </div>
-            <div className="bg-amber-400 p-4 rounded-lg border border-[#957777]/20">
+            <div className="bg-amber-200 p-4 rounded-lg border border-[#957777]/20">
               <h3 className="text-[#957777] font-semibold mb-2">🏷️ POAP Verification</h3>
               <p className="text-amber-900 text-sm">Automated event attendance validation</p>
             </div>
-            <div className="bg-amber-400 p-4 rounded-lg border border-[#957777]/20">
+            <div className="bg-amber-200 p-4 rounded-lg border border-[#957777]/20">
               <h3 className="text-[#957777] font-semibold mb-2">⚡ EAS Attestations</h3>
               <p className="text-amber-800 text-sm">Onchain self-enrollment and public attestions</p>
             </div>
