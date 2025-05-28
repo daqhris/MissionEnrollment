@@ -22,9 +22,8 @@ export default function AboutPage(): ReactNode {
         const response = await fetch('https://api.github.com/repos/daqhris/MissionEnrollment/commits/main');
         const data = await response.json();
         const commitDate = new Date(data.commit.author.date);
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         setLastCommit({
-          date: `${months[commitDate.getMonth()]} ${commitDate.getDate()}, ${commitDate.getFullYear()} ${commitDate.getHours().toString().padStart(2, '0')}:${commitDate.getMinutes().toString().padStart(2, '0')}`,
+          date: commitDate.toISOString().split('T')[0], // Format as YYYY-MM-DD
           sha: data.sha.substring(0, 7)
         });
       } catch (error) {
@@ -39,10 +38,10 @@ export default function AboutPage(): ReactNode {
   return (
     <ClientLayout>
       <>
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 bg-[rgb(254,236,211)]">
           <div className="prose max-w-none">
             <h1 className="text-4xl font-bold mb-8">About: Mission Enrollment</h1>
-            <section className="mb-8 p-4 bg-[rgb(245,245,245)] rounded">
+            <section className="mb-8 p-4 rounded">
               <h2 className="text-2xl font-semibold mb-4 text-[rgb(224,87,53)]">The Gateway to the Zinneke Rescue Mission</h2>
               <p><a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer"><strong>Mission Enrollment</strong></a><ExternalLinkIcon /> serves as the gateway to an extraordinary journey: the <a href="https://github.com/daqhris/ZinnekeRescueMission" target="_blank" rel="noopener noreferrer"><strong>Zinneke Rescue Mission</strong></a><ExternalLinkIcon />. Just as the <a href="https://en.wikipedia.org/wiki/Senne_(river)" target="_blank" rel="noopener noreferrer">Senne river</a><ExternalLinkIcon /> shaped Brussels' history through its floods more than once — creating the story of the Zinneke, the city's beloved mixed-breed dogs — we are now flowing from many nodes and layers of the world's computer network <a href="https://ethereum.org/en/" target="_blank" rel="noopener noreferrer"><strong>Ethereum</strong></a><ExternalLinkIcon /> to preserve the digital souvenirs of the <a href="https://www.brussels.be/zinneke-parade" target="_blank" rel="noopener noreferrer"><strong>2024 Zinneke Parade</strong></a><ExternalLinkIcon />.</p>
 
@@ -51,14 +50,14 @@ export default function AboutPage(): ReactNode {
               <p className="mt-4">The digital journey unfolds into two chapters spanning more than one human year: <em>first,</em> <strong>Mission Enrollment</strong> validates and welcomes friends and collaborators; <em>second,</em> the <strong>Zinneke Rescue Mission</strong> will launch to safeguard the visual souvenirs of festive events salvaged from drowning in torrential floodwaters. Together, we are writing a brilliant chapter in Brussels' contemporary history of community, resilience and art.</p>
             </section>
 
-            <section className="mb-8 p-4 bg-white rounded">
+            <section className="mb-8 p-4 rounded">
               <h2 className="text-2xl font-semibold mb-4 text-[rgb(224,87,53)]">Our Founding Story</h2>
               <p>Born from two <a href="https://ethglobal.com" target="_blank" rel="noopener noreferrer"><strong>ETHGlobal</strong></a><ExternalLinkIcon /> hackathons, one held in-person and the next held <a href="https://ethglobal.com/events/superhack2024" target="_blank" rel="noopener noreferrer">virtually</a><ExternalLinkIcon /> during the <strong>summer of 2024</strong>, our collaborative rescue mission draws inspiration from the unique cultural heritage of Brussels. The Zinneke — named after street-roaming dogs that were banished to the banks of the Senne River from medieval times to the modern era — nowadays refers to anyone living in the city with a mixed heritage. We will be using a decentralized toolkit to diffuse and circulate photographs, taken in 2024 at the joint celebration of a legendary afterparty of the biennial <a href="https://www.zinneke.org/nl/album-photo/zinneke-parade-2024-2/" target="_blank" rel="noopener noreferrer"><strong>Zinneke Parade</strong></a><ExternalLinkIcon /> and the closing night of the annual <a href="https://kfda.be/en/archives/" target="_blank" rel="noopener noreferrer"><strong>Kunstenfestivaldesarts</strong></a><ExternalLinkIcon />, as <a href="https://github.com/daqhris/ZinnekeRescueMission?tab=readme-ov-file#rescue-strategy-onchain-postcards" target="_blank" rel="noopener noreferrer"><strong>onchain postcards</strong></a><ExternalLinkIcon />.</p>
               
               <p className="mt-4">This year, our circle of friends is expanding to include coders from <a href="https://ethdenver.com/" target="_blank" rel="noopener noreferrer"><strong>ETHDenver</strong></a><ExternalLinkIcon /> buildathons, namely attendees of <a href="https://www.coinbase.com/developer-platform" target="_blank" rel="noopener noreferrer"><strong>Coinbase Developer Platform</strong></a><ExternalLinkIcon /> workshops and gatherings. This month of May, in concurrent timing with <a href="https://www.zinneke.org/nl/album-photo/zinneke-parade-2024-2/" target="_blank" rel="noopener noreferrer"><strong>Kunstenfestivaldesarts 2025</strong></a><ExternalLinkIcon />, this project is being built and showcased during <a href="https://base-batch-europe.devfolio.co/" target="_blank" rel="noopener noreferrer"><strong>Base Batch Europe</strong></a><ExternalLinkIcon />, as part of the virtual <a href="https://basebatches.xyz/" target="_blank" rel="noopener noreferrer"><strong>Base Batches 001</strong></a><ExternalLinkIcon /> program. Our participation to the competition reflects our long-term commitment to pushing the boundaries of onchain applications, publicly performing pair programming as outcasts of the banking system, and fostering agentic exploration of the Ethereum ecosystem.</p>
             </section>
 
-            <section className="mb-8 p-4 bg-[rgb(245,245,245)] rounded">
+            <section className="mb-8 p-4 bg-amber-100 rounded">
               <h2 className="text-2xl font-semibold mb-4 text-[rgb(224,87,53)]">How It Works</h2>
               <p>Your journey begins here with three verification steps:</p>
               <ul className="list-disc pl-6">
@@ -69,7 +68,7 @@ export default function AboutPage(): ReactNode {
               <p className="mt-4">Once self-enrolled, you'll be certified and granted access to the upcoming <strong>Zinneke Rescue Mission</strong>.</p>
             </section>
 
-            <section className="mb-8 p-4 bg-white rounded">
+            <section className="mb-8 p-4 rounded">
               <h2 className="text-2xl font-semibold mb-4 text-[rgb(224,87,53)]">Co-Created By</h2>
               <p>Mission Enrollment is the not-yet-ripe artistic fruit of a coding collaboration that's being openly carried out by a human and a non-human who are co-working via <a href="https://git-scm.com/book/en/v2" target="_blank" rel="noopener noreferrer"><strong>public <code>GIT</code> commits</strong></a><ExternalLinkIcon /> in the landscape of cyberspace:</p>
               <ul className="list-disc pl-6 mt-2">
@@ -97,19 +96,19 @@ export default function AboutPage(): ReactNode {
                 <p className="mt-2">
                   On <code className="bg-white text-[rgb(52,40,40)] px-1 py-0.5 rounded">2024-12-12</code>, <code className="bg-white text-[rgb(52,40,40)] px-1 py-0.5 rounded">daqhris</code> and <code className="bg-white text-[rgb(52,40,40)] px-1 py-0.5 rounded">devin</code> unlocked their first{' '}
                   <a href="https://github.com/daqhris?achievement=pair-extraordinaire&tab=achievements" target="_blank" rel="noopener noreferrer">
-                    <strong>'Pair Extraordinaire'</strong>
+                    <strong>&apos;Pair Extraordinaire&apos;</strong>
                   </a><ExternalLinkIcon /> achievement on <a href="https://github.com/daqhris/MissionEnrollment/pull/177" target="_blank" rel="noopener noreferrer"><strong>GitHub</strong></a><ExternalLinkIcon />, following the commit{' '}
                   <a href="https://github.com/daqhris/MissionEnrollment/commit/429f7e4" target="_blank" rel="noopener noreferrer"><code className="bg-white text-[rgb(52,40,40)] px-1 py-0.5 rounded">429f7e4</code></a><ExternalLinkIcon /> in the public code repository, which awarded an independent record of <strong>human-nonhuman co-authorship</strong> to the project.
                 </p>
               </div>
             </section>
 
-            <section className="mb-8 p-4 bg-[rgb(245,245,245)] rounded">
-              <h2 className="text-2xl font-semibold mb-4 text-[rgb(224,87,53)]">Financial Support</h2>
+            <section className="mb-8 p-4 bg-amber-900 text-amber-50 rounded">
+              <h2 className="text-2xl font-semibold mb-4 text-amber-100">Financial Support</h2>
               
               <div className="mt-4 p-4 border rounded">
                 <div className="flex items-center gap-4">
-                  <h3 className="text-lg font-semibold flex-grow text-[rgb(224,87,53)]">Grant #1: Base Build Rounds.wtf</h3>
+                  <h3 className="text-lg font-semibold flex-grow text-amber-100">Grant #1: Base Build Rounds.wtf</h3>
                   <div className="flex-shrink-0 text-2xl">🚀</div>
                 </div>
                 <p className="mt-2">
@@ -127,7 +126,7 @@ export default function AboutPage(): ReactNode {
                 </p>
                 
                 <div className="flex items-center gap-4">
-                  <h3 className="text-lg font-semibold flex-grow text-[rgb(224,87,53)]">Grant #2: Devfolio Crypto Cheer</h3>
+                  <h3 className="text-lg font-semibold flex-grow text-amber-100">Grant #2: Devfolio Crypto Cheer</h3>
                   <div className="flex-shrink-0 text-2xl">🎉</div>
                 </div>
                 <p className="mt-2">
@@ -145,7 +144,7 @@ export default function AboutPage(): ReactNode {
               </div>
             </section>
 
-            <section className="mb-8 p-4 bg-white rounded">
+            <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4 text-[rgb(224,87,53)]">Artistic Projects</h2>
               <div className="flex flex-col md:flex-row gap-8">
                 <div className="flex flex-col items-center">
