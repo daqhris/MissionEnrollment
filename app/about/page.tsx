@@ -39,7 +39,7 @@ export default function AboutPage(): ReactNode {
     <ClientLayout>
       <>
         <div className="container mx-auto px-4 py-8">
-          <div className="prose max-w-none bg-[rgb(254,236,211)] p-4 rounded">
+          <div className="prose max-w-none bg-amber-200 p-4 rounded">
             <h1 className="text-4xl bg-amber-100 font-bold mb-8 p-4 rounded border-2 text-amber-700 border-amber-700">About: Mission Enrollment</h1>
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4 text-amber-700">The Gateway to the Zinneke Rescue Mission</h2>
