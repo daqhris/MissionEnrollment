@@ -162,7 +162,7 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
           <>
             <div className="grid gap-4 mb-8">
               {attestations.map((attestation: Attestation) => (
-                <div key={attestation.id} className="p-8 border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-amber-800/80">
+                <div key={attestation.id} className="p-8 border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-amber-200/80">
                   <div className="flex justify-between items-center mb-2">
                     <div className="text-amber-300 text-sm">
                       {formatDistanceToNow(new Date(attestation.time * 1000), { addSuffix: true })}
