@@ -101,7 +101,7 @@ export default function PreviewPage() {
             </div>
           </div>
           
-          <p className="text-amber-200 mb-6 leading-relaxed">
+          <p className="text-amber-900 mb-6 leading-relaxed">
             Experience the complete Mission Enrollment workflow: connect your wallet, verify your identity through Basenames, 
             validate POAP ownership and event attendance, then create and publish your blockchain attestation for the Zinneke Rescue Mission.
           </p>
