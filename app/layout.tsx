@@ -10,6 +10,8 @@ import "../styles/globals.css";
 import { getMetadata } from "../utils/scaffold-eth/getMetadata";
 import { ClientApolloProvider } from "../components/ClientApolloProvider";
 import { Viewport } from 'next';
+import { JsonLd } from "../components/JsonLd";
+import { getStructuredData } from "../utils/seo/getStructuredData";
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -26,6 +28,7 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }): React.Reac
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
+        <JsonLd data={getStructuredData()} />
         <ThemeProvider>
           <ScaffoldEthAppWithProviders>
             <StyledComponentsRegistry>
