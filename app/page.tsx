@@ -1,3 +1,7 @@
+import { getPageMetadata } from "../utils/seo/getPageMetadata";
+
+export const metadata = getPageMetadata('home');
+
 'use client';
 
 import { useState, useEffect } from 'react';

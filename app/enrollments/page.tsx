@@ -1,3 +1,7 @@
+import { getPageMetadata } from "../../utils/seo/getPageMetadata";
+
+export const metadata = getPageMetadata('enrollments');
+
 'use client';
 
 import React from 'react';
