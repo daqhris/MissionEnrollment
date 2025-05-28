@@ -96,7 +96,7 @@ export default function PreviewPage() {
             </h2>
             <div className="flex items-center space-x-2">
               <span className="px-3 py-1 bg-[#f59e0b]/20 text-[#f59e0b] rounded-full text-xs font-medium">
-                LIVE DEMO
+                RECORDED VIDEO
               </span>
             </div>
           </div>
