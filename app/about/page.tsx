@@ -40,7 +40,7 @@ export default function AboutPage(): ReactNode {
       <>
         <div className="container mx-auto px-4 py-8">
           <div className="prose max-w-none bg-[rgb(254,236,211)] p-4 rounded">
-            <h1 className="text-4xl font-bold mb-8 p-4 rounded text-amber-700">About: Mission Enrollment</h1>
+            <h1 className="text-4xl bg-amber-100 font-bold mb-8 p-4 rounded border-2 text-amber-700 border-amber-700">About: Mission Enrollment</h1>
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4 text-amber-700">The Gateway to the Zinneke Rescue Mission</h2>
               <p className="text-gray-900"><a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer"><strong>Mission Enrollment</strong></a><ExternalLinkIcon /> serves as the gateway to an extraordinary journey: the <a href="https://github.com/daqhris/ZinnekeRescueMission" target="_blank" rel="noopener noreferrer"><strong>Zinneke Rescue Mission</strong></a><ExternalLinkIcon />. Just as the <a href="https://en.wikipedia.org/wiki/Senne_(river)" target="_blank" rel="noopener noreferrer">Senne river</a><ExternalLinkIcon /> shaped Brussels' history through its floods more than once — creating the story of the Zinneke, the city's beloved mixed-breed dogs — we are now flowing from many nodes and layers of the world's computer network <a href="https://ethereum.org/en/" target="_blank" rel="noopener noreferrer"><strong>Ethereum</strong></a><ExternalLinkIcon /> to preserve the digital souvenirs of the <a href="https://www.brussels.be/zinneke-parade" target="_blank" rel="noopener noreferrer"><strong>2024 Zinneke Parade</strong></a><ExternalLinkIcon />.</p>
@@ -82,7 +82,7 @@ export default function AboutPage(): ReactNode {
               <p className="mt-4 text-gray-900">It is an artistic project that enables human creativity and AI capabilities to come together, on the verge of a posthuman era, for the preservation of the cultural heritage of a European city festival.</p>
               <p className="mt-2 text-gray-900">All enrollments are registered by in-test attestations linked to <a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer"><strong>mission-enrollment</strong>.base.eth</a><ExternalLinkIcon />. Registration methods are reliant on 3 public protocols on the Base (or Base Sepolia) blockchain: <a href="https://github.com/base-org/basenames" target="_blank" rel="noopener noreferrer">Basenames</a> (ENS)<ExternalLinkIcon />, <a href="https://github.com/poap-xyz/poap.js" target="_blank" rel="noopener noreferrer">Proof of Attendance Protocol</a> (POAP)<ExternalLinkIcon /> and <a href="https://github.com/ethereum-attestation-service/eas-sdk" target="_blank" rel="noopener noreferrer">Ethereum Attestation Service</a> (EAS)<ExternalLinkIcon />.</p>
 
-              <div className="mt-4 p-4 border-2 border-amber-700 rounded">
+              <div className="mt-4 bg-amber-100 p-4 border-2 border-amber-700 rounded">
                 <div className="flex items-center gap-4">
                   <h3 className="text-lg font-semibold flex-grow text-amber-700">Collaborative Milestone: Pair Extraordinaire</h3>
                   <Image
