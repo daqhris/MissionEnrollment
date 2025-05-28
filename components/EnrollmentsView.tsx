@@ -162,16 +162,16 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
           <>
             <div className="grid gap-4 mb-8">
               {attestations.map((attestation: Attestation) => (
-                <div key={attestation.id} className="p-8 border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-red-100/80">
+                <div key={attestation.id} className="p-8 border-2 border-[#a57939] rounded-lg shadow-sm hover:shadow-md transition-shadow bg-[#f59e0b]/80">
                   <div className="flex justify-between items-center mb-2">
-                    <div className="text-gray-600 text-sm">
+                    <div className="text-amber-300 text-sm">
                       {formatDistanceToNow(new Date(attestation.time * 1000), { addSuffix: true })}
                     </div>
                     <a
                       href={`https://base-sepolia.easscan.org/attestation/view/${attestation.id}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 text-sm"
+                      className="text-amber-300 hover:text-amber-400 text-sm"
                       onClick={(e) => e.stopPropagation()}
                     >
                       View on EAS ↗
@@ -225,9 +225,9 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
                             }
 
                             return (
-                              <div key={`${key}-${index}`} className="bg-red-50 hover:bg-red-100 p-2 rounded flex justify-between items-center transition-colors duration-200">
-                                <span className="font-semibold text-gray-900">{label}</span>
-                                <span className="text-gray-800 break-all">{displayValue}</span>
+                              <div key={`${key}-${index}`} className="bg-red-50 hover:bg-[#FFD700] p-2 rounded flex justify-between items-center transition-colors duration-200">
+                                <span className="font-semibold text-[#a57939]">{label}</span>
+                                <span className="text-[#a57939] break-all">{displayValue}</span>
                               </div>
                             );
                           }).filter(Boolean);
