@@ -226,8 +226,8 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
 
                             return (
                               <div key={`${key}-${index}`} className="bg-red-50 hover:bg-[#FFD700] p-2 rounded flex justify-between items-center transition-colors duration-200">
-                                <span className="font-semibold text-gray-900">{label}</span>
-                                <span className="text-gray-800 break-all">{displayValue}</span>
+                                <span className="font-semibold text-[#a57939]">{label}</span>
+                                <span className="text-[#a57939] break-all">{displayValue}</span>
                               </div>
                             );
                           }).filter(Boolean);
