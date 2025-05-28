@@ -84,7 +84,7 @@ export default function AboutPage(): ReactNode {
 
               <div className="mt-4 bg-amber-100 p-4 border-2 border-amber-700 rounded">
                 <div className="flex items-center gap-4">
-                  <h3 className="text-lg font-semibold flex-grow text-amber-700">Milestone: Pair Extraordinaire</h3>
+                  <h3 className="text-lg font-semibold flex-grow text-amber-700">Achievements: Pair Extraordinaire [3x]</h3>
                   <Image
                     src="/pair-extraordinaire.png"
                     alt="Pair Extraordinaire Achievement Badge"
