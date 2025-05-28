@@ -200,13 +200,13 @@ export default function ChangelogPage() {
               <a href="https://daqhris.com" target="_blank" rel="noopener noreferrer" className="text-amber-900 hover:text-amber-700">
                 daqhris
               </a>
-              <span className="ml-0.5">
+              <span>
                 <ExternalLinkIcon />
               </span>{' '}and{' '}
               <a href="https://cognition.ai/blog/" target="_blank" rel="noopener noreferrer" className="text-amber-900 hover:text-amber-700">
                 devin
               </a>
-              <span className="ml-0.5">
+              <span>
                 <ExternalLinkIcon />
               </span>.
             </p>
@@ -218,13 +218,13 @@ export default function ChangelogPage() {
               <a href="https://rounds.wtf/contributors/daqhris" target="_blank" rel="noopener noreferrer" className="text-amber-900 hover:text-amber-700">
                 Rounds.wtf
               </a>
-              <span className="ml-0.5">
+              <span>
                 <ExternalLinkIcon />
               </span>{' '}and{' '}
               <a href="https://devfolio.co/projects/mission-enrollment-b9f4" target="_blank" rel="noopener noreferrer" className="text-amber-900 hover:text-amber-700">
                 Devfolio
               </a>
-              <span className="ml-0.5">
+              <span>
                 <ExternalLinkIcon />
               </span>, and has been built and showcased at 2 international coding competitions.
             </p>
@@ -289,7 +289,7 @@ export default function ChangelogPage() {
                                     >
                                       {commitSha.substring(0, 7)}
                                     </a>
-                                    <span className="ml-0.5 -mr-1">
+                                    <span className="-mr-1">
                                       <ExternalLinkIcon />
                                     </span>
                                   </span>
@@ -329,7 +329,7 @@ export default function ChangelogPage() {
               >
                 {lastCommit.date}
               </a>
-              <span className="ml-1 inline-block">
+              <span className="inline-block">
                 <ExternalLinkIcon />
               </span>
               <span className="ml-1">(commit: </span>
@@ -341,7 +341,7 @@ export default function ChangelogPage() {
               >
                 {lastCommit.sha}
               </a>
-              <span className="ml-1 inline-block">
+              <span className="inline-block">
                 <ExternalLinkIcon />
               </span>
               <span>)</span>
