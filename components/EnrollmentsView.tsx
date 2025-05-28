@@ -225,7 +225,7 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
                             }
 
                             return (
-                              <div key={`${key}-${index}`} className="bg-[#c05648]/20 hover:bg-[#c05648]/30 p-2 rounded flex justify-between items-center transition-colors duration-200">
+                              <div key={`${key}-${index}`} className="bg-red-50 hover:bg-red-100 p-2 rounded flex justify-between items-center transition-colors duration-200">
                                 <span className="font-semibold text-gray-900">{label}</span>
                                 <span className="text-gray-800 break-all">{displayValue}</span>
                               </div>
