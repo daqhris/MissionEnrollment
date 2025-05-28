@@ -88,7 +88,7 @@ export default function PreviewPage() {
         </div>
         
         {/* Enhanced information card with interactive elements */}
-        <div className="card bg-amber-50 p-6 rounded-xl shadow-2xl border border-[#957777]/20 transition-all duration-300 hover:border-[#f59e0b]/40 hover:bg-amber-100/90">
+        <div className="card bg-amber-50 p-6 rounded-xl shadow-2xl border border-[#957777]/20 transition-all duration-300 hover:border-[#f59e0b]/40">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold text-[#f59e0b] flex items-center">
               <span className="w-3 h-3 bg-[#f59e0b] rounded-full mr-3 animate-pulse"></span>
