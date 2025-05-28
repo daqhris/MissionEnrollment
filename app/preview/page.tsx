@@ -101,7 +101,7 @@ export default function PreviewPage() {
             </div>
           </div>
           
-          <p className="text-amber-400 mb-6 leading-relaxed">
+          <p className="text-amber-200 mb-6 leading-relaxed">
             Experience the complete Mission Enrollment workflow: connect your wallet, verify your identity through Basenames, 
             validate POAP ownership and event attendance, then create and publish your blockchain attestation for the Zinneke Rescue Mission.
           </p>
@@ -148,7 +148,7 @@ export default function PreviewPage() {
                 href="https://github.com/daqhris/MissionEnrollment/commits/main/public/Preview-MissionEnrollment-WebApp.mp4" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="bg-amber-100 hover:bg-[#f59e0b]/20 px-4 py-2 rounded-lg flex items-center transition-all duration-200 group border border-[#957777]/20"
+                className="bg-amber-200 hover:bg-[#f59e0b]/20 px-4 py-2 rounded-lg flex items-center transition-all duration-200 group border border-[#957777]/20"
               >
                 <span className="text-[#957777] text-sm mr-2">📅 Updated:</span>
                 <span className="text-amber-900 text-sm mr-2">{lastUpdated}</span>
