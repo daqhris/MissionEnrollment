@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { getMetadata } from "../scaffold-eth/getMetadata";
 
-type PageType = 'home' | 'enrollments' | 'about' | 'charter' | 'attestation';
+type PageType = 'home' | 'enrollments' | 'about' | 'charter' | 'attestation' | 'preview';
 
 export const getPageMetadata = (pageType: PageType, params?: Record<string, string>): Metadata => {
   switch (pageType) {
@@ -45,6 +45,13 @@ export const getPageMetadata = (pageType: PageType, params?: Record<string, stri
         title: "Attestation Details | Mission Enrollment",
         description: "View attestation details on the Base blockchain for the Zinneke Rescue Mission.",
         path: "/attestation"
+      });
+    
+    case 'preview':
+      return getMetadata({
+        title: "Video Preview | Mission Enrollment",
+        description: "Watch a demonstration of the Mission Enrollment dApp, including wallet connection, attestation verification, and POAP validation.",
+        path: "/preview"
       });
     
     default:
