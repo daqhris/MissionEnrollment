@@ -109,15 +109,15 @@ export default function PreviewPage() {
           {/* Enhanced feature highlights */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div className="bg-amber-200 p-4 rounded-lg border border-[#957777]/20">
-              <h3 className="text-[#957777] font-semibold mb-2">🔗 Wallet Integration</h3>
+              <h3 className="text-[#957777] font-semibold mb-2">Wallet Integration</h3>
               <p className="text-amber-900 text-sm">Identity check with Base network support</p>
             </div>
             <div className="bg-amber-200 p-4 rounded-lg border border-[#957777]/20">
-              <h3 className="text-[#957777] font-semibold mb-2">🏷️ POAP Verification</h3>
+              <h3 className="text-[#957777] font-semibold mb-2">POAP Verification</h3>
               <p className="text-amber-900 text-sm">Automated event attendance validation</p>
             </div>
             <div className="bg-amber-200 p-4 rounded-lg border border-[#957777]/20">
-              <h3 className="text-[#957777] font-semibold mb-2">⚡ EAS Attestations</h3>
+              <h3 className="text-[#957777] font-semibold mb-2">EAS Attestations</h3>
               <p className="text-amber-800 text-sm">Onchain self-enrollment and public attestions</p>
             </div>
           </div>
@@ -126,12 +126,12 @@ export default function PreviewPage() {
           <div className="flex items-center justify-between flex-wrap gap-3 pt-4 border-t border-amber-200">
             <div className="flex items-center space-x-4">
               <div className="bg-amber-200 px-4 py-2 rounded-lg flex items-center border border-[#957777]/20">
-                <span className="text-[#957777] text-sm mr-2">⏱️ Duration:</span>
-                <span className="text-amber-900 text-sm font-medium">6:33</span>
+                <span className="text-[#957777] text-sm mr-2">Duration:</span>
+                <span className="text-amber-900 text-sm font-medium">6 minutes</span>
               </div>
               <div className="bg-amber-200 px-4 py-2 rounded-lg flex items-center border border-[#957777]/20">
-                <span className="text-[#957777] text-sm mr-2">📱 Format:</span>
-                <span className="text-amber-900 text-sm font-medium">MP4 • 1080p</span>
+                <span className="text-[#957777] text-sm mr-2">Format:</span>
+                <span className="text-amber-900 text-sm font-medium">MP4 • 720p</span>
               </div>
             </div>
             
@@ -150,7 +150,7 @@ export default function PreviewPage() {
                 rel="noopener noreferrer"
                 className="bg-amber-200 hover:bg-[#f59e0b]/20 px-4 py-2 rounded-lg flex items-center transition-all duration-200 group border border-[#957777]/20"
               >
-                <span className="text-[#957777] text-sm mr-2">📅 Updated:</span>
+                <span className="text-[#957777] text-sm mr-2">Updated:</span>
                 <span className="text-amber-900 text-sm mr-2">{lastUpdated}</span>
                 <ExternalLinkIcon className="w-4 h-4 text-[#957777] group-hover:text-[#f59e0b] transition-colors" />
               </a>
