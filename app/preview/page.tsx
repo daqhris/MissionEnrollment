@@ -56,69 +56,104 @@ export default function PreviewPage() {
       <h1 className="text-3xl font-bold mb-8 text-center text-[#957777]">Video Preview</h1>
       
       <div className="max-w-4xl mx-auto">
-        {/* Cinema-style container with backdrop blur and gradient border */}
+        {/* Enhanced cinema-style container with ambient lighting */}
         <div className="relative p-1 rounded-xl bg-gradient-to-r from-[#957777] via-[#f59e0b] to-[#957777] shadow-2xl mb-6 float-animation">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#957777]/20 via-[#f59e0b]/20 to-[#957777]/20 rounded-xl blur-md"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#957777]/20 via-[#f59e0b]/20 to-[#957777]/20 rounded-xl blur-lg animate-pulse"></div>
           
-          {/* Video container with backdrop filter */}
-          <div className="relative bg-gradient-to-r from-blue-900 to-blue-800 rounded-lg overflow-hidden backdrop-blur-sm backdrop-filter p-2 transition-all duration-300 hover:shadow-[0_0_15px_rgba(245,158,11,0.5)]">
+          {/* Video container with enhanced backdrop effects */}
+          <div className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-lg overflow-hidden backdrop-blur-sm p-3 transition-all duration-500 hover:shadow-[0_0_25px_rgba(245,158,11,0.4)] group">
             
-            {/* Loading overlay */}
+            {/* Loading overlay with branded spinner */}
             {isVideoLoading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-blue-900/80 z-10 rounded-lg">
-                <div className="w-16 h-16 border-4 border-[#f59e0b] border-t-transparent rounded-full animate-spin"></div>
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900/90 z-10 rounded-lg">
+                <div className="w-20 h-20 border-4 border-[#f59e0b] border-t-transparent rounded-full animate-spin mb-4"></div>
+                <p className="text-[#f59e0b] text-sm animate-pulse">Loading Mission Preview...</p>
               </div>
             )}
             
-            {/* Video element */}
+            {/* Video element with enhanced controls */}
             <video
               ref={videoRef}
               controls
-              className="w-full rounded-lg shadow-inner aspect-video"
+              className="w-full rounded-lg shadow-2xl aspect-video transition-all duration-300 group-hover:shadow-[inset_0_0_20px_rgba(245,158,11,0.1)]"
               src="/Preview-MissionEnrollment-WebApp.mp4"
               onLoadedData={handleVideoLoad}
+              onError={() => setIsVideoLoading(false)}
               poster="/images/preview-thumbnail.jpg"
+              preload="metadata"
             >
               Your browser does not support the video tag.
             </video>
           </div>
         </div>
         
-        {/* Video information card */}
-        <div className="card bg-blue-900/30 backdrop-blur-sm backdrop-filter p-6 rounded-xl shadow-lg border border-[#957777]/30 transition-all duration-300 hover:border-[#f59e0b]/50">
-          <h2 className="text-xl font-semibold mb-3 text-[#f59e0b]">Mission Enrollment Demo</h2>
-          <p className="text-[#a57939] mb-4">
-            This video demonstrates the key features of the Mission Enrollment dApp, including wallet connection, attestation verification, and POAP validation.
+        {/* Enhanced information card with interactive elements */}
+        <div className="card bg-gray-900/40 backdrop-blur-md p-6 rounded-xl shadow-2xl border border-[#957777]/20 transition-all duration-300 hover:border-[#f59e0b]/40 hover:bg-gray-900/50">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold text-[#f59e0b] flex items-center">
+              <span className="w-3 h-3 bg-[#f59e0b] rounded-full mr-3 animate-pulse"></span>
+              Mission Enrollment Demo
+            </h2>
+            <div className="flex items-center space-x-2">
+              <span className="px-3 py-1 bg-[#f59e0b]/20 text-[#f59e0b] rounded-full text-xs font-medium">
+                LIVE DEMO
+              </span>
+            </div>
+          </div>
+          
+          <p className="text-gray-300 mb-6 leading-relaxed">
+            Experience the complete Mission Enrollment workflow: connect your wallet, verify your identity through Basenames, 
+            validate POAP attendance, and receive your blockchain attestation for the Zinneke Rescue Mission.
           </p>
           
-          {/* Timestamp information */}
-          <div className="flex items-center justify-between flex-wrap gap-2 mt-2">
-            <div className="bg-blue-800/50 px-4 py-2 rounded-lg inline-flex items-center">
-              <span className="text-amber-300 text-sm mr-1">Duration:</span>
-              <span className="text-white text-sm">6:33</span>
+          {/* Enhanced feature highlights */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div className="bg-gray-800/50 p-4 rounded-lg border border-[#957777]/10">
+              <h3 className="text-[#f59e0b] font-semibold mb-2">🔗 Wallet Integration</h3>
+              <p className="text-gray-400 text-sm">RainbowKit connection with Base network support</p>
+            </div>
+            <div className="bg-gray-800/50 p-4 rounded-lg border border-[#957777]/10">
+              <h3 className="text-[#f59e0b] font-semibold mb-2">🏷️ POAP Verification</h3>
+              <p className="text-gray-400 text-sm">Automated event attendance validation</p>
+            </div>
+            <div className="bg-gray-800/50 p-4 rounded-lg border border-[#957777]/10">
+              <h3 className="text-[#f59e0b] font-semibold mb-2">⚡ EAS Attestations</h3>
+              <p className="text-gray-400 text-sm">Onchain identity verification system</p>
+            </div>
+          </div>
+          
+          {/* Timestamp and metadata */}
+          <div className="flex items-center justify-between flex-wrap gap-3 pt-4 border-t border-gray-700/50">
+            <div className="flex items-center space-x-4">
+              <div className="bg-gray-800/60 px-4 py-2 rounded-lg flex items-center">
+                <span className="text-[#f59e0b] text-sm mr-2">⏱️ Duration:</span>
+                <span className="text-white text-sm font-medium">6:33</span>
+              </div>
+              <div className="bg-gray-800/60 px-4 py-2 rounded-lg flex items-center">
+                <span className="text-[#f59e0b] text-sm mr-2">📱 Format:</span>
+                <span className="text-white text-sm font-medium">MP4 • 1080p</span>
+              </div>
             </div>
             
             {loading ? (
-              <div className="bg-blue-800/50 px-4 py-2 rounded-lg">
-                <span className="text-amber-300 text-sm">Loading timestamp...</span>
+              <div className="bg-gray-800/60 px-4 py-2 rounded-lg">
+                <span className="text-amber-300 text-sm animate-pulse">Loading timestamp...</span>
               </div>
             ) : error ? (
-              <div className="bg-red-800/50 px-4 py-2 rounded-lg">
-                <span className="text-red-300 text-sm">{`Error: ${error}`}</span>
+              <div className="bg-red-900/40 px-4 py-2 rounded-lg border border-red-500/20">
+                <span className="text-red-300 text-sm">Timestamp unavailable</span>
               </div>
             ) : (
-              <div className="bg-blue-800/50 px-4 py-2 rounded-lg inline-flex items-center">
-                <span className="text-amber-300 text-sm mr-1">Last updated:</span>
-                <a 
-                  href="https://github.com/daqhris/MissionEnrollment/commits/main/public/Preview-MissionEnrollment-WebApp.mp4" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-amber-300 hover:text-[#f59e0b] flex items-center ml-1 text-sm transition-colors"
-                >
-                  {lastUpdated}
-                  <ExternalLinkIcon />
-                </a>
-              </div>
+              <a 
+                href="https://github.com/daqhris/MissionEnrollment/commits/main/public/Preview-MissionEnrollment-WebApp.mp4" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-gray-800/60 hover:bg-[#f59e0b]/20 px-4 py-2 rounded-lg flex items-center transition-all duration-200 group"
+              >
+                <span className="text-[#f59e0b] text-sm mr-2">📅 Updated:</span>
+                <span className="text-white text-sm mr-2">{lastUpdated}</span>
+                <ExternalLinkIcon className="w-4 h-4 text-[#f59e0b] group-hover:text-white transition-colors" />
+              </a>
             )}
           </div>
         </div>
