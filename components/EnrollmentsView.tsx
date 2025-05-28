@@ -171,7 +171,7 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
                       href={`https://base-sepolia.easscan.org/attestation/view/${attestation.id}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-amber-800 hover:text-amber-900 text-sm"
+                      className="text-amber-300 hover:text-amber-400 text-sm"
                       onClick={(e) => e.stopPropagation()}
                     >
                       View on EAS ↗
