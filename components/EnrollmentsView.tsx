@@ -164,14 +164,14 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
               {attestations.map((attestation: Attestation) => (
                 <div key={attestation.id} className="p-8 border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-[#c05648]/80">
                   <div className="flex justify-between items-center mb-2">
-                    <div className="text-gray-600 text-sm">
+                    <div className="text-amber-300 text-sm">
                       {formatDistanceToNow(new Date(attestation.time * 1000), { addSuffix: true })}
                     </div>
                     <a
                       href={`https://base-sepolia.easscan.org/attestation/view/${attestation.id}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 text-sm"
+                      className="text-amber-800 hover:text-amber-900 text-sm"
                       onClick={(e) => e.stopPropagation()}
                     >
                       View on EAS ↗
