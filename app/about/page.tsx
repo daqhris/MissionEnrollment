@@ -40,9 +40,9 @@ export default function AboutPage(): ReactNode {
       <>
         <div className="container mx-auto px-4 py-8">
           <div className="prose max-w-none bg-[rgb(254,236,211)] p-4 rounded">
-            <h1 className="text-4xl font-bold mb-8 p-4 rounded text-[rgb(224,87,53)]">About: Mission Enrollment</h1>
+            <h1 className="text-4xl font-bold mb-8 p-4 rounded text-amber-700">About: Mission Enrollment</h1>
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4 text-[rgb(224,87,53)]">The Gateway to the Zinneke Rescue Mission</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-amber-700">The Gateway to the Zinneke Rescue Mission</h2>
               <p className="text-gray-900"><a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer"><strong>Mission Enrollment</strong></a><ExternalLinkIcon /> serves as the gateway to an extraordinary journey: the <a href="https://github.com/daqhris/ZinnekeRescueMission" target="_blank" rel="noopener noreferrer"><strong>Zinneke Rescue Mission</strong></a><ExternalLinkIcon />. Just as the <a href="https://en.wikipedia.org/wiki/Senne_(river)" target="_blank" rel="noopener noreferrer">Senne river</a><ExternalLinkIcon /> shaped Brussels' history through its floods more than once — creating the story of the Zinneke, the city's beloved mixed-breed dogs — we are now flowing from many nodes and layers of the world's computer network <a href="https://ethereum.org/en/" target="_blank" rel="noopener noreferrer"><strong>Ethereum</strong></a><ExternalLinkIcon /> to preserve the digital souvenirs of the <a href="https://www.brussels.be/zinneke-parade" target="_blank" rel="noopener noreferrer"><strong>2024 Zinneke Parade</strong></a><ExternalLinkIcon />.</p>
 
               <p className="mt-4 text-gray-900">This enrollment tool is your first step in joining a collaborative and artistic adventure. Like the historical <a href="https://www.zinneke.org/" target="_blank" rel="noopener noreferrer">Zinneke</a><ExternalLinkIcon /> that brought character to Brussels, we're bringing together various participants — starting with the innovative minds from a global blockchain gathering once held in Belgium — to preserve citywide parade memories through blockchain technology.</p>
@@ -51,14 +51,14 @@ export default function AboutPage(): ReactNode {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4 text-[rgb(224,87,53)]">Our Founding Story</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-amber-700">Our Founding Story</h2>
               <p className="text-gray-900">Born from two <a href="https://ethglobal.com" target="_blank" rel="noopener noreferrer"><strong>ETHGlobal</strong></a><ExternalLinkIcon /> hackathons, one held in-person and the next held <a href="https://ethglobal.com/events/superhack2024" target="_blank" rel="noopener noreferrer">virtually</a><ExternalLinkIcon /> during the <strong>summer of 2024</strong>, our collaborative rescue mission draws inspiration from the unique cultural heritage of Brussels. The Zinneke — named after street-roaming dogs that were banished to the banks of the Senne River from medieval times to the modern era — nowadays refers to anyone living in the city with a mixed heritage. We will be using a decentralized toolkit to diffuse and circulate photographs, taken in 2024 at the joint celebration of a legendary afterparty of the biennial <a href="https://www.zinneke.org/nl/album-photo/zinneke-parade-2024-2/" target="_blank" rel="noopener noreferrer"><strong>Zinneke Parade</strong></a><ExternalLinkIcon /> and the closing night of the annual <a href="https://kfda.be/en/archives/" target="_blank" rel="noopener noreferrer"><strong>Kunstenfestivaldesarts</strong></a><ExternalLinkIcon />, as <a href="https://github.com/daqhris/ZinnekeRescueMission?tab=readme-ov-file#rescue-strategy-onchain-postcards" target="_blank" rel="noopener noreferrer"><strong>onchain postcards</strong></a><ExternalLinkIcon />.</p>
               
               <p className="mt-4 text-gray-900">This year, our circle of friends is expanding to include coders from <a href="https://ethdenver.com/" target="_blank" rel="noopener noreferrer"><strong>ETHDenver</strong></a><ExternalLinkIcon /> buildathons, namely attendees of <a href="https://www.coinbase.com/developer-platform" target="_blank" rel="noopener noreferrer"><strong>Coinbase Developer Platform</strong></a><ExternalLinkIcon /> workshops and gatherings. This month of May, in concurrent timing with <a href="https://www.zinneke.org/nl/album-photo/zinneke-parade-2024-2/" target="_blank" rel="noopener noreferrer"><strong>Kunstenfestivaldesarts 2025</strong></a><ExternalLinkIcon />, this project is being built and showcased during <a href="https://base-batch-europe.devfolio.co/" target="_blank" rel="noopener noreferrer"><strong>Base Batch Europe</strong></a><ExternalLinkIcon />, as part of the virtual <a href="https://basebatches.xyz/" target="_blank" rel="noopener noreferrer"><strong>Base Batches 001</strong></a><ExternalLinkIcon /> program. Our participation to the competition reflects our long-term commitment to pushing the boundaries of onchain applications, publicly performing pair programming as outcasts of the banking system, and fostering agentic exploration of the Ethereum ecosystem.</p>
             </section>
 
             <section className="mb-8 p-4 bg-amber-100 rounded border-2 border-amber-700">
-              <h2 className="text-2xl font-semibold mb-4 text-[rgb(224,87,53)]">How It Works</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-amber-700">How It Works</h2>
               <p className="text-gray-900">Your journey begins here with three verification steps:</p>
               <ul className="list-disc pl-6 text-gray-900">
                 <li>Submit your onchain name during an identity check</li>
@@ -69,7 +69,7 @@ export default function AboutPage(): ReactNode {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4 text-[rgb(224,87,53)]">Co-Created By</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-amber-700">Co-Created By</h2>
               <p className="text-gray-900">Mission Enrollment is the not-yet-ripe artistic fruit of a coding collaboration that's being openly carried out by a human and a non-human who are co-working via <a href="https://git-scm.com/book/en/v2" target="_blank" rel="noopener noreferrer"><strong>public <code>GIT</code> commits</strong></a><ExternalLinkIcon /> in the landscape of cyberspace:</p>
               <ul className="list-disc pl-6 mt-2 text-gray-900">
                 <li><strong>Human Author:</strong> <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer"><strong>daqhris</strong>.base.eth</a><ExternalLinkIcon /> - Creator, project architect and blockchain developer <span className="ml-2">
@@ -145,7 +145,7 @@ export default function AboutPage(): ReactNode {
             </section>
 
             <section className="mb-8 p-4 rounded">
-              <h2 className="text-2xl font-semibold mb-4 text-[rgb(224,87,53)]">Artistic Projects</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-amber-700">Artistic Projects</h2>
               <div className="flex flex-col md:flex-row gap-8">
                 <div className="flex flex-col items-center">
                   <a href="https://github.com/daqhris/MissionEnrollment" target="_blank" rel="noopener noreferrer">
