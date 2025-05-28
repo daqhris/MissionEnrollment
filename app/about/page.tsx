@@ -72,19 +72,19 @@ export default function AboutPage(): ReactNode {
               <h2 className="text-2xl font-semibold mb-4 text-amber-700">Co-Created By</h2>
               <p className="text-gray-900">Mission Enrollment is the not-yet-ripe artistic fruit of a coding collaboration that's being openly carried out by a human and a non-human who are co-working via <a href="https://git-scm.com/book/en/v2" target="_blank" rel="noopener noreferrer"><strong>public <code>GIT</code> commits</strong></a><ExternalLinkIcon /> in the landscape of cyberspace:</p>
               <ul className="list-disc pl-6 mt-2 text-gray-900">
-                <li><strong>Human Author:</strong> <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer"><strong>daqhris</strong>.base.eth</a><ExternalLinkIcon /> - Creator, project architect and blockchain developer <span className="ml-2">
+                <li><strong>Human Author:</strong> <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer"><strong>daqhris</strong>.base.eth</a><ExternalLinkIcon /> — Creator, project architect, mission coordinator and smart contract deployer<span className="ml-2">
                     <a href="https://farcaster.xyz/daqhris" target="_blank" rel="noopener noreferrer" title="Follow on Farcaster">
                       <FarcasterIcon />
                     </a>
                   </span></li>
-                <li><strong>Non-human Engineer:</strong> <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer"><strong>Devin AI</strong></a><ExternalLinkIcon /> (from <a href="https://cognition.ai/" target="_blank" rel="noopener noreferrer">Cognition Labs</a><ExternalLinkIcon />) - Assisted in coding, development and implementation <a href="https://deepwiki.com/daqhris/MissionEnrollment" target="_blank" rel="noopener noreferrer" className="ml-2" title="View on DeepWiki"><DeepWikiIcon /></a></li>
+                <li><strong>Non-human Engineer:</strong> <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer"><strong>Devin AI</strong></a><ExternalLinkIcon /> (of <a href="https://cognition.ai/" target="_blank" rel="noopener noreferrer">Cognition Labs</a><ExternalLinkIcon />) — Co-creator, software engineer and assistant in coding, development and implementation <a href="https://deepwiki.com/daqhris/MissionEnrollment" target="_blank" rel="noopener noreferrer" className="ml-2" title="View on DeepWiki"><DeepWikiIcon /></a></li>
               </ul>
               <p className="mt-4 text-gray-900">It is an artistic project that enables human creativity and AI capabilities to come together, on the verge of a posthuman era, for the preservation of the cultural heritage of a European city festival.</p>
               <p className="mt-2 text-gray-900">All enrollments are registered by in-test attestations linked to <a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer"><strong>mission-enrollment</strong>.base.eth</a><ExternalLinkIcon />. Registration methods are reliant on 3 public protocols on the Base (or Base Sepolia) blockchain: <a href="https://github.com/base-org/basenames" target="_blank" rel="noopener noreferrer">Basenames</a> (ENS)<ExternalLinkIcon />, <a href="https://github.com/poap-xyz/poap.js" target="_blank" rel="noopener noreferrer">Proof of Attendance Protocol</a> (POAP)<ExternalLinkIcon /> and <a href="https://github.com/ethereum-attestation-service/eas-sdk" target="_blank" rel="noopener noreferrer">Ethereum Attestation Service</a> (EAS)<ExternalLinkIcon />.</p>
 
               <div className="mt-4 bg-amber-100 p-4 border-2 border-amber-700 rounded">
                 <div className="flex items-center gap-4">
-                  <h3 className="text-lg font-semibold flex-grow text-amber-700">Collaborative Milestone: Pair Extraordinaire</h3>
+                  <h3 className="text-lg font-semibold flex-grow text-amber-700">Milestone: Pair Extraordinaire</h3>
                   <Image
                     src="/pair-extraordinaire.png"
                     alt="Pair Extraordinaire Achievement Badge"
@@ -112,7 +112,7 @@ export default function AboutPage(): ReactNode {
                   <div className="flex-shrink-0 text-2xl">🚀</div>
                 </div>
                 <p className="mt-2 text-amber-50">
-                  On <code className="bg-white text-[rgb(52,40,40)] px-1 py-0.5 rounded">2024-09-16</code>, Mission Enrollment received its first financial support: <strong>0.0051 ETH</strong> through{' '}
+                  On <code className="bg-white text-[rgb(52,40,40)] px-1 py-0.5 rounded">2024-09-16</code>, the project received its first financial support: <strong>0.0051 ETH</strong> through{' '}
                   <a href="https://rounds.wtf/contributors/daqhris" target="_blank" rel="noopener noreferrer" className="text-amber-100 hover:text-amber-200">
                     <strong>Rounds.wtf</strong>
                   </a><ExternalLinkIcon /> as part of the{' '}
@@ -130,7 +130,7 @@ export default function AboutPage(): ReactNode {
                   <div className="flex-shrink-0 text-2xl">🎉</div>
                 </div>
                 <p className="mt-2 text-amber-50">
-                  On <code className="bg-white text-[rgb(52,40,40)] px-1 py-0.5 rounded">2025-05-17</code>, Mission Enrollment received <strong>0.0050 ETH worth of cheers</strong> on{' '}
+                  On <code className="bg-white text-[rgb(52,40,40)] px-1 py-0.5 rounded">2025-05-17</code>, the project received <strong>0.0050 ETH worth of cheers</strong> on{' '}
                   <a href="https://devfolio.co/projects/mission-enrollment-b9f4" target="_blank" rel="noopener noreferrer" className="text-amber-100 hover:text-amber-200">
                     <strong>Devfolio</strong>
                   </a><ExternalLinkIcon /> during the{' '}
