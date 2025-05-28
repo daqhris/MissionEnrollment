@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
 
-const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : `http://localhost:${process.env.PORT || 3000}`;
+// Use the production URL for all environments to ensure consistent metadata
+const baseUrl = "https://mission-enrollment.daqhris.com";
 
 export const getMetadata = ({
   title,
   description,
   imageRelativePath = "/logo.png",
+  path = "",
 }: {
   title: string;
   description: string;
   imageRelativePath?: string;
+  path?: string;
 }): Metadata => {
   const imageUrl = `${baseUrl}${imageRelativePath}`;
   const siteName = "Mission Enrollment";
+  const canonicalUrl = `${baseUrl}${path}`;
 
   return {
     metadataBase: new URL(baseUrl),
@@ -26,6 +28,9 @@ export const getMetadata = ({
     keywords: ["blockchain", "attestation", "enrollment", "Base", "POAP", "verification"],
     referrer: "origin-when-cross-origin",
     manifest: "/manifest.json",
+    alternates: {
+      canonical: canonicalUrl,
+    },
     icons: {
       icon: [
         { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
@@ -40,6 +45,7 @@ export const getMetadata = ({
       siteName: siteName,
       title: title,
       description: description,
+      url: canonicalUrl,
       images: [
         {
           url: imageUrl,
