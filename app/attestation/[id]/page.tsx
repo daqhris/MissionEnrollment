@@ -1,3 +1,10 @@
+import { Metadata } from "next";
+import { getPageMetadata } from "../../../utils/seo/getPageMetadata";
+
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  return getPageMetadata('attestation', params);
+}
+
 import React from 'react';
 import { GET_ATTESTATION_BY_ID, GET_ENROLLMENTS } from '../../../graphql/queries';
 import { ClientAttestationView } from '../../../components/ClientAttestationView';
