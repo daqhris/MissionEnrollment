@@ -40,7 +40,7 @@ export default function AboutPage(): ReactNode {
       <>
         <div className="container mx-auto px-4 py-8">
           <div className="prose max-w-none bg-[rgb(254,236,211)] p-4 rounded">
-            <h1 className="text-4xl font-bold mb-8 bg-white p-4 rounded">About: Mission Enrollment</h1>
+            <h1 className="text-4xl font-bold mb-8 p-4 rounded text-[rgb(224,87,53)]">About: Mission Enrollment</h1>
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4 text-[rgb(224,87,53)]">The Gateway to the Zinneke Rescue Mission</h2>
               <p className="text-gray-900"><a href="https://www.base.org/name/mission-enrollment" target="_blank" rel="noopener noreferrer"><strong>Mission Enrollment</strong></a><ExternalLinkIcon /> serves as the gateway to an extraordinary journey: the <a href="https://github.com/daqhris/ZinnekeRescueMission" target="_blank" rel="noopener noreferrer"><strong>Zinneke Rescue Mission</strong></a><ExternalLinkIcon />. Just as the <a href="https://en.wikipedia.org/wiki/Senne_(river)" target="_blank" rel="noopener noreferrer">Senne river</a><ExternalLinkIcon /> shaped Brussels' history through its floods more than once — creating the story of the Zinneke, the city's beloved mixed-breed dogs — we are now flowing from many nodes and layers of the world's computer network <a href="https://ethereum.org/en/" target="_blank" rel="noopener noreferrer"><strong>Ethereum</strong></a><ExternalLinkIcon /> to preserve the digital souvenirs of the <a href="https://www.brussels.be/zinneke-parade" target="_blank" rel="noopener noreferrer"><strong>2024 Zinneke Parade</strong></a><ExternalLinkIcon />.</p>
@@ -84,7 +84,7 @@ export default function AboutPage(): ReactNode {
 
               <div className="mt-4 p-4 border-2 border-amber-700 rounded">
                 <div className="flex items-center gap-4">
-                  <h3 className="text-lg font-semibold flex-grow">Collaborative Milestone: Pair Extraordinaire</h3>
+                  <h3 className="text-lg font-semibold flex-grow text-amber-700">Collaborative Milestone: Pair Extraordinaire</h3>
                   <Image
                     src="/pair-extraordinaire.png"
                     alt="Pair Extraordinaire Achievement Badge"
@@ -144,7 +144,7 @@ export default function AboutPage(): ReactNode {
               </div>
             </section>
 
-            <section className="mb-8 bg-white p-4 rounded">
+            <section className="mb-8 p-4 rounded">
               <h2 className="text-2xl font-semibold mb-4 text-[rgb(224,87,53)]">Artistic Projects</h2>
               <div className="flex flex-col md:flex-row gap-8">
                 <div className="flex flex-col items-center">
