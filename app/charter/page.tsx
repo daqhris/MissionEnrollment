@@ -1,7 +1,3 @@
-import { getPageMetadata } from "../../utils/seo/getPageMetadata";
-
-export const metadata = getPageMetadata('charter');
-
 'use client';
 
 import React, { useEffect, useState } from 'react';
