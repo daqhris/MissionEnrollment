@@ -155,62 +155,66 @@ export default function Home() {
 
               {isConnected && (
                 <>
-                  <h2 className="text-2xl font-bold mb-4">Onchain Identity Check</h2>
+                  {!attestationId && (
+                    <>
+                      <h2 className="text-2xl font-bold mb-4">Onchain Identity Check</h2>
 
-                  {address && (
-                    <div className="flex items-center gap-2 mb-6">
-                      <Avatar address={address} />
-                      <span className="text-sm">{address}</span>
-                    </div>
-                  )}
+                      {address && (
+                        <div className="flex items-center gap-2 mb-6">
+                          <Avatar address={address} />
+                          <span className="text-sm">{address}</span>
+                        </div>
+                      )}
 
-                  {error && (
-                    <div className="alert alert-error mb-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <span>{error}</span>
-                    </div>
-                  )}
+                      {error && (
+                        <div className="alert alert-error mb-4">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <span>{error}</span>
+                        </div>
+                      )}
 
-                  <h3 className="card-title mb-4">What is your name on the blockchain?</h3>
-                  <p className="text-sm mb-4">Please submit your public name as recorded onchain.</p>
+                      <h3 className="card-title mb-4">What is your name on the blockchain?</h3>
+                      <p className="text-sm mb-4">Please submit your public name as recorded onchain.</p>
 
-                  <div className="flex items-center w-full max-w-md mb-4">
-                    <input
-                      type="text"
-                      placeholder="Enter your name"
-                      className="input input-bordered flex-grow"
-                      value={inputName}
-                      onChange={(e) => setInputName(e.target.value)}
-                    />
-                    <span className="ml-2 text-base-content/70">.base.eth</span>
-                  </div>
-                  <button
-                    className={`btn btn-primary ${attestationId ? 'btn-disabled opacity-50' : ''}`}
-                    onClick={handleNameSubmit}
-                    disabled={!!attestationId}
-                  >
-                    REPLY
-                  </button>
+                      <div className="flex items-center w-full max-w-md mb-4">
+                        <input
+                          type="text"
+                          placeholder="Enter your name"
+                          className="input input-bordered flex-grow"
+                          value={inputName}
+                          onChange={(e) => setInputName(e.target.value)}
+                        />
+                        <span className="ml-2 text-base-content/70">.base.eth</span>
+                      </div>
+                      <button
+                        className={`btn btn-primary ${attestationId ? 'btn-disabled opacity-50' : ''}`}
+                        onClick={handleNameSubmit}
+                        disabled={!!attestationId}
+                      >
+                        REPLY
+                      </button>
 
-                  {verificationStatus === 'success' && (
-                    <div className="alert alert-success mt-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <span>Name verified successfully!</span>
-                    </div>
-                  )}
+                      {verificationStatus === 'success' && (
+                        <div className="alert alert-success mt-4">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <span>Name verified successfully!</span>
+                        </div>
+                      )}
 
-                  {verificationStatus === 'success' && !showEventAttendance && (
-                    <button
-                      className={`btn btn-secondary mt-4 ${attestationId ? 'btn-disabled opacity-50' : ''}`}
-                      onClick={() => setShowEventAttendance(true)}
-                      disabled={!!attestationId}
-                    >
-                      NEXT
-                    </button>
+                      {verificationStatus === 'success' && !showEventAttendance && (
+                        <button
+                          className={`btn btn-secondary mt-4 ${attestationId ? 'btn-disabled opacity-50' : ''}`}
+                          onClick={() => setShowEventAttendance(true)}
+                          disabled={!!attestationId}
+                        >
+                          NEXT
+                        </button>
+                      )}
+                    </>
                   )}
 
                   {showEventAttendance && approvedName && !attestationId && (
