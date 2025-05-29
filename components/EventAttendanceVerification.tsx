@@ -297,22 +297,22 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
               </div>
             )}
 
-            <div className="mt-4">
-              <button
-                className={`btn w-full ${verificationStatus !== 'success' || !!attestationId ? 'btn-disabled opacity-50' : 'btn-primary'}`}
-                onClick={() => {
-                  if (poapDetails) {
-                    const eventType = poapDetails.event.name.includes('ETHGlobal Brussels') 
-                      ? 'ETH_GLOBAL_BRUSSELS' 
-                      : 'ETHDENVER_COINBASE_CDP_2025';
-                    
-                    // Extract role using the centralized utility
-                    const role = extractRoleFromPOAP(
-                      poapDetails.event.name,
-                      poapDetails.event.description || '',
-                      eventType
-                    );
-                    
+            {/* Auto-proceed to network selection when verification is successful */}
+            {verificationStatus === 'success' && !attestationId && (
+              <div className="mt-4">
+                {poapDetails && (() => {
+                  const eventType = poapDetails.event.name.includes('ETHGlobal Brussels') 
+                    ? 'ETH_GLOBAL_BRUSSELS' 
+                    : 'ETHDENVER_COINBASE_CDP_2025';
+                  
+                  // Extract role using the centralized utility
+                  const role = extractRoleFromPOAP(
+                    poapDetails.event.name,
+                    poapDetails.event.description || '',
+                    eventType
+                  );
+                  
+                  setTimeout(() => {
                     onVerified(true, {
                       role,
                       date: poapDetails.event.end_date || poapDetails.event.start_date,
@@ -321,17 +321,15 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                       tokenId: poapDetails.tokenId,
                       eventType
                     });
-                  }
-                }}
-                disabled={verificationStatus !== 'success' || !!attestationId}
-                id="proceed-to-network-selection-button"
-              >
-                Proceed to Network Selection
-              </button>
-              <p className="text-sm text-center mt-2 text-base-content/70">
-                Choose your preferred network for attestation creation
-              </p>
-            </div>
+                  }, 1000);
+                  
+                  return null;
+                })()}
+                <p className="text-sm text-center mt-2 text-base-content/70">
+                  Proceeding to blockchain attestation...
+                </p>
+              </div>
+            )}
           </>
         )}
       </div>

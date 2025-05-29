@@ -116,13 +116,19 @@ export default function NetworkSelector() {
         
         {currentChainId !== preferredNetwork && (
           <Button
-            variant="outlined"
-            size="small"
+            variant="contained"
+            color="primary"
+            fullWidth
             onClick={triggerNetworkSwitch}
             disabled={isSwitching}
-            sx={{ mt: 2 }}
+            sx={{ 
+              mt: 2, 
+              py: 1.5, 
+              fontWeight: 'bold',
+              fontSize: '1rem'
+            }}
           >
-            {isSwitching ? 'Switching...' : 'Switch to Selected Network'}
+            {isSwitching ? 'Switching...' : 'SWITCH TO SELECTED NETWORK'}
           </Button>
         )}
         
