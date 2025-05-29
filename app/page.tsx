@@ -213,7 +213,7 @@ export default function Home() {
                     </button>
                   )}
 
-                  {showEventAttendance && approvedName && (
+                  {showEventAttendance && approvedName && !attestationId && (
                     <div className="mt-4" id="attendance-card">
                       <h3 className="text-xl font-bold mb-2">Event Attendance Validation</h3>
                       <div id="poap-verification-area">
@@ -240,7 +240,7 @@ export default function Home() {
                     </div>
                   )}
 
-                  {showAttestation && eventInfo && (
+                  {showAttestation && eventInfo && !attestationId && (
                     <div className="mt-4" id="attestation-card">
                       <h3 className="text-xl font-bold mb-2">Blockchain Attestation</h3>
                       <p className="text-base-content/70 mb-4">
