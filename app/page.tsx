@@ -6,7 +6,7 @@ import { base } from 'viem/chains';
 import { useAccount } from 'wagmi';
 import { Avatar, getName } from '@coinbase/onchainkit/identity';
 import { RainbowKitCustomConnectButton } from '../components/scaffold-eth';
-import EventAttendanceVerification from '../components/EventAttendanceVerification';
+import EventAttendanceValidation from '../components/EventAttendanceValidation';
 import EnrollmentAttestation from '../components/EnrollmentAttestation';
 import { SuccessAttestation } from '../components/SuccessAttestation';
 import { Logo } from '../components/Logo';
@@ -215,9 +215,9 @@ export default function Home() {
 
                   {showEventAttendance && approvedName && (
                     <div className="mt-4" id="attendance-card">
-                      <h3 className="text-xl font-bold mb-2">Event Attendance Verification</h3>
+                      <h3 className="text-xl font-bold mb-2">Event Attendance Validation</h3>
                       <div id="poap-verification-area">
-                        <EventAttendanceVerification
+                        <EventAttendanceValidation
                           address={address || ''}
                           approvedName={approvedName}
                           attestationId={attestationId}

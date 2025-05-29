@@ -56,14 +56,14 @@ interface EventInfo {
   eventType: string; // Added to identify which event the user attended
 }
 
-interface EventAttendanceVerificationProps {
+interface EventAttendanceValidationProps {
   address: string;
   approvedName: string;
   onVerified: (hasAttended: boolean, eventInfo?: EventInfo) => void;
   attestationId?: string | null;
 }
 
-const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = ({
+const EventAttendanceValidation: React.FC<EventAttendanceValidationProps> = ({
   address,
   approvedName,
   onVerified,
@@ -337,4 +337,4 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
   );
 };
 
-export default EventAttendanceVerification;
+export default EventAttendanceValidation;
