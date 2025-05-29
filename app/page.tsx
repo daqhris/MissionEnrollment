@@ -241,11 +241,14 @@ export default function Home() {
 
                   {showAttestation && eventInfo && (
                     <div className="mt-4" id="attestation-card">
-                      <h3 className="text-xl font-bold mb-2">Create Attestation</h3>
-                      <div id="network-switch-button">
+                      <h3 className="text-xl font-bold mb-2">Network Selection & Attestation</h3>
+                      <p className="text-base-content/70 mb-4">
+                        Choose your preferred blockchain network and create your mission enrollment attestation.
+                      </p>
+                      <div id="network-selector" className="mb-4">
                         <NetworkSelector />
                       </div>
-                      <div id="attestation-details" className="my-2">
+                      <div id="attestation-details">
                         <EnrollmentAttestation
                           approvedName={eventInfo.approvedName}
                           poapVerified={eventAttendanceVerified}

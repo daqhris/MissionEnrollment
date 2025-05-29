@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { fetchPoaps } from '../utils/fetchPoapsUtil';
 import { APPROVED_EVENT_NAMES, EVENT_VENUES } from '../utils/eventConstants';
-import { useNetworkSwitch } from '../hooks/useNetworkSwitch';
 import { extractRoleFromPOAP, determineEventType } from '../utils/roleExtraction';
 
 const getRoleBadgeColor = (role: string): string => {
@@ -78,13 +77,6 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
   const [hasAnswered, setHasAnswered] = useState<boolean>(false);
   const [attendedEvent, setAttendedEvent] = useState<boolean | null>(null);
 
-  const {
-    isLoading: isNetworkSwitching,
-    error: networkError,
-    networkSwitched,
-    handleNetworkSwitch,
-    targetNetwork
-  } = useNetworkSwitch('attestation');
 
   const verifyEventAttendance = async () => {
     if (!address) return;
@@ -307,10 +299,9 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
 
             <div className="mt-4">
               <button
-                className={`btn w-full ${networkSwitched || attestationId ? 'btn-disabled opacity-50' : 'btn-primary'}`}
-                onClick={async () => {
-                  const success = await handleNetworkSwitch();
-                  if (success && poapDetails) {
+                className={`btn w-full ${verificationStatus !== 'success' || !!attestationId ? 'btn-disabled opacity-50' : 'btn-primary'}`}
+                onClick={() => {
+                  if (poapDetails) {
                     const eventType = poapDetails.event.name.includes('ETHGlobal Brussels') 
                       ? 'ETH_GLOBAL_BRUSSELS' 
                       : 'ETHDENVER_COINBASE_CDP_2025';
@@ -332,20 +323,14 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                     });
                   }
                 }}
-                disabled={networkSwitched || verificationStatus !== 'success' || !!attestationId}
-                id="switch-network-button"
+                disabled={verificationStatus !== 'success' || !!attestationId}
+                id="proceed-to-network-selection-button"
               >
-                {isNetworkSwitching ? 'Switching Network...' :
-                 networkSwitched ? 'Network Switched' : 'Switch to Base Sepolia'}
+                Proceed to Network Selection
               </button>
               <p className="text-sm text-center mt-2 text-base-content/70">
-                Base Sepolia required for attestation creation
+                Choose your preferred network for attestation creation
               </p>
-              {networkError && (
-                <p className="text-sm text-center mt-2 text-error">
-                  {networkError}
-                </p>
-              )}
             </div>
           </>
         )}
