@@ -226,11 +226,8 @@ export const Header = (): React.JSX.Element => {
                   <LogoTitle>mission-enrollment</LogoTitle>
                 </div>
                 <div className="flex items-center justify-between w-full">
-                  <a 
-                    href="https://www.base.org/name/mission-enrollment" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-xs text-blue-300 hover:underline group relative"
+                  <div 
+                    className="text-xs text-blue-300 hover:underline group relative cursor-pointer"
                     onClick={(e) => {
                       e.preventDefault();
                       const url = "https://www.base.org/name/mission-enrollment";
@@ -242,7 +239,7 @@ export const Header = (): React.JSX.Element => {
                     <span className="absolute left-0 -bottom-6 w-32 bg-blue-900 text-xs text-white p-1 rounded hidden group-hover:block transition-opacity">
                       View on Base
                     </span>
-                  </a>
+                  </div>
                 </div>
               </LogoText>
             </Link>
