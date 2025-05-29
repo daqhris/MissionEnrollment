@@ -165,9 +165,9 @@ export default function EnrollmentAttestation({
     } else if (error.message?.includes('invalid signer')) {
       notification.error('Invalid signer. Please check your wallet connection.');
       setError('Invalid signer. Please check your wallet connection.');
-    } else if (error.message?.includes('user rejected') || error.message?.includes('User rejected')) {
-      notification.error('Transaction was rejected. Please try again.');
-      setError('Transaction was rejected. Please try again.');
+    } else if (error.message?.includes('user rejected') || error.message?.includes('User rejected') || error.message?.includes('user denied') || error.code === 4001) {
+      notification.error('Transaction cancelled. You can try again when ready.');
+      setError('Transaction cancelled. You can try again when ready.');
     } else if (error.message?.includes('transaction failed')) {
       notification.error('Transaction failed. Please check your wallet and try again.');
       setError('Transaction failed. Please check your wallet and try again.');

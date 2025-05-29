@@ -6,7 +6,7 @@ import { base } from 'viem/chains';
 import { useAccount } from 'wagmi';
 import { Avatar, getName } from '@coinbase/onchainkit/identity';
 import { RainbowKitCustomConnectButton } from '../components/scaffold-eth';
-import EventAttendanceVerification from '../components/EventAttendanceVerification';
+import EventAttendanceValidation from '../components/EventAttendanceValidation';
 import EnrollmentAttestation from '../components/EnrollmentAttestation';
 import { SuccessAttestation } from '../components/SuccessAttestation';
 import { Logo } from '../components/Logo';
@@ -215,9 +215,9 @@ export default function Home() {
 
                   {showEventAttendance && approvedName && (
                     <div className="mt-4" id="attendance-card">
-                      <h3 className="text-xl font-bold mb-2">Event Attendance Verification</h3>
+                      <h3 className="text-xl font-bold mb-2">Event Attendance Validation</h3>
                       <div id="poap-verification-area">
-                        <EventAttendanceVerification
+                        <EventAttendanceValidation
                           address={address || ''}
                           approvedName={approvedName}
                           attestationId={attestationId}
@@ -227,6 +227,7 @@ export default function Home() {
                             venue: string;
                             approvedName: string;
                             tokenId: string;
+                            eventType: string;
                           }) => {
                             setEventAttendanceVerified(hasAttended);
                             if (info) {
@@ -241,11 +242,14 @@ export default function Home() {
 
                   {showAttestation && eventInfo && (
                     <div className="mt-4" id="attestation-card">
-                      <h3 className="text-xl font-bold mb-2">Create Attestation</h3>
-                      <div id="network-switch-button">
+                      <h3 className="text-xl font-bold mb-2">Blockchain Attestation</h3>
+                      <p className="text-base-content/70 mb-4">
+                        Choose your preferred blockchain network to create your mission enrollment attestation.
+                      </p>
+                      <div id="network-selector" className="mb-4">
                         <NetworkSelector />
                       </div>
-                      <div id="attestation-details" className="my-2">
+                      <div id="attestation-details">
                         <EnrollmentAttestation
                           approvedName={eventInfo.approvedName}
                           poapVerified={eventAttendanceVerified}

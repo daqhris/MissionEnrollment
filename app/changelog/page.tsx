@@ -213,7 +213,7 @@ export default function ChangelogPage() {
             
             <p className="mt-4 text-gray-900">
               Over time, the application has grown to include robust identity verification, 
-              event attendance verification, and attestation creation. 
+              event attendance validation, and attestation creation. 
               The project has received financial backing through{' '}
               <a href="https://rounds.wtf/contributors/daqhris" target="_blank" rel="noopener noreferrer" className="text-amber-900 hover:text-amber-700">
                 Rounds.wtf

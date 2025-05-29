@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { fetchPoaps } from '../utils/fetchPoapsUtil';
 import { APPROVED_EVENT_NAMES, EVENT_VENUES } from '../utils/eventConstants';
-import { useNetworkSwitch } from '../hooks/useNetworkSwitch';
 import { extractRoleFromPOAP, determineEventType } from '../utils/roleExtraction';
 
 const getRoleBadgeColor = (role: string): string => {
@@ -57,14 +56,14 @@ interface EventInfo {
   eventType: string; // Added to identify which event the user attended
 }
 
-interface EventAttendanceVerificationProps {
+interface EventAttendanceValidationProps {
   address: string;
   approvedName: string;
   onVerified: (hasAttended: boolean, eventInfo?: EventInfo) => void;
   attestationId?: string | null;
 }
 
-const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = ({
+const EventAttendanceValidation: React.FC<EventAttendanceValidationProps> = ({
   address,
   approvedName,
   onVerified,
@@ -78,13 +77,6 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
   const [hasAnswered, setHasAnswered] = useState<boolean>(false);
   const [attendedEvent, setAttendedEvent] = useState<boolean | null>(null);
 
-  const {
-    isLoading: isNetworkSwitching,
-    error: networkError,
-    networkSwitched,
-    handleNetworkSwitch,
-    targetNetwork
-  } = useNetworkSwitch('attestation');
 
   const verifyEventAttendance = async () => {
     if (!address) return;
@@ -305,23 +297,22 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
               </div>
             )}
 
-            <div className="mt-4">
-              <button
-                className={`btn w-full ${networkSwitched || attestationId ? 'btn-disabled opacity-50' : 'btn-primary'}`}
-                onClick={async () => {
-                  const success = await handleNetworkSwitch();
-                  if (success && poapDetails) {
-                    const eventType = poapDetails.event.name.includes('ETHGlobal Brussels') 
-                      ? 'ETH_GLOBAL_BRUSSELS' 
-                      : 'ETHDENVER_COINBASE_CDP_2025';
-                    
-                    // Extract role using the centralized utility
-                    const role = extractRoleFromPOAP(
-                      poapDetails.event.name,
-                      poapDetails.event.description || '',
-                      eventType
-                    );
-                    
+            {/* Auto-proceed to network selection when verification is successful */}
+            {verificationStatus === 'success' && !attestationId && (
+              <div className="mt-4">
+                {poapDetails && (() => {
+                  const eventType = poapDetails.event.name.includes('ETHGlobal Brussels') 
+                    ? 'ETH_GLOBAL_BRUSSELS' 
+                    : 'ETHDENVER_COINBASE_CDP_2025';
+                  
+                  // Extract role using the centralized utility
+                  const role = extractRoleFromPOAP(
+                    poapDetails.event.name,
+                    poapDetails.event.description || '',
+                    eventType
+                  );
+                  
+                  setTimeout(() => {
                     onVerified(true, {
                       role,
                       date: poapDetails.event.end_date || poapDetails.event.start_date,
@@ -330,23 +321,15 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
                       tokenId: poapDetails.tokenId,
                       eventType
                     });
-                  }
-                }}
-                disabled={networkSwitched || verificationStatus !== 'success' || !!attestationId}
-                id="switch-network-button"
-              >
-                {isNetworkSwitching ? 'Switching Network...' :
-                 networkSwitched ? 'Network Switched' : 'Switch to Base Sepolia'}
-              </button>
-              <p className="text-sm text-center mt-2 text-base-content/70">
-                Base Sepolia required for attestation creation
-              </p>
-              {networkError && (
-                <p className="text-sm text-center mt-2 text-error">
-                  {networkError}
+                  }, 1000);
+                  
+                  return null;
+                })()}
+                <p className="text-sm text-center mt-2 text-base-content/70">
+                  Proceeding to blockchain attestation...
                 </p>
-              )}
-            </div>
+              </div>
+            )}
           </>
         )}
       </div>
@@ -354,4 +337,4 @@ const EventAttendanceVerification: React.FC<EventAttendanceVerificationProps> = 
   );
 };
 
-export default EventAttendanceVerification;
+export default EventAttendanceValidation;

@@ -60,7 +60,7 @@ export const ProgressIndicator: React.FC = () => {
   return (
     <div className="text-sm text-center text-base-content/70 mb-4">
       {currentStep === 'identity' && 'Step 1: Identity Verification'}
-      {currentStep === 'attendance' && 'Step 2: Event Attendance Verification'}
+      {currentStep === 'attendance' && 'Step 2: Event Attendance Validation'}
       {currentStep === 'attestation' && 'Step 3: Create Attestation'}
       {currentStep === 'success' && 'Complete!'}
     </div>

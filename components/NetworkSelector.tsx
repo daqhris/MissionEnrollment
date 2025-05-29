@@ -64,6 +64,10 @@ export default function NetworkSelector() {
           </Tooltip>
         </Typography>
         
+        <Typography variant="body2" sx={{ color: '#f0f9ff', mb: 2 }}>
+          Select your preferred network for creating your mission enrollment attestation. Each network offers different features and costs.
+        </Typography>
+        
         <RadioGroup
           value={preferredNetwork?.toString() || BASE_SEPOLIA_CHAIN_ID.toString()}
           onChange={handleNetworkChange}
@@ -73,9 +77,9 @@ export default function NetworkSelector() {
             control={<Radio />} 
             label={
               <Box>
-                <Typography variant="body1" sx={{ color: '#ffffff' }}>{NETWORK_CONFIG[BASE_SEPOLIA_CHAIN_ID].name} (Testnet)</Typography>
+                <Typography variant="body1" sx={{ color: '#ffffff', fontWeight: 'bold' }}>{NETWORK_CONFIG[BASE_SEPOLIA_CHAIN_ID].name} (Testnet)</Typography>
                 <Typography variant="body2" sx={{ color: '#f0f9ff' }}>
-                  Low cost option - Free attestations (gas fees only)
+                  ✅ Ready for attestations - Low cost option with minimal gas fees
                 </Typography>
               </Box>
             }
@@ -86,9 +90,9 @@ export default function NetworkSelector() {
             control={<Radio />} 
             label={
               <Box>
-                <Typography variant="body1" sx={{ color: '#ffffff' }}>{NETWORK_CONFIG[BASE_MAINNET_CHAIN_ID].name} (Mainnet)</Typography>
+                <Typography variant="body1" sx={{ color: '#ffffff', fontWeight: 'bold' }}>{NETWORK_CONFIG[BASE_MAINNET_CHAIN_ID].name} (Mainnet)</Typography>
                 <Typography variant="body2" sx={{ color: '#f0f9ff' }}>
-                  Standard option - Estimated cost: ~0.02 ETH (~€40) per attestation
+                  🚧 Support needed - Help fund mainnet deployment (estimated ~0.02 ETH per attestation)
                 </Typography>
               </Box>
             }
@@ -112,13 +116,19 @@ export default function NetworkSelector() {
         
         {currentChainId !== preferredNetwork && (
           <Button
-            variant="outlined"
-            size="small"
+            variant="contained"
+            color="primary"
+            fullWidth
             onClick={triggerNetworkSwitch}
             disabled={isSwitching}
-            sx={{ mt: 2 }}
+            sx={{ 
+              mt: 2, 
+              py: 1.5, 
+              fontWeight: 'bold',
+              fontSize: '1rem'
+            }}
           >
-            {isSwitching ? 'Switching...' : 'Switch to Selected Network'}
+            {isSwitching ? 'Switching...' : 'SWITCH TO SELECTED NETWORK'}
           </Button>
         )}
         

@@ -21,7 +21,7 @@ It is built as a web application with **Next.js** and **React**, and runs on top
 │   └── providers/         # React context providers
 ├── components/            # React components
 │   ├── SuccessAttestation.tsx    # Final success screen
-│   ├── EventAttendanceVerification.tsx    # Event attendance verification
+│   ├── EventAttendanceValidation.tsx    # Event attendance validation
 │   ├── EnrollmentAttestation.tsx    # Attestation creation
 │   ├── EnrollmentsView.tsx    # View of all attestations
 │   ├── NetworkSelector.tsx    # Network selection component
