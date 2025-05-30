@@ -146,6 +146,19 @@ export const Footer = (): React.JSX.Element => {
       <FooterContent>
         <FooterMenu>
           <FooterLinks>
+            <Link
+              href="/terms"
+              className="text-[#957777] hover:text-[#a58a8a] text-xs flex items-center"
+            >
+              Terms of Service
+            </Link>
+            <span className="text-[#957777] text-xs mx-2">|</span>
+            <Link
+              href="/privacy"
+              className="text-[#957777] hover:text-[#a58a8a] text-xs flex items-center"
+            >
+              Privacy Policy
+            </Link>
           </FooterLinks>
         </FooterMenu>
       </FooterContent>
