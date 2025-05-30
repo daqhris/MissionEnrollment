@@ -103,7 +103,7 @@ export function MainnetSupportBanner({ onSwitchToTestnet }: MainnetSupportBanner
 
         <Box sx={{ 
           backgroundColor: 'rgba(59, 130, 246, 0.2)', 
-          p: 2, 
+          p: { xs: 1.5, sm: 2 }, 
           borderRadius: '0.5rem',
           mb: 2
         }}>
@@ -111,11 +111,21 @@ export function MainnetSupportBanner({ onSwitchToTestnet }: MainnetSupportBanner
             Current Wallet Balances
           </Typography>
           
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', sm: 'row' }, 
+            justifyContent: 'space-between', 
+            mb: 1,
+            gap: { xs: 1, sm: 0 }
+          }}>
             <Typography variant="body2" sx={{ color: '#f0f9ff' }}>
               Deployer Wallet:
             </Typography>
-            <Typography variant="body2" sx={{ color: '#ffffff', fontWeight: 600 }}>
+            <Typography variant="body2" sx={{ 
+              color: '#ffffff', 
+              fontWeight: 600,
+              wordBreak: 'break-all'
+            }}>
               {isLoadingDeployerBalance ? (
                 <CircularProgress size={16} sx={{ ml: 1 }} />
               ) : (
@@ -127,11 +137,20 @@ export function MainnetSupportBanner({ onSwitchToTestnet }: MainnetSupportBanner
           </Box>
           
           {address && (
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Box sx={{ 
+              display: 'flex', 
+              flexDirection: { xs: 'column', sm: 'row' }, 
+              justifyContent: 'space-between',
+              gap: { xs: 1, sm: 0 }
+            }}>
               <Typography variant="body2" sx={{ color: '#f0f9ff' }}>
                 Your Wallet:
               </Typography>
-              <Typography variant="body2" sx={{ color: '#ffffff', fontWeight: 600 }}>
+              <Typography variant="body2" sx={{ 
+                color: '#ffffff', 
+                fontWeight: 600,
+                wordBreak: 'break-all'
+              }}>
                 {isLoadingUserBalance ? (
                   <CircularProgress size={16} sx={{ ml: 1 }} />
                 ) : (
