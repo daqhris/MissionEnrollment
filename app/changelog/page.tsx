@@ -277,7 +277,7 @@ export default function ChangelogPage() {
                             </ul>
                             
                             <div className="mt-4 pt-4 border-t border-gray-100">
-                              <h4 className="font-medium text-sm mb-2">Notable <code className="bg-gray-100 text-gray-800 px-1 py-0.5 rounded text-xs font-mono">git</code> Commits:</h4>
+                              <h4 className="font-medium text-sm mb-2">Notable <code className="bg-gray-100 text-gray-800 px-1 py-0.5 rounded text-xs font-mono">GIT</code> Commits:</h4>
                               <div className="flex flex-wrap gap-2">
                                 {quarter.keyCommits.map((commitSha, index) => (
                                   <span key={index} className="inline-flex items-center">
