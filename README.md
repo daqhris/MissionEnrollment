@@ -321,6 +321,27 @@ The system dynamically extracts role information from POAP data, providing a per
 
 _**Note**: Contract addresses are maintained and updated regularly as the app is still under construction._
 
+## Base Ecosystem Integration
+
+Mission Enrollment is proudly part of the [Base ecosystem](https://base.org/ecosystem), showcasing innovative use of Base blockchain technology for cultural heritage preservation. The app leverages several Base-native technologies:
+
+- **OnchainKit Integration**: Identity and wallet functionality powered by Coinbase's OnchainKit
+- **Basenames Support**: Name resolution for user identity verification
+- **EAS on Base**: Attestation creation and verification using Ethereum Attestation Service on Base
+- **Account Abstraction**: Smart account support for gasless transactions
+- **Multi-Network Support**: Full support for both Base Sepolia testnet and Base mainnet
+
+### Marketing Assets
+
+The following marketing assets showcase Mission Enrollment's integration with the Base ecosystem:
+
+| Asset | Description | Preview |
+|-------|-------------|---------|
+| Base Ecosystem Banner | Social media banner highlighting Base integration | ![Base Ecosystem Banner](/marketing/images/png/base-ecosystem-banner.png) |
+| Base Ecosystem Header | Website header for Base ecosystem promotion | ![Base Ecosystem Header](/marketing/images/png/base-ecosystem-header.png) |
+| Base Ecosystem Infographic | Technical integration flow diagram | ![Base Ecosystem Infographic](/marketing/images/png/base-ecosystem-infographic.png) |
+| Base Ecosystem Logo | Logo variant with Base branding | ![Base Ecosystem Logo](/marketing/images/png/base-ecosystem-logo.png) |
+
 ## External Resources
 
 - [Ethereum Attestation Service Documentation](https://docs.attest.sh/)

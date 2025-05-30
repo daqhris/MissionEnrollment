@@ -1,0 +1,110 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#957777" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1920" height="1080" fill="url(#bgGradient)" />
+  
+  <!-- Decorative elements -->
+  <circle cx="300" cy="250" r="120" fill="url(#accentGradient)" opacity="0.1" />
+  <circle cx="1600" cy="800" r="180" fill="url(#accentGradient)" opacity="0.1" />
+  <circle cx="960" cy="540" r="400" fill="url(#accentGradient)" opacity="0.03" />
+  
+  <!-- Base logo -->
+  <g transform="translate(150, 250)">
+    <circle cx="75" cy="75" r="75" fill="#0052FF" />
+    <path d="M75,37.5 L112.5,97.5 L75,112.5 L37.5,97.5 Z" fill="white" />
+    <path d="M75,112.5 L112.5,97.5 L75,157.5 L37.5,97.5 Z" fill="white" opacity="0.6" />
+  </g>
+  
+  <!-- Mission Enrollment logo placeholder -->
+  <g transform="translate(1600, 250)">
+    <rect x="0" y="0" width="200" height="200" fill="none" />
+    <!-- Dog silhouette -->
+    <path d="M100,40 C100,40 80,46.67 73.33,60 C66.67,73.33 60,93.33 66.67,106.67 C73.33,120 86.67,126.67 100,126.67 C113.33,126.67 126.67,120 133.33,106.67 C140,93.33 133.33,73.33 126.67,60 C120,46.67 100,40 100,40 Z" fill="#957777" stroke="#000" stroke-width="4" />
+    <!-- Red vest with white cross -->
+    <rect x="86.67" y="73.33" width="26.67" height="33.33" fill="#e53e3e" stroke="#000" stroke-width="1.33" />
+    <rect x="93.33" y="80" width="13.33" height="20" fill="white" />
+    <!-- Medal -->
+    <circle cx="60" cy="53.33" r="13.33" fill="#e53e3e" stroke="#957777" stroke-width="4" />
+    <path d="M60,40 L53.33,26.67 L66.67,26.67 Z" fill="#957777" stroke="#000" stroke-width="1.33" />
+  </g>
+  
+  <!-- Main title -->
+  <text x="960" y="250" font-family="Inter, sans-serif" font-size="72" font-weight="700" text-anchor="middle" fill="#957777" filter="url(#glow)">Mission Enrollment</text>
+  
+  <!-- Subtitle -->
+  <text x="960" y="330" font-family="Inter, sans-serif" font-size="42" font-weight="500" text-anchor="middle" fill="#e2e8f0">Proudly part of the Base Ecosystem</text>
+  
+  <!-- PR Reference -->
+  <text x="960" y="380" font-family="Inter, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#cbd5e0">Official Base Ecosystem Directory Listing (PR #2419)</text>
+  
+  <!-- Feature highlights -->
+  <g transform="translate(400, 450)">
+    <!-- OnchainKit -->
+    <circle cx="75" cy="75" r="60" fill="url(#accentGradient)" opacity="0.8" />
+    <text x="75" y="75" font-family="Inter, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="white">OnchainKit</text>
+    <text x="75" y="100" font-family="Inter, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="white">Identity &amp; Wallet</text>
+    
+    <!-- Basenames -->
+    <circle cx="525" cy="75" r="60" fill="url(#accentGradient)" opacity="0.8" />
+    <text x="525" y="75" font-family="Inter, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="white">Basenames</text>
+    <text x="525" y="100" font-family="Inter, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="white">Name Resolution</text>
+    
+    <!-- EAS -->
+    <circle cx="975" cy="75" r="60" fill="url(#accentGradient)" opacity="0.8" />
+    <text x="975" y="75" font-family="Inter, sans-serif" font-size="22" font-weight="700" text-anchor="middle" fill="white">EAS</text>
+    <text x="975" y="100" font-family="Inter, sans-serif" font-size="16" font-weight="400" text-anchor="middle" fill="white">Attestations</text>
+    
+    <!-- Connecting lines -->
+    <path d="M135,75 L465,75" stroke="#957777" stroke-width="3" stroke-dasharray="10,10" />
+    <path d="M585,75 L915,75" stroke="#957777" stroke-width="3" stroke-dasharray="10,10" />
+    
+    <!-- Arrow markers -->
+    <polygon points="465,75 455,70 455,80" fill="#957777" />
+    <polygon points="915,75 905,70 905,80" fill="#957777" />
+  </g>
+  
+  <!-- Network support -->
+  <g transform="translate(400, 600)">
+    <rect x="0" y="0" width="250" height="100" rx="10" fill="rgba(31, 41, 55, 0.7)" stroke="#957777" stroke-width="2" />
+    <text x="125" y="40" font-family="Inter, sans-serif" font-size="24" font-weight="600" text-anchor="middle" fill="#e2e8f0">Base Sepolia</text>
+    <text x="125" y="70" font-family="Inter, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#cbd5e0">Testnet Support</text>
+    
+    <rect x="400" y="0" width="250" height="100" rx="10" fill="rgba(31, 41, 55, 0.7)" stroke="#957777" stroke-width="2" />
+    <text x="525" y="40" font-family="Inter, sans-serif" font-size="24" font-weight="600" text-anchor="middle" fill="#e2e8f0">Base Mainnet</text>
+    <text x="525" y="70" font-family="Inter, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#cbd5e0">Production Ready</text>
+    
+    <rect x="800" y="0" width="250" height="100" rx="10" fill="rgba(31, 41, 55, 0.7)" stroke="#957777" stroke-width="2" />
+    <text x="925" y="40" font-family="Inter, sans-serif" font-size="24" font-weight="600" text-anchor="middle" fill="#e2e8f0">Account Abstraction</text>
+    <text x="925" y="70" font-family="Inter, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#cbd5e0">Gasless Transactions</text>
+  </g>
+  
+  <!-- Bottom tagline -->
+  <text x="960" y="800" font-family="Inter, sans-serif" font-size="36" font-weight="500" text-anchor="middle" fill="#cbd5e0">Preserving Brussels&apos; Cultural Heritage on the Blockchain</text>
+  
+  <!-- Human-AI collaboration note -->
+  <text x="960" y="860" font-family="Inter, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#cbd5e0">A collaborative project between human and AI engineers since summer 2024</text>
+  
+  <!-- Live status -->
+  <g transform="translate(810, 920)">
+    <circle cx="15" cy="15" r="10" fill="#10b981" />
+    <text x="40" y="20" font-family="Inter, sans-serif" font-size="20" font-weight="600" text-anchor="start" fill="#10b981">Live on Base for 30+ days</text>
+  </g>
+  
+  <!-- Website URL -->
+  <text x="960" y="1000" font-family="Inter, sans-serif" font-size="28" font-weight="600" text-anchor="middle" fill="#f59e0b">mission-enrollment.daqhris.com</text>
+</svg>

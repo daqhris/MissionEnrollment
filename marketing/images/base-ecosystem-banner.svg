@@ -1,0 +1,74 @@
+<svg width="1200" height="628" viewBox="0 0 1200 628" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#957777" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="628" fill="url(#bgGradient)" />
+  
+  <!-- Decorative elements -->
+  <circle cx="200" cy="150" r="80" fill="url(#accentGradient)" opacity="0.1" />
+  <circle cx="1000" cy="500" r="120" fill="url(#accentGradient)" opacity="0.1" />
+  
+  <!-- Base logo -->
+  <g transform="translate(100, 150)">
+    <circle cx="50" cy="50" r="50" fill="#0052FF" />
+    <path d="M50,25 L75,65 L50,75 L25,65 Z" fill="white" />
+    <path d="M50,75 L75,65 L50,105 L25,65 Z" fill="white" opacity="0.6" />
+  </g>
+  
+  <!-- Mission Enrollment logo placeholder -->
+  <g transform="translate(950, 150)">
+    <rect x="0" y="0" width="150" height="150" fill="none" />
+    <!-- Dog silhouette -->
+    <path d="M75,30 C75,30 60,35 55,45 C50,55 45,70 50,80 C55,90 65,95 75,95 C85,95 95,90 100,80 C105,70 100,55 95,45 C90,35 75,30 75,30 Z" fill="#957777" stroke="#000" stroke-width="3" />
+    <!-- Red vest with white cross -->
+    <rect x="65" y="55" width="20" height="25" fill="#e53e3e" stroke="#000" stroke-width="1" />
+    <rect x="70" y="60" width="10" height="15" fill="white" />
+    <!-- Medal -->
+    <circle cx="45" cy="40" r="10" fill="#e53e3e" stroke="#957777" stroke-width="3" />
+    <path d="M45,30 L40,20 L50,20 Z" fill="#957777" stroke="#000" stroke-width="1" />
+  </g>
+  
+  <!-- Main title -->
+  <text x="600" y="180" font-family="Inter, sans-serif" font-size="48" font-weight="700" text-anchor="middle" fill="#957777">Mission Enrollment</text>
+  
+  <!-- Subtitle -->
+  <text x="600" y="230" font-family="Inter, sans-serif" font-size="28" font-weight="500" text-anchor="middle" fill="#e2e8f0">Proudly part of the Base Ecosystem</text>
+  
+  <!-- Feature highlights -->
+  <g transform="translate(250, 300)">
+    <!-- OnchainKit -->
+    <circle cx="50" cy="50" r="40" fill="url(#accentGradient)" opacity="0.8" />
+    <text x="50" y="55" font-family="Inter, sans-serif" font-size="14" font-weight="700" text-anchor="middle" fill="white">OnchainKit</text>
+    
+    <!-- Basenames -->
+    <circle cx="350" cy="50" r="40" fill="url(#accentGradient)" opacity="0.8" />
+    <text x="350" y="55" font-family="Inter, sans-serif" font-size="14" font-weight="700" text-anchor="middle" fill="white">Basenames</text>
+    
+    <!-- EAS -->
+    <circle cx="650" cy="50" r="40" fill="url(#accentGradient)" opacity="0.8" />
+    <text x="650" y="55" font-family="Inter, sans-serif" font-size="14" font-weight="700" text-anchor="middle" fill="white">EAS</text>
+    
+    <!-- Connecting lines -->
+    <path d="M90,50 L310,50" stroke="#957777" stroke-width="2" stroke-dasharray="5,5" />
+    <path d="M390,50 L610,50" stroke="#957777" stroke-width="2" stroke-dasharray="5,5" />
+  </g>
+  
+  <!-- Bottom tagline -->
+  <text x="600" y="450" font-family="Inter, sans-serif" font-size="24" font-weight="500" text-anchor="middle" fill="#cbd5e0">Preserving Brussels' Cultural Heritage on the Blockchain</text>
+  
+  <!-- Human-AI collaboration note -->
+  <text x="600" y="500" font-family="Inter, sans-serif" font-size="18" font-weight="400" text-anchor="middle" fill="#cbd5e0">A collaborative project between human and AI engineers</text>
+  
+  <!-- Website URL -->
+  <text x="600" y="570" font-family="Inter, sans-serif" font-size="20" font-weight="600" text-anchor="middle" fill="#f59e0b">mission-enrollment.daqhris.com</text>
+</svg>
