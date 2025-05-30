@@ -310,34 +310,60 @@ export default function EnrollmentAttestation({
       borderRadius: '0.5rem',
       transition: 'box-shadow 0.2s',
       margin: { xs: '0.5rem', md: '1rem' },
-      padding: { xs: '0.75rem', md: '1.5rem' }
+      padding: { xs: '0.75rem', md: '1.5rem' },
+      width: { xs: '100%', sm: 'auto' }
     }}>
       <CardContent>
-        <Typography variant="h5" gutterBottom sx={{ color: '#957777', fontWeight: 600 }}>
+        <Typography variant="h5" gutterBottom sx={{ 
+          color: '#957777', 
+          fontWeight: 600,
+          fontSize: { xs: '1.25rem', sm: '1.5rem' }
+        }}>
           Enrollment for Zinneke Rescue Mission
         </Typography>
 
         {preferredNetwork && chainId !== preferredNetwork && (
-          <Typography color="warning.main" gutterBottom>
+          <Typography color="warning.main" gutterBottom sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}>
             Your wallet is connected to {NETWORK_CONFIG[chainId]?.name || 'an unknown network'}, but you've selected {NETWORK_CONFIG[preferredNetwork]?.name || 'another network'} for attestations.
           </Typography>
         )}
 
-        <Typography paragraph sx={{ color: '#ffffff', marginBottom: 2 }}>
+        <Typography paragraph sx={{ 
+          color: '#ffffff', 
+          marginBottom: 2,
+          fontSize: { xs: '0.875rem', sm: '1rem' }
+        }}>
           Mission Enrollment is the official onboarding portal for the upcoming Zinneke Rescue Mission on the Base blockchain.
           <br />
           Complete the steps below to secure your place in this collaborative artistic mission.
         </Typography>
         
         {/* Wallet interaction explanation */}
-        <Box sx={{ mb: 2, p: 2, backgroundColor: 'rgba(255, 255, 255, 0.1)', borderRadius: '0.5rem' }}>
-          <Typography variant="subtitle1" sx={{ color: '#ffffff', fontWeight: 600, mb: 1 }}>
+        <Box sx={{ 
+          mb: 2, 
+          p: { xs: 1.5, sm: 2 }, 
+          backgroundColor: 'rgba(255, 255, 255, 0.1)', 
+          borderRadius: '0.5rem' 
+        }}>
+          <Typography variant="subtitle1" sx={{ 
+            color: '#ffffff', 
+            fontWeight: 600, 
+            mb: 1,
+            fontSize: { xs: '0.875rem', sm: '1rem' }
+          }}>
             Wallet Interaction Guide
           </Typography>
-          <Typography sx={{ color: '#ffffff', fontSize: '0.9rem' }}>
+          <Typography sx={{ 
+            color: '#ffffff', 
+            fontSize: { xs: '0.8rem', sm: '0.9rem' }
+          }}>
             Creating your attestation requires two wallet interactions:
           </Typography>
-          <Typography component="ol" sx={{ color: '#ffffff', fontSize: '0.9rem', pl: 2 }}>
+          <Typography component="ol" sx={{ 
+            color: '#ffffff', 
+            fontSize: { xs: '0.8rem', sm: '0.9rem' }, 
+            pl: 2 
+          }}>
             <li>First, you'll sign a message to verify your identity (shows your name and role)</li>
             <li>Then, you'll confirm a transaction to create your attestation on the blockchain</li>
           </Typography>
@@ -346,7 +372,15 @@ export default function EnrollmentAttestation({
         {/* Wallet step indicator */}
         {(walletStep !== WalletStep.IDLE && !attestationId) && (
           <Box sx={{ mb: 2 }}>
-            <Stepper activeStep={walletStep === WalletStep.SIGNING ? 0 : walletStep === WalletStep.TRANSACTION ? 1 : 2} alternativeLabel>
+            <Stepper 
+              activeStep={walletStep === WalletStep.SIGNING ? 0 : walletStep === WalletStep.TRANSACTION ? 1 : 2} 
+              alternativeLabel
+              sx={{ 
+                '& .MuiStepLabel-label': {
+                  fontSize: { xs: '0.75rem', sm: '0.875rem' }
+                }
+              }}
+            >
               <Step>
                 <StepLabel>Identity Verification</StepLabel>
               </Step>
@@ -358,7 +392,12 @@ export default function EnrollmentAttestation({
               </Step>
             </Stepper>
             
-            <Alert severity={walletStep === WalletStep.SIGNING ? "info" : walletStep === WalletStep.TRANSACTION ? "warning" : "success"} sx={{ mt: 2 }}>
+            <Alert severity={walletStep === WalletStep.SIGNING ? "info" : walletStep === WalletStep.TRANSACTION ? "warning" : "success"} sx={{ 
+              mt: 2,
+              '& .MuiAlert-message': {
+                fontSize: { xs: '0.75rem', sm: '0.875rem' }
+              }
+            }}>
               {walletStep === WalletStep.SIGNING && "Please sign the identity verification message in your wallet. This confirms your name and role."}
               {walletStep === WalletStep.TRANSACTION && "Please confirm the transaction in your wallet to create your on-chain attestation."}
               {walletStep === WalletStep.COMPLETE && "Your attestation has been successfully created on the blockchain!"}
@@ -367,20 +406,20 @@ export default function EnrollmentAttestation({
         )}
 
         {error && (
-          <Typography color="error" gutterBottom>
+          <Typography color="error" gutterBottom sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
             {error}
           </Typography>
         )}
 
         {networkError && (
-          <Typography color="error" gutterBottom>
+          <Typography color="error" gutterBottom sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
             {networkError}
           </Typography>
         )}
 
         {loading || isNetworkSwitching ? (
           <Box display="flex" justifyContent="center" alignItems="center">
-            <CircularProgress />
+            <CircularProgress size={24} />
           </Box>
         ) : (
           <>
@@ -393,16 +432,30 @@ export default function EnrollmentAttestation({
                 transition: 'background-color 200ms'
               }
             }}>
-              <Typography variant="h6" gutterBottom sx={{ color: 'rgb(17, 24, 39)', fontWeight: 600 }}>
+              <Typography variant="h6" gutterBottom sx={{ 
+                color: 'rgb(17, 24, 39)', 
+                fontWeight: 600,
+                fontSize: { xs: '0.875rem', sm: '1rem' }
+              }}>
                 Identity Check
               </Typography>
-              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
+              <Typography sx={{ 
+                color: 'rgb(31, 41, 55)',
+                fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                wordBreak: 'break-all'
+              }}>
                 User Address: {previewData?.userAddress || 'Not connected'}
               </Typography>
-              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
+              <Typography sx={{ 
+                color: 'rgb(31, 41, 55)',
+                fontSize: { xs: '0.75rem', sm: '0.875rem' }
+              }}>
                 Onchain Name: {previewData?.approvedName || 'Not approved'}
               </Typography>
-              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
+              <Typography sx={{ 
+                color: 'rgb(31, 41, 55)',
+                fontSize: { xs: '0.75rem', sm: '0.875rem' }
+              }}>
                 Proof Method: {previewData?.proofMethod}
               </Typography>
             </Box>
@@ -416,16 +469,29 @@ export default function EnrollmentAttestation({
                 transition: 'background-color 200ms'
               }
             }}>
-              <Typography variant="h6" gutterBottom sx={{ color: 'rgb(17, 24, 39)', fontWeight: 600 }}>
+              <Typography variant="h6" gutterBottom sx={{ 
+                color: 'rgb(17, 24, 39)', 
+                fontWeight: 600,
+                fontSize: { xs: '0.875rem', sm: '1rem' }
+              }}>
                 Event Attendance
               </Typography>
-              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
+              <Typography sx={{ 
+                color: 'rgb(31, 41, 55)',
+                fontSize: { xs: '0.75rem', sm: '0.875rem' }
+              }}>
                 Event Name: {previewData?.eventName}
               </Typography>
-              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
+              <Typography sx={{ 
+                color: 'rgb(31, 41, 55)',
+                fontSize: { xs: '0.75rem', sm: '0.875rem' }
+              }}>
                 Event Type: {previewData?.eventType}
               </Typography>
-              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
+              <Typography sx={{ 
+                color: 'rgb(31, 41, 55)',
+                fontSize: { xs: '0.75rem', sm: '0.875rem' }
+              }}>
                 Assigned Role: {previewData?.assignedRole || 'Not approved'}
               </Typography>
             </Box>
@@ -439,25 +505,41 @@ export default function EnrollmentAttestation({
                 transition: 'background-color 200ms'
               }
             }}>
-              <Typography variant="h6" gutterBottom sx={{ color: 'rgb(17, 24, 39)', fontWeight: 600 }}>
+              <Typography variant="h6" gutterBottom sx={{ 
+                color: 'rgb(17, 24, 39)', 
+                fontWeight: 600,
+                fontSize: { xs: '0.875rem', sm: '1rem' }
+              }}>
                 Mission Registration
               </Typography>
-              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
+              <Typography sx={{ 
+                color: 'rgb(31, 41, 55)',
+                fontSize: { xs: '0.75rem', sm: '0.875rem' }
+              }}>
                 Collaborative Mission: <span style={{ fontWeight: 600 }}>{previewData?.missionName}</span>
               </Typography>
 
-              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
+              <Typography sx={{ 
+                color: 'rgb(31, 41, 55)',
+                fontSize: { xs: '0.75rem', sm: '0.875rem' }
+              }}>
                 Public Attester: {previewData?.attester}
               </Typography>
-              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
+              <Typography sx={{ 
+                color: 'rgb(31, 41, 55)',
+                fontSize: { xs: '0.75rem', sm: '0.875rem' }
+              }}>
                 Proof Protocol: {previewData?.proofProtocol}
               </Typography>
-              <Typography sx={{ color: 'rgb(31, 41, 55)' }}>
+              <Typography sx={{ 
+                color: 'rgb(31, 41, 55)',
+                fontSize: { xs: '0.75rem', sm: '0.875rem' }
+              }}>
                 Schema Deployer: {previewData?.verificationSource}
               </Typography>
             </Box>
 
-            <Box mt={2} display="flex" justifyContent="center">
+            <Box mt={3} display="flex" flexDirection="column" alignItems="center">
               <Button
                 variant="contained"
                 color="primary"
@@ -465,17 +547,22 @@ export default function EnrollmentAttestation({
                 disabled={!address || !previewData || loading || isNetworkSwitching || networkSwitched || !!attestationId}
                 sx={{ 
                   width: '100%',
+                  maxWidth: { xs: '100%', sm: '80%', md: '60%' },
                   opacity: walletStep !== WalletStep.IDLE && walletStep !== WalletStep.COMPLETE ? 0.7 : 1,
-                  position: 'relative'
+                  position: 'relative',
+                  fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                  py: { xs: 1.5, sm: 2 }
                 }}
                 id="create-attestation-button"
               >
                 {loading ? (
                   <>
-                    <CircularProgress size={24} sx={{ mr: 1 }} />
-                    {walletStep === WalletStep.SIGNING && "Waiting for signature..."}
-                    {walletStep === WalletStep.TRANSACTION && "Creating attestation..."}
-                    {walletStep === WalletStep.IDLE && "Loading..."}
+                    <CircularProgress size={20} sx={{ mr: 1 }} />
+                    <span className="text-sm">
+                      {walletStep === WalletStep.SIGNING && "Waiting for signature..."}
+                      {walletStep === WalletStep.TRANSACTION && "Creating attestation..."}
+                      {walletStep === WalletStep.IDLE && "Loading..."}
+                    </span>
                   </>
                 ) : isNetworkSwitching ? (
                   'Switching Network...'
@@ -490,7 +577,13 @@ export default function EnrollmentAttestation({
               
               {/* Additional explanation about the button */}
               {!loading && !attestationId && (
-                <Typography sx={{ color: '#ffffff', fontSize: '0.8rem', mt: 1, textAlign: 'center' }}>
+                <Typography sx={{ 
+                  color: '#ffffff', 
+                  fontSize: { xs: '0.7rem', sm: '0.8rem' }, 
+                  mt: 1, 
+                  textAlign: 'center',
+                  maxWidth: '90%'
+                }}>
                   Clicking this button will start the attestation process
                 </Typography>
               )}
