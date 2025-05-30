@@ -172,15 +172,15 @@ const EventAttendanceValidation: React.FC<EventAttendanceValidationProps> = ({
   return (
     <div className="card">
       <div className="card-body">
-        <h2 className="text-2xl font-bold mb-4">Approved Event Attendance</h2>
+        <h2 className="text-2xl font-bold mb-4">Approved Event</h2>
 
         {!hasAnswered ? (
           <div className="text-center">
             <p className="text-base-content/70 mb-2">
-              Hello {approvedName}, did you attend any of our approved events in person?
+              Hello {approvedName}, did you attend any of our approved in-person events?
             </p>
             <p className="text-base-content/70 mb-4 italic">
-              This verification is required for enrolling in the Zinneke Rescue Mission.
+              This validation is required for enrolling in the Zinneke Rescue Mission
             </p>
             <div className="flex justify-center gap-4">
               <button
@@ -208,13 +208,13 @@ const EventAttendanceValidation: React.FC<EventAttendanceValidationProps> = ({
             </svg>
             <div>
               <p>Thank you for your honesty!</p>
-              <p className="text-sm">The enrollment process requires in-person attendance at one of our approved events. We hope to see you at future events!</p>
+              <p className="text-sm">The enrollment process requires in-person attendance at one of our approved events. We hope to cross paths with you at future events!</p>
             </div>
           </div>
         ) : (
           <>
             <p className="text-base-content/70 mb-4">
-              Hello {approvedName}, we are checking your attendance at our approved events.
+              Hello {approvedName}, we are checking whether you have attended any of our approved events.
             </p>
 
             {isVerifying && (
@@ -251,7 +251,7 @@ const EventAttendanceValidation: React.FC<EventAttendanceValidationProps> = ({
                 <div className="space-y-4">
                   <div>
                     <p className="font-bold text-lg text-slate-900">🎉 Event attendance validated!</p>
-                    <p className="text-sm opacity-75 font-medium" style={{ color: '#1E293B' }}>Your POAP confirms your participation at an approved blockchain event</p>
+                    <p className="text-sm opacity-75 font-medium" style={{ color: '#1E293B' }}>Your POAP confirms your participation at one approved blockchain event</p>
                   </div>
                   <div className="flex items-center bg-base-200 rounded-lg p-4">
                     <Image
@@ -326,7 +326,7 @@ const EventAttendanceValidation: React.FC<EventAttendanceValidationProps> = ({
                   return null;
                 })()}
                 <p className="text-sm text-center mt-2 text-base-content/70">
-                  Proceeding to blockchain attestation...
+                  Proceeding to attestation creation...
                 </p>
               </div>
             )}
