@@ -13,6 +13,7 @@ import { Logo } from '../components/Logo';
 import { BetaBanner } from '../components/BetaBanner';
 import NetworkSelector from '../components/NetworkSelector';
 import { ExternalLinkIcon } from '../components/ExternalLinkIcon';
+import SmartAccountBanner from '../components/SmartAccountBanner';
 
 // Type definitions for component state
 interface EventInfo {
@@ -133,6 +134,8 @@ export default function Home() {
       <BetaBanner />
       
       {/* Progress Indicator removed */}
+      
+      {isConnected && <SmartAccountBanner />}
       
       <div className="bg-base-100 p-6 rounded-lg shadow-lg">
         <div className="space-y-4">

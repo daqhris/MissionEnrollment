@@ -15,6 +15,9 @@
     "test": "jest"
   },
   "dependencies": {
+    "@alchemy/aa-accounts": "^3.19.0",
+    "@alchemy/aa-alchemy": "^3.19.0",
+    "@alchemy/aa-core": "^3.19.0",
     "@apollo/client": "^3.12.2",
     "@coinbase/onchainkit": "^0.38.5",
     "@emotion/react": "^11.13.3",
