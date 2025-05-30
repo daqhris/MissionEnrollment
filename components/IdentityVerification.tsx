@@ -171,8 +171,8 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVe
 
   return (
     <ErrorBoundary>
-      <div className="flex flex-col items-center justify-center p-8">
-        <div className="card w-96 bg-base-100 shadow-xl">
+      <div className="flex flex-col items-center justify-center p-4 sm:p-8">
+        <div className="card w-full max-w-md bg-base-100 shadow-xl">
           <div className="card-body">
             <h2 className="card-title text-center mb-4">What is your identity?</h2>
             <p className="text-sm text-base-content/70 mb-4">
@@ -194,8 +194,8 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVe
             </div>
 
             {error && (
-              <div className="alert alert-error mt-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+              <div className="alert alert-error mt-4 text-sm sm:text-base">
+                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <span>{error}</span>
@@ -203,17 +203,17 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVe
             )}
 
             {isVerified && (
-              <div className="alert alert-success mt-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+              <div className="alert alert-success mt-4 text-sm sm:text-base">
+                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <span>Name verified successfully!</span>
               </div>
             )}
 
-            <div className="card-actions justify-end mt-6">
+            <div className="card-actions flex-col sm:flex-row justify-center sm:justify-end mt-6 gap-2">
               <button
-                className="btn btn-primary"
+                className="btn btn-primary w-full sm:w-auto"
                 onClick={handleVerification}
                 disabled={!userInput || isVerifying}
               >
@@ -228,7 +228,7 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVe
               </button>
 
               <button
-                className={`btn ${isVerified ? 'btn-secondary' : 'btn-disabled'}`}
+                className={`btn w-full sm:w-auto ${isVerified ? 'btn-secondary' : 'btn-disabled'}`}
                 disabled={!isVerified}
                 onClick={handleNext}
               >

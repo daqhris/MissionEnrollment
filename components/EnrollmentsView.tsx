@@ -162,8 +162,8 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
           <>
             <div className="grid gap-4 mb-8">
               {attestations.map((attestation: Attestation) => (
-                <div key={attestation.id} className="p-8 border-2 border-[#a57939] rounded-lg shadow-sm hover:shadow-md transition-shadow bg-[#f59e0b]/80">
-                  <div className="flex justify-between items-center mb-2">
+                <div key={attestation.id} className="p-4 sm:p-8 border-2 border-[#a57939] rounded-lg shadow-sm hover:shadow-md transition-shadow bg-[#f59e0b]/80">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-2 gap-2 sm:gap-0">
                     <div className="text-amber-300 text-sm">
                       {formatDistanceToNow(new Date(attestation.time * 1000), { addSuffix: true })}
                     </div>
@@ -225,9 +225,9 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
                             }
 
                             return (
-                              <div key={`${key}-${index}`} className="bg-red-50 hover:bg-[#FFD700] p-2 rounded flex justify-between items-center transition-colors duration-200">
-                                <span className="font-semibold text-[#a57939]">{label}</span>
-                                <span className="text-[#a57939] break-all">{displayValue}</span>
+                              <div key={`${key}-${index}`} className="bg-red-50 hover:bg-[#FFD700] p-2 rounded flex flex-col sm:flex-row justify-between items-start sm:items-center transition-colors duration-200 gap-1 sm:gap-0">
+                                <span className="font-semibold text-[#a57939] text-sm sm:text-base">{label}</span>
+                                <span className="text-[#a57939] break-all text-sm sm:text-base">{displayValue}</span>
                               </div>
                             );
                           }).filter(Boolean);
@@ -242,21 +242,21 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
               ))}
             </div>
 
-            <div className="flex justify-center gap-2">
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-2">
               <button
                 onClick={() => handlePageChange(Math.max(1, page - 1))}
                 disabled={page === 1 || loading}
-                className="px-4 py-2 border rounded disabled:opacity-50 hover:bg-gray-50"
+                className="w-full sm:w-auto px-4 py-2 border rounded disabled:opacity-50 hover:bg-gray-50 text-sm sm:text-base"
               >
                 Previous
               </button>
-              <span className="px-4 py-2">
+              <span className="px-4 py-2 text-sm sm:text-base">
                 Page {page} of {totalPages}
               </span>
               <button
                 onClick={() => handlePageChange(Math.min(totalPages, page + 1))}
                 disabled={page === totalPages || loading}
-                className="px-4 py-2 border rounded disabled:opacity-50 hover:bg-gray-50"
+                className="w-full sm:w-auto px-4 py-2 border rounded disabled:opacity-50 hover:bg-gray-50 text-sm sm:text-base"
               >
                 Next
               </button>
