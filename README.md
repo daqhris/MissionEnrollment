@@ -349,24 +349,3 @@ It is built thanks to the assistance and collaboration of **Devin**, the world's
 **Project Changelog**: [mission-enrollment.daqhris.com/changelog](https://mission-enrollment.daqhris.com/changelog) - Timeline of key developments and collaborative achievements
 
 **Base Batch Europe Buildathon (Devolio - Showcase Track)**: [devfolio.co/projects/mission-enrollment-b9f4](https://devfolio.co/projects/mission-enrollment-b9f4)
-
-## Base Ecosystem Integration
-
-Mission Enrollment is proud to be part of the [Base ecosystem](https://base.org/ecosystem), showcasing innovative use of Base blockchain technology for cultural heritage preservation.
-
-### Base Ecosystem Features
-
-- **Official Directory Listing**: Included in the Base ecosystem directory ([PR #2419](https://github.com/base/web/pull/2419))
-- **Base-Native Technologies**: Built with OnchainKit, Basenames, and EAS on Base
-- **Multi-Network Support**: Seamless operation on both Base Sepolia testnet and Base mainnet
-- **Mobile-Optimized Experience**: Responsive design for all devices accessing the Base blockchain
-- **Gasless Transaction Support**: Exploring Account Abstraction for improved user experience
-
-### Base Technical Integration
-
-- **OnchainKit**: Identity resolution and wallet integration through Coinbase Developer Platform
-- **Basenames**: Two-step identity verification using Base's naming service
-- **EAS on Base**: Attestation creation and verification using Base's EAS contract
-- **Base Chain Configuration**: Optimized RPC endpoints and network switching for Base networks
-
-Mission Enrollment demonstrates how Base blockchain technology can be leveraged for cultural and artistic missions, providing a secure and transparent enrollment process for collaborative community initiatives.
