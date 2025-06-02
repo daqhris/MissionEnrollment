@@ -127,7 +127,7 @@ export default function PreviewPage() {
             <div className="flex items-center space-x-4">
               <div className="bg-amber-200 px-4 py-2 rounded-lg flex items-center border border-[#957777]/20">
                 <span className="text-[#957777] text-sm mr-2">Duration:</span>
-                <span className="text-amber-900 text-sm font-medium">3 min</span>
+                <span className="text-amber-900 text-sm font-medium">5 min</span>
               </div>
               <div className="bg-amber-200 px-4 py-2 rounded-lg flex items-center border border-[#957777]/20">
                 <span className="text-[#957777] text-sm mr-2">Format:</span>
