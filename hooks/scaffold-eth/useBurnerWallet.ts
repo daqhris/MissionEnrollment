@@ -102,6 +102,7 @@ export const useBurnerWallet = (): BurnerAccount => {
       console.log("⚠ Could not create burner wallet");
       return undefined;
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [publicClient?.chain.id]);
 
   /**

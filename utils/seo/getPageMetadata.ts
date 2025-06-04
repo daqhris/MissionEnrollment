@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { getMetadata } from "../scaffold-eth/getMetadata";
 
-type PageType = 'home' | 'enrollments' | 'about' | 'charter' | 'attestation' | 'preview';
+type PageType = 'home' | 'enrollments' | 'about' | 'charter' | 'attestation' | 'preview' | 'changelog' | 'privacy' | 'terms';
 
 export const getPageMetadata = (pageType: PageType, params?: Record<string, string>): Metadata => {
   switch (pageType) {
@@ -52,6 +52,27 @@ export const getPageMetadata = (pageType: PageType, params?: Record<string, stri
         title: "Video Preview | Mission Enrollment",
         description: "Watch a demonstration of the Mission Enrollment dApp, including wallet connection, attestation verification, and POAP validation.",
         path: "/preview"
+      });
+    
+    case 'changelog':
+      return getMetadata({
+        title: "Changelog | Mission Enrollment",
+        description: "Track updates, improvements, and new features in the Mission Enrollment application.",
+        path: "/changelog"
+      });
+    
+    case 'privacy':
+      return getMetadata({
+        title: "Privacy Policy | Mission Enrollment",
+        description: "Privacy policy and data handling practices for the Mission Enrollment application.",
+        path: "/privacy"
+      });
+    
+    case 'terms':
+      return getMetadata({
+        title: "Terms of Service | Mission Enrollment",
+        description: "Terms of service and usage guidelines for the Mission Enrollment application.",
+        path: "/terms"
       });
     
     default:
