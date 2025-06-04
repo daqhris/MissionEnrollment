@@ -10,7 +10,7 @@ interface SuccessAttestationProps {
 export function SuccessAttestation({ attestationId, verifiedName, role, eventType = 'ETH_GLOBAL_BRUSSELS' }: SuccessAttestationProps) {
   let locationMessage = "in Brussels";
   let eventDescription = "hacker and coder skills demonstrated";
-  let missionName = "Zinneke Rescue Mission";
+  const missionName = "Zinneke Rescue Mission";
 
   if (eventType === 'ETHDENVER_COINBASE_CDP_2025') {
     locationMessage = "in Denver";

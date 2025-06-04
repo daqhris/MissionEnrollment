@@ -1,5 +1,7 @@
 import type { AbiFunction, AbiParameter } from "abitype";
-import type { AbiParameterTuple } from "../../../utils/scaffold-eth/contract";
+type AbiParameterTuple = AbiParameter & {
+  components: readonly AbiParameter[];
+};
 
 /**
  * Generates a key based on function metadata
@@ -13,7 +15,7 @@ const isJsonString = (str: string): boolean => {
   try {
     JSON.parse(str);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };
@@ -105,7 +107,7 @@ const adjustInput = (input: AbiParameterTuple): AbiParameter => {
   } else if (input.components) {
     return {
       ...input,
-      components: input.components.map((value) => adjustInput(value as AbiParameterTuple)),
+      components: input.components.map((value: any) => adjustInput(value as AbiParameterTuple)),
     };
   }
   return input;

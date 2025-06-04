@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 import type { ChangeEvent, FocusEvent, ReactNode } from "react";
-import { CommonInputProps, IntegerVariant, isValidInteger } from "./utils";
+import { CommonInputProps } from "./utils";
 
 type InputBaseProps<T> = CommonInputProps<T> & {
   error?: boolean;

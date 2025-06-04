@@ -6,12 +6,7 @@ import { GET_ATTESTATION_BY_ID } from '../graphql/queries';
 import { Spinner } from './assets/Spinner';
 import { AttestationCard } from './AttestationCard';
 
-interface AttestationData {
-  id: string;
-  decodedDataJson: string;
-  time: string;
-  attester: string;
-}
+
 
 export function ClientAttestationView({ id }: { id: string }) {
   const { loading, error, data } = useQuery(GET_ATTESTATION_BY_ID, {

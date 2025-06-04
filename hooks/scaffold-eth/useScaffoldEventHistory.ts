@@ -4,7 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import type { Abi, AbiEvent, ExtractAbiEventNames } from "abitype";
 import type { BlockNumber, GetLogsParameters, Log, PublicClient } from "viem";
 import { useBlockNumber, usePublicClient } from "wagmi";
-import type { Config } from "wagmi";
+
 import { useDeployedContractInfo } from "./";
 import type {
   ContractAbi,
@@ -95,7 +95,7 @@ export const useScaffoldEventHistory = <
     chainId: targetNetwork.id,
   });
   const [isFirstRender, setIsFirstRender] = useState(true);
-  const [poapData, setPoapData] = useState<Record<string, unknown> | null>(null);
+  const [, setPoapData] = useState<Record<string, unknown> | null>(null);
 
   // POAP integration logic
   useEffect(() => {
@@ -107,10 +107,10 @@ export const useScaffoldEventHistory = <
           if (!response.ok) {
             throw new Error("Failed to fetch POAP data");
           }
-          const poapData = await response.json();
+          const data = await response.json();
           // TODO: Process and store POAP data
-          console.log("POAP data:", poapData);
-          setPoapData(poapData);
+          console.log("POAP data:", data);
+          setPoapData(data);
         } catch (error) {
           console.error("Error fetching POAP data:", error);
         }
@@ -157,7 +157,7 @@ export const useScaffoldEventHistory = <
     },
     initialPageParam: fromBlock,
     enabled: enabled && isContractAddressAndClientReady,
-    getNextPageParam: (lastPage, pages) => {
+    getNextPageParam: (lastPage) => {
       return lastPage && lastPage.length > 0 ? blockNumber : undefined;
     },
     select: data => {

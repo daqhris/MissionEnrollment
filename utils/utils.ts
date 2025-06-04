@@ -1,7 +1,6 @@
 import type { Attestation } from "../types/attestation";
 
-// @ts-ignore
-BigInt.prototype.toJSON = function (): string {
+(BigInt.prototype as any).toJSON = function (): string {
   return this.toString();
 };
 

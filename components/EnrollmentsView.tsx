@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_ENROLLMENTS } from '../graphql/queries';
 import { Spinner } from './assets/Spinner';
-import { Attestation, AttestationData } from '../types/attestation';
+import { Attestation } from '../types/attestation';
 import { ErrorBoundary } from 'react-error-boundary';
 import { formatDistanceToNow } from 'date-fns';
-import { SCHEMA_UID_ORIGINAL, SCHEMA_UID_ENHANCED } from '../utils/constants';
+import { SCHEMA_UID_ENHANCED } from '../utils/constants';
 import { formatAttestationData, getFieldLabel, formatBaseName, formatTimestamp } from '../utils/formatting';
 import { mockEnrollments, mockAttestationsCount } from '../data/mockEnrollments';
 
@@ -38,7 +38,7 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
     variables: {
       take: pageSize,
       skip: (page - 1) * pageSize,
-      schemaIds: [SCHEMA_UID_ORIGINAL, SCHEMA_UID_ENHANCED]
+      schemaIds: [SCHEMA_UID_ENHANCED]
     },
     notifyOnNetworkStatusChange: true,
     onError: (error) => {
@@ -182,7 +182,7 @@ export function EnrollmentsView({ title, pageSize = 20 }: EnrollmentsViewProps):
                     <div className="mt-2 space-y-2">
                       {(() => {
                         try {
-                          const decodedData = JSON.parse(attestation.decodedDataJson) as AttestationData[];
+                          const decodedData = JSON.parse(attestation.decodedDataJson);
                           const formattedData = formatAttestationData(decodedData);
                           const displayOrder = [
                             'userAddress',      // User Address: 0xb5ee...

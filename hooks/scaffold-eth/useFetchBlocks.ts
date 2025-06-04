@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type {
   Block,
-  Hash,
   Transaction,
   TransactionReceipt,
 } from "viem";

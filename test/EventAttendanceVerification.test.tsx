@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import EventAttendanceVerification from '../components/EventAttendanceVerification';
+import EventAttendanceValidation from '../components/EventAttendanceValidation';
 import { mockPoapsResponse, mockValidWalletAddresses, mockEventInfo, EventInfo } from './mocks/poapData';
 import { fetchPoaps, POAPEvent } from '../utils/fetchPoapsUtil';
 
@@ -12,12 +12,12 @@ const mockedFetchPoaps = fetchPoaps as jest.MockedFunction<typeof fetchPoaps>;
 // Mock setTimeout to control loading animation timing
 jest.useFakeTimers();
 
-describe('EventAttendanceVerification Component', () => {
+describe('EventAttendanceValidation Component', () => {
   // Ensure mock data exists
   const mockAddress = mockValidWalletAddresses[0];
   if (!mockAddress) throw new Error('Mock wallet address is not defined');
 
-  const mockVerifiedName = mockEventInfo.verifiedName;
+  const mockApprovedName = mockEventInfo.verifiedName;
   const mockOnVerified = jest.fn();
 
   beforeEach(() => {
@@ -27,9 +27,9 @@ describe('EventAttendanceVerification Component', () => {
 
   it('displays initial Yes/No buttons and question', () => {
     render(
-      <EventAttendanceVerification
+      <EventAttendanceValidation
         address={mockAddress}
-        verifiedName={mockVerifiedName}
+        approvedName={mockApprovedName}
         onVerified={mockOnVerified}
       />
     );
@@ -41,9 +41,9 @@ describe('EventAttendanceVerification Component', () => {
 
   it('shows goodbye message when user clicks No', () => {
     render(
-      <EventAttendanceVerification
+      <EventAttendanceValidation
         address={mockAddress}
-        verifiedName={mockVerifiedName}
+        approvedName={mockApprovedName}
         onVerified={mockOnVerified}
       />
     );
@@ -68,9 +68,9 @@ describe('EventAttendanceVerification Component', () => {
     });
 
     render(
-      <EventAttendanceVerification
+      <EventAttendanceValidation
         address={mockAddress}
-        verifiedName={mockVerifiedName}
+        approvedName={mockApprovedName}
         onVerified={mockOnVerified}
       />
     );
@@ -105,7 +105,7 @@ describe('EventAttendanceVerification Component', () => {
       role: expect.any(String),
       date: expect.any(String),
       venue: expect.any(String),
-      verifiedName: mockVerifiedName,
+      approvedName: mockApprovedName,
       tokenId: mockPoap.tokenId
     }));
   });
@@ -118,9 +118,9 @@ describe('EventAttendanceVerification Component', () => {
     });
 
     render(
-      <EventAttendanceVerification
+      <EventAttendanceValidation
         address={mockAddress}
-        verifiedName={mockVerifiedName}
+        approvedName={mockApprovedName}
         onVerified={mockOnVerified}
       />
     );

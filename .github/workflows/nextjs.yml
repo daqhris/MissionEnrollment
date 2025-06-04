@@ -5,11 +5,11 @@
 name: Deploy Next.js site to Github Pages
 
 on:
-  # Runs on pushes targeting the default branch and feature branches
+  # Runs on pushes targeting the default branch and feature branches (build only)
   push:
     branches: ["main", "feature/*", "fix/*", "devin/*"]
   
-  # Runs on pull requests
+  # Runs on pull requests (build only)
   pull_request:
     branches: ["main"]
 
@@ -108,6 +108,8 @@ jobs:
 
   # Deployment job
   deploy:
+    # Only deploy to GitHub Pages from main branch
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

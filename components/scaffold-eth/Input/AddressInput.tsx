@@ -6,7 +6,8 @@ import { isAddress } from "viem";
 import { normalize } from "viem/ens";
 import { useEnsAddress, useEnsAvatar, useEnsName } from "wagmi";
 import type { CommonInputProps } from "../index";
-import { InputBase, isENS } from "./InputBase";
+import { InputBase } from "./InputBase";
+
 
 interface AddressInputProps extends CommonInputProps<Address | string | undefined> {
   value: Address | string | undefined;

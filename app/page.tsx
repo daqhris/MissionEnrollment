@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { type Chain } from 'viem';
+
 import { base } from 'viem/chains';
 import { useAccount } from 'wagmi';
 import { Avatar, getName } from '@coinbase/onchainkit/identity';
@@ -12,27 +12,10 @@ import { SuccessAttestation } from '../components/SuccessAttestation';
 import { Logo } from '../components/Logo';
 import { BetaBanner } from '../components/BetaBanner';
 import NetworkSelector from '../components/NetworkSelector';
-import { ExternalLinkIcon } from '../components/ExternalLinkIcon';
 
-// Type definitions for component state
-interface EventInfo {
-  role: string;
-  date: string;
-  venue: string;
-  approvedName: string;
-  tokenId: string;
-}
 
 // Type for verification status
 type VerificationStatus = 'idle' | 'loading' | 'success' | 'error';
-
-interface POAPEventInfo {
-  approvedName: string;
-  tokenId: string;
-  role: string;
-  date: string;
-  venue: string;
-}
 
 export default function Home() {
   const { address, isConnected } = useAccount();

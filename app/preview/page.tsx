@@ -29,7 +29,7 @@ export default function PreviewPage() {
         if (data && data.length > 0) {
           const lastCommit = data[0];
           const commitDate = new Date(lastCommit.commit.author.date);
-          const commitSha = lastCommit.sha.substring(0, 7);
+
           const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
           
           setLastUpdated(`${months[commitDate.getMonth()]} ${commitDate.getDate()}, ${commitDate.getFullYear()} ${commitDate.getHours().toString().padStart(2, '0')}:${commitDate.getMinutes().toString().padStart(2, '0')}`);

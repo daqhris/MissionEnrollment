@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useAccount, useChainId } from 'wagmi';
 import { 
   Card, 
@@ -46,7 +46,6 @@ export default function NetworkSelector() {
   };
   
   useEffect(() => {
-    const networkMismatch = currentChainId !== preferredNetwork;
     
   }, [currentChainId, preferredNetwork]);
 

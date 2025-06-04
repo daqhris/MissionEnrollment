@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAccount, useBalance, useSendTransaction } from 'wagmi';
 import { parseEther } from 'viem';
 import { Card, CardContent, Typography, Box, Button, CircularProgress, Alert, Link } from '@mui/material';
-import { BASE_MAINNET_CHAIN_ID, MISSION_ENROLLMENT_BASE_ETH_ADDRESS, BASE_SEPOLIA_CHAIN_ID } from '../utils/constants';
+import { BASE_MAINNET_CHAIN_ID, MISSION_ENROLLMENT_BASE_ETH_ADDRESS } from '../utils/constants';
 import { ExternalLinkIcon } from './ExternalLinkIcon';
 
 interface MainnetSupportBannerProps {

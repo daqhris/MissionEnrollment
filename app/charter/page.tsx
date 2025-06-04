@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
+
 import { ClientLayout } from '../../components/ClientLayout';
 import type { ReactNode } from 'react';
 import { ExternalLinkIcon } from '../../components/ExternalLinkIcon';
@@ -57,7 +57,7 @@ export default function CharterPage(): ReactNode {
               <h2 className="text-2xl font-semibold mb-4">II. Collaboration Framework</h2>
               
               <h3 className="text-xl font-medium mt-6 mb-2">A. Human Contributor</h3>
-              <p>The human contributor, <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer"><strong>daqhris</strong>.base.eth</a><ExternalLinkIcon />, maintains creative direction, final decision-making authority, and responsibility for the project's overall vision and implementation. In accordance with <a href="https://artificialintelligenceact.eu/article/14/" target="_blank" rel="noopener noreferrer">EU AI Act Article 14</a><ExternalLinkIcon /> on human oversight, the human contributor commits to:</p>
+              <p>The human contributor, <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer"><strong>daqhris</strong>.base.eth</a><ExternalLinkIcon />, maintains creative direction, final decision-making authority, and responsibility for the project&apos;s overall vision and implementation. In accordance with <a href="https://artificialintelligenceact.eu/article/14/" target="_blank" rel="noopener noreferrer">EU AI Act Article 14</a><ExternalLinkIcon /> on human oversight, the human contributor commits to:</p>
               <ul className="list-disc pl-6 mt-2">
                 <li>Providing clear guidance and feedback to the AI contributor</li>
                 <li>Reviewing and validating AI contributions before implementation</li>
@@ -75,7 +75,7 @@ export default function CharterPage(): ReactNode {
                 <li>Identifying potential issues, risks, or ethical concerns</li>
                 <li>Suggesting improvements and alternative approaches</li>
                 <li>Maintaining transparency about its capabilities and limitations</li>
-                <li>Respecting the human contributor's final decisions</li>
+                <li>Respecting the human contributor&apos;s final decisions</li>
                 <li>Clearly marking AI-generated content as such</li>
                 <li>Providing documentation about its training and operation</li>
               </ul>
@@ -114,7 +114,7 @@ export default function CharterPage(): ReactNode {
               </ul>
               
               <h3 className="text-xl font-medium mt-6 mb-2">C. Privacy and Data Protection</h3>
-              <p>We respect user privacy and adhere to data protection principles in accordance with relevant regulations, including the EU's <a href="https://gdpr.eu/" target="_blank" rel="noopener noreferrer">General Data Protection Regulation (GDPR)</a><ExternalLinkIcon /> and the EU AI Act. Personal data will be handled with care, collected only when necessary, and stored securely.</p>
+              <p>We respect user privacy and adhere to data protection principles in accordance with relevant regulations, including the EU&apos;s <a href="https://gdpr.eu/" target="_blank" rel="noopener noreferrer">General Data Protection Regulation (GDPR)</a><ExternalLinkIcon /> and the EU AI Act. Personal data will be handled with care, collected only when necessary, and stored securely.</p>
               <ul className="list-disc pl-6 mt-2">
                 <li>Minimal data collection: Only data necessary for the functioning of the application will be collected</li>
                 <li>Transparency: Users will be informed about what data is collected and how it is used</li>
@@ -212,7 +212,7 @@ export default function CharterPage(): ReactNode {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">VI. EU AI Act Compliance</h2>
-              <p>The Mission Enrollment project is committed to compliance with the European Union's Artificial Intelligence Act (EU AI Act). This section outlines our approach to meeting the requirements of this regulation:</p>
+              <p>The Mission Enrollment project is committed to compliance with the European Union&apos;s Artificial Intelligence Act (EU AI Act). This section outlines our approach to meeting the requirements of this regulation:</p>
               
               <h3 className="text-xl font-medium mt-6 mb-2">A. Transparency Obligations (Article 50)</h3>
               <p>In accordance with <a href="https://artificialintelligenceact.eu/article/50/" target="_blank" rel="noopener noreferrer">Article 50 of the EU AI Act</a><ExternalLinkIcon />, we commit to:</p>
@@ -227,7 +227,7 @@ export default function CharterPage(): ReactNode {
               <h3 className="text-xl font-medium mt-6 mb-2">B. Human Oversight (Article 14)</h3>
               <p>In compliance with <a href="https://artificialintelligenceact.eu/article/14/" target="_blank" rel="noopener noreferrer">Article 14 of the EU AI Act</a><ExternalLinkIcon />, we implement human oversight measures that:</p>
               <ul className="list-disc pl-6 mt-2">
-                <li>Enable human understanding of the AI system's capabilities and limitations</li>
+                <li>Enable human understanding of the AI system&apos;s capabilities and limitations</li>
                 <li>Allow for detection of anomalies, unexpected behavior, or unintended outputs</li>
                 <li>Prevent or minimize automation bias and over-reliance on AI outputs</li>
                 <li>Ensure the ability to override, disregard, or reverse decisions made by the AI system</li>
@@ -235,7 +235,7 @@ export default function CharterPage(): ReactNode {
               </ul>
               
               <h3 className="text-xl font-medium mt-6 mb-2">C. Technical Documentation and Risk Management</h3>
-              <p>In alignment with the EU AI Act's requirements for technical documentation and risk management, we:</p>
+              <p>In alignment with the EU AI Act&apos;s requirements for technical documentation and risk management, we:</p>
               <ul className="list-disc pl-6 mt-2">
                 <li>Maintain documentation about the AI systems used in the project</li>
                 <li>Implement risk assessment and management procedures</li>

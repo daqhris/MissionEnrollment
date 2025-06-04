@@ -6,7 +6,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 }
 
 import React from 'react';
-import { GET_ATTESTATION_BY_ID, GET_ENROLLMENTS } from '../../../graphql/queries';
+import { GET_ENROLLMENTS } from '../../../graphql/queries';
 import { ClientAttestationView } from '../../../components/ClientAttestationView';
 import { ApolloWrapper } from '../../../components/ApolloWrapper';
 import { apolloClient } from '../../../services/apollo/apolloClient';

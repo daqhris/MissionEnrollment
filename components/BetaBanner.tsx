@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 
 export const BetaBanner = (): JSX.Element => {
   const [isVisible, setIsVisible] = useState(true);
-  const [hasDismissed, setHasDismissed] = useState(false);
+  const [, setHasDismissed] = useState(false);
 
   useEffect(() => {
     const dismissed = localStorage.getItem('betaBannerDismissed');

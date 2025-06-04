@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+
 import { getBaseName, verifyBaseName } from './basename';
 
 async function testBasenameVerification() {

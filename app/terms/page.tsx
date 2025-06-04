@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { ClientLayout } from '../../components/ClientLayout';
 import { ExternalLinkIcon } from '../../components/ExternalLinkIcon';
 
+
 interface CommitInfo {
   date: string;
   sha: string;
@@ -38,7 +39,7 @@ export default function TermsPage() {
         
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4 text-amber-700">1. Introduction</h2>
-          <p className="text-gray-900">Welcome to Mission Enrollment. These Terms of Service ("Terms") govern your use of the Mission Enrollment application ("App") operated by <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer">daqhris.base.eth</a><ExternalLinkIcon /> and <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer">Devin AI</a><ExternalLinkIcon /> (collectively, "we," "us," or "our"). By accessing or using the App, you agree to be bound by these Terms.</p>
+          <p className="text-gray-900">Welcome to Mission Enrollment. These Terms of Service (&quot;Terms&quot;) govern your use of the Mission Enrollment application (&quot;App&quot;) operated by <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer">daqhris.base.eth</a><ExternalLinkIcon /> and <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer">Devin AI</a><ExternalLinkIcon /> (collectively, &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;). By accessing or using the App, you agree to be bound by these Terms.</p>
           
           <p className="mt-4 text-gray-900">Please read these Terms carefully before using the App. If you do not agree to these Terms, you must not access or use the App.</p>
         </section>
@@ -78,12 +79,12 @@ export default function TermsPage() {
           <h2 className="text-2xl font-semibold mb-4 text-amber-700">5. Intellectual Property Rights</h2>
           <p className="text-gray-900">The App and its original content, features, and functionality are owned by the project creators and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.</p>
           
-          <p className="mt-4 text-gray-900">The App's source code is available under the license specified in the <a href="https://github.com/daqhris/MissionEnrollment" target="_blank" rel="noopener noreferrer">GitHub repository</a><ExternalLinkIcon />. Any use of the App or its content other than as specifically authorized herein is strictly prohibited.</p>
+          <p className="mt-4 text-gray-900">The App&apos;s source code is available under the license specified in the <a href="https://github.com/daqhris/MissionEnrollment" target="_blank" rel="noopener noreferrer">GitHub repository</a><ExternalLinkIcon />. Any use of the App or its content other than as specifically authorized herein is strictly prohibited.</p>
         </section>
 
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4 text-amber-700">6. Disclaimers and Limitation of Liability</h2>
-          <p className="text-gray-900">The App is provided on an "AS IS" and "AS AVAILABLE" basis without any warranties of any kind. We do not guarantee that the App will be uninterrupted, secure, or error-free.</p>
+          <p className="text-gray-900">The App is provided on an &quot;AS IS&quot; and &quot;AS AVAILABLE&quot; basis without any warranties of any kind. We do not guarantee that the App will be uninterrupted, secure, or error-free.</p>
           
           <p className="mt-4 text-gray-900">To the maximum extent permitted by law, we shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or other intangible losses, resulting from:</p>
           <ul className="list-disc pl-6 text-gray-900">
@@ -104,7 +105,7 @@ export default function TermsPage() {
 
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4 text-amber-700">8. Changes to Terms</h2>
-          <p className="text-gray-900">We reserve the right to modify or replace these Terms at any time. If a revision is material, we will provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.</p>
+          <p className="text-gray-900">We reserve the right to modify or replace these Terms at any time. If a revision is material, we will provide at least 30 days&apos; notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.</p>
           
           <p className="mt-4 text-gray-900">By continuing to access or use the App after any revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, you are no longer authorized to use the App.</p>
         </section>
@@ -132,5 +133,5 @@ export default function TermsPage() {
     </div>
   );
 
-  return <ClientLayout children={content} />;
+  return <ClientLayout>{content}</ClientLayout>;
 }

@@ -5,6 +5,7 @@ import { EnrollmentsView } from '../../components/EnrollmentsView';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ClientLayout } from '../../components/ClientLayout';
 
+
 function ErrorFallback({ error }: { error: Error }) {
   console.error('[EnrollmentsPage] Error:', error);
   return (

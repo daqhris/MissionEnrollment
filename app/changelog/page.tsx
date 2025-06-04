@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { ClientLayout } from '../../components/ClientLayout';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ExternalLinkIcon } from '../../components/ExternalLinkIcon';
-import Link from 'next/link';
+
+
 
 interface GitHubCommit {
   sha: string;
@@ -42,7 +43,7 @@ function ErrorFallback({ error }: { error: Error }) {
 }
 
 export default function ChangelogPage() {
-  const [commits, setCommits] = useState<GitHubCommit[]>([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastCommit, setLastCommit] = useState<{ date: string; sha: string } | null>(null);
@@ -166,7 +167,7 @@ export default function ChangelogPage() {
         }
         
         const data: GitHubCommit[] = await response.json();
-        setCommits(data);
+
         
         if (data.length > 0) {
           const latestCommit = data[0];
@@ -304,11 +305,11 @@ export default function ChangelogPage() {
                       <div className="mt-8 p-4 bg-amber-100 rounded-lg border border-amber-300">
                         <h3 className="font-semibold text-lg mb-2">Quarter Summary</h3>
                         <p className="text-gray-900">
-                          {quarter.name} ({quarter.season}, {quarter.months}) marked {quarterIndex === 0 ? 'the beginning of collaboration' : 'a period of crucial code changes'} in the project&apos;s development. 
-                          {quarterIndex === 0 && ' The foundation was established and initial blockchain integrations were implemented.'}
-                          {quarterIndex === 1 && ' The human-AI collaboration reached a milestone with the Pair Extraordinaire achievement, and the user experience was noticeably enhanced.'}
-                          {quarterIndex === 2 && ' Infrastructure improvements were the focus, with significant enhancements to deployment reliability and dependency management.'}
-                          {quarterIndex === 3 && ' The project matured with advanced features like EIP-712 typing, mainnet support, and participation in the Base Batch Europe buildathon.'}
+                          {quarter.name} ({quarter.season}, {quarter.months}) marked {quarterIndex === 0 ? "the beginning of collaboration" : "a period of crucial code changes"} in the project&apos;s development. 
+                          {quarterIndex === 0 && " The foundation was established and initial blockchain integrations were implemented."}
+                          {quarterIndex === 1 && " The human-AI collaboration reached a milestone with the Pair Extraordinaire achievement, and the user experience was noticeably enhanced."}
+                          {quarterIndex === 2 && " Infrastructure improvements were the focus, with significant enhancements to deployment reliability and dependency management."}
+                          {quarterIndex === 3 && " The project matured with advanced features like EIP-712 typing, mainnet support, and participation in the Base Batch Europe buildathon."}
                         </p>
                       </div>
                     </div>

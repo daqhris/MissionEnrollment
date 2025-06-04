@@ -1,5 +1,5 @@
 import React from "react";
-import { IdentityVerification } from "./IdentityVerification";
+import { IdentityVerification } from "../../components/IdentityVerification";
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor, act } from "@testing-library/react";
 import { useEnsAddress, useEnsName } from "wagmi";
@@ -39,7 +39,7 @@ describe("IdentityVerification", () => {
     (useEnsAddress as jest.Mock).mockReturnValue({ data: null, isLoading: false, error: null });
     (useEnsName as jest.Mock).mockReturnValue({ data: null, isLoading: false, error: null });
     mockFetchPoaps.mockResolvedValue([]);
-    jest.mock('../utils/fetchPoapsUtil', () => ({
+    jest.mock('../../utils/fetchPoapsUtil', () => ({
       fetchPoaps: mockFetchPoaps,
     }));
   });
@@ -140,7 +140,7 @@ describe("IdentityVerification", () => {
   it("calls onVerified with input address for valid Ethereum address", async () => {
     const mockAddress = "0xb5ee030c71e76C3E03B2A8d425dBb9B395037C82";
     const mockFetchPoaps = jest.fn().mockResolvedValue([]);
-    jest.mock('../utils/fetchPoapsUtil', () => ({
+    jest.mock('../../utils/fetchPoapsUtil', () => ({
       fetchPoaps: mockFetchPoaps,
     }));
 
@@ -179,7 +179,7 @@ describe("IdentityVerification", () => {
     (useEnsAddress as jest.Mock).mockReturnValue({ data: null, isLoading: false, error: new Error("Network Error") });
 
     const mockFetchPoaps = jest.fn().mockRejectedValue(new Error("Network Error"));
-    jest.mock('../utils/fetchPoapsUtil', () => ({
+    jest.mock('../../utils/fetchPoapsUtil', () => ({
       fetchPoaps: mockFetchPoaps,
     }));
 
@@ -248,7 +248,7 @@ describe("IdentityVerification", () => {
     (useEnsName as jest.Mock).mockReturnValue({ data: null, isLoading: false, error: null });
     (useEnsAddress as jest.Mock).mockReturnValue({ data: validAddress, isLoading: false, error: null });
     const mockFetchPoaps = jest.fn().mockResolvedValue([]);
-    jest.mock('../utils/fetchPoapsUtil', () => ({
+    jest.mock('../../utils/fetchPoapsUtil', () => ({
       fetchPoaps: mockFetchPoaps,
     }));
 
@@ -275,7 +275,7 @@ describe("IdentityVerification", () => {
     (useEnsName as jest.Mock).mockReturnValue({ data: null, isLoading: false, error: new Error("ENS resolution failed") });
     (useEnsAddress as jest.Mock).mockReturnValue({ data: validAddress, isLoading: false, error: null });
     const mockFetchPoaps = jest.fn().mockResolvedValue([]);
-    jest.mock('../utils/fetchPoapsUtil', () => ({
+    jest.mock('../../utils/fetchPoapsUtil', () => ({
       fetchPoaps: mockFetchPoaps,
     }));
 
@@ -365,7 +365,7 @@ describe("IdentityVerification", () => {
     (useEnsAddress as jest.Mock).mockReturnValue({ data: validAddress, isLoading: false, error: null });
     (useEnsName as jest.Mock).mockReturnValue({ data: null, isLoading: false, error: new Error("ENS resolution failed") });
     const mockFetchPoaps = jest.fn().mockResolvedValue([]);
-    jest.mock('../utils/fetchPoapsUtil', () => ({
+    jest.mock('../../utils/fetchPoapsUtil', () => ({
       fetchPoaps: mockFetchPoaps,
     }));
 

@@ -10,7 +10,8 @@ import type {
   ExtractAbiFunctionNames
 } from "abitype";
 import type { Simplify, MergeDeep } from "type-fest";
-type MergeDeepRecord<T, U, V> = MergeDeep<T, U>;
+type MergeDeepRecord<T, U> = MergeDeep<T, U>;
+
 import type {
   Address,
   Block,
@@ -21,8 +22,7 @@ import type {
   TransactionReceipt,
   WriteContractParameters
 } from "viem";
-import { useContractRead, useWatchContractEvent } from "wagmi";
-import type { Config } from "wagmi";
+
 import type { ReadContractParameters, WatchContractEventParameters } from "wagmi/actions";
 
 type UseContractReadConfig = ReadContractParameters;
@@ -59,7 +59,7 @@ const deepMergeContracts = <
     );
     result[key] = { ...(local[key] || {}), ...amendedExternal };
   }
-  return result as MergeDeepRecord<AddExternalFlag<L>, AddExternalFlag<E>, { arrayMergeMode: "replace" }>;
+  return result as MergeDeepRecord<AddExternalFlag<L>, AddExternalFlag<E>>;
 };
 
 const contractsData = deepMergeContracts(deployedContractsData, externalContractsData);
@@ -196,7 +196,7 @@ export type ScaffoldWriteContractVariables<
     Omit<WriteContractParameters, "chainId" | "abi" | "address" | "functionName" | "args">
 >;
 
-type WriteVariables = WriteContractParameters;
+
 
 export type TransactorFuncOptions = {
   onBlockConfirmation?: (txnReceipt: TransactionReceipt) => void;
@@ -215,10 +215,6 @@ export type ScaffoldWriteContractOptions = MutateOptions<
 export type UseScaffoldEventConfig<
   TContractName extends ContractName,
   TEventName extends ExtractAbiEventNames<ContractAbi<TContractName>>,
-  TEvent extends ExtractAbiEvent<ContractAbi<TContractName>, TEventName> = ExtractAbiEvent<
-    ContractAbi<TContractName>,
-    TEventName
-  >,
 > = {
   contractName: TContractName;
   eventName: TEventName;

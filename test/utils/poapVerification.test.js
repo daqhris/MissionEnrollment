@@ -1,4 +1,4 @@
-import { verifyETHGlobalBrusselsPOAPOwnership } from "./poapVerification";
+import { verifyETHGlobalBrusselsPOAPOwnership } from "./poapVerification.ts";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import axios from "axios";
 

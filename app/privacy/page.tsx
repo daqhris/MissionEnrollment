@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { ClientLayout } from '../../components/ClientLayout';
 import { ExternalLinkIcon } from '../../components/ExternalLinkIcon';
 
+
 interface CommitInfo {
   date: string;
   sha: string;
@@ -38,7 +39,7 @@ export default function PrivacyPage() {
         
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4 text-amber-700">1. Introduction</h2>
-          <p className="text-gray-900">This Privacy Policy describes how Mission Enrollment ("we", "us", or "our") collects, uses, and shares your information when you use our decentralized application ("App"). We respect your privacy and are committed to protecting your personal data.</p>
+          <p className="text-gray-900">This Privacy Policy describes how Mission Enrollment (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) collects, uses, and shares your information when you use our decentralized application (&quot;App&quot;). We respect your privacy and are committed to protecting your personal data.</p>
           
           <p className="mt-4 text-gray-900">Please read this Privacy Policy carefully to understand our practices regarding your data. By using the App, you acknowledge that you have read and understood this Privacy Policy.</p>
         </section>
@@ -79,7 +80,7 @@ export default function PrivacyPage() {
           <h2 className="text-2xl font-semibold mb-4 text-amber-700">3. How We Use Your Information</h2>
           <p className="text-gray-900">We use the collected information for the following purposes:</p>
           <ul className="list-disc pl-6 text-gray-900">
-            <li>To provide and maintain the App's functionality</li>
+            <li>To provide and maintain the App&apos;s functionality</li>
             <li>To verify your identity through Basenames (ENS)</li>
             <li>To confirm your attendance at blockchain events through POAP verification</li>
             <li>To create and manage blockchain attestations</li>
@@ -90,7 +91,7 @@ export default function PrivacyPage() {
 
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4 text-amber-700">4. Data Storage and Blockchain Considerations</h2>
-          <p className="text-gray-900">It's important to understand that:</p>
+          <p className="text-gray-900">It&apos;s important to understand that:</p>
           <ul className="list-disc pl-6 text-gray-900">
             <li>Blockchain data, including wallet addresses and attestations, is publicly visible and immutable</li>
             <li>We do not store your private keys or seed phrases</li>
@@ -133,7 +134,7 @@ export default function PrivacyPage() {
           <h2 className="text-2xl font-semibold mb-4 text-amber-700">7. GDPR Compliance</h2>
           <p className="text-gray-900">For users in the European Economic Area (EEA), we comply with the <a href="https://gdpr.eu/what-is-gdpr/" target="_blank" rel="noopener noreferrer">General Data Protection Regulation (GDPR)</a><ExternalLinkIcon />. Our legal basis for processing your data includes:</p>
           <ul className="list-disc pl-6 text-gray-900">
-            <li>Performance of a contract when providing the App's services</li>
+            <li>Performance of a contract when providing the App&apos;s services</li>
             <li>Your consent, which you provide by using the App</li>
             <li>Legitimate interests in operating and improving the App</li>
           </ul>
@@ -143,12 +144,12 @@ export default function PrivacyPage() {
 
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4 text-amber-700">8. Data Retention</h2>
-          <p className="text-gray-900">We retain your data for as long as necessary to provide the App's services and fulfill the purposes outlined in this Privacy Policy. Please note that blockchain data, including attestations, is permanently stored on the blockchain and cannot be deleted.</p>
+          <p className="text-gray-900">We retain your data for as long as necessary to provide the App&apos;s services and fulfill the purposes outlined in this Privacy Policy. Please note that blockchain data, including attestations, is permanently stored on the blockchain and cannot be deleted.</p>
         </section>
 
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4 text-amber-700">9. Changes to This Privacy Policy</h2>
-          <p className="text-gray-900">We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.</p>
+          <p className="text-gray-900">We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the &quot;Last updated&quot; date.</p>
           
           <p className="mt-4 text-gray-900">We encourage you to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.</p>
         </section>
@@ -176,5 +177,5 @@ export default function PrivacyPage() {
     </div>
   );
 
-  return <ClientLayout children={content} />;
+  return <ClientLayout>{content}</ClientLayout>;
 }

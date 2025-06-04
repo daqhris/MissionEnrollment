@@ -1,10 +1,9 @@
 import { useCallback, useState, useEffect } from "react";
 import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { parseEther, type TransactionReceipt } from "viem";
-import { useTargetNetwork } from "./useTargetNetwork";
+
 import { useDeployedContractInfo } from "./useDeployedContractInfo";
-import { getBlockExplorerTxLink, notification } from "../../utils/scaffold-eth";
-import { ContractAbi, ContractName } from "../../utils/scaffold-eth/contract";
+import { ContractName } from "../../utils/scaffold-eth/contract";
 
 export type UseScaffoldWriteContractConfig<
   TContractName extends ContractName,
@@ -30,7 +29,7 @@ export const useScaffoldWriteContract = <
   blockConfirmations = 1,
 }: UseScaffoldWriteContractConfig<TContractName, TFunctionName>) => {
   const { data: deployedContractData } = useDeployedContractInfo(contractName);
-  const { targetNetwork } = useTargetNetwork();
+
   const [isMining, setIsMining] = useState(false);
 
   const {
