@@ -62,11 +62,11 @@ const EventAttendanceProof: React.FC<EventAttendanceProofProps> = ({ onVerified,
         toast.success("ETHGlobal Brussels 2024 POAP verified successfully!");
       } else if (poaps.length > 0) {
         toast.warning(
-          "You have POAPs, but none from ETHGlobal Brussels 2024. Please make sure you've claimed the correct POAP."
+          "You have POAPs, but none from ETHGlobal Brussels 2024. Please make sure you&apos;ve claimed the correct POAP."
         );
       } else {
         toast.info(
-          "No POAPs found for this address. Make sure you've claimed your ETHGlobal Brussels 2024 POAP and try again."
+          "No POAPs found for this address. Make sure you&apos;ve claimed your ETHGlobal Brussels 2024 POAP and try again."
         );
       }
     } catch (err) {

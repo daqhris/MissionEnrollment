@@ -1,4 +1,4 @@
-import { TypedDataDomain } from "viem";
+
 
 const EIP712_DOMAIN = {
   name: 'Mission Enrollment',
@@ -98,6 +98,6 @@ export async function signVerification(signer: any, userAddress: string, eventIn
     }
   } catch (error) {
     console.error('Error signing verification:', error);
-    throw new Error(`Failed to sign verification message: ${error.message || 'Unknown error'}`);
+    throw new Error(`Failed to sign verification message: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }

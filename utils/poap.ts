@@ -1,6 +1,6 @@
 import { POAP_API_URL } from './constants';
 import { APPROVED_EVENT_NAMES } from './eventConstants';
-import { extractRoleFromPOAP, determineEventType } from './roleExtraction';
+import { extractRoleFromPOAP } from './roleExtraction';
 
 interface POAPEvent {
   event: {

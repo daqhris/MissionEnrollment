@@ -1,7 +1,7 @@
 import React from "react";
 import type { Attestation } from "../types/attestation";
 import tw from "tailwind-styled-components";
-import { SCHEMA_UID_ORIGINAL, SCHEMA_UID_ENHANCED } from "../utils/constants";
+import { SCHEMA_UID_ENHANCED } from "../utils/constants";
 import { formatBaseName, getFieldLabel, formatTimestamp } from "../utils/formatting";
 
 const Card = tw.div`

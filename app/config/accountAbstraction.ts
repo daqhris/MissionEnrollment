@@ -9,7 +9,7 @@ import { SUPPORTED_CHAINS } from "./wagmi";
 
 export const createSmartAccountClient = async (
   chainId: number,
-  signer: SmartAccountSigner
+  _signer: SmartAccountSigner
 ): Promise<SmartAccountClient> => {
   try {
     const transport = http(
@@ -31,10 +31,10 @@ export const createSmartAccountClient = async (
 };
 
 export const canSponsorTransaction = async (
-  client: SmartAccountClient,
-  to: `0x${string}`,
-  data: `0x${string}`,
-  value: bigint = BigInt(0)
+  _client: SmartAccountClient,
+  _to: `0x${string}`,
+  _data: `0x${string}`,
+  _value: bigint = BigInt(0)
 ): Promise<boolean> => {
   try {
     return true;

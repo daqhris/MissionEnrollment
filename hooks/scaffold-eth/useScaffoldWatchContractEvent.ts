@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { useTargetNetwork } from "./useTargetNetwork";
-import type { Abi, Log, Address } from "viem";
+import type { Log } from "viem";
 import { createPublicClient, http } from 'viem';
 import { watchContractEvent } from 'viem/actions';
 import { addIndexedArgsToEvent, useDeployedContractInfo } from "./";
@@ -69,5 +69,5 @@ export const useScaffoldWatchContractEvent = <
     return () => {
       unwatch();
     };
-  }, [deployedContractData, targetNetwork, eventName, listenerWithIndexedArgs]);
+  }, [deployedContractData, targetNetwork, eventName, listenerWithIndexedArgs, addIndexedArgsToLogs]);
 };

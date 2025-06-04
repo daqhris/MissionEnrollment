@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { fetchPoaps } from '../utils/fetchPoapsUtil';
 import { APPROVED_EVENT_NAMES, EVENT_VENUES } from '../utils/eventConstants';
-import { extractRoleFromPOAP, determineEventType } from '../utils/roleExtraction';
+import { extractRoleFromPOAP } from '../utils/roleExtraction';
 
 const getRoleBadgeColor = (role: string): string => {
   switch(role.toLowerCase()) {

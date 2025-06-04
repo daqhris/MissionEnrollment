@@ -127,7 +127,7 @@ export const Footer = (): React.JSX.Element => {
                 rel="noopener noreferrer"
                 className="text-[#957777] hover:text-[#a58a8a] text-xs flex items-center"
               >
-                ETHGlobal '24
+                ETHGlobal &apos;24
                 <ExternalLinkIcon />
               </Link>
               <Link

@@ -5,8 +5,8 @@ import type { SetStateAction } from "react";
 import ContractInput from "./ContractInput";
 import { InheritanceTooltip } from "./InheritanceTooltip";
 import type { Abi, AbiFunction, AbiParameter } from "abitype";
-import type { Address, Hash } from "viem";
-import { useAccount, useTransaction, useWriteContract, useWatchContractEvent } from "wagmi";
+import type { Address } from "viem";
+import { useAccount, useTransaction, useWriteContract } from "wagmi";
 import {
   TxReceipt,
   getFunctionInputKey,
@@ -14,9 +14,8 @@ import {
   getParsedContractFunctionArgs,
   transformAbiFunction,
 } from "./";
-import { IntegerInput } from "../../../components/scaffold-eth";
-import { useTransactor } from "../../../hooks/scaffold-eth";
-import { useTargetNetwork } from "../../../hooks/scaffold-eth/useTargetNetwork";
+
+
 
 type WriteOnlyFunctionFormProps = {
   abi: Abi;
@@ -38,10 +37,10 @@ export const WriteOnlyFunctionForm = ({
   const [form, setForm] = useState<FormState>(() => getInitialFormState(abiFunction));
   const [txValue, setTxValue] = useState<string | bigint>("");
   const { isConnected } = useAccount();
-  useTargetNetwork();
+
   const writeDisabled = !isConnected;
 
-  const { writeContract, data: hash, isPending, isError } = useWriteContract();
+  const { writeContract, data: hash, isPending } = useWriteContract();
 
   const handleWrite = async (): Promise<void> => {
     if (writeContract) {
@@ -64,7 +63,7 @@ export const WriteOnlyFunctionForm = ({
     }
   };
 
-  const { data: txData, isLoading: isTxLoading, isError: isTxError } = useTransaction({
+  const { data: txData } = useTransaction({
     hash,
   });
 
@@ -109,12 +108,14 @@ export const WriteOnlyFunctionForm = ({
               <span className="text-xs font-medium mr-2 leading-none">payable value</span>
               <span className="block text-xs font-extralight leading-none">wei</span>
             </div>
-            <IntegerInput
-              value={txValue}
-              onChange={(updatedTxValue: string | bigint): void => {
-                setTxValue(updatedTxValue);
+            <input
+              type="text"
+              value={txValue.toString()}
+              onChange={(e): void => {
+                setTxValue(e.target.value);
               }}
               placeholder="value (wei)"
+              className="input input-bordered w-full"
             />
           </div>
         ) : null}

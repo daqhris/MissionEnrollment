@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { useOutsideClick } from "../hooks/scaffold-eth";
-import { useChainId } from 'wagmi';
+import { useChainId } from "wagmi";
 
 interface NavLinkProps {
   href: string;
@@ -59,6 +59,7 @@ const DropdownContainer = React.forwardRef<HTMLDivElement, { children: React.Rea
     </div>
   )
 );
+DropdownContainer.displayName = "DropdownContainer";
 
 const BurgerMenuButton = ({ isOpen, onClick, children }: { isOpen: boolean, onClick: () => void, children: React.ReactNode }) => (
   <label
@@ -181,11 +182,11 @@ export const Header = (): React.JSX.Element => {
   const getChainName = (id: number): string => {
     switch (id) {
       case 8453:
-        return 'BASE';
+        return "BASE";
       case 84532:
-        return 'BASE SEPOLIA';
+        return "BASE SEPOLIA";
       default:
-        return 'BASE';
+        return "BASE";
     }
   };
 

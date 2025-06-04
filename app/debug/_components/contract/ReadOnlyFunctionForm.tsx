@@ -5,7 +5,7 @@ import type { SetStateAction } from "react";
 import ContractInput from "./ContractInput";
 import { InheritanceTooltip } from "./InheritanceTooltip";
 import type { Abi, AbiFunction, AbiParameter } from "abitype";
-import type { Address, Hex } from "viem";
+import type { Hex } from "viem";
 import { useContractRead } from "wagmi";
 import {
   getFunctionInputKey,
@@ -14,8 +14,8 @@ import {
 } from "./";
 import { displayTxResult } from "./utilsDisplay";
 import type { DisplayContent } from "./utilsDisplay";
-import { useTargetNetwork } from "../../../hooks/scaffold-eth/useTargetNetwork";
-import { getParsedError, notification } from "../../../utils/scaffold-eth";
+// import { useTargetNetwork } from "../../../hooks/scaffold-eth";
+// import { getParsedError, notification } from "../../../utils/scaffold-eth";
 
 type ReadOnlyFunctionFormProps = {
   contractAddress: Hex;
@@ -42,7 +42,7 @@ export const ReadOnlyFunctionForm: React.FC<ReadOnlyFunctionFormProps> = ({
     stateMutability: "view"
   } as AbiFunction));
   const [result, setResult] = useState<unknown>();
-  const { targetNetwork } = useTargetNetwork();
+  const targetNetwork = { id: 84532 }; // Base Sepolia
 
   const { isFetching, refetch, error } = useContractRead({
     address: contractAddress,
@@ -54,8 +54,7 @@ export const ReadOnlyFunctionForm: React.FC<ReadOnlyFunctionFormProps> = ({
 
   useEffect((): void => {
     if (error) {
-      const parsedError = getParsedError(error);
-      notification.error(parsedError);
+      console.error('Contract read error:', error);
     }
   }, [error]);
 

@@ -8,18 +8,17 @@ import {
   SCHEMA_UID,
   MISSION_ENROLLMENT_BASE_ETH_ADDRESS,
   getRequiredNetwork,
-  BASE_SEPOLIA_CHAIN_ID,
-  BASE_MAINNET_CHAIN_ID,
+
   NETWORK_CONFIG
 } from '../utils/constants';
-import { MainnetSupportBanner } from './MainnetSupportBanner';
+
 import { useUserNetworkPreference } from '../hooks/useUserNetworkPreference';
 import { SCHEMA_ENCODING } from '../types/attestation';
 import { getPOAPRole } from '../utils/poap';
-import { BrowserProvider, TransactionReceipt, Log, Interface } from 'ethers';
+import { BrowserProvider } from 'ethers';
 import { useNetworkSwitch } from '../hooks/useNetworkSwitch';
 import { generateVerificationSignature, generateVerificationHash, signVerification } from '../utils/attestationVerification';
-import { formatTimestamp } from '../utils/formatting';
+
 
 interface EnrollmentAttestationProps {
   approvedName: string;
@@ -54,7 +53,7 @@ interface PreviewData {
 
 export default function EnrollmentAttestation({
   approvedName,
-  poapVerified,
+
   onAttestationComplete,
   attestationId
 }: EnrollmentAttestationProps) {
@@ -70,8 +69,7 @@ export default function EnrollmentAttestation({
     isLoading: isNetworkSwitching,
     error: networkError,
     networkSwitched,
-    handleNetworkSwitch,
-    targetNetwork
+    handleNetworkSwitch
   } = useNetworkSwitch('attestation');
 
   const initializePreviewData = useCallback(async () => {
@@ -324,7 +322,7 @@ export default function EnrollmentAttestation({
 
         {preferredNetwork && chainId !== preferredNetwork && (
           <Typography color="warning.main" gutterBottom sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}>
-            Your wallet is connected to {NETWORK_CONFIG[chainId]?.name || 'an unknown network'}, but you've selected {NETWORK_CONFIG[preferredNetwork]?.name || 'another network'} for attestations.
+            Your wallet is connected to {NETWORK_CONFIG[chainId]?.name || "an unknown network"}, but you&apos;ve selected {NETWORK_CONFIG[preferredNetwork]?.name || "another network"} for attestations.
           </Typography>
         )}
 
@@ -364,8 +362,8 @@ export default function EnrollmentAttestation({
             fontSize: { xs: '0.8rem', sm: '0.9rem' }, 
             pl: 2 
           }}>
-            <li>First, you'll sign a message to verify your identity (shows your name and role)</li>
-            <li>Then, you'll confirm a transaction to create your attestation on the blockchain</li>
+            <li>First, you&apos;ll sign a message to verify your identity (shows your name and role)</li>
+            <li>Then, you&apos;ll confirm a transaction to create your attestation on the blockchain</li>
           </Typography>
         </Box>
         

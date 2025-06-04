@@ -1,11 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useTheme } from 'next-themes';
+
 
 export const NotFoundPage = () => {
-  const { resolvedTheme } = useTheme();
-  const isDarkMode = resolvedTheme === 'dark';
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-100">
