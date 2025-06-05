@@ -47,7 +47,7 @@
     "date-fns": "^4.1.0",
     "ethers": "^6.13.5",
     "graphql": "^16.9.0",
-    "next": "^15.1.0",
+    "next": "^15.2.4",
     "next-themes": "^0.3.0",
     "node-cache": "^5.1.2",
     "nprogress": "^0.2.0",
