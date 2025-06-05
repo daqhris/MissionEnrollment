@@ -44,3 +44,11 @@ IMPLEMENTATION_PLAN.md
 server.log
 *.log
 proxy-logs.txt
+
+# build artifacts
+artifacts/
+cache/
+.deps/
+contracts/artifacts/
+contracts/utils/artifacts/
+.openzeppelin/
