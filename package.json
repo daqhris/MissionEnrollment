@@ -40,14 +40,14 @@
     "@wagmi/core": "^2.16.7",
     "@xmtp/frames-validator": "0.5.0",
     "autoprefixer": "^10.4.20",
-    "axios": "^1.7.9",
+    "axios": "^1.9.0",
     "blo": "^1.2.0",
     "csstype": "^3.0.10",
     "daisyui": "^4.12.20",
     "date-fns": "^4.1.0",
     "ethers": "^6.13.5",
     "graphql": "^16.9.0",
-    "next": "^15.1.0",
+    "next": "^15.3.3",
     "next-themes": "^0.3.0",
     "node-cache": "^5.1.2",
     "nprogress": "^0.2.0",
@@ -67,7 +67,7 @@
     "usehooks-ts": "^3.1.0",
     "viem": "^2.25.0",
     "wagmi": "^2.14.16",
-    "ws": "^8.18.0"
+    "ws": "^8.18.2"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
