@@ -20,8 +20,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata = getMetadata({
-  title: "Mission Enrollment",
-  description: "A decentralized application for managing mission enrollments and verifying attestations on Base blockchain",
+  title: "Mission Enrollment | Gateway to the Zinneke Rescue Mission",
+  description: "Join the Zinneke Rescue Mission by verifying your blockchain identity and event attendance. A collaborative project by human and AI creators.",
 });
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }): React.ReactElement => {

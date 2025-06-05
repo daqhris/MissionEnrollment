@@ -1,18 +1,7 @@
-'use client';
+import { getPageMetadata } from "../../utils/seo/getPageMetadata";
+import { EnrollmentsClientLayout } from './EnrollmentsClientLayout';
 
-import React from 'react';
-import { ApolloProvider } from '@apollo/client';
-import { apolloClient } from '../../services/apollo/apolloClient';
-import { ErrorBoundary } from 'react-error-boundary';
-
-function ErrorFallback({ error }: { error: Error }) {
-  return (
-    <div className="text-red-500 p-4">
-      <h2>Something went wrong:</h2>
-      <pre>{error.message}</pre>
-    </div>
-  );
-}
+export const metadata = getPageMetadata('enrollments');
 
 export default function EnrollmentsLayout({
   children,
@@ -20,10 +9,8 @@ export default function EnrollmentsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <ApolloProvider client={apolloClient}>
-        {children}
-      </ApolloProvider>
-    </ErrorBoundary>
+    <EnrollmentsClientLayout>
+      {children}
+    </EnrollmentsClientLayout>
   );
 }
