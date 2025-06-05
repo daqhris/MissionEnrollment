@@ -1,3 +1,3 @@
 import { getPageMetadata } from "../../utils/seo/getPageMetadata";
 
-export default getPageMetadata('enrollments');
+export const metadata = getPageMetadata('enrollments');
