@@ -1,11 +1,6 @@
 import { TransactionReceipt, TransactionRequest } from 'ethers';
 import { TypedDataDomain } from "viem";
 
-export interface OnchainAttestationProps {
-  onAttestationComplete: (attestationUID: string) => void;
-  poaps: Array<{ token_id: string; event: { name: string; start_date: string } }>;
-}
-
 export interface CustomSigner {
   getAddress: () => Promise<string>;
   signMessage: (message: string | Uint8Array) => Promise<string>;
