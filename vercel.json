@@ -1,7 +1,6 @@
 {
   "installCommand": "yarn install",
   "buildCommand": "yarn build",
-  "outputDirectory": "out",
   "framework": "nextjs",
   "env": {
     "NODE_VERSION": "18",
