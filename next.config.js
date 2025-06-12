@@ -32,12 +32,11 @@ const nextConfig = {
   experimental: {
     forceSwcTransforms: true,
   },
-  // Static export is compatible with Next.js 13+ dynamic routes
-  output: 'export',
-  basePath: "",
-  assetPrefix: "",
+  output: process.env.GITHUB_PAGES === "true" ? 'export' : undefined,
+  basePath: process.env.CUSTOM_DOMAIN === "true" ? "" : process.env.GITHUB_PAGES === "true" ? "/MissionEnrollment" : "",
+  assetPrefix: process.env.CUSTOM_DOMAIN === "true" ? "" : process.env.GITHUB_PAGES === "true" ? "/MissionEnrollment/" : "",
   // Ensure client-side rendering works properly
-  trailingSlash: true,
+  trailingSlash: process.env.GITHUB_PAGES === "true" ? true : false,
 };
 
 module.exports = nextConfig;
