@@ -9,7 +9,7 @@ import { SUPPORTED_CHAINS } from "./wagmi";
 
 export const createSmartAccountClient = async (
   chainId: number,
-  _signer?: SmartAccountSigner // eslint-disable-line @typescript-eslint/no-unused-vars
+  _signer: SmartAccountSigner
 ): Promise<SmartAccountClient> => {
   try {
     const transport = http(
@@ -31,10 +31,10 @@ export const createSmartAccountClient = async (
 };
 
 export const canSponsorTransaction = async (
-  _client: SmartAccountClient, // eslint-disable-line @typescript-eslint/no-unused-vars
-  _to: `0x${string}`, // eslint-disable-line @typescript-eslint/no-unused-vars
-  _data: `0x${string}`, // eslint-disable-line @typescript-eslint/no-unused-vars
-  _value?: bigint // eslint-disable-line @typescript-eslint/no-unused-vars
+  _client: SmartAccountClient,
+  _to: `0x${string}`,
+  _data: `0x${string}`,
+  _value: bigint = BigInt(0)
 ): Promise<boolean> => {
   try {
     return true;
