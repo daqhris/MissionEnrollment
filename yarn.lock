@@ -317,7 +317,15 @@
     "@babel/traverse" "^7.25.9"
     "@babel/types" "^7.25.9"
 
-"@babel/helpers@^7.26.0", "@babel/helpers@^7.26.10":
+"@babel/helpers@^7.26.0":
+  version "7.27.6"
+  resolved "https://registry.yarnpkg.com/@babel/helpers/-/helpers-7.27.6.tgz#6456fed15b2cb669d2d1fabe84b66b34991d812c"
+  integrity sha512-muE8Tt8M22638HU31A3CgfSUciwz1fhATfoVai05aPXGor//CdWDCbnlY1yvBPo07njuVOCNGCSp/GTt12lIug==
+  dependencies:
+    "@babel/template" "^7.27.2"
+    "@babel/types" "^7.27.6"
+
+"@babel/helpers@^7.26.10":
   version "7.27.6"
   resolved "https://registry.yarnpkg.com/@babel/helpers/-/helpers-7.27.6.tgz#6456fed15b2cb669d2d1fabe84b66b34991d812c"
   integrity sha512-muE8Tt8M22638HU31A3CgfSUciwz1fhATfoVai05aPXGor//CdWDCbnlY1yvBPo07njuVOCNGCSp/GTt12lIug==
@@ -4453,10 +4461,10 @@
   dependencies:
     "@tanstack/store" "^0.3.1"
 
-"@tanstack/form-core@^1.12.2":
-  version "1.12.2"
-  resolved "https://registry.yarnpkg.com/@tanstack/form-core/-/form-core-1.12.2.tgz#7693aac39dade4b19fbc21a7ae33c5d614a8f280"
-  integrity sha512-5nigvx9FAtWWKpDRnhdGrsMC4LjKGdk4+SnJ8xP/phOvW0ffan5atX1u+RvBifWBOIOD6W2tmGDgelUHyJLCpA==
+"@tanstack/form-core@^1.12.1":
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/form-core/-/form-core-1.12.1.tgz#c69328b199470ff9c6e60cd43501974158d47c95"
+  integrity sha512-cCR3udteesUakO0K7T+2GkL8F2HKp7+khJmdLbebz63XbKCuHqSuEtC+bz4cw+Ad6eZxV2hvTkmZxdn39F8XUw==
   dependencies:
     "@tanstack/store" "^0.7.1"
 
