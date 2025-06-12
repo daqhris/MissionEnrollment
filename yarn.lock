@@ -4461,10 +4461,10 @@
   dependencies:
     "@tanstack/store" "^0.3.1"
 
-"@tanstack/form-core@^1.12.1":
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/@tanstack/form-core/-/form-core-1.12.1.tgz#c69328b199470ff9c6e60cd43501974158d47c95"
-  integrity sha512-cCR3udteesUakO0K7T+2GkL8F2HKp7+khJmdLbebz63XbKCuHqSuEtC+bz4cw+Ad6eZxV2hvTkmZxdn39F8XUw==
+"@tanstack/form-core@^1.12.2":
+  version "1.12.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/form-core/-/form-core-1.12.2.tgz#7693aac39dade4b19fbc21a7ae33c5d614a8f280"
+  integrity sha512-5nigvx9FAtWWKpDRnhdGrsMC4LjKGdk4+SnJ8xP/phOvW0ffan5atX1u+RvBifWBOIOD6W2tmGDgelUHyJLCpA==
   dependencies:
     "@tanstack/store" "^0.7.1"
 
@@ -14626,10 +14626,10 @@ undici@^6.11.1:
   resolved "https://registry.npmjs.org/undici/-/undici-6.21.0.tgz"
   integrity sha512-BUgJXc752Kou3oOIuU1i+yZZypyZRqNPW0vqoMPl8VaoalSfeR0D8/t4iAS3yirs79SSMTxTag+ZC86uswv+Cw==
 
-undici@^6.21.1:
-  version "6.21.3"
-  resolved "https://registry.yarnpkg.com/undici/-/undici-6.21.3.tgz#185752ad92c3d0efe7a7d1f6854a50f83b552d7a"
-  integrity sha512-gBLkYIlEnSp8pFbT64yFgGE6UIB9tAkhukC23PmMDCe5Nd+cRqKxSjw5y54MK2AZMgZfJWMaNE4nYUHgi1XEOw==
+undici@^7.5.0:
+  version "7.5.0"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-7.5.0.tgz#51db4d33e0556ea9ca0ea28ccae7448dd8c23ac9"
+  integrity sha512-NFQG741e8mJ0fLQk90xKxFdaSM7z4+IQpAgsFI36bCDY9Z2+aXXZjVy2uUksMouWfMI9+w5ejOq5zYYTBCQJDQ==
 
 unfetch@^4.2.0:
   version "4.2.0"
