@@ -4461,7 +4461,7 @@
   dependencies:
     "@tanstack/store" "^0.3.1"
 
-"@tanstack/form-core@^1.12.2":
+"@tanstack/form-core@^1.12.1":
   version "1.12.2"
   resolved "https://registry.yarnpkg.com/@tanstack/form-core/-/form-core-1.12.2.tgz#7693aac39dade4b19fbc21a7ae33c5d614a8f280"
   integrity sha512-5nigvx9FAtWWKpDRnhdGrsMC4LjKGdk4+SnJ8xP/phOvW0ffan5atX1u+RvBifWBOIOD6W2tmGDgelUHyJLCpA==
