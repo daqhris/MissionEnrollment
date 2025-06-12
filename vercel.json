@@ -1,3 +1,16 @@
 {
-  "installCommand": "yarn install"
+  "installCommand": "yarn install",
+  "buildCommand": "yarn build",
+  "outputDirectory": "out",
+  "framework": "nextjs",
+  "functions": {
+    "app/api/**/*.ts": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "env": {
+    "NODE_VERSION": "18",
+    "GITHUB_PAGES": "false",
+    "CUSTOM_DOMAIN": "true"
+  }
 }
