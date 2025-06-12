@@ -3,11 +3,6 @@
   "buildCommand": "yarn build",
   "outputDirectory": "out",
   "framework": "nextjs",
-  "functions": {
-    "app/api/**/*.ts": {
-      "runtime": "@vercel/node@18"
-    }
-  },
   "env": {
     "NODE_VERSION": "18",
     "GITHUB_PAGES": "false",
