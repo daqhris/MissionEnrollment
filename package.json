@@ -50,7 +50,7 @@
     "date-fns": "^4.1.0",
     "ethers": "^6.13.5",
     "graphql": "^16.9.0",
-    "next": "^15.3.3",
+    "next": "^15.4.0",
     "next-themes": "^0.3.0",
     "node-cache": "^5.1.2",
     "nprogress": "^0.2.0",
@@ -85,7 +85,7 @@
     "@eslint/js": "^9.16.0",
     "@ethereum-attestation-service/eas-contracts": "^1.7.1",
     "@jest/globals": "^29.7.0",
-    "@next/eslint-plugin-next": "^15.1.0",
+    "@next/eslint-plugin-next": "^15.3.3",
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
     "@nomicfoundation/hardhat-ethers": "^3.0.8",
     "@nomicfoundation/hardhat-ignition": "^0.15.8",
@@ -130,5 +130,8 @@
     "ts-node": "^10.9.2",
     "typechain": "^8.3.0",
     "typescript": "^5.7.2"
+  },
+  "resolutions": {
+    "elliptic": "^6.6.1"
   }
 }
