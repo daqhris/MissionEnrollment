@@ -37,7 +37,7 @@ jobs:
       NEXT_PUBLIC_ONCHAINKIT_API_KEY: ${{ secrets.NEXT_PUBLIC_ONCHAINKIT_API_KEY }}
       NEXT_PUBLIC_POAP_API_KEY: ${{ secrets.NEXT_PUBLIC_POAP_API_KEY }}
       NEXT_PUBLIC_IGNORE_BUILD_ERROR: "true"
-      NODE_VERSION: "18"
+      NODE_VERSION: "20"
       GITHUB_PAGES: "true"
       CUSTOM_DOMAIN: "true"
     steps:
@@ -63,7 +63,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Setup Pages
         uses: actions/configure-pages@v5
