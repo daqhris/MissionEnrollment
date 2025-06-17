@@ -118,7 +118,7 @@ export const Footer = (): React.JSX.Element => {
                 rel="noopener noreferrer"
                 className="text-[#957777] hover:text-[#a58a8a] text-xs flex items-center"
               >
-                Base Batch Europe
+                Base Europe &apos;25
                 <ExternalLinkIcon />
               </Link>
               <Link
