@@ -89,16 +89,6 @@ select:focus {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card::after {
-  content: "BETA";
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  font-size: 0.6rem;
-  opacity: 0.3;
-  color: var(--primary-color);
-  pointer-events: none;
-}
 
 .card:hover {
   transform: translateY(-5px);
