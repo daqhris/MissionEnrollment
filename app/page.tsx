@@ -10,7 +10,6 @@ import EventAttendanceValidation from '../components/EventAttendanceValidation';
 import EnrollmentAttestation from '../components/EnrollmentAttestation';
 import { SuccessAttestation } from '../components/SuccessAttestation';
 import { Logo } from '../components/Logo';
-import { BetaBanner } from '../components/BetaBanner';
 import NetworkSelector from '../components/NetworkSelector';
 
 
@@ -113,7 +112,6 @@ export default function Home() {
       <div className="flex items-center justify-between mb-8">
         <Logo />
       </div>
-      <BetaBanner />
       
       {/* Progress Indicator removed */}
       
