@@ -12,7 +12,7 @@
     "Chris-Armel Iradukunda (daqhris) <info@daqhris.com>",
     "Devin AI <158243242+devin-ai-integration[bot]@users.noreply.github.com>"
   ],
-  "license": "MIT",
+  "license": "EUPL-1.2",
   "engines": {
     "node": ">=20.x"
   },
