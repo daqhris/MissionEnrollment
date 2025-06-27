@@ -1,12 +1,12 @@
 # Mission Enrollment
 
-**An enrollment tool for a collaborative artistic mission (Zinneke Rescue Mission) on the Base blockchain (later on the Superchain).**
+**An enrollment tool for a collaborative artistic mission (Zinneke Rescue Mission) on Base (later on the Superchain).**
 _A blockchain app being openly built by a human and a non-human since summer 2024._
 
 <img src="https://raw.githubusercontent.com/daqhris/MissionEnrollment/master/public/logo.png" alt="Mission Enrollment Logo" width="250" height="250">
 
 This app facilitates the enrollment of its connected user for an up-coming onchain mission.
-Its use requires the onchain identity check of a name on a blockchain, approval of attendance at an in-person event, and an attestation signed by the mission coordinator on the **Base** blockchain.
+Its use requires the onchain identity check of a name on a blockchain, approval of attendance at an in-person event, and an attestation signed by the mission coordinator on Base.
 
 This project implements a transparent process reliant on 3 steps of control and validation: onchain identity check, event attendance approval, and enrollment attestation.
 It is built as a web application with **Next.js** and **React**, and runs on top of smart contracts integrating blockchain protocols: **Basename (ENS)**, **Proof of Attendance Protocol (POAP)** and **Ethereum Attestation Service (EAS)**.

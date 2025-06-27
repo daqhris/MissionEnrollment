@@ -15,7 +15,7 @@ export const getPageMetadata = (pageType: PageType, params?: Record<string, stri
     case 'enrollments':
       return getMetadata({
         title: "Recent Enrollments | Mission Enrollment",
-        description: "View recent attestations and enrollments for the Zinneke Rescue Mission on the Base blockchain.",
+        description: "View recent attestations and enrollments for the Zinneke Rescue Mission on Base.",
         path: "/enrollments"
       });
     
@@ -37,13 +37,13 @@ export const getPageMetadata = (pageType: PageType, params?: Record<string, stri
       if (params?.id) {
         return getMetadata({
           title: `Attestation ${params.id.substring(0, 10)}... | Mission Enrollment`,
-          description: `View details of attestation ${params.id.substring(0, 10)}... on the Base blockchain for the Zinneke Rescue Mission.`,
+          description: `View details of attestation ${params.id.substring(0, 10)}... on Base for the Zinneke Rescue Mission.`,
           path: `/attestation/${params.id}`
         });
       }
       return getMetadata({
         title: "Attestation Details | Mission Enrollment",
-        description: "View attestation details on the Base blockchain for the Zinneke Rescue Mission.",
+        description: "View attestation details on Base for the Zinneke Rescue Mission.",
         path: "/attestation"
       });
     
@@ -78,7 +78,7 @@ export const getPageMetadata = (pageType: PageType, params?: Record<string, stri
     default:
       return getMetadata({
         title: "Mission Enrollment",
-        description: "A decentralized application for managing mission enrollments and verifying attestations on Base blockchain",
+        description: "A decentralized application for managing mission enrollments and verifying attestations on Base",
         path: "/"
       });
   }
