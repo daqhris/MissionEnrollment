@@ -1,6 +1,6 @@
 export const getStructuredData = ({
   name = 'Mission Enrollment',
-  description = 'A decentralized application for managing mission enrollments and verifying attestations on Base blockchain',
+  description = 'A decentralized application for managing mission enrollments and verifying attestations on Base',
   url = 'https://mission-enrollment.daqhris.com',
   logoUrl = 'https://mission-enrollment.daqhris.com/logo.png',
 }: {

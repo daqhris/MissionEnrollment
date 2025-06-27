@@ -182,11 +182,11 @@ export const Header = (): React.JSX.Element => {
   const getChainName = (id: number): string => {
     switch (id) {
       case 8453:
-        return "BASE";
+        return "Base";
       case 84532:
-        return "BASE SEPOLIA";
+        return "Base Sepolia";
       default:
-        return "BASE";
+        return "Base";
     }
   };
 
