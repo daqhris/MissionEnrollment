@@ -150,7 +150,7 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
       ) : (
         <Alert severity="info" sx={{ mb: 2 }}>
           <Typography variant="body2" sx={{ color: '#8B4513' }}>
-            To send a donation directly, connect a wallet using the "Sign Up" button at the top of the page. 
+            To send a donation directly, connect a wallet using the &quot;Sign Up&quot; button at the top of the page. 
             Alternatively, use the QR code below or send manually to the address above.
           </Typography>
         </Alert>
