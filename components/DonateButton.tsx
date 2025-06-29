@@ -97,7 +97,21 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
       
       if (!response.ok) {
         console.error('CDP transfer failed:', result);
-        throw new Error(result.details || `Transfer failed: ${response.statusText}`);
+        
+        let errorMessage = result.error || 'Transfer failed';
+        if (result.details) {
+          if (result.details.includes('insufficient')) {
+            errorMessage = 'Insufficient funds in donation account. Please try again later.';
+          } else if (result.details.includes('network')) {
+            errorMessage = 'Network configuration error. Please try again.';
+          } else if (result.details.includes('auth')) {
+            errorMessage = 'Authentication error. Please contact support.';
+          } else if (result.details.includes('Something went wrong')) {
+            errorMessage = 'CDP service temporarily unavailable. Please try again later.';
+          }
+        }
+        
+        throw new Error(errorMessage);
       }
 
       console.log('CDP donation completed successfully:', result);
