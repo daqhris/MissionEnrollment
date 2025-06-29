@@ -47,6 +47,7 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
         setEthAmount(ethAmountCalculated);
       } catch (error) {
         console.error('Error fetching ETH price:', error);
+        setEthAmount('0');
       } finally {
         setIsLoadingRate(false);
       }
