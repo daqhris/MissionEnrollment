@@ -13,6 +13,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!process.env.CDP_API_KEY_ID || !process.env.CDP_API_KEY_SECRET || !process.env.CDP_WALLET_SECRET) {
+      console.error('Missing CDP SDK environment variables:', {
+        CDP_API_KEY_ID: !!process.env.CDP_API_KEY_ID,
+        CDP_API_KEY_SECRET: !!process.env.CDP_API_KEY_SECRET,
+        CDP_WALLET_SECRET: !!process.env.CDP_WALLET_SECRET
+      });
+      return NextResponse.json(
+        { error: 'CDP SDK not properly configured. Missing required environment variables.' },
+        { status: 500 }
+      );
+    }
+
     const cdp = new CdpClient();
 
     const sender = await cdp.evm.getOrCreateAccount({ name: "MissionEnrollmentDonationSender" });
