@@ -6,7 +6,8 @@ import { SUPPORTED_CHAINS } from "./wagmi";
 
 export const createLocalAccountSigner = async () => {
   const privateKey = crypto.getRandomValues(new Uint8Array(32));
-  return LocalAccountSigner.privateKeyToAccountSigner(`0x${Buffer.from(privateKey).toString('hex')}`);
+  const hexPrivateKey = `0x${Array.from(privateKey).map(b => b.toString(16).padStart(2, '0')).join('')}`;
+  return LocalAccountSigner.privateKeyToAccountSigner(hexPrivateKey);
 };
 
 export const initializeSmartAccount = async (chainId: number = SUPPORTED_CHAINS.BASE_MAINNET) => {
