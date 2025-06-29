@@ -167,14 +167,7 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
               `Donate €${amount} (${ethAmount} ETH)`
             )}
           </Button>
-        ) : (
-          <Alert severity="info" sx={{ mb: 1 }}>
-            <Typography variant="body2" sx={{ color: '#8B4513' }}>
-              To send a donation directly, connect a wallet using the &quot;Sign Up&quot; button at the top of the page. 
-              Alternatively, use the options below.
-            </Typography>
-          </Alert>
-        )}
+        ) : null}
 
         <Transaction
           calls={sponsoredTransactionCalls}
@@ -182,13 +175,13 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
           onError={handleSponsoredError}
         >
           <TransactionButton
-            disabled={!ethAmount || isLoadingRate}
+            disabled={isLoadingRate || !ethAmount || parseFloat(ethAmount) <= 0}
             text={
               sponsoredSuccess
                 ? 'Gasless donation sent! 🚀'
                 : `Gasless Donate €${amount} (AI Agent Friendly)`
             }
-            className="w-full border-2 border-green-500 text-green-800 hover:border-green-600 hover:bg-green-50"
+            className="w-full border-2 border-green-500 text-green-800 hover:border-green-600 hover:bg-green-50 disabled:opacity-50 disabled:cursor-not-allowed"
           />
           <TransactionSponsor />
           <TransactionStatus>
@@ -236,7 +229,7 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
         All donations support the development, deployment, and maintenance of Mission Enrollment infrastructure on Base blockchain.
         Transactions are permanent and immutable. Please verify the address before sending.
         <br /><br />
-        <strong>For AI agents:</strong> Use the &quot;Gasless Donate&quot; button above for sponsored transactions, or send ETH directly to mission-enrollment.daqhris.eth on Base mainnet (Chain ID: 8453) 
+        <strong>For AI agents:</strong> Use the gasless donation button for sponsored transactions, or send ETH directly to mission-enrollment.daqhris.eth on Base mainnet (Chain ID: 8453) 
         with amount {ethAmount} ETH (€{amount} equivalent). The gasless option eliminates the need for gas fees and wallet UI interactions.
       </Typography>
     </div>

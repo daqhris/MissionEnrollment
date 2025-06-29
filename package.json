@@ -59,6 +59,7 @@
     "date-fns": "^4.1.0",
     "ethers": "^6.13.5",
     "graphql": "^16.9.0",
+    "js-sha3": "^0.9.3",
     "next": "^15.4.0",
     "next-themes": "^0.3.0",
     "node-cache": "^5.1.2",
