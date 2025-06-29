@@ -22,7 +22,7 @@ import "@rainbow-me/rainbowkit/styles.css";
 import "@coinbase/onchainkit/styles.css";
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
-  useInitializeNativeCurrencyPrice();
+  // useInitializeNativeCurrencyPrice();
 
   return (
     <ErrorBoundary>
