@@ -24,7 +24,7 @@ export const createSmartAccountClient = async (
       transport,
       chain,
       signer,
-    });
+    } as any);
   } catch (error) {
     console.error("Error creating smart account client:", error);
     throw error;
