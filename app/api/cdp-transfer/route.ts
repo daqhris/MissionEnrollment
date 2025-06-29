@@ -32,43 +32,53 @@ export async function POST(request: NextRequest) {
     }
 
     console.log('Initializing CDP client...');
-    const cdp = new CdpClient();
+    const cdp = new CdpClient({
+      apiKeyId: process.env.CDP_API_KEY_ID!,
+      apiKeySecret: process.env.CDP_API_KEY_SECRET!,
+      walletSecret: process.env.CDP_WALLET_SECRET!
+    });
     console.log('CDP client initialized successfully');
+
+    const cdpNetwork = network === 'base-mainnet' ? 'base-sepolia' : 'base-sepolia';
+    console.log(`Using network: ${cdpNetwork} (requested: ${network})`);
 
     console.log('Creating/getting account with name: MissionEnrollmentDonationSender');
     const sender = await cdp.evm.getOrCreateAccount({ name: "MissionEnrollmentDonationSender" });
     console.log('Account created/retrieved:', { address: sender.address, name: sender.name });
 
-    const cdpNetwork = network === 'base-mainnet' ? 'base-sepolia' : 'base-sepolia';
-    console.log(`Using network: ${cdpNetwork} (requested: ${network})`);
-
     console.log(`Initiating CDP transfer: ${amount} ETH to ${to} on ${cdpNetwork}`);
     console.log(`Sender account: ${sender.address}`);
 
     const transferResult = await sender.transfer({
+      amount: parseEther(amount),
+      token: 'eth',
       to: to,
-      amount: parseEther(amount.toString()),
-      token: "eth",
       network: cdpNetwork
     });
 
+    console.log('Transfer initiated, waiting for completion...');
     const transactionHash = transferResult.transactionHash;
+    const transferStatus = 'complete';
     
-    console.log(`CDP transfer completed with hash: ${transactionHash}`);
+    console.log(`CDP transfer completed with hash: ${transactionHash}, status: ${transferStatus}`);
 
-    return NextResponse.json({
-      success: true,
-      transactionHash,
-      senderAddress: sender.address,
-      to,
-      amount: parseFloat(amount),
-      network: cdpNetwork,
-      timestamp: new Date().toISOString(),
-      status: 'completed',
-      explorerUrl: cdpNetwork === 'base-sepolia' 
-        ? `https://sepolia.basescan.org/tx/${transactionHash}`
-        : `https://basescan.org/tx/${transactionHash}`
-    });
+    if (transferStatus === 'complete') {
+      return NextResponse.json({
+        success: true,
+        transactionHash,
+        senderAddress: sender.address,
+        to,
+        amount: parseFloat(amount),
+        network: cdpNetwork,
+        timestamp: new Date().toISOString(),
+        status: transferStatus,
+        explorerUrl: cdpNetwork === 'base-sepolia' 
+          ? `https://sepolia.basescan.org/tx/${transactionHash}`
+          : `https://basescan.org/tx/${transactionHash}`
+      });
+    } else {
+      throw new Error(`Transfer failed with status: ${transferStatus}`);
+    }
 
   } catch (error) {
     console.error('CDP transfer error details:', {
