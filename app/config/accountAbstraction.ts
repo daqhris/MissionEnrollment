@@ -9,7 +9,7 @@ import { SUPPORTED_CHAINS } from "./wagmi";
 
 export const createSmartAccountClient = async (
   chainId: number,
-  _signer: SmartAccountSigner // eslint-disable-line @typescript-eslint/no-unused-vars
+  signer: SmartAccountSigner
 ): Promise<SmartAccountClient> => {
   try {
     const transport = http(
@@ -23,7 +23,8 @@ export const createSmartAccountClient = async (
     return createLightAccountClient({
       transport,
       chain,
-    } as any);
+      signer,
+    });
   } catch (error) {
     console.error("Error creating smart account client:", error);
     throw error;
