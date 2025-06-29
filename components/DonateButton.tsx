@@ -79,6 +79,8 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
     
     setIsCdpSending(true);
     try {
+      console.log('Initiating gasless donation via CDP SDK...');
+      
       const response = await fetch('/api/cdp-transfer', {
         method: 'POST',
         headers: {
@@ -91,15 +93,21 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
         }),
       });
 
+      const result = await response.json();
+      
       if (!response.ok) {
-        throw new Error(`Transfer failed: ${response.statusText}`);
+        console.error('CDP transfer failed:', result);
+        throw new Error(result.details || `Transfer failed: ${response.statusText}`);
       }
 
-      const result = await response.json();
-      console.log('CDP donation completed:', result);
+      console.log('CDP donation completed successfully:', result);
+      console.log(`Transaction hash: ${result.transactionHash}`);
+      console.log(`Explorer URL: ${result.explorerUrl}`);
+      
       setCdpSuccess(true);
     } catch (error) {
       console.error('CDP donation error:', error);
+      alert(`Gasless donation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsCdpSending(false);
     }

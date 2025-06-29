@@ -15,31 +15,51 @@ export async function POST(request: NextRequest) {
 
     const cdp = new CdpClient();
 
-    const sender = await cdp.evm.getOrCreateAccount({ name: "DonationSender" });
+    const sender = await cdp.evm.getOrCreateAccount({ name: "MissionEnrollmentDonationSender" });
 
     const cdpNetwork = network === 'base-mainnet' ? 'base' : 'base-sepolia';
 
-    const { transactionHash } = await sender.transfer({
+    console.log(`Initiating CDP transfer: ${amount} ETH to ${to} on ${cdpNetwork}`);
+    console.log(`Sender account: ${sender.address}`);
+
+    const transferResult = await sender.transfer({
       to: to,
       amount: parseEther(amount.toString()),
       token: "eth",
       network: cdpNetwork
     });
 
+    const transactionHash = transferResult.transactionHash;
+    
+    console.log(`CDP transfer completed with hash: ${transactionHash}`);
+
     return NextResponse.json({
       success: true,
       transactionHash,
+      senderAddress: sender.address,
       to,
       amount: parseFloat(amount),
       network: cdpNetwork,
       timestamp: new Date().toISOString(),
-      status: 'completed'
+      status: 'completed',
+      explorerUrl: cdpNetwork === 'base' 
+        ? `https://basescan.org/tx/${transactionHash}`
+        : `https://sepolia.basescan.org/tx/${transactionHash}`
     });
 
   } catch (error) {
     console.error('CDP transfer error:', error);
+    
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    
     return NextResponse.json(
-      { error: 'Transfer failed', details: error instanceof Error ? error.message : 'Unknown error' },
+      { 
+        error: 'Transfer failed', 
+        details: errorMessage,
+        stack: errorStack,
+        timestamp: new Date().toISOString()
+      },
       { status: 500 }
     );
   }
