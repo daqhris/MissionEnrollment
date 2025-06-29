@@ -21,6 +21,7 @@ if (typeof window !== 'undefined') {
 }
 
 const NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT = process.env.NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT || "";
+const NEXT_PUBLIC_CDP_API_KEY = process.env.NEXT_PUBLIC_CDP_API_KEY || "";
 
 // Export environment variables as a single object
 export const env = {
@@ -30,6 +31,7 @@ export const env = {
   NEXT_PUBLIC_BASE_MAINNET_RPC_URL,
   NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL,
   NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT,
+  NEXT_PUBLIC_CDP_API_KEY,
 } as const;
 
 // Also export individual variables for backward compatibility
@@ -38,4 +40,5 @@ export {
   NEXT_PUBLIC_ALCHEMY_API_KEY,
   NEXT_PUBLIC_ONCHAINKIT_API_KEY,
   NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT,
+  NEXT_PUBLIC_CDP_API_KEY,
 };

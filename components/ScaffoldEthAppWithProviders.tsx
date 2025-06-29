@@ -64,7 +64,7 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
             apiKey={NEXT_PUBLIC_ONCHAINKIT_API_KEY || ''}
             chain={config.chains[0]}
             config={{
-              paymaster: NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT,
+              paymaster: NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT || undefined,
             }}
           >
             <RainbowKitProvider
