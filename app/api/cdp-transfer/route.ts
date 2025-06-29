@@ -19,24 +19,20 @@ export async function POST(request: NextRequest) {
       CDP_WALLET_SECRET: process.env.CDP_WALLET_SECRET ? 'SET' : 'MISSING'
     });
 
-    if (!process.env.CDP_API_KEY_ID || !process.env.CDP_API_KEY_SECRET || !process.env.CDP_WALLET_SECRET) {
-      console.error('Missing CDP SDK environment variables:', {
+    if (!process.env.CDP_API_KEY_ID || !process.env.CDP_API_KEY_SECRET) {
+      console.error('Missing required CDP SDK environment variables:', {
         CDP_API_KEY_ID: !!process.env.CDP_API_KEY_ID,
         CDP_API_KEY_SECRET: !!process.env.CDP_API_KEY_SECRET,
         CDP_WALLET_SECRET: !!process.env.CDP_WALLET_SECRET
       });
       return NextResponse.json(
-        { error: 'CDP SDK not properly configured. Missing required environment variables.' },
+        { error: 'CDP SDK not properly configured. Missing required API key environment variables.' },
         { status: 500 }
       );
     }
 
-    console.log('Initializing CDP client...');
-    const cdp = new CdpClient({
-      apiKeyId: process.env.CDP_API_KEY_ID!,
-      apiKeySecret: process.env.CDP_API_KEY_SECRET!,
-      walletSecret: process.env.CDP_WALLET_SECRET!
-    });
+    console.log('Initializing CDP client with environment variables...');
+    const cdp = new CdpClient();
     console.log('CDP client initialized successfully');
 
     const cdpNetwork = network === 'base-mainnet' ? 'base-sepolia' : 'base-sepolia';
