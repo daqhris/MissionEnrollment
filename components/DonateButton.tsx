@@ -4,8 +4,7 @@ import { parseEther } from 'viem';
 import { Typography, Box, Button, CircularProgress, Alert } from '@mui/material';
 import dynamic from 'next/dynamic';
 import { BASE_MAINNET_CHAIN_ID, MISSION_ENROLLMENT_BASE_ETH_ADDRESS } from '../utils/constants';
-import { initializeSmartAccount, isSmartAccountSupported } from '../app/config/smartWallets';
-import { sendGaslessTransaction, canSponsorTransaction } from '../app/config/accountAbstraction';
+import { Transaction, TransactionButton, TransactionSponsor, TransactionStatus, TransactionStatusLabel, TransactionStatusAction } from '@coinbase/onchainkit/transaction';
 
 const QRCodeSVG = dynamic(() => import('qrcode.react').then(mod => mod.QRCodeSVG), { ssr: false });
 
@@ -21,9 +20,8 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
   const [isSending, setIsSending] = useState(false);
   const [transactionSuccess, setTransactionSuccess] = useState(false);
   const [showQR, setShowQR] = useState(false);
-  const [isSmartAccountSending, setIsSmartAccountSending] = useState(false);
-  const [smartAccountSuccess, setSmartAccountSuccess] = useState(false);
-  const [smartAccountSupported, setSmartAccountSupported] = useState(false);
+  const [isSponsoredSending, setIsSponsoredSending] = useState(false);
+  const [sponsoredSuccess, setSponsoredSuccess] = useState(false);
 
   const { sendTransaction } = useSendTransaction({
     mutation: {
@@ -59,9 +57,6 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
     return () => clearInterval(interval);
   }, [amount]);
 
-  useEffect(() => {
-    setSmartAccountSupported(isSmartAccountSupported());
-  }, []);
 
   const handleDonate = async () => {
     if (!address || !ethAmount) return;
@@ -79,37 +74,21 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
     }
   };
 
-  const handleSmartAccountDonate = async () => {
-    if (!ethAmount) return;
-    
-    setIsSmartAccountSending(true);
-    try {
-      const { smartAccountClient } = await initializeSmartAccount(BASE_MAINNET_CHAIN_ID);
-      
-      const canSponsor = await canSponsorTransaction(
-        smartAccountClient,
-        MISSION_ENROLLMENT_BASE_ETH_ADDRESS as `0x${string}`,
-        '0x',
-        parseEther(ethAmount)
-      );
-
-      if (canSponsor) {
-        await sendGaslessTransaction(
-          smartAccountClient,
-          MISSION_ENROLLMENT_BASE_ETH_ADDRESS as `0x${string}`,
-          '0x',
-          parseEther(ethAmount)
-        );
-        setSmartAccountSuccess(true);
-      } else {
-        throw new Error('Transaction cannot be sponsored');
-      }
-    } catch (error) {
-      console.error('Error sending smart account donation:', error);
-    } finally {
-      setIsSmartAccountSending(false);
-    }
+  const handleSponsoredSuccess = () => {
+    setIsSponsoredSending(false);
+    setSponsoredSuccess(true);
   };
+
+  const handleSponsoredError = (error: any) => {
+    console.error('Error sending sponsored donation:', error);
+    setIsSponsoredSending(false);
+  };
+
+  const sponsoredTransactionCalls = [{
+    to: MISSION_ENROLLMENT_BASE_ETH_ADDRESS as `0x${string}`,
+    value: parseEther(ethAmount || '0'),
+    data: '0x' as `0x${string}`,
+  }];
 
   const qrValue = `ethereum:${MISSION_ENROLLMENT_BASE_ETH_ADDRESS}@${BASE_MAINNET_CHAIN_ID}?value=${parseEther(ethAmount).toString()}`;
 
@@ -197,33 +176,26 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
           </Alert>
         )}
 
-        {smartAccountSupported && (
-          <Button
-            variant="outlined"
-            onClick={handleSmartAccountDonate}
-            disabled={isSmartAccountSending || !ethAmount || isLoadingRate}
-            sx={{
-              width: '100%',
-              borderColor: '#10B981',
-              color: '#065F46',
-              '&:hover': {
-                borderColor: '#059669',
-                backgroundColor: 'rgba(16, 185, 129, 0.1)'
-              }
-            }}
-          >
-            {isSmartAccountSending ? (
-              <>
-                <CircularProgress size={24} sx={{ mr: 1, color: '#10B981' }} />
-                Creating gasless donation...
-              </>
-            ) : smartAccountSuccess ? (
-              'Gasless donation sent! 🚀'
-            ) : (
-              `Gasless Donate €${amount} (AI Agent Friendly)`
-            )}
-          </Button>
-        )}
+        <Transaction
+          calls={sponsoredTransactionCalls}
+          onSuccess={handleSponsoredSuccess}
+          onError={handleSponsoredError}
+        >
+          <TransactionButton
+            disabled={!ethAmount || isLoadingRate}
+            text={
+              sponsoredSuccess
+                ? 'Gasless donation sent! 🚀'
+                : `Gasless Donate €${amount} (AI Agent Friendly)`
+            }
+            className="w-full border-2 border-green-500 text-green-800 hover:border-green-600 hover:bg-green-50"
+          />
+          <TransactionSponsor />
+          <TransactionStatus>
+            <TransactionStatusLabel />
+            <TransactionStatusAction />
+          </TransactionStatus>
+        </Transaction>
       </Box>
 
       <Button

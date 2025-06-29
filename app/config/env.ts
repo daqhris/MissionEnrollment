@@ -20,6 +20,8 @@ if (typeof window !== 'undefined') {
   }
 }
 
+const NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT = process.env.NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT || "";
+
 // Export environment variables as a single object
 export const env = {
   NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
@@ -27,6 +29,7 @@ export const env = {
   NEXT_PUBLIC_ONCHAINKIT_API_KEY,
   NEXT_PUBLIC_BASE_MAINNET_RPC_URL,
   NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL,
+  NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT,
 } as const;
 
 // Also export individual variables for backward compatibility
@@ -34,4 +37,5 @@ export {
   NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
   NEXT_PUBLIC_ALCHEMY_API_KEY,
   NEXT_PUBLIC_ONCHAINKIT_API_KEY,
+  NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT,
 };
