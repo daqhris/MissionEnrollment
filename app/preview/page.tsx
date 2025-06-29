@@ -118,7 +118,7 @@ export default function PreviewPage() {
             </div>
             <div className="bg-amber-200 p-4 rounded-lg border border-[#957777]/20">
               <h3 className="text-[#957777] font-semibold mb-2">EAS Attestations</h3>
-              <p className="text-amber-800 text-sm">Onchain self-enrollment and public attestions</p>
+              <p className="text-amber-800 text-sm">Onchain self-enrollment and public attestations</p>
             </div>
           </div>
           
