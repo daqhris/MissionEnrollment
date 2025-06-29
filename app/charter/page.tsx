@@ -186,11 +186,11 @@ export default function CharterPage(): ReactNode {
               <h2 className="text-2xl font-semibold mb-4">V. Blockchain-Specific Considerations</h2>
               
               <h3 className="text-xl font-medium mt-6 mb-2">A. Data Permanence</h3>
-              <p>Users should be aware that information recorded on the <a href="https://base.org/" target="_blank" rel="noopener noreferrer">Base blockchain</a><ExternalLinkIcon /> is permanent and immutable. Before creating attestations or other on-chain records, users will be informed about:</p>
+              <p>Users should be aware that information recorded on the <a href="https://base.org/" target="_blank" rel="noopener noreferrer">Base blockchain</a><ExternalLinkIcon /> is permanent and immutable. Before creating attestations or other onchain records, users will be informed about:</p>
               <ul className="list-disc pl-6 mt-2">
-                <li>What data will be recorded on-chain</li>
+                <li>What data will be recorded onchain</li>
                 <li>The permanent nature of blockchain records</li>
-                <li>How to verify their on-chain data</li>
+                <li>How to verify their onchain data</li>
               </ul>
               
               <h3 className="text-xl font-medium mt-6 mb-2">B. Environmental Considerations</h3>
