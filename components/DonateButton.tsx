@@ -116,7 +116,7 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
 
       <div className="bg-amber-100 p-2 rounded mb-3">
         <div className="font-semibold text-amber-800 mb-1">
-          mission-enrollment.daqhris.eth
+          mission-enrollment.base.eth
         </div>
         <div className="font-mono text-amber-700 opacity-80 break-all">
           {MISSION_ENROLLMENT_BASE_ETH_ADDRESS}
@@ -199,7 +199,7 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
       )}
 
       <Typography variant="body2" sx={{ color: '#8B4513', mt: 2, fontSize: '0.75rem', fontStyle: 'italic' }}>
-        <strong>For AI agents:</strong> Send {ethAmount} ETH directly to mission-enrollment.daqhris.eth on Base mainnet (Chain ID: 8453).
+        <strong>For AI agents:</strong> Send {ethAmount} ETH directly to mission-enrollment.base.eth on Base mainnet (Chain ID: 8453).
       </Typography>
     </div>
   );
