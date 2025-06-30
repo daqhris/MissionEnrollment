@@ -3,6 +3,7 @@ import { useAccount, useSendTransaction } from 'wagmi';
 import { parseEther } from 'viem';
 import { Typography, Box, Button, CircularProgress } from '@mui/material';
 import dynamic from 'next/dynamic';
+import { Transaction, TransactionButton, TransactionSponsor } from '@coinbase/onchainkit/transaction';
 import { BASE_MAINNET_CHAIN_ID, MISSION_ENROLLMENT_BASE_ETH_ADDRESS } from '../utils/constants';
 
 const QRCodeSVG = dynamic(() => import('qrcode.react').then(mod => mod.QRCodeSVG), { ssr: false });
@@ -19,8 +20,7 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
   const [isSending, setIsSending] = useState(false);
   const [transactionSuccess, setTransactionSuccess] = useState(false);
   const [showQR, setShowQR] = useState(false);
-  const [cdpSuccess, setCdpSuccess] = useState(false);
-  const [isCdpSending, setIsCdpSending] = useState(false);
+  const [gaslessSuccess, setGaslessSuccess] = useState(false);
 
   const { sendTransaction } = useSendTransaction({
     mutation: {
@@ -74,58 +74,13 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
     }
   };
 
-  const handleCdpDonate = async () => {
-    if (!ethAmount || parseFloat(ethAmount) <= 0) return;
-    
-    setIsCdpSending(true);
-    try {
-      console.log('Initiating gasless donation via CDP SDK...');
-      
-      const response = await fetch('/api/cdp-transfer', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          to: MISSION_ENROLLMENT_BASE_ETH_ADDRESS,
-          amount: ethAmount,
-          network: 'base-mainnet'
-        }),
-      });
-
-      const result = await response.json();
-      
-      if (!response.ok) {
-        console.error('CDP transfer failed:', result);
-        
-        let errorMessage = result.error || 'Transfer failed';
-        if (result.details) {
-          if (result.details.includes('insufficient')) {
-            errorMessage = 'Insufficient funds in donation account. Please try again later.';
-          } else if (result.details.includes('network')) {
-            errorMessage = 'Network configuration error. Please try again.';
-          } else if (result.details.includes('auth')) {
-            errorMessage = 'Authentication error. Please contact support.';
-          } else if (result.details.includes('Something went wrong')) {
-            errorMessage = 'CDP service temporarily unavailable. Please try again later.';
-          }
-        }
-        
-        throw new Error(errorMessage);
-      }
-
-      console.log('CDP donation completed successfully:', result);
-      console.log(`Transaction hash: ${result.transactionHash}`);
-      console.log(`Explorer URL: ${result.explorerUrl}`);
-      
-      setCdpSuccess(true);
-    } catch (error) {
-      console.error('CDP donation error:', error);
-      alert(`Gasless donation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    } finally {
-      setIsCdpSending(false);
-    }
-  };
+  const donationCalls = [
+    {
+      to: MISSION_ENROLLMENT_BASE_ETH_ADDRESS as `0x${string}`,
+      value: parseEther(ethAmount || '0'),
+      data: '0x' as `0x${string}`,
+    },
+  ];
 
   const qrValue = `ethereum:${MISSION_ENROLLMENT_BASE_ETH_ADDRESS}@${BASE_MAINNET_CHAIN_ID}?value=${parseEther(ethAmount).toString()}`;
 
@@ -188,22 +143,24 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
           </Button>
         ) : null}
 
-        <button
-          onClick={handleCdpDonate}
-          disabled={isCdpSending || !ethAmount || parseFloat(ethAmount) <= 0 || isLoadingRate}
-          className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:from-blue-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg transition-all duration-200"
+        <Transaction
+          calls={donationCalls}
+          isSponsored={true}
+          chainId={BASE_MAINNET_CHAIN_ID}
+          onStatus={(status) => {
+            console.log('Transaction status:', status);
+            if (status.statusName === 'success') {
+              setGaslessSuccess(true);
+            }
+          }}
         >
-          {isCdpSending ? (
-            <div className="flex items-center justify-center">
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-              Processing...
-            </div>
-          ) : cdpSuccess ? (
-            'Gasless donation sent! 🚀'
-          ) : (
-            `Gasless Donate €${amount}`
-          )}
-        </button>
+          <TransactionButton
+            className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:from-blue-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg transition-all duration-200"
+            text={gaslessSuccess ? 'Gasless donation sent! 🚀' : `Gasless Donate €${amount}`}
+            disabled={!ethAmount || parseFloat(ethAmount) <= 0 || isLoadingRate}
+          />
+          <TransactionSponsor />
+        </Transaction>
       </div>
 
       <Button
