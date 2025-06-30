@@ -10,7 +10,6 @@ This guide provides detailed instructions for installing and running the Mission
 - **API Keys**:
   - OnchainKit API Key
   - WalletConnect Project ID
-  - Alchemy API Key
   - POAP API Key
 
 ## Standard Installation
@@ -39,7 +38,6 @@ Edit the `.env.local` file created by the setup script:
 # Required API Keys
 NEXT_PUBLIC_ONCHAINKIT_API_KEY=your_onchainkit_api_key_here
 NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=your_wallet_connect_project_id_here
-NEXT_PUBLIC_ALCHEMY_API_KEY=your_alchemy_api_key_here
 NEXT_PUBLIC_POAP_API_KEY=your_poap_api_key_here
 
 # Blockchain Configuration

@@ -1,7 +1,7 @@
 import { JsonRpcProvider } from 'ethers';
 
 export async function getEnsName(address: string): Promise<string> {
-  const provider = new JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_RPC_URL || '');
+  const provider = new JsonRpcProvider('https://rpc.ankr.com/eth');
   try {
     const ensName = await provider.lookupAddress(address);
     return ensName || '';

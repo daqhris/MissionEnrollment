@@ -3,7 +3,7 @@
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
 import { http } from 'viem';
 import { base, baseSepolia } from 'viem/chains';
-import { NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID, NEXT_PUBLIC_ALCHEMY_API_KEY } from './env';
+import { NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID } from './env';
 import {
   coinbaseWallet,
   injectedWallet,
@@ -23,10 +23,6 @@ if (typeof window !== 'undefined') {
   if (!NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID) {
     throw new Error('NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID is required');
   }
-
-  if (!NEXT_PUBLIC_ALCHEMY_API_KEY) {
-    throw new Error('NEXT_PUBLIC_ALCHEMY_API_KEY is required');
-  }
 }
 
 // Create and export wagmi config using RainbowKit's getDefaultConfig
@@ -35,8 +31,8 @@ export const config = getDefaultConfig({
   projectId: NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || '',
   chains: [base, baseSepolia] as const,
   transports: {
-    [base.id]: http(`https://base-mainnet.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`),
-    [baseSepolia.id]: http(`https://base-sepolia.g.alchemy.com/v2/${NEXT_PUBLIC_ALCHEMY_API_KEY}`),
+    [base.id]: http('https://mainnet.base.org'),
+    [baseSepolia.id]: http('https://sepolia.base.org'),
   },
   ssr: true,
   wallets: [
