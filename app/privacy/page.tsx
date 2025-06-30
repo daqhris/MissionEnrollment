@@ -99,7 +99,7 @@ export default function PrivacyPage() {
             <li>We do not use cookies or tracking technologies beyond essential functionality</li>
           </ul>
           
-          <p className="mt-4 text-gray-900">While we implement reasonable security measures, the inherently public nature of blockchain technology means that your on-chain interactions are visible to others.</p>
+          <p className="mt-4 text-gray-900">While we implement reasonable security measures, the inherently public nature of blockchain technology means that your onchain interactions are visible to others.</p>
         </section>
 
         <section className="mb-8">
@@ -127,7 +127,7 @@ export default function PrivacyPage() {
             <li>The right to data portability</li>
           </ul>
           
-          <p className="mt-4 text-gray-900">Please note that due to the nature of blockchain technology, we may not be able to modify or delete on-chain data, as blockchain records are immutable.</p>
+          <p className="mt-4 text-gray-900">Please note that due to the nature of blockchain technology, we may not be able to modify or delete onchain data, as blockchain records are immutable.</p>
         </section>
 
         <section className="mb-8">
