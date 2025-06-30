@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useAccount, useSendTransaction } from 'wagmi';
+import { useAccount, useSendTransaction, useChainId } from 'wagmi';
 import { parseEther } from 'viem';
 import { Typography, Box, Button, CircularProgress } from '@mui/material';
 import dynamic from 'next/dynamic';
 import { BASE_MAINNET_CHAIN_ID, MISSION_ENROLLMENT_BASE_ETH_ADDRESS } from '../utils/constants';
+import { useNetworkSwitch } from '../hooks/useNetworkSwitch';
 
 const QRCodeSVG = dynamic(() => import('qrcode.react').then(mod => mod.QRCodeSVG), { ssr: false });
 
@@ -13,12 +14,19 @@ interface DonateButtonProps {
 
 export function DonateButton({ amount = 100 }: DonateButtonProps) {
   const { address, isConnected } = useAccount();
+  const currentChainId = useChainId();
   const [ethAmount, setEthAmount] = useState<string>('0');
   const [eurToEthRate, setEurToEthRate] = useState<number>(0);
   const [isLoadingRate, setIsLoadingRate] = useState(true);
   const [isSending, setIsSending] = useState(false);
   const [transactionSuccess, setTransactionSuccess] = useState(false);
   const [showQR, setShowQR] = useState(false);
+
+  const {
+    isLoading: isNetworkSwitching,
+    error: networkError,
+    handleNetworkSwitch
+  } = useNetworkSwitch('verification');
 
   const { sendTransaction } = useSendTransaction({
     mutation: {
@@ -61,6 +69,14 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
     
     setIsSending(true);
     try {
+      if (currentChainId !== BASE_MAINNET_CHAIN_ID) {
+        const switchResult = await handleNetworkSwitch();
+        if (!switchResult) {
+          setIsSending(false);
+          return;
+        }
+      }
+
       await sendTransaction({
         to: MISSION_ENROLLMENT_BASE_ETH_ADDRESS as `0x${string}`,
         value: parseEther(ethAmount),
@@ -112,7 +128,7 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
           <Button
             variant="contained"
             onClick={handleDonate}
-            disabled={isSending || !ethAmount || isLoadingRate}
+            disabled={isSending || isNetworkSwitching || !ethAmount || isLoadingRate}
             sx={{
               width: '100%',
               background: 'linear-gradient(45deg, #F59E0B 30%, #D97706 90%)',
@@ -122,13 +138,20 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
               py: 1.5,
             }}
           >
-            {isSending ? (
+            {isNetworkSwitching ? (
+              <>
+                <CircularProgress size={20} sx={{ mr: 1, color: 'white' }} />
+                Switching to Base Mainnet...
+              </>
+            ) : isSending ? (
               <>
                 <CircularProgress size={20} sx={{ mr: 1, color: 'white' }} />
                 Sending...
               </>
             ) : transactionSuccess ? (
               'Thank you! 🙏'
+            ) : currentChainId !== BASE_MAINNET_CHAIN_ID ? (
+              `Switch to Base Mainnet & Donate ${amount}€`
             ) : (
               `Donate ${amount}€`
             )}
@@ -167,6 +190,12 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
             includeMargin={true}
           />
         </div>
+      )}
+
+      {networkError && (
+        <Typography variant="body2" sx={{ color: 'red', mt: 1, fontSize: '0.75rem' }}>
+          Network switch failed: {networkError}
+        </Typography>
       )}
 
       <Typography variant="body2" sx={{ color: '#8B4513', mt: 2, fontSize: '0.75rem', fontStyle: 'italic' }}>
