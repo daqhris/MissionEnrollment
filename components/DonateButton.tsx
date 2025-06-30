@@ -151,7 +151,7 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
             ) : transactionSuccess ? (
               'Thank you! 🙏'
             ) : currentChainId !== BASE_MAINNET_CHAIN_ID ? (
-              `Switch to Base Mainnet & Donate ${amount}€`
+              `Switch to Base & Donate ${amount}€`
             ) : (
               `Donate ${amount}€`
             )}
