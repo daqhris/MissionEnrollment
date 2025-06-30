@@ -16,13 +16,13 @@ import { ProgressBar } from "./scaffold-eth/ProgressBar";
 import { useInitializeNativeCurrencyPrice } from "../hooks/scaffold-eth";
 import { config } from "../app/config/wagmi";
 import ErrorBoundary from "./ErrorBoundary";
-import { NEXT_PUBLIC_ONCHAINKIT_API_KEY } from "../app/config/env";
+import { NEXT_PUBLIC_ONCHAINKIT_API_KEY, NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT } from "../app/config/env";
 
 import "@rainbow-me/rainbowkit/styles.css";
 import "@coinbase/onchainkit/styles.css";
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
-  useInitializeNativeCurrencyPrice();
+  // useInitializeNativeCurrencyPrice();
 
   return (
     <ErrorBoundary>
@@ -63,6 +63,9 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
           <OnchainKitProvider
             apiKey={NEXT_PUBLIC_ONCHAINKIT_API_KEY || ''}
             chain={config.chains[0]}
+            config={{
+              paymaster: NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT || undefined,
+            }}
           >
             <RainbowKitProvider
               avatar={BlockieAvatar}

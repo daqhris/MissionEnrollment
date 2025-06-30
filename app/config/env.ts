@@ -20,6 +20,15 @@ if (typeof window !== 'undefined') {
   }
 }
 
+const NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT = process.env.NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT || "";
+
+const CDP_API_KEY_ID = process.env.CDP_API_KEY_ID || "";
+const CDP_API_KEY_SECRET = process.env.CDP_API_KEY_SECRET || "";
+const CDP_WALLET_SECRET = process.env.CDP_WALLET_SECRET || "";
+
+// Legacy CDP API key for backward compatibility
+const NEXT_PUBLIC_CDP_API_KEY = process.env.NEXT_PUBLIC_CDP_API_KEY || "";
+
 // Export environment variables as a single object
 export const env = {
   NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
@@ -27,6 +36,11 @@ export const env = {
   NEXT_PUBLIC_ONCHAINKIT_API_KEY,
   NEXT_PUBLIC_BASE_MAINNET_RPC_URL,
   NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL,
+  NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT,
+  CDP_API_KEY_ID,
+  CDP_API_KEY_SECRET,
+  CDP_WALLET_SECRET,
+  NEXT_PUBLIC_CDP_API_KEY,
 } as const;
 
 // Also export individual variables for backward compatibility
@@ -34,4 +48,9 @@ export {
   NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
   NEXT_PUBLIC_ALCHEMY_API_KEY,
   NEXT_PUBLIC_ONCHAINKIT_API_KEY,
+  NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT,
+  CDP_API_KEY_ID,
+  CDP_API_KEY_SECRET,
+  CDP_WALLET_SECRET,
+  NEXT_PUBLIC_CDP_API_KEY,
 };
