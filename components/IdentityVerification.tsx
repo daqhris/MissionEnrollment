@@ -97,7 +97,7 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVe
 
     if (!address || !userInput) {
       console.log('Verification cancelled - missing address or input:', { address, userInput });
-      setError('Please provide your on-chain name.');
+      setError('Please provide your onchain name.');
       return;
     }
 
@@ -135,7 +135,7 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVe
       // If both verifications fail, show error
       console.log('All verifications failed');
       setVerificationStatus(false);
-      setError('The provided name does not match your on-chain identity. Please check and try again.');
+      setError('The provided name does not match your onchain identity. Please check and try again.');
 
     } catch (error) {
       console.error('Verification error:', error);
@@ -182,7 +182,7 @@ export const IdentityVerification: React.FC<IdentityVerificationProps> = ({ onVe
             <div className="form-control w-full">
               <input
                 type="text"
-                placeholder="Enter your on-chain name"
+                placeholder="Enter your onchain name"
                 className="input input-bordered w-full"
                 value={userInput}
                 onChange={(e) => {
