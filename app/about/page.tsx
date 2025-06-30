@@ -7,6 +7,7 @@ import type { ReactNode } from 'react';
 import { ExternalLinkIcon } from '../../components/ExternalLinkIcon';
 import { FarcasterIcon } from '../../components/FarcasterIcon';
 import { DeepWikiIcon } from '../../components/DeepWikiIcon';
+import { DonateButton } from '../../components/DonateButton';
 
 interface CommitInfo {
   date: string;
@@ -142,6 +143,7 @@ export default function AboutPage(): ReactNode {
                   </a><ExternalLinkIcon /> with the message <em>&quot;To onboarding many more to the Mission!&quot;</em>.
                 </p>
               </div>
+              <DonateButton amount={100} />
             </section>
 
             <section className="mb-8 p-4 rounded">

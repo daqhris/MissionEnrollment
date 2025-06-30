@@ -3,6 +3,7 @@ import type { ChainWithAttributes } from "./networks";
 import { createPublicClient, http, parseAbi } from "viem";
 import type { Address } from "viem";
 import { mainnet } from "viem/chains";
+import { keccak256 as keccakHash } from "js-sha3";
 
 const publicClient = createPublicClient({
   chain: mainnet,
@@ -60,19 +61,21 @@ export const fetchPriceFromUniswap = async (targetNetwork: ChainWithAttributes):
   }
 };
 
-// Simple implementation of Uniswap V2 pair address computation
 const computePairAddress = (tokenA: string, tokenB: string): Address => {
   const [token0, token1] = tokenA.toLowerCase() < tokenB.toLowerCase() ? [tokenA, tokenB] : [tokenB, tokenA];
-  const salt = `0x${Buffer.from([
-    ...Buffer.from(token0.slice(2), "hex"),
-    ...Buffer.from(token1.slice(2), "hex"),
-  ]).toString("hex")}`;
-  // This is a simplified version and may not be accurate for all cases
-  return `0x${keccak256(salt).slice(-40)}` as Address;
+  
+  const FACTORY_ADDRESS = "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f";
+  const INIT_CODE_HASH = "0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f";
+  
+  const packedTokens = token0.slice(2) + token1.slice(2);
+  const salt = keccak256(packedTokens);
+  
+  const create2Input = "ff" + FACTORY_ADDRESS.slice(2) + salt.slice(2) + INIT_CODE_HASH.slice(2);
+  const pairAddress = keccak256(create2Input);
+  
+  return `0x${pairAddress.slice(-40)}` as Address;
 };
 
-// Simple keccak256 implementation for demonstration
 const keccak256 = (input: string): string => {
-  // This is a placeholder. In a real implementation, you'd use a proper keccak256 function
-  return input;
+  return keccakHash(input);
 };
