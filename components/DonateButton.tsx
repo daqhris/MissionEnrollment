@@ -76,7 +76,7 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
   const qrValue = `ethereum:${MISSION_ENROLLMENT_BASE_ETH_ADDRESS}@${BASE_MAINNET_CHAIN_ID}?value=${parseEther(ethAmount).toString()}`;
 
   return (
-    <div className="mt-4 p-3 border rounded-lg bg-gradient-to-br from-amber-50 to-orange-50 border-amber-300">
+    <div className="mt-4 p-4 border-2 rounded-lg bg-gradient-to-br from-amber-50 to-orange-50 border-amber-300">
       <div className="flex items-center gap-3 mb-3">
         <h3 className="text-lg font-semibold flex-grow text-amber-800">Support Mission</h3>
         <div className="flex-shrink-0 text-2xl">💝</div>
