@@ -76,14 +76,14 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
   const qrValue = `ethereum:${MISSION_ENROLLMENT_BASE_ETH_ADDRESS}@${BASE_MAINNET_CHAIN_ID}?value=${parseEther(ethAmount).toString()}`;
 
   return (
-    <div className="mt-4 p-4 border-2 rounded-lg bg-gradient-to-br from-amber-50 to-orange-50 border-amber-300">
+    <div className="mt-4 p-3 border rounded-lg bg-gradient-to-br from-amber-50 to-orange-50 border-amber-300">
       <div className="flex items-center gap-3 mb-3">
         <h3 className="text-lg font-semibold flex-grow text-amber-800">Support Mission</h3>
         <div className="flex-shrink-0 text-2xl">💝</div>
       </div>
       
       <p className="text-gray-900 mb-4">
-        Donate to Mission Enrollment <strong>{amount}€</strong> as financial support of the open-source collaboration, blockchain contracts deployment and independent artistic endeavor.
+        Donate <strong>{amount}€</strong> to Mission Enrollment to support open-source collaboration, blockchain contract deployment, and independent artistic endeavors.
       </p>
 
       {isLoadingRate ? (
