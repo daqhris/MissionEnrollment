@@ -231,7 +231,7 @@ export default function EnrollmentAttestation({
       }
 
       setWalletStep(WalletStep.TRANSACTION);
-      notification.info("Please confirm the transaction to create your on-chain attestation");
+      notification.info("Please confirm the transaction to create your onchain attestation");
       
       const schemaEncoder = new SchemaEncoder(SCHEMA_ENCODING);
       const encodedData = schemaEncoder.encodeData([
@@ -383,7 +383,7 @@ export default function EnrollmentAttestation({
                 <StepLabel>Identity Verification</StepLabel>
               </Step>
               <Step>
-                <StepLabel>On-chain Attestation</StepLabel>
+                <StepLabel>Onchain Attestation</StepLabel>
               </Step>
               <Step>
                 <StepLabel>Complete</StepLabel>
@@ -397,7 +397,7 @@ export default function EnrollmentAttestation({
               }
             }}>
               {walletStep === WalletStep.SIGNING && "Please sign the identity verification message in your wallet. This confirms your name and role."}
-              {walletStep === WalletStep.TRANSACTION && "Please confirm the transaction in your wallet to create your on-chain attestation."}
+              {walletStep === WalletStep.TRANSACTION && "Please confirm the transaction in your wallet to create your onchain attestation."}
               {walletStep === WalletStep.COMPLETE && "Your attestation has been successfully created on the blockchain!"}
             </Alert>
           </Box>

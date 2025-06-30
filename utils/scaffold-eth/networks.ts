@@ -13,16 +13,6 @@ export const chains = {
   base
 };
 
-export const RPC_CHAIN_NAMES: Record<number, string> = {
-  [chains.base.id]: "base-mainnet",
-};
-
-export const getAlchemyHttpUrl = (chainId: number): string | undefined => {
-  return RPC_CHAIN_NAMES[chainId]
-    ? `https://${RPC_CHAIN_NAMES[chainId]}.g.alchemy.com/v2/${scaffoldConfig.alchemyApiKey}`
-    : undefined;
-};
-
 export const NETWORKS_EXTRA_DATA: Record<number, ChainAttributes> = {
   [chains.base.id]: { color: "#0052ff" },
 };
@@ -45,7 +35,7 @@ export function getBlockExplorerAddressLink(network: Chain, address: string): st
 }
 
 export function getTargetNetworks(): ChainWithAttributes[] {
-  return scaffoldConfig.targetNetworks.map(targetNetwork => ({
+  return scaffoldConfig.targetNetworks.map((targetNetwork: Chain) => ({
     ...targetNetwork,
     ...NETWORKS_EXTRA_DATA[targetNetwork.id],
   }));

@@ -46,7 +46,7 @@ Custom hook for handling network switching between Base and Base Sepolia network
 ## Technical Stack
 
 - Frontend: React with Next.js (Node.js v18)
-- Blockchain Interaction: ethers.js, wagmi v2, viem/chains
+- Blockchain Interaction: ethers.js, wagmi v2, viem/chains with public RPC endpoints
 - Basename/ENS Integration: user name resolution via ethers.js with two-step onchain identity check
 - POAP API: Custom API route with caching, rate limiting, and a delay implementation
 - Middleware: Custom implementation for POAP API request handling with rate limiting
@@ -101,7 +101,6 @@ The project includes comprehensive testing setup:
 - Environment Variables:
   - `NEXT_PUBLIC_ONCHAINKIT_API_KEY`: API key for OnchainKit integration
   - `NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID`: Project ID for WalletConnect
-  - `NEXT_PUBLIC_ALCHEMY_API_KEY`: API key for Alchemy services
   - `NEXT_PUBLIC_POAP_API_KEY`: API key for POAP data retrieval
   - `NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL`: RPC URL for Base Sepolia network
   - `NEXT_PUBLIC_BASE_MAINNET_RPC_URL`: RPC URL for Base mainnet

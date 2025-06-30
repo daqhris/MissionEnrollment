@@ -5,7 +5,6 @@ export type ScaffoldConfig = {
   pollingInterval: number;
   onlyLocalBurnerWallet: boolean;
   walletConnectProjectId: string;
-  alchemyApiKey: string;
 };
 
 const scaffoldConfig = {
@@ -21,9 +20,6 @@ const scaffoldConfig = {
 
   // WalletConnect Project ID
   walletConnectProjectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || "YOUR_WALLET_CONNECT_PROJECT_ID",
-
-  // Alchemy API Key
-  alchemyApiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY || "YOUR_ALCHEMY_API_KEY",
 } as const;
 
 export default scaffoldConfig;

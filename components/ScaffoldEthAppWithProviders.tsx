@@ -13,7 +13,6 @@ import { WagmiProvider } from "wagmi";
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import { BlockieAvatar } from "./scaffold-eth";
 import { ProgressBar } from "./scaffold-eth/ProgressBar";
-import { useInitializeNativeCurrencyPrice } from "../hooks/scaffold-eth";
 import { config } from "../app/config/wagmi";
 import ErrorBoundary from "./ErrorBoundary";
 import { NEXT_PUBLIC_ONCHAINKIT_API_KEY, NEXT_PUBLIC_PAYMASTER_AND_BUNDLER_ENDPOINT } from "../app/config/env";
@@ -22,7 +21,6 @@ import "@rainbow-me/rainbowkit/styles.css";
 import "@coinbase/onchainkit/styles.css";
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
-  // useInitializeNativeCurrencyPrice();
 
   return (
     <ErrorBoundary>
