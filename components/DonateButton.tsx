@@ -83,7 +83,7 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
       </div>
       
       <p className="text-gray-900 mb-4">
-        Donate <strong>{amount}€</strong> to Mission Enrollment to support open-source collaboration, blockchain contract deployment, and independent artistic endeavors.
+        Donate <strong>{amount}€</strong> to the Mission Enrollment developer wallet in support of open-source human-AI collaboration, deployment of their blockchain contracts, and independent artistic projects.
       </p>
 
       {isLoadingRate ? (
@@ -130,7 +130,7 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
             ) : transactionSuccess ? (
               'Thank you! 🙏'
             ) : (
-              `Donate €${amount}`
+              `Donate ${amount}€`
             )}
           </Button>
         ) : (
