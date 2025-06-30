@@ -144,6 +144,7 @@
     "elliptic": "^6.6.1",
     "ws": ">=8.17.1",
     "@tanstack/form-core": ">=0.42.1",
-    "bigint-buffer": "npm:@trufflesuite/bigint-buffer@1.1.10"
+    "bigint-buffer": "npm:@trufflesuite/bigint-buffer@1.1.10",
+    "@farcaster/frame-core": "0.2.0"
   }
 }
