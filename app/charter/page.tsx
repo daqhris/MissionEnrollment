@@ -126,7 +126,6 @@ export default function CharterPage(): ReactNode {
               <h3 className="text-xl font-medium mt-6 mb-2">D. Third-Party Services and Data Processing</h3>
               <p>Mission Enrollment utilizes several third-party services and APIs to provide its functionality. We carefully select partners that maintain high standards of security and privacy. The app integrates with:</p>
               <ul className="list-disc pl-6 mt-2">
-                <li><a href="https://www.alchemy.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer">Alchemy</a><ExternalLinkIcon />: Provides blockchain infrastructure services for reliable network connectivity</li>
                 <li><a href="https://poap.xyz/terms-and-conditions" target="_blank" rel="noopener noreferrer">POAP (Proof of Attendance Protocol)</a><ExternalLinkIcon />: Used for verifying event attendance through digital collectibles</li>
                 <li><a href="https://docs.walletconnect.com/web3modal/legal/privacy-policy" target="_blank" rel="noopener noreferrer">WalletConnect</a><ExternalLinkIcon />: Facilitates secure wallet connections</li>
                 <li><a href="https://onchainkit.xyz/legal/privacy-policy" target="_blank" rel="noopener noreferrer">OnchainKit (Coinbase)</a><ExternalLinkIcon />: Provides identity and wallet functionalities</li>
