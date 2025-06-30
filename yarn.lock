@@ -2249,10 +2249,10 @@
     "@ethersproject/properties" "^5.8.0"
     "@ethersproject/strings" "^5.8.0"
 
-"@farcaster/frame-core@0.1.8", "@farcaster/frame-core@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@farcaster/frame-core/-/frame-core-0.2.0.tgz#1e2bd3e7628d20fbb104957d43cc5ef3437ab7f9"
-  integrity sha512-HNxg7A4p5W/HqMMs6CKKJXbhHFpLYrlcOGlvc9k9tRiGBSo8JjAZhyjVUfaXqSIvN0ItCGBVmtB0ULzpktMpTA==
+"@farcaster/frame-core@0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@farcaster/frame-core/-/frame-core-0.1.8.tgz#8c56c2ef083c80ff146fa785e8367a54f0c1a515"
+  integrity sha512-Y0JATQXa/iaqH3pCp8Dby4iCQbwqw7JJaGtfzUazdr7R+zs3EDP8DYQCkqJu6iGjE9gqgecB+b+DOZpnqMTDNw==
   dependencies:
     "@solana/web3.js" "^1.98.2"
     ox "^0.4.4"
