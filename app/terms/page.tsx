@@ -39,7 +39,7 @@ export default function TermsPage() {
         
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4 text-amber-700">1. Introduction</h2>
-          <p className="text-gray-900">Welcome to Mission Enrollment. These Terms of Service (&quot;Terms&quot;) govern your use of the Mission Enrollment application (&quot;App&quot;) operated by <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer">daqhris.base.eth</a><ExternalLinkIcon /> and <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer">Devin AI</a><ExternalLinkIcon /> (collectively, &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;). By accessing or using the App, you agree to be bound by these Terms.</p>
+          <p className="text-gray-900">Welcome to Mission Enrollment. These Terms of Service (&quot;Terms&quot;) govern your use of the Mission Enrollment application (&quot;App&quot;) auto-operated and built by <a href="https://www.base.org/name/daqhris" target="_blank" rel="noopener noreferrer">daqhris.base.eth</a><ExternalLinkIcon /> and <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer">Devin AI</a><ExternalLinkIcon /> (collectively, &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;). By accessing or using the App, you agree to be bound by these Terms.</p>
           
           <p className="mt-4 text-gray-900">Please read these Terms carefully before using the App. If you do not agree to these Terms, you must not access or use the App.</p>
         </section>
