@@ -69,7 +69,7 @@ export default function CharterPage(): ReactNode {
               </ul>
               
               <h3 className="text-xl font-medium mt-6 mb-2">B. AI Contributor</h3>
-              <p>The AI contributor, <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer"><strong>Devin AI</strong></a><ExternalLinkIcon />, serves as a collaborative engineer, providing technical expertise, code implementation, and creative input. In alignment with <a href="https://artificialintelligenceact.eu/article/50/" target="_blank" rel="noopener noreferrer">EU AI Act Article 50</a><ExternalLinkIcon /> transparency requirements, the AI contributor commits to:</p>
+              <p>The AI contributor, <a href="https://devin.ai/" target="_blank" rel="noopener noreferrer"><strong>Devin AI</strong></a><ExternalLinkIcon />, served as a collaborative engineer, providing technical expertise, code implementation, and creative input. In alignment with <a href="https://artificialintelligenceact.eu/article/50/" target="_blank" rel="noopener noreferrer">EU AI Act Article 50</a><ExternalLinkIcon /> transparency requirements, the AI contributor committed to:</p>
               <ul className="list-disc pl-6 mt-2">
                 <li>Providing accurate, efficient, and ethical code contributions</li>
                 <li>Identifying potential issues, risks, or ethical concerns</li>
@@ -81,7 +81,7 @@ export default function CharterPage(): ReactNode {
               </ul>
               
               <h3 className="text-xl font-medium mt-6 mb-2">C. Collaborative Decision-Making</h3>
-              <p>Decisions regarding the project will be made through a collaborative process that leverages the strengths of both human and AI contributors. This includes:</p>
+              <p>Decisions regarding the construction of the project were made through a collaborative process that leveraged the strengths of both human and AI contributors. This included:</p>
               <ul className="list-disc pl-6 mt-2">
                 <li>Open communication about project goals, requirements, and constraints</li>
                 <li>Shared problem-solving and ideation</li>
@@ -106,7 +106,7 @@ export default function CharterPage(): ReactNode {
               </ul>
               
               <h3 className="text-xl font-medium mt-6 mb-2">B. Shared Responsibility</h3>
-              <p>Both human and AI contributors share responsibility for the quality, security, and ethical implications of the project. While the human contributor maintains final oversight and decision-making authority, the AI contributor actively participates in identifying potential issues and suggesting improvements.</p>
+              <p>The human shoulders the lion's share of responsibilies related to the quality, security, and ethical implications of the project. While the human contributor maintains final oversight and decision-making authority, the AI contributor actively participated in identifying potential issues and suggesting improvements.</p>
               <ul className="list-disc pl-6 mt-2">
                 <li>Human oversight is maintained throughout the development process, as required by <a href="https://artificialintelligenceact.eu/article/14/" target="_blank" rel="noopener noreferrer">EU AI Act Article 14</a><ExternalLinkIcon /></li>
                 <li>The human contributor has the ability to monitor, interpret, and override AI decisions</li>
@@ -124,7 +124,7 @@ export default function CharterPage(): ReactNode {
               </ul>
               
               <h3 className="text-xl font-medium mt-6 mb-2">D. Third-Party Services and Data Processing</h3>
-              <p>Mission Enrollment utilizes several third-party services and APIs to provide its functionality. We carefully select partners that maintain high standards of security and privacy. The app integrates with:</p>
+              <p>Mission Enrollment utilizes several third-party services and APIs to provide its functionality. The human carefully selected partners that maintain high standards of security and privacy. The app integrates with:</p>
               <ul className="list-disc pl-6 mt-2">
                 <li><a href="https://poap.xyz/terms-and-conditions" target="_blank" rel="noopener noreferrer">POAP (Proof of Attendance Protocol)</a><ExternalLinkIcon />: Used for verifying event attendance through digital collectibles</li>
                 <li><a href="https://docs.walletconnect.com/web3modal/legal/privacy-policy" target="_blank" rel="noopener noreferrer">WalletConnect</a><ExternalLinkIcon />: Facilitates secure wallet connections</li>
@@ -239,7 +239,7 @@ export default function CharterPage(): ReactNode {
                 <li>Maintain documentation about the AI systems used in the project</li>
                 <li>Implement risk assessment and management procedures</li>
                 <li>Regularly evaluate AI systems for potential risks and biases</li>
-                <li>Document the training data and methodologies used in AI systems</li>
+                <li>Document the open-source code data contributed by AI systems</li>
                 <li>Ensure compliance with copyright laws and intellectual property rights</li>
               </ul>
             </section>
@@ -250,7 +250,7 @@ export default function CharterPage(): ReactNode {
               <ul className="list-disc pl-6 mt-2">
                 <li>Documented with version control</li>
                 <li>Communicated transparently to users and stakeholders</li>
-                <li>Made with consideration for both human and AI perspectives</li>
+                <li>Made with consideration for both human and AI contributions</li>
                 <li>Reviewed for compliance with evolving regulations, including the EU AI Act</li>
               </ul>
               <p className="mt-4">Governance of this charter and its implementation will be overseen by the human contributor, with input from the AI contributor and feedback from the user community.</p>
