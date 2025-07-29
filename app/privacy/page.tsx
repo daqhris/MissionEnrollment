@@ -106,7 +106,6 @@ export default function PrivacyPage() {
           <h2 className="text-2xl font-semibold mb-4 text-amber-700">5. Third-Party Integrations</h2>
           <p className="text-gray-900">The App integrates with several third-party services:</p>
           <ul className="list-disc pl-6 text-gray-900">
-            <li><strong>Alchemy:</strong> For blockchain API access</li>
             <li><strong>POAP API:</strong> For verifying event attendance</li>
             <li><strong>GitHub API:</strong> For retrieving commit information</li>
             <li><strong>Ethereum Attestation Service (EAS):</strong> For creating attestations</li>
