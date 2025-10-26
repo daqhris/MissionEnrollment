@@ -99,7 +99,7 @@ export function DonateButton({ amount = 100 }: DonateButtonProps) {
       </div>
       
       <p className="text-gray-900 mb-4">
-        Donate <strong>{amount}€</strong> to the developer wallet in support of open-source development, deployment of blockchain contracts, and independent art projects.
+        Donate <strong>{amount}€</strong> to the developer wallet in support of open-source coding, deployment of blockchain contracts, and independent art projects.
       </p>
 
       {isLoadingRate ? (
