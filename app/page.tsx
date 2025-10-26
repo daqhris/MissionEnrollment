@@ -124,9 +124,9 @@ export default function Home() {
                   <h2 className="text-2xl font-bold mb-4 text-[#957777]">Start Registration</h2>
                   <div className="space-y-4 mb-8">
                     <p className="text-base-content/70 text-center">
-                      This is an enrollment tool for a collaborative and artistic mission on Base
+                      This is an enrollment tool for a collaborative mission on the Base blockchain
                     </p>
-                    <p className="text-base-content/70 text-center"><em>A tool openly built by a human and a nonhuman <a href="https://github.com/daqhris/MissionEnrollment/graphs/contributors" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">since summer 2024</a></em></p>
+                    <p className="text-base-content/70 text-center"><em>A tool openly built by a human and nonhumans <a href="https://github.com/daqhris/MissionEnrollment/graphs/contributors" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">since the summer of 2024</a></em></p>
                   </div>
                   <div className="flex justify-center">
                     <RainbowKitCustomConnectButton />
