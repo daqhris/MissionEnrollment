@@ -3,7 +3,7 @@
   "buildCommand": "yarn build",
   "framework": "nextjs",
   "env": {
-    "NODE_VERSION": "18",
+    "NODE_VERSION": "22",
     "GITHUB_PAGES": "false",
     "CUSTOM_DOMAIN": "true"
   }
